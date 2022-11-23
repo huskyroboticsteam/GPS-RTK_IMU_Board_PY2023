@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Directives">
+<ExpandedNodeIds>
+<v>GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU\TopDesign</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Pins</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Analog</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\DMA</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Clocks</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Interrupts</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\System</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Directives</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Flash Security</v>
+<v>GPS_IMU\GPS_IMU\Header Files</v>
+<v>GPS_IMU\GPS_IMU\Header Files\cyapicallbacks.h</v>
+<v>GPS_IMU\GPS_IMU\Source Files</v>
+<v>GPS_IMU\GPS_IMU\Source Files\main.c</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU\TopDesign</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Pins</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Analog</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\DMA</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Clocks</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Interrupts</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\System</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Directives</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Flash Security</v>
+<v>GPS_IMU\GPS_IMU\Header Files</v>
+<v>GPS_IMU\GPS_IMU\Header Files\cyapicallbacks.h</v>
+<v>GPS_IMU\GPS_IMU\Source Files</v>
+<v>GPS_IMU\GPS_IMU\Source Files\main.c</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU\TopDesign</v>
+<v>GPS_IMU\GPS_IMU\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU\TopDesign</v>
+<v>GPS_IMU\GPS_IMU\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.gpdsc</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.rpt</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.gpdsc</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.rpt</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU_timing.html</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU\PSoC 4 Architecture TRM</v>
+<v>GPS_IMU\GPS_IMU\PSoC 4200L Family Datasheet</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_boot_v6_0</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_dmac_v1_10</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_lfclk_v1_20</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU\PSoC 4 Architecture TRM</v>
+<v>GPS_IMU\GPS_IMU\PSoC 4200L Family Datasheet</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_boot_v6_0</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_dmac_v1_10</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_lfclk_v1_20</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v=".\GPS_IMU.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\GPS_IMU.cydsn\GPS_IMU.cydwr" />
+<name v=".\GPS_IMU.cydsn\main.c" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1101, 673" SelectedTabbedMdiWindow="07d4a574-a30e-4c81-b828-4e06da19d94a"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="948705b7-bac4-4d98-8260-f7b5c8904106" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS_IMU.cydsn\TopDesign\TopDesign.cysch" Guid="b8d0d942-4c07-4efb-a35c-52890627aa2d" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS_IMU.cydsn\GPS_IMU.cydwr" Guid="d0271793-e75b-4913-9d9d-66a61f426194" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS_IMU.cydsn\main.c" Guid="07d4a574-a30e-4c81-b828-4e06da19d94a" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

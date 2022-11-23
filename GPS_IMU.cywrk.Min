@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="GPS_IMU\GPS_IMU\TopDesign">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="GPS_IMU\GPS_IMU\Source Files\main.c">
 <ExpandedNodeIds>
 <v>GPS_IMU</v>
 <v>GPS_IMU\GPS_IMU</v>
@@ -69,6 +69,12 @@
 <ExpandedNodeIds>
 <v>GPS_IMU</v>
 <v>GPS_IMU\GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU\CortexM0</v>
+<v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541</v>
+<v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug</v>
+<v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\GPS_IMU.elf</v>
+<v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\GPS_IMU.hex</v>
+<v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\GPS_IMU.map</v>
 <v>GPS_IMU\GPS_IMU\GPS_IMU.gpdsc</v>
 <v>GPS_IMU\GPS_IMU\GPS_IMU.rpt</v>
 <v>GPS_IMU\GPS_IMU\GPS_IMU_timing.html</v>
@@ -76,7 +82,6 @@
 <VisibleNodeIds>
 <v>GPS_IMU</v>
 <v>GPS_IMU\GPS_IMU</v>
-<v>GPS_IMU\GPS_IMU\GPS_IMU.gpdsc</v>
 <v>GPS_IMU\GPS_IMU\GPS_IMU.rpt</v>
 <v>GPS_IMU\GPS_IMU\GPS_IMU_timing.html</v>
 </VisibleNodeIds>

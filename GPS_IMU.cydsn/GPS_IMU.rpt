@@ -1,4 +1,4 @@
-Loading plugins phase: Elapsed time ==> 0s.768ms
+Loading plugins phase: Elapsed time ==> 0s.514ms
 <CYPRESSTAG name="CyDsfit arguments...">
 cydsfit arguments: -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\GPS_IMU.cyprj -d CY8C4248BZI-L489 -s C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\Generated_Source\PSoC4 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 </CYPRESSTAG>
@@ -7,10 +7,10 @@ ADD: sdb.M0060: warning: Warning in component: CAN_1. The SYSCLK clock accuracy 
  * C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\TopDesign\TopDesign.cysch (Instance:CAN_1)
 
 </CYPRESSTAG>
-Elaboration phase: Elapsed time ==> 3s.771ms
+Elaboration phase: Elapsed time ==> 3s.836ms
 <CYPRESSTAG name="HDL generation results...">
 </CYPRESSTAG>
-HDL generation phase: Elapsed time ==> 0s.171ms
+HDL generation phase: Elapsed time ==> 0s.187ms
 <CYPRESSTAG name="Synthesis results...">
 
      | | | | | | |
@@ -44,7 +44,7 @@ Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\Min\D
 ======================================================================
 
 vlogfe V6.3 IR 41:  Verilog parser
-Tue Nov 22 18:48:13 2022
+Tue Nov 29 17:28:37 2022
 
 
 ======================================================================
@@ -54,7 +54,7 @@ Options  :    -yv2 -q10 GPS_IMU.v
 ======================================================================
 
 vpp V6.3 IR 41:  Verilog Pre-Processor
-Tue Nov 22 18:48:13 2022
+Tue Nov 29 17:28:37 2022
 
 Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\or_v1_0\or_v1_0.v'
 Flattening file 'C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\ZeroTerminal\ZeroTerminal.v'
@@ -86,7 +86,7 @@ Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\Min\D
 ======================================================================
 
 tovif V6.3 IR 41:  High-level synthesis
-Tue Nov 22 18:48:13 2022
+Tue Nov 29 17:28:37 2022
 
 Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\warp\lib\common\std.vhd'.
 Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cypress.vhd'.
@@ -113,7 +113,7 @@ Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\Min\D
 ======================================================================
 
 topld V6.3 IR 41:  Synthesis and optimization
-Tue Nov 22 18:48:14 2022
+Tue Nov 29 17:28:37 2022
 
 Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\warp\lib\common\std.vhd'.
 Linking 'C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cypress.vhd'.
@@ -192,13 +192,13 @@ Aliasing \I2C_1:tmpOE__scl_net_0\ to tmpOE__RX_1_net_0
 Aliasing \I2C_1:cts_wire\ to zero
 Removing Lhs of wire one[6] = tmpOE__RX_1_net_0[1]
 Removing Lhs of wire tmpOE__TX_1_net_0[9] = tmpOE__RX_1_net_0[1]
-Removing Lhs of wire \UART_1:select_s_wire\[25] = zero[2]
-Removing Rhs of wire \UART_1:rx_wire\[26] = \UART_1:Net_1268\[27]
-Removing Lhs of wire \UART_1:Net_1170\[30] = \UART_1:Net_847\[24]
-Removing Lhs of wire \UART_1:sclk_s_wire\[31] = zero[2]
-Removing Lhs of wire \UART_1:mosi_s_wire\[32] = zero[2]
-Removing Lhs of wire \UART_1:miso_m_wire\[33] = zero[2]
-Removing Lhs of wire \UART_1:tmpOE__tx_net_0\[35] = tmpOE__RX_1_net_0[1]
+Removing Lhs of wire \UART_1:select_s_wire\[23] = zero[2]
+Removing Rhs of wire \UART_1:rx_wire\[24] = \UART_1:Net_1268\[25]
+Removing Lhs of wire \UART_1:Net_1170\[28] = Net_3[29]
+Removing Lhs of wire \UART_1:sclk_s_wire\[30] = zero[2]
+Removing Lhs of wire \UART_1:mosi_s_wire\[31] = zero[2]
+Removing Lhs of wire \UART_1:miso_m_wire\[32] = zero[2]
+Removing Lhs of wire \UART_1:tmpOE__tx_net_0\[34] = tmpOE__RX_1_net_0[1]
 Removing Lhs of wire \UART_1:tmpOE__rx_net_0\[44] = tmpOE__RX_1_net_0[1]
 Removing Lhs of wire \UART_1:cts_wire\[48] = zero[2]
 Removing Lhs of wire \I2C_1:select_s_wire\[76] = zero[2]
@@ -236,21 +236,21 @@ CYPRESS_DIR    : C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\wa
 Warp Program   : C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\warp\bin\warp.exe
 Warp Arguments : -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya "-.fftprj=C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\GPS_IMU.cyprj" -dcpsoc3 GPS_IMU.v -verilog
 </CYPRESSTAG>
-Warp synthesis phase: Elapsed time ==> 0s.484ms
+Warp synthesis phase: Elapsed time ==> 0s.609ms
 <CYPRESSTAG name="Fitter results...">
 <CYPRESSTAG name="Fitter startup details...">
-cyp3fit: V4.4.0.80, Family: PSoC3, Started at: Tuesday, 22 November 2022 18:48:14
+cyp3fit: V4.4.0.80, Family: PSoC3, Started at: Tuesday, 29 November 2022 17:28:37
 Options: -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\GPS_IMU.cyprj -d CY8C4248BZI-L489 GPS_IMU.v -verilog
 </CYPRESSTAG>
 <CYPRESSTAG name="Design parsing">
-Design parsing phase: Elapsed time ==> 0s.075ms
+Design parsing phase: Elapsed time ==> 0s.078ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Tech Mapping">
 <CYPRESSTAG name="Initial Mapping" icon="FILE_RPT_TECHM">
 <CYPRESSTAG name="Global Clock Selection" icon="FILE_RPT_TECHM">
     Alignment-Only Clock: Automatic-assigning  clock 'CAN_1_HFCLK'. Fanout=0
-    Fixed Function Clock 2: Automatic-assigning  clock 'I2C_1_SCBCLK'. Signal=\I2C_1:Net_847_ff2\
-    Fixed Function Clock 3: Automatic-assigning  clock 'UART_1_SCBCLK'. Signal=\UART_1:Net_847_ff3\
+    Fixed Function Clock 2: Automatic-assigning  clock 'UART_CLOCK'. Signal=Net_3_ff2
+    Fixed Function Clock 3: Automatic-assigning  clock 'I2C_1_SCBCLK'. Signal=\I2C_1:Net_847_ff3\
 <CYPRESSTAG name="UDB Clock/Enable Remapping Results">
 </CYPRESSTAG>
 </CYPRESSTAG>
@@ -572,8 +572,8 @@ DAC                           :      :      :      :
   7-bit IDAC                  :    0 :    2 :    2 :  0.00 %
   8-bit IDAC                  :    0 :    2 :    2 :  0.00 %
 </CYPRESSTAG>
-Technology Mapping: Elapsed time ==> 0s.278ms
-Tech Mapping phase: Elapsed time ==> 0s.593ms
+Technology Mapping: Elapsed time ==> 0s.312ms
+Tech Mapping phase: Elapsed time ==> 0s.578ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Analog Placement">
 <CYPRESSTAG name="FFB & IO Pre Placement">
@@ -595,15 +595,15 @@ TX_1(0)                             : [IOP=(4)][IoId=(1)]
 </CYPRESSTAG>
 </CYPRESSTAG>
 <CYPRESSTAG name="Real Analog Placement">
-Elapsed time ==> 1.2390197s
+Elapsed time ==> 1.4739866s
 </CYPRESSTAG>
-Analog Placement phase: Elapsed time ==> 2s.171ms
+Analog Placement phase: Elapsed time ==> 2s.468ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Analog Routing">
 <CYPRESSTAG name="Analog Routing">
-Route success=True, Iterations=1 Elapsed=0.0094661 secs
+Route success=True, Iterations=1 Elapsed=0.0118955 secs
 </CYPRESSTAG>
-Analog Routing phase: Elapsed time ==> 0s.015ms
+Analog Routing phase: Elapsed time ==> 0s.016ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Analog Code Generation">
 ============ Analog Final Answer Routes ============
@@ -614,7 +614,7 @@ Map of item to net {
 }
 Mux Info {
 }
-Analog Code Generation phase: Elapsed time ==> 0s.112ms
+Analog Code Generation phase: Elapsed time ==> 0s.139ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Digital Placement">
 <CYPRESSTAG name="Detailed placement messages">
@@ -626,14 +626,14 @@ I2076: Total run-time: 0.5 sec.
 <CYPRESSTAG name="PLD Packing Summary">
 No PLDs were packed.
 </CYPRESSTAG>
-PLD Packing: Elapsed time ==> 0s.012ms
+PLD Packing: Elapsed time ==> 0s.031ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Partitioning">
 <CYPRESSTAG name="Initial Partitioning Summary">
 Initial Partitioning Summary not displayed at this verbose level.</CYPRESSTAG>
 <CYPRESSTAG name="Final Partitioning Summary">
 Final Partitioning Summary not displayed at this verbose level.</CYPRESSTAG>
-Partitioning: Elapsed time ==> 0s.124ms
+Partitioning: Elapsed time ==> 0s.156ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Final Placement Summary">
 
@@ -659,7 +659,7 @@ UDB [UDB=(1,1)] is empty.
 UDB [UDB=(1,2)] is empty.
 UDB [UDB=(1,3)] is empty.
 Intr container @ [IntrContainer=(0)]: 
-  Intr@ [IntrContainer=(0)][IntrId=(10)] 
+  Intr@ [IntrContainer=(0)][IntrId=(9)] 
     interrupt: Name =\I2C_1:SCB_IRQ\
         PORT MAP (
             interrupt => Net_29 );
@@ -680,89 +680,6 @@ Intr container @ [IntrContainer=(0)]:
 Drq container @ [DrqContainer=(0)]: empty
 Port 0 contains the following IO cells:
 [IoId=4]: 
-Pin : Name = \I2C_1:scl(0)\
-    Attributes:
-        In Group/Port: True
-        In Sync Option: NOSYNC
-        Out Sync Option: NOSYNC
-        Interrupt generated: False
-        Interrupt mode: NONE
-        Drive mode: OPEN_DRAIN_LO
-        VTrip: CMOS
-        Slew: FAST
-        Input Sync needed: False
-        Output Sync needed: False
-        SC shield enabled: False
-        POR State: ANY
-        LCD Mode: COMMON
-        Register Mode: RegComb
-        CaSense Mode: NEITHER
-        Treat as pin: True
-        Is OE Registered: False
-        Uses Analog: False
-        Can contain Digital: True
-        Is SIO: False
-        SIO Output Buf: NONREGULATED
-        SIO Input Buf: SINGLE_ENDED
-        SIO HiFreq: LOW
-        SIO Hyst: DISABLED
-        SIO Vtrip: MULTIPLIER_0_5
-        SIO Multiplier Index: 0
-        SIO RefSel: VCC_IO
-        Required Capabilities: DIGITAL
-        Initial Value: 1
-        IO Voltage: 0
-    PORT MAP (
-        pa_out => \I2C_1:scl(0)\__PA ,
-        fb => Net_45 ,
-        pad => \I2C_1:scl(0)_PAD\ );
-    Properties:
-    {
-    }
-
-[IoId=5]: 
-Pin : Name = \I2C_1:sda(0)\
-    Attributes:
-        In Group/Port: True
-        In Sync Option: NOSYNC
-        Out Sync Option: NOSYNC
-        Interrupt generated: False
-        Interrupt mode: NONE
-        Drive mode: OPEN_DRAIN_LO
-        VTrip: CMOS
-        Slew: FAST
-        Input Sync needed: False
-        Output Sync needed: False
-        SC shield enabled: False
-        POR State: ANY
-        LCD Mode: COMMON
-        Register Mode: RegComb
-        CaSense Mode: NEITHER
-        Treat as pin: True
-        Is OE Registered: False
-        Uses Analog: False
-        Can contain Digital: True
-        Is SIO: False
-        SIO Output Buf: NONREGULATED
-        SIO Input Buf: SINGLE_ENDED
-        SIO HiFreq: LOW
-        SIO Hyst: DISABLED
-        SIO Vtrip: MULTIPLIER_0_5
-        SIO Multiplier Index: 0
-        SIO RefSel: VCC_IO
-        Required Capabilities: DIGITAL
-        Initial Value: 1
-        IO Voltage: 0
-    PORT MAP (
-        pa_out => \I2C_1:sda(0)\__PA ,
-        fb => Net_46 ,
-        pad => \I2C_1:sda(0)_PAD\ );
-    Properties:
-    {
-    }
-
-Port 1 contains the following IO cells:
-[IoId=0]: 
 Pin : Name = \UART_1:rx(0)\
     Attributes:
         In Group/Port: True
@@ -803,7 +720,7 @@ Pin : Name = \UART_1:rx(0)\
     {
     }
 
-[IoId=1]: 
+[IoId=5]: 
 Pin : Name = \UART_1:tx(0)\
     Attributes:
         In Group/Port: True
@@ -840,6 +757,89 @@ Pin : Name = \UART_1:tx(0)\
         pa_out => \UART_1:tx(0)\__PA ,
         pin_input => \UART_1:tx_wire\ ,
         pad => \UART_1:tx(0)_PAD\ );
+    Properties:
+    {
+    }
+
+Port 1 contains the following IO cells:
+[IoId=0]: 
+Pin : Name = \I2C_1:scl(0)\
+    Attributes:
+        In Group/Port: True
+        In Sync Option: NOSYNC
+        Out Sync Option: NOSYNC
+        Interrupt generated: False
+        Interrupt mode: NONE
+        Drive mode: OPEN_DRAIN_LO
+        VTrip: CMOS
+        Slew: FAST
+        Input Sync needed: False
+        Output Sync needed: False
+        SC shield enabled: False
+        POR State: ANY
+        LCD Mode: COMMON
+        Register Mode: RegComb
+        CaSense Mode: NEITHER
+        Treat as pin: True
+        Is OE Registered: False
+        Uses Analog: False
+        Can contain Digital: True
+        Is SIO: False
+        SIO Output Buf: NONREGULATED
+        SIO Input Buf: SINGLE_ENDED
+        SIO HiFreq: LOW
+        SIO Hyst: DISABLED
+        SIO Vtrip: MULTIPLIER_0_5
+        SIO Multiplier Index: 0
+        SIO RefSel: VCC_IO
+        Required Capabilities: DIGITAL
+        Initial Value: 1
+        IO Voltage: 0
+    PORT MAP (
+        pa_out => \I2C_1:scl(0)\__PA ,
+        fb => Net_45 ,
+        pad => \I2C_1:scl(0)_PAD\ );
+    Properties:
+    {
+    }
+
+[IoId=1]: 
+Pin : Name = \I2C_1:sda(0)\
+    Attributes:
+        In Group/Port: True
+        In Sync Option: NOSYNC
+        Out Sync Option: NOSYNC
+        Interrupt generated: False
+        Interrupt mode: NONE
+        Drive mode: OPEN_DRAIN_LO
+        VTrip: CMOS
+        Slew: FAST
+        Input Sync needed: False
+        Output Sync needed: False
+        SC shield enabled: False
+        POR State: ANY
+        LCD Mode: COMMON
+        Register Mode: RegComb
+        CaSense Mode: NEITHER
+        Treat as pin: True
+        Is OE Registered: False
+        Uses Analog: False
+        Can contain Digital: True
+        Is SIO: False
+        SIO Output Buf: NONREGULATED
+        SIO Input Buf: SINGLE_ENDED
+        SIO HiFreq: LOW
+        SIO Hyst: DISABLED
+        SIO Vtrip: MULTIPLIER_0_5
+        SIO Multiplier Index: 0
+        SIO RefSel: VCC_IO
+        Required Capabilities: DIGITAL
+        Initial Value: 1
+        IO Voltage: 0
+    PORT MAP (
+        pa_out => \I2C_1:sda(0)\__PA ,
+        fb => Net_46 ,
+        pad => \I2C_1:sda(0)_PAD\ );
     Properties:
     {
     }
@@ -966,8 +966,8 @@ Clock group 0:
             lfclk => ClockBlock_LFClk ,
             wco => ClockBlock_WCO ,
             dsi_in_0 => ClockBlock_Routed1 ,
-            ff_div_2 => \I2C_1:Net_847_ff2\ ,
-            ff_div_3 => \UART_1:Net_847_ff3\ );
+            ff_div_2 => Net_3_ff2 ,
+            ff_div_3 => \I2C_1:Net_847_ff3\ );
         Properties:
         {
         }
@@ -977,31 +977,9 @@ USB group 0: empty
 LPCOMP group 0: empty
 SCB group 0: 
     SCB Block @ F(SCB,0): 
-    m0s8scbcell: Name =\UART_1:SCB\
-        PORT MAP (
-            clock => \UART_1:Net_847_ff3\ ,
-            interrupt => Net_5 ,
-            uart_rx => \UART_1:rx_wire\ ,
-            uart_tx => \UART_1:tx_wire\ ,
-            uart_rts => \UART_1:rts_wire\ ,
-            mosi_m => \UART_1:mosi_m_wire\ ,
-            select_m_3 => \UART_1:select_m_wire_3\ ,
-            select_m_2 => \UART_1:select_m_wire_2\ ,
-            select_m_1 => \UART_1:select_m_wire_1\ ,
-            select_m_0 => \UART_1:select_m_wire_0\ ,
-            sclk_m => \UART_1:sclk_m_wire\ ,
-            miso_s => \UART_1:miso_s_wire\ ,
-            tr_tx_req => Net_25 ,
-            tr_rx_req => Net_16 );
-        Properties:
-        {
-            cy_registers = ""
-            scb_mode = 2
-        }
-    SCB Block @ F(SCB,1): 
     m0s8scbcell: Name =\I2C_1:SCB\
         PORT MAP (
-            clock => \I2C_1:Net_847_ff2\ ,
+            clock => \I2C_1:Net_847_ff3\ ,
             interrupt => Net_29 ,
             uart_tx => \I2C_1:tx_wire\ ,
             uart_rts => \I2C_1:rts_wire\ ,
@@ -1020,6 +998,28 @@ SCB group 0:
         {
             cy_registers = ""
             scb_mode = 0
+        }
+    SCB Block @ F(SCB,1): 
+    m0s8scbcell: Name =\UART_1:SCB\
+        PORT MAP (
+            clock => Net_3_ff2 ,
+            interrupt => Net_5 ,
+            uart_rx => \UART_1:rx_wire\ ,
+            uart_tx => \UART_1:tx_wire\ ,
+            uart_rts => \UART_1:rts_wire\ ,
+            mosi_m => \UART_1:mosi_m_wire\ ,
+            select_m_3 => \UART_1:select_m_wire_3\ ,
+            select_m_2 => \UART_1:select_m_wire_2\ ,
+            select_m_1 => \UART_1:select_m_wire_1\ ,
+            select_m_0 => \UART_1:select_m_wire_0\ ,
+            sclk_m => \UART_1:sclk_m_wire\ ,
+            miso_s => \UART_1:miso_s_wire\ ,
+            tr_tx_req => Net_25 ,
+            tr_rx_req => Net_16 );
+        Properties:
+        {
+            cy_registers = ""
+            scb_mode = 2
         }
 CSD group 0: empty
 CSIDAC8 group 0: empty
@@ -1053,11 +1053,11 @@ Port Configuration report
      |     |       | Interrupt |                  |                | 
 Port | Pin | Fixed |      Type |       Drive Mode |           Name | Connections
 -----+-----+-------+-----------+------------------+----------------+---------------------
-   0 |   4 |       |      NONE |    OPEN_DRAIN_LO | \I2C_1:scl(0)\ | FB(Net_45)
-     |   5 |       |      NONE |    OPEN_DRAIN_LO | \I2C_1:sda(0)\ | FB(Net_46)
+   0 |   4 |       |      NONE |     HI_Z_DIGITAL | \UART_1:rx(0)\ | FB(\UART_1:rx_wire\)
+     |   5 |       |      NONE |         CMOS_OUT | \UART_1:tx(0)\ | In(\UART_1:tx_wire\)
 -----+-----+-------+-----------+------------------+----------------+---------------------
-   1 |   0 |       |      NONE |     HI_Z_DIGITAL | \UART_1:rx(0)\ | FB(\UART_1:rx_wire\)
-     |   1 |       |      NONE |         CMOS_OUT | \UART_1:tx(0)\ | In(\UART_1:tx_wire\)
+   1 |   0 |       |      NONE |    OPEN_DRAIN_LO | \I2C_1:scl(0)\ | FB(Net_45)
+     |   1 |       |      NONE |    OPEN_DRAIN_LO | \I2C_1:sda(0)\ | FB(Net_46)
 -----+-----+-------+-----------+------------------+----------------+---------------------
    4 |   0 |       |      NONE |     HI_Z_DIGITAL |        RX_1(0) | FB(Net_11)
      |   1 |       |      NONE |         CMOS_OUT |        TX_1(0) | In(Net_12)
@@ -1065,33 +1065,33 @@ Port | Pin | Fixed |      Type |       Drive Mode |           Name | Connections
 </CYPRESSTAG>
 </CYPRESSTAG>
 </CYPRESSTAG>
-Digital component placer commit/Report: Elapsed time ==> 0s.048ms
-Digital Placement phase: Elapsed time ==> 1s.764ms
+Digital component placer commit/Report: Elapsed time ==> 0s.046ms
+Digital Placement phase: Elapsed time ==> 1s.578ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Digital Routing">
 "C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\bin/sjrouter.exe" --xml-path "C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\psoc4/2/route_arch-rrg.cydata" --vh2-path "GPS_IMU_r.vh2" --pcf-path "GPS_IMU.pco" --des-name "GPS_IMU" --dsf-path "GPS_IMU.dsf" --sdc-path "GPS_IMU.sdc" --lib-path "GPS_IMU_r.lib"
 Routing successful.
-Digital Routing phase: Elapsed time ==> 1s.906ms
+Digital Routing phase: Elapsed time ==> 2s.078ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Bitstream Generation">
-Bitstream Generation phase: Elapsed time ==> 0s.903ms
+Bitstream Generation phase: Elapsed time ==> 0s.953ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Bitstream Verification">
-Bitstream Verification phase: Elapsed time ==> 0s.141ms
+Bitstream Verification phase: Elapsed time ==> 0s.140ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Static timing analysis">
 Timing report is in GPS_IMU_timing.html.
-Static timing analysis phase: Elapsed time ==> 0s.433ms
+Static timing analysis phase: Elapsed time ==> 0s.375ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Data reporting">
-Data reporting phase: Elapsed time ==> 0s.031ms
+Data reporting phase: Elapsed time ==> 0s.015ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Database update...">
-Design database save phase: Elapsed time ==> 0s.344ms
+Design database save phase: Elapsed time ==> 0s.390ms
 </CYPRESSTAG>
-cydsfit: Elapsed time ==> 8s.636ms
+cydsfit: Elapsed time ==> 8s.906ms
 </CYPRESSTAG>
-Fitter phase: Elapsed time ==> 8s.653ms
-API generation phase: Elapsed time ==> 3s.390ms
-Dependency generation phase: Elapsed time ==> 0s.046ms
+Fitter phase: Elapsed time ==> 8s.921ms
+API generation phase: Elapsed time ==> 4s.093ms
+Dependency generation phase: Elapsed time ==> 0s.031ms
 Cleanup phase: Elapsed time ==> 0s.000ms

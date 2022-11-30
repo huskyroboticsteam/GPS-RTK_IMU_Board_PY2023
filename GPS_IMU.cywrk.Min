@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="GPS_IMU\GPS_IMU\Source Files\main.c">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="GPS_IMU\GPS_IMU\TopDesign">
 <ExpandedNodeIds>
 <v>GPS_IMU</v>
 <v>GPS_IMU\GPS_IMU</v>
@@ -35,6 +35,12 @@
 <v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
+<v>GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU</v>
+<v>GPS_IMU\GPS_IMU\TopDesign</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Pins</v>
+<v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Analog</v>
 <v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\DMA</v>
 <v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Clocks</v>
 <v>GPS_IMU\GPS_IMU\GPS_IMU.cydwr\Interrupts</v>
@@ -63,8 +69,8 @@
 <v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\TX_1</v>
 <v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\UART_1</v>
 <v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\UART_1_rx</v>
-<v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\UART_1_SCBCLK</v>
 <v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\UART_1_tx</v>
+<v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\UART_CLOCK</v>
 <v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\cycodeshareexport.ld</v>
 <v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\cycodeshareimport.ld</v>
 <v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\cycodeshareimport.scat</v>
@@ -75,12 +81,6 @@
 <v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\cydisabledsheets.h</v>
 <v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\cyfitter.h</v>
 <v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\cyfitter_cfg.c</v>
-<v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\cyfitter_cfg.h</v>
-<v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\cyfittergnu.inc</v>
-<v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\cyfitteriar.inc</v>
-<v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\cyfitterrv.inc</v>
-<v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\cymetadata.c</v>
-<v>GPS_IMU\GPS_IMU\Generated_Source\PSoC4\project.h</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
@@ -145,13 +145,13 @@
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\Listing Files\UART_1_PM.lst</v>
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\Listing Files\UART_1_rx.lst</v>
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\Listing Files\UART_1_rx_PM.lst</v>
-<v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\Listing Files\UART_1_SCBCLK.lst</v>
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\Listing Files\UART_1_SPI_UART.lst</v>
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\Listing Files\UART_1_SPI_UART_INT.lst</v>
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\Listing Files\UART_1_tx.lst</v>
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\Listing Files\UART_1_tx_PM.lst</v>
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\Listing Files\UART_1_UART.lst</v>
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\Listing Files\UART_1_UART_BOOT.lst</v>
+<v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\Listing Files\UART_CLOCK.lst</v>
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\GPS_IMU.elf</v>
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\GPS_IMU.hex</v>
 <v>GPS_IMU\GPS_IMU\CortexM0\ARM_GCC_541\Debug\GPS_IMU.map</v>
@@ -180,6 +180,7 @@
 <v>GPS_IMU\GPS_IMU\System Reference Guides\cy_dmac_v1_10</v>
 <v>GPS_IMU\GPS_IMU\System Reference Guides\cy_lfclk_v1_20</v>
 <v>GPS_IMU\GPS_IMU\CAN_v3_0.pdf</v>
+<v>GPS_IMU\GPS_IMU\cy_clock_v2_20.pdf</v>
 <v>GPS_IMU\GPS_IMU\cy_pins_v2_20</v>
 <v>GPS_IMU\GPS_IMU\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
 <v>GPS_IMU\GPS_IMU\SCB_P4_v4_0</v>
@@ -195,6 +196,7 @@
 <v>GPS_IMU\GPS_IMU\System Reference Guides\cy_dmac_v1_10</v>
 <v>GPS_IMU\GPS_IMU\System Reference Guides\cy_lfclk_v1_20</v>
 <v>GPS_IMU\GPS_IMU\CAN_v3_0.pdf</v>
+<v>GPS_IMU\GPS_IMU\cy_clock_v2_20.pdf</v>
 <v>GPS_IMU\GPS_IMU\cy_pins_v2_20</v>
 <v>GPS_IMU\GPS_IMU\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
 <v>GPS_IMU\GPS_IMU\SCB_P4_v4_0</v>

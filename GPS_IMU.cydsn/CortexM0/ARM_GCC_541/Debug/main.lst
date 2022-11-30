@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Min\AppData\Local\Temp\cchOrTcd.s 			page 1
+ARM GAS  C:\Users\Min\AppData\Local\Temp\cco3Zama.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\Min\AppData\Local\Temp\cchOrTcd.s 			page 1
   39              		.thumb
   40              		.syntax unified
   41              	.L2:
-ARM GAS  C:\Users\Min\AppData\Local\Temp\cchOrTcd.s 			page 2
+ARM GAS  C:\Users\Min\AppData\Local\Temp\cco3Zama.s 			page 2
 
 
   42 0002 FEE7     		b	.L2
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\Min\AppData\Local\Temp\cchOrTcd.s 			page 1
   96 005f 05       		.byte	0x5
   97 0060 696E7400 		.ascii	"int\000"
   98 0064 02       		.uleb128 0x2
-ARM GAS  C:\Users\Min\AppData\Local\Temp\cchOrTcd.s 			page 3
+ARM GAS  C:\Users\Min\AppData\Local\Temp\cco3Zama.s 			page 3
 
 
   99 0065 04       		.byte	0x4
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\Min\AppData\Local\Temp\cchOrTcd.s 			page 1
  153 0013 02       		.uleb128 0x2
  154 0014 24       		.uleb128 0x24
  155 0015 00       		.byte	0
-ARM GAS  C:\Users\Min\AppData\Local\Temp\cchOrTcd.s 			page 4
+ARM GAS  C:\Users\Min\AppData\Local\Temp\cco3Zama.s 			page 4
 
 
  156 0016 0B       		.uleb128 0xb
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\Min\AppData\Local\Temp\cchOrTcd.s 			page 1
  210 000e 0000     		.2byte	0
  211 0010 00000000 		.4byte	.LFB34
  212 0014 04000000 		.4byte	.LFE34-.LFB34
-ARM GAS  C:\Users\Min\AppData\Local\Temp\cchOrTcd.s 			page 5
+ARM GAS  C:\Users\Min\AppData\Local\Temp\cco3Zama.s 			page 5
 
 
  213 0018 00000000 		.4byte	0
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\Min\AppData\Local\Temp\cchOrTcd.s 			page 1
  239              	.LASF1:
  240 00a3 756E7369 		.ascii	"unsigned char\000"
  240      676E6564 
-ARM GAS  C:\Users\Min\AppData\Local\Temp\cchOrTcd.s 			page 6
+ARM GAS  C:\Users\Min\AppData\Local\Temp\cco3Zama.s 			page 6
 
 
  240      20636861 

@@ -11,10 +11,12 @@
 #define CHIP_TYPE CHIP_TYPE_PSOC_CY8C4248AZI_L485
 
 //Debugging macros
+/*
 #define Print(message) DEBUG_UartPutString(message)
 #define PrintChar(character) DEBUG_UartPutChar(character)
 #define PrintInt(integer) DEBUG_UartPutString(itoa(integer, debugOutput, 10))
 #define PrintIntBin(integer) DEBUG_UartPutString(itoa(integer, debugOutput, 2))
+*/
 
 char debugOutput[32];
 
@@ -27,11 +29,16 @@ CANPacket receive;
 #define GPS_LON 0x06
 
 //switch cases
-#define PULL_LAT 0
-#define PULL_LON 1
-#define WAIT     2
-#define READ_LAT 3
-#define READ_LON 4
+#define PULL_LAT    0
+#define PULL_LON    1
+#define PULL_ANGVEL 2 // i did these next 5 because theyre outputs on the orientation board?
+#define PULL_ACC    3
+#define PULL_VEL    4
+#define PULL_MAGF   5
+#define PULL_TEMP   6
+#define WAIT        4
+#define READ_LAT    5
+#define READ_LON    6
 
 int state;
 

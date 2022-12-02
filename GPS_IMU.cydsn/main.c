@@ -22,6 +22,7 @@ int main(void)
     for(;;)
     {
         /* Place your application code here. */
+        // this is already fully functional for the GPS?
         switch(state)
         {
             case(PULL_LAT):
@@ -39,28 +40,34 @@ int main(void)
             case(WAIT):
                 if (PollAndReceiveCANPacket( &receive ) == ERROR_NONE)
                 {
-                    Print("Packet Found!\r\n");
+                    //Print("Packet Found!\r\n");
                     if (DecodeTelemetryType( &receive ) == GPS_LON)
                     {
+                        /*
                         Print("LONGITUDE: ");
                         PrintInt(DecodeTelemetryDataSigned( &receive ));
                         Print("\r\n\r\n");
+                        */
                         state = PULL_LAT;
                     }
                     else if (DecodeTelemetryType ( &receive ) == GPS_LAT)
                     {
+                        /*
                         Print("LATITUDE: ");
                         PrintInt(DecodeTelemetryDataSigned( &receive ));
                         Print("\r\n");
+                        */
                         state = PULL_LON;
                     }
                     else {
+                        /*
                         Print("BAD PACKET\r\n");
                         PrintInt(DecodeTelemetryType( &receive ));
                         Print("\r\n");
                         PrintInt(GetSenderDeviceGroupCode( &receive ));
                         Print("\r\n");
                         Print("\r\n");
+                        */
                     }  
                 }
             

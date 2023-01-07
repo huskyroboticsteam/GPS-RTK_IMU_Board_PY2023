@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 1
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 1
 
 
    1              		.syntax unified
@@ -49,24 +49,22 @@ ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 1
   30              		@ Volatile: function does not return.
   31              		@ args = 0, pretend = 0, frame = 0
   32              		@ frame_needed = 0, uses_anonymous_args = 0
-  33 0000 70B5     		push	{r4, r5, r6, lr}
-  34              		.cfi_def_cfa_offset 16
-  35              		.cfi_offset 4, -16
-  36              		.cfi_offset 5, -12
-  37              		.cfi_offset 6, -8
-  38              		.cfi_offset 14, -4
+  33 0000 10B5     		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
   17:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
-  39              		.loc 1 17 0
-  40              		.syntax divided
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 2
+  37              		.loc 1 17 0
+  38              		.syntax divided
+  39              	@ 17 "main.c" 1
+  40 0002 62B6     		CPSIE   i
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 2
 
 
-  41              	@ 17 "main.c" 1
-  42 0002 62B6     		CPSIE   i
-  43              	@ 0 "" 2
-  44              		.thumb
-  45              		.syntax unified
-  46              	.L3:
+  41              	@ 0 "" 2
+  42              		.thumb
+  43              		.syntax unified
+  44              	.L3:
   18:main.c        **** 
   19:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
   20:main.c        ****     
@@ -74,1350 +72,888 @@ ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 1
   22:main.c        ****     for(;;)
   23:main.c        ****     {
   24:main.c        ****         /* Place your application code here. */
-  25:main.c        ****         switch(state)
-  47              		.loc 1 25 0
-  48 0004 3E4B     		ldr	r3, .L10
-  49 0006 1B68     		ldr	r3, [r3]
-  50 0008 012B     		cmp	r3, #1
-  51 000a 11D0     		beq	.L4
-  52 000c 022B     		cmp	r3, #2
-  53 000e 1DD0     		beq	.L5
-  54 0010 002B     		cmp	r3, #0
-  55 0012 F7D1     		bne	.L3
-  26:main.c        ****         {
-  27:main.c        ****             case(PULL_LAT):
-  28:main.c        ****                 AssembleTelemetryPullPacket(&send, DEVICE_GROUP_TELEMETRY, DEVICE_SERIAL_TELEM_LOCA
-  56              		.loc 1 28 0
-  57 0014 3B4C     		ldr	r4, .L10+4
-  58 0016 0533     		adds	r3, r3, #5
-  59 0018 0122     		movs	r2, #1
-  60 001a 0521     		movs	r1, #5
-  61 001c 2000     		movs	r0, r4
-  62 001e FFF7FEFF 		bl	AssembleTelemetryPullPacket
-  63              	.LVL0:
-  29:main.c        ****                 SendCANPacket( &send );
-  64              		.loc 1 29 0
-  65 0022 2000     		movs	r0, r4
-  66 0024 FFF7FEFF 		bl	SendCANPacket
-  67              	.LVL1:
-  30:main.c        ****                 state = WAIT;
-  68              		.loc 1 30 0
-  69 0028 0222     		movs	r2, #2
-  70 002a 354B     		ldr	r3, .L10
-  71 002c 1A60     		str	r2, [r3]
-  31:main.c        ****                 break;
-  72              		.loc 1 31 0
-  73 002e E9E7     		b	.L3
-  74              	.L4:
-  32:main.c        ****                 
-  33:main.c        ****             case(PULL_LON):
-  34:main.c        ****                 AssembleTelemetryPullPacket(&send, DEVICE_GROUP_TELEMETRY, DEVICE_SERIAL_TELEM_LOCA
-  75              		.loc 1 34 0
-  76 0030 344C     		ldr	r4, .L10+4
-  77 0032 0623     		movs	r3, #6
-  78 0034 0122     		movs	r2, #1
-  79 0036 0521     		movs	r1, #5
-  80 0038 2000     		movs	r0, r4
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 3
+  25:main.c        ****         // this is already fully functional for the GPS?
+  26:main.c        ****         switch(state)
+  45              		.loc 1 26 0
+  46 0004 1D4B     		ldr	r3, .L9
+  47 0006 1B68     		ldr	r3, [r3]
+  48 0008 012B     		cmp	r3, #1
+  49 000a 11D0     		beq	.L4
+  50 000c 042B     		cmp	r3, #4
+  51 000e 1DD0     		beq	.L5
+  52 0010 002B     		cmp	r3, #0
+  53 0012 F7D1     		bne	.L3
+  27:main.c        ****         {
+  28:main.c        ****             case(PULL_LAT):
+  29:main.c        ****                 AssembleTelemetryPullPacket(&send, DEVICE_GROUP_TELEMETRY, DEVICE_SERIAL_TELEM_LOCA
+  54              		.loc 1 29 0
+  55 0014 1A4C     		ldr	r4, .L9+4
+  56 0016 0533     		adds	r3, r3, #5
+  57 0018 0122     		movs	r2, #1
+  58 001a 0521     		movs	r1, #5
+  59 001c 2000     		movs	r0, r4
+  60 001e FFF7FEFF 		bl	AssembleTelemetryPullPacket
+  61              	.LVL0:
+  30:main.c        ****                 SendCANPacket( &send );
+  62              		.loc 1 30 0
+  63 0022 2000     		movs	r0, r4
+  64 0024 FFF7FEFF 		bl	SendCANPacket
+  65              	.LVL1:
+  31:main.c        ****                 state = WAIT;
+  66              		.loc 1 31 0
+  67 0028 0422     		movs	r2, #4
+  68 002a 144B     		ldr	r3, .L9
+  69 002c 1A60     		str	r2, [r3]
+  32:main.c        ****                 break;
+  70              		.loc 1 32 0
+  71 002e E9E7     		b	.L3
+  72              	.L4:
+  33:main.c        ****                 
+  34:main.c        ****             case(PULL_LON):
+  35:main.c        ****                 AssembleTelemetryPullPacket(&send, DEVICE_GROUP_TELEMETRY, DEVICE_SERIAL_TELEM_LOCA
+  73              		.loc 1 35 0
+  74 0030 134C     		ldr	r4, .L9+4
+  75 0032 0623     		movs	r3, #6
+  76 0034 0122     		movs	r2, #1
+  77 0036 0521     		movs	r1, #5
+  78 0038 2000     		movs	r0, r4
+  79 003a FFF7FEFF 		bl	AssembleTelemetryPullPacket
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 3
 
 
-  81 003a FFF7FEFF 		bl	AssembleTelemetryPullPacket
-  82              	.LVL2:
-  35:main.c        ****                 SendCANPacket( &send );
-  83              		.loc 1 35 0
-  84 003e 2000     		movs	r0, r4
-  85 0040 FFF7FEFF 		bl	SendCANPacket
-  86              	.LVL3:
-  36:main.c        ****                 state = WAIT;
-  87              		.loc 1 36 0
-  88 0044 0222     		movs	r2, #2
-  89 0046 2E4B     		ldr	r3, .L10
-  90 0048 1A60     		str	r2, [r3]
-  37:main.c        ****                 break;
-  91              		.loc 1 37 0
-  92 004a DBE7     		b	.L3
-  93              	.L5:
-  38:main.c        ****                 
-  39:main.c        ****             case(WAIT):
-  40:main.c        ****                 if (PollAndReceiveCANPacket( &receive ) == ERROR_NONE)
-  94              		.loc 1 40 0
-  95 004c 2E48     		ldr	r0, .L10+8
-  96 004e FFF7FEFF 		bl	PollAndReceiveCANPacket
-  97              	.LVL4:
-  98 0052 0028     		cmp	r0, #0
-  99 0054 D6D1     		bne	.L3
- 100              	.LBB2:
-  41:main.c        ****                 {
-  42:main.c        ****                     Print("Packet Found!\r\n");
- 101              		.loc 1 42 0
- 102 0056 2D48     		ldr	r0, .L10+12
- 103 0058 FFF7FEFF 		bl	DEBUG_UartPutString
- 104              	.LVL5:
-  43:main.c        ****                     if (DecodeTelemetryType( &receive ) == GPS_LON)
- 105              		.loc 1 43 0
- 106 005c 2A48     		ldr	r0, .L10+8
- 107 005e FFF7FEFF 		bl	DecodeTelemetryType
- 108              	.LVL6:
- 109 0062 0628     		cmp	r0, #6
- 110 0064 12D1     		bne	.L8
-  44:main.c        ****                     {
-  45:main.c        ****                         Print("LONGITUDE: ");
- 111              		.loc 1 45 0
- 112 0066 2A48     		ldr	r0, .L10+16
- 113 0068 FFF7FEFF 		bl	DEBUG_UartPutString
- 114              	.LVL7:
-  46:main.c        ****                         PrintInt(DecodeTelemetryDataSigned( &receive ));
- 115              		.loc 1 46 0
- 116 006c 2648     		ldr	r0, .L10+8
- 117 006e FFF7FEFF 		bl	DecodeTelemetryDataSigned
- 118              	.LVL8:
- 119 0072 0A22     		movs	r2, #10
- 120 0074 2749     		ldr	r1, .L10+20
- 121 0076 FFF7FEFF 		bl	itoa
- 122              	.LVL9:
- 123 007a FFF7FEFF 		bl	DEBUG_UartPutString
- 124              	.LVL10:
-  47:main.c        ****                         Print("\r\n\r\n");
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 4
+  80              	.LVL2:
+  36:main.c        ****                 SendCANPacket( &send );
+  81              		.loc 1 36 0
+  82 003e 2000     		movs	r0, r4
+  83 0040 FFF7FEFF 		bl	SendCANPacket
+  84              	.LVL3:
+  37:main.c        ****                 state = WAIT;
+  85              		.loc 1 37 0
+  86 0044 0422     		movs	r2, #4
+  87 0046 0D4B     		ldr	r3, .L9
+  88 0048 1A60     		str	r2, [r3]
+  38:main.c        ****                 break;
+  89              		.loc 1 38 0
+  90 004a DBE7     		b	.L3
+  91              	.L5:
+  39:main.c        ****                 
+  40:main.c        ****             case(WAIT):
+  41:main.c        ****                 if (PollAndReceiveCANPacket( &receive ) == ERROR_NONE)
+  92              		.loc 1 41 0
+  93 004c 0D48     		ldr	r0, .L9+8
+  94 004e FFF7FEFF 		bl	PollAndReceiveCANPacket
+  95              	.LVL4:
+  96 0052 0028     		cmp	r0, #0
+  97 0054 D6D1     		bne	.L3
+  42:main.c        ****                 {
+  43:main.c        ****                     //Print("Packet Found!\r\n");
+  44:main.c        ****                     if (DecodeTelemetryType( &receive ) == GPS_LON)
+  98              		.loc 1 44 0
+  99 0056 0B48     		ldr	r0, .L9+8
+ 100 0058 FFF7FEFF 		bl	DecodeTelemetryType
+ 101              	.LVL5:
+ 102 005c 0628     		cmp	r0, #6
+ 103 005e 03D1     		bne	.L8
+  45:main.c        ****                     {
+  46:main.c        ****                         /*
+  47:main.c        ****                         Print("LONGITUDE: ");
+  48:main.c        ****                         PrintInt(DecodeTelemetryDataSigned( &receive ));
+  49:main.c        ****                         Print("\r\n\r\n");
+  50:main.c        ****                         */
+  51:main.c        ****                         state = PULL_LAT;
+ 104              		.loc 1 51 0
+ 105 0060 0022     		movs	r2, #0
+ 106 0062 064B     		ldr	r3, .L9
+ 107 0064 1A60     		str	r2, [r3]
+ 108 0066 CDE7     		b	.L3
+ 109              	.L8:
+  52:main.c        ****                     }
+  53:main.c        ****                     else if (DecodeTelemetryType ( &receive ) == GPS_LAT)
+ 110              		.loc 1 53 0
+ 111 0068 0648     		ldr	r0, .L9+8
+ 112 006a FFF7FEFF 		bl	DecodeTelemetryType
+ 113              	.LVL6:
+ 114 006e 0528     		cmp	r0, #5
+ 115 0070 C8D1     		bne	.L3
+  54:main.c        ****                     {
+  55:main.c        ****                         /*
+  56:main.c        ****                         Print("LATITUDE: ");
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 4
 
 
- 125              		.loc 1 47 0
- 126 007e 2648     		ldr	r0, .L10+24
- 127 0080 FFF7FEFF 		bl	DEBUG_UartPutString
- 128              	.LVL11:
-  48:main.c        ****                         state = PULL_LAT;
- 129              		.loc 1 48 0
- 130 0084 0022     		movs	r2, #0
- 131 0086 1E4B     		ldr	r3, .L10
- 132 0088 1A60     		str	r2, [r3]
- 133 008a BBE7     		b	.L3
- 134              	.L8:
-  49:main.c        ****                     }
-  50:main.c        ****                     else if (DecodeTelemetryType ( &receive ) == GPS_LAT)
- 135              		.loc 1 50 0
- 136 008c 1E48     		ldr	r0, .L10+8
- 137 008e FFF7FEFF 		bl	DecodeTelemetryType
- 138              	.LVL12:
- 139 0092 0528     		cmp	r0, #5
- 140 0094 12D1     		bne	.L9
-  51:main.c        ****                     {
-  52:main.c        ****                         Print("LATITUDE: ");
- 141              		.loc 1 52 0
- 142 0096 2148     		ldr	r0, .L10+28
- 143 0098 FFF7FEFF 		bl	DEBUG_UartPutString
- 144              	.LVL13:
-  53:main.c        ****                         PrintInt(DecodeTelemetryDataSigned( &receive ));
- 145              		.loc 1 53 0
- 146 009c 1A48     		ldr	r0, .L10+8
- 147 009e FFF7FEFF 		bl	DecodeTelemetryDataSigned
- 148              	.LVL14:
- 149 00a2 0A22     		movs	r2, #10
- 150 00a4 1B49     		ldr	r1, .L10+20
- 151 00a6 FFF7FEFF 		bl	itoa
- 152              	.LVL15:
- 153 00aa FFF7FEFF 		bl	DEBUG_UartPutString
- 154              	.LVL16:
-  54:main.c        ****                         Print("\r\n");
- 155              		.loc 1 54 0
- 156 00ae 1C48     		ldr	r0, .L10+32
- 157 00b0 FFF7FEFF 		bl	DEBUG_UartPutString
- 158              	.LVL17:
-  55:main.c        ****                         state = PULL_LON;
- 159              		.loc 1 55 0
- 160 00b4 0122     		movs	r2, #1
- 161 00b6 124B     		ldr	r3, .L10
- 162 00b8 1A60     		str	r2, [r3]
- 163 00ba A3E7     		b	.L3
- 164              	.L9:
-  56:main.c        ****                     }
-  57:main.c        ****                     else {
-  58:main.c        ****                         Print("BAD PACKET\r\n");
- 165              		.loc 1 58 0
- 166 00bc 1948     		ldr	r0, .L10+36
- 167 00be FFF7FEFF 		bl	DEBUG_UartPutString
- 168              	.LVL18:
-  59:main.c        ****                         PrintInt(DecodeTelemetryType( &receive ));
- 169              		.loc 1 59 0
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 5
+  57:main.c        ****                         PrintInt(DecodeTelemetryDataSigned( &receive ));
+  58:main.c        ****                         Print("\r\n");
+  59:main.c        ****                         */
+  60:main.c        ****                         state = PULL_LON;
+ 116              		.loc 1 60 0
+ 117 0072 0122     		movs	r2, #1
+ 118 0074 014B     		ldr	r3, .L9
+ 119 0076 1A60     		str	r2, [r3]
+ 120 0078 C4E7     		b	.L3
+ 121              	.L10:
+ 122 007a C046     		.align	2
+ 123              	.L9:
+ 124 007c 00000000 		.word	state
+ 125 0080 00000000 		.word	send
+ 126 0084 00000000 		.word	receive
+ 127              		.cfi_endproc
+ 128              	.LFE35:
+ 129              		.size	main, .-main
+ 130              		.comm	txData,4,4
+ 131              		.comm	state,4,4
+ 132              		.comm	receive,12,4
+ 133              		.comm	send,12,4
+ 134              		.comm	debugOutput,32,4
+ 135              		.text
+ 136              	.Letext0:
+ 137              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 138              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 139              		.file 4 ".\\HindsightCAN/CANPacket.h"
+ 140              		.file 5 "main.h"
+ 141              		.file 6 ".\\HindsightCAN/CANCommon.h"
+ 142              		.file 7 ".\\HindsightCAN/Port.h"
+ 143              		.section	.debug_info,"",%progbits
+ 144              	.Ldebug_info0:
+ 145 0000 63020000 		.4byte	0x263
+ 146 0004 0400     		.2byte	0x4
+ 147 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 148 000a 04       		.byte	0x4
+ 149 000b 01       		.uleb128 0x1
+ 150 000c 31010000 		.4byte	.LASF29
+ 151 0010 0C       		.byte	0xc
+ 152 0011 E0010000 		.4byte	.LASF30
+ 153 0015 8C000000 		.4byte	.LASF31
+ 154 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 155 001d 00000000 		.4byte	0
+ 156 0021 00000000 		.4byte	.Ldebug_line0
+ 157 0025 02       		.uleb128 0x2
+ 158 0026 01       		.byte	0x1
+ 159 0027 06       		.byte	0x6
+ 160 0028 1D020000 		.4byte	.LASF0
+ 161 002c 03       		.uleb128 0x3
+ 162 002d 00000000 		.4byte	.LASF3
+ 163 0031 02       		.byte	0x2
+ 164 0032 1D       		.byte	0x1d
+ 165 0033 37000000 		.4byte	0x37
+ 166 0037 02       		.uleb128 0x2
+ 167 0038 01       		.byte	0x1
+ 168 0039 08       		.byte	0x8
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 5
 
 
- 170 00c2 114E     		ldr	r6, .L10+8
- 171 00c4 3000     		movs	r0, r6
- 172 00c6 FFF7FEFF 		bl	DecodeTelemetryType
- 173              	.LVL19:
- 174 00ca 124D     		ldr	r5, .L10+20
- 175 00cc 0A22     		movs	r2, #10
- 176 00ce 2900     		movs	r1, r5
- 177 00d0 FFF7FEFF 		bl	itoa
- 178              	.LVL20:
- 179 00d4 FFF7FEFF 		bl	DEBUG_UartPutString
- 180              	.LVL21:
-  60:main.c        ****                         Print("\r\n");
- 181              		.loc 1 60 0
- 182 00d8 114C     		ldr	r4, .L10+32
- 183 00da 2000     		movs	r0, r4
- 184 00dc FFF7FEFF 		bl	DEBUG_UartPutString
- 185              	.LVL22:
-  61:main.c        ****                         PrintInt(GetSenderDeviceGroupCode( &receive ));
- 186              		.loc 1 61 0
- 187 00e0 3000     		movs	r0, r6
- 188 00e2 FFF7FEFF 		bl	GetSenderDeviceGroupCode
- 189              	.LVL23:
- 190 00e6 0A22     		movs	r2, #10
- 191 00e8 2900     		movs	r1, r5
- 192 00ea FFF7FEFF 		bl	itoa
- 193              	.LVL24:
- 194 00ee FFF7FEFF 		bl	DEBUG_UartPutString
- 195              	.LVL25:
-  62:main.c        ****                         Print("\r\n");
- 196              		.loc 1 62 0
- 197 00f2 2000     		movs	r0, r4
- 198 00f4 FFF7FEFF 		bl	DEBUG_UartPutString
- 199              	.LVL26:
-  63:main.c        ****                         Print("\r\n");
- 200              		.loc 1 63 0
- 201 00f8 2000     		movs	r0, r4
- 202 00fa FFF7FEFF 		bl	DEBUG_UartPutString
- 203              	.LVL27:
- 204 00fe 81E7     		b	.L3
- 205              	.L11:
- 206              		.align	2
- 207              	.L10:
- 208 0100 00000000 		.word	state
- 209 0104 00000000 		.word	send
- 210 0108 00000000 		.word	receive
- 211 010c 00000000 		.word	.LC3
- 212 0110 10000000 		.word	.LC5
- 213 0114 00000000 		.word	debugOutput
- 214 0118 1C000000 		.word	.LC8
- 215 011c 24000000 		.word	.LC10
- 216 0120 30000000 		.word	.LC12
- 217 0124 34000000 		.word	.LC14
- 218              	.LBE2:
- 219              		.cfi_endproc
- 220              	.LFE35:
- 221              		.size	main, .-main
- 222              		.comm	txData,4,4
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 6
+ 169 003a 59000000 		.4byte	.LASF1
+ 170 003e 02       		.uleb128 0x2
+ 171 003f 02       		.byte	0x2
+ 172 0040 05       		.byte	0x5
+ 173 0041 F1000000 		.4byte	.LASF2
+ 174 0045 03       		.uleb128 0x3
+ 175 0046 DF000000 		.4byte	.LASF4
+ 176 004a 02       		.byte	0x2
+ 177 004b 2B       		.byte	0x2b
+ 178 004c 50000000 		.4byte	0x50
+ 179 0050 02       		.uleb128 0x2
+ 180 0051 02       		.byte	0x2
+ 181 0052 07       		.byte	0x7
+ 182 0053 79000000 		.4byte	.LASF5
+ 183 0057 02       		.uleb128 0x2
+ 184 0058 04       		.byte	0x4
+ 185 0059 05       		.byte	0x5
+ 186 005a 17000000 		.4byte	.LASF6
+ 187 005e 02       		.uleb128 0x2
+ 188 005f 04       		.byte	0x4
+ 189 0060 07       		.byte	0x7
+ 190 0061 67000000 		.4byte	.LASF7
+ 191 0065 02       		.uleb128 0x2
+ 192 0066 08       		.byte	0x8
+ 193 0067 05       		.byte	0x5
+ 194 0068 D2010000 		.4byte	.LASF8
+ 195 006c 02       		.uleb128 0x2
+ 196 006d 08       		.byte	0x8
+ 197 006e 07       		.byte	0x7
+ 198 006f 12010000 		.4byte	.LASF9
+ 199 0073 04       		.uleb128 0x4
+ 200 0074 04       		.byte	0x4
+ 201 0075 05       		.byte	0x5
+ 202 0076 696E7400 		.ascii	"int\000"
+ 203 007a 02       		.uleb128 0x2
+ 204 007b 04       		.byte	0x4
+ 205 007c 07       		.byte	0x7
+ 206 007d 00010000 		.4byte	.LASF10
+ 207 0081 03       		.uleb128 0x3
+ 208 0082 29010000 		.4byte	.LASF11
+ 209 0086 03       		.byte	0x3
+ 210 0087 18       		.byte	0x18
+ 211 0088 2C000000 		.4byte	0x2c
+ 212 008c 03       		.uleb128 0x3
+ 213 008d EC010000 		.4byte	.LASF12
+ 214 0091 03       		.byte	0x3
+ 215 0092 24       		.byte	0x24
+ 216 0093 45000000 		.4byte	0x45
+ 217 0097 02       		.uleb128 0x2
+ 218 0098 04       		.byte	0x4
+ 219 0099 04       		.byte	0x4
+ 220 009a 40000000 		.4byte	.LASF13
+ 221 009e 02       		.uleb128 0x2
+ 222 009f 08       		.byte	0x8
+ 223 00a0 04       		.byte	0x4
+ 224 00a1 EA000000 		.4byte	.LASF14
+ 225 00a5 02       		.uleb128 0x2
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 6
 
 
- 223              		.comm	state,4,4
- 224              		.comm	receive,12,4
- 225              		.comm	send,12,4
- 226              		.comm	debugOutput,32,4
- 227              		.section	.rodata.str1.4,"aMS",%progbits,1
- 228              		.align	2
- 229              	.LC3:
- 230 0000 5061636B 		.ascii	"Packet Found!\015\012\000"
- 230      65742046 
- 230      6F756E64 
- 230      210D0A00 
- 231              	.LC5:
- 232 0010 4C4F4E47 		.ascii	"LONGITUDE: \000"
- 232      49545544 
- 232      453A2000 
- 233              	.LC8:
- 234 001c 0D0A0D0A 		.ascii	"\015\012\015\012\000"
- 234      00
- 235 0021 000000   		.space	3
- 236              	.LC10:
- 237 0024 4C415449 		.ascii	"LATITUDE: \000"
- 237      54554445 
- 237      3A2000
- 238 002f 00       		.space	1
- 239              	.LC12:
- 240 0030 0D0A00   		.ascii	"\015\012\000"
- 241 0033 00       		.space	1
- 242              	.LC14:
- 243 0034 42414420 		.ascii	"BAD PACKET\015\012\000"
- 243      5041434B 
- 243      45540D0A 
- 243      00
- 244              		.text
- 245              	.Letext0:
- 246              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
- 247              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
- 248              		.file 4 ".\\HindsightCAN/CANPacket.h"
- 249              		.file 5 "main.h"
- 250              		.file 6 ".\\HindsightCAN/CANCommon.h"
- 251              		.file 7 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
- 252              		.file 8 ".\\HindsightCAN/Port.h"
- 253              		.section	.debug_info,"",%progbits
- 254              	.Ldebug_info0:
- 255 0000 54040000 		.4byte	0x454
- 256 0004 0400     		.2byte	0x4
- 257 0006 00000000 		.4byte	.Ldebug_abbrev0
- 258 000a 04       		.byte	0x4
- 259 000b 01       		.uleb128 0x1
- 260 000c 41010000 		.4byte	.LASF33
- 261 0010 0C       		.byte	0xc
- 262 0011 F0010000 		.4byte	.LASF34
- 263 0015 9C000000 		.4byte	.LASF35
- 264 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 265 001d 00000000 		.4byte	0
- 266 0021 00000000 		.4byte	.Ldebug_line0
- 267 0025 02       		.uleb128 0x2
- 268 0026 01       		.byte	0x1
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 7
+ 226 00a6 01       		.byte	0x1
+ 227 00a7 08       		.byte	0x8
+ 228 00a8 E7010000 		.4byte	.LASF15
+ 229 00ac 02       		.uleb128 0x2
+ 230 00ad 08       		.byte	0x8
+ 231 00ae 04       		.byte	0x4
+ 232 00af 11020000 		.4byte	.LASF16
+ 233 00b3 02       		.uleb128 0x2
+ 234 00b4 04       		.byte	0x4
+ 235 00b5 07       		.byte	0x7
+ 236 00b6 C9010000 		.4byte	.LASF17
+ 237 00ba 05       		.uleb128 0x5
+ 238 00bb 0C       		.byte	0xc
+ 239 00bc 04       		.byte	0x4
+ 240 00bd 0F       		.byte	0xf
+ 241 00be E6000000 		.4byte	0xe6
+ 242 00c2 06       		.uleb128 0x6
+ 243 00c3 696400   		.ascii	"id\000"
+ 244 00c6 04       		.byte	0x4
+ 245 00c7 11       		.byte	0x11
+ 246 00c8 8C000000 		.4byte	0x8c
+ 247 00cc 00       		.byte	0
+ 248 00cd 06       		.uleb128 0x6
+ 249 00ce 646C6300 		.ascii	"dlc\000"
+ 250 00d2 04       		.byte	0x4
+ 251 00d3 12       		.byte	0x12
+ 252 00d4 81000000 		.4byte	0x81
+ 253 00d8 02       		.byte	0x2
+ 254 00d9 07       		.uleb128 0x7
+ 255 00da 46000000 		.4byte	.LASF18
+ 256 00de 04       		.byte	0x4
+ 257 00df 13       		.byte	0x13
+ 258 00e0 E6000000 		.4byte	0xe6
+ 259 00e4 03       		.byte	0x3
+ 260 00e5 00       		.byte	0
+ 261 00e6 08       		.uleb128 0x8
+ 262 00e7 81000000 		.4byte	0x81
+ 263 00eb F6000000 		.4byte	0xf6
+ 264 00ef 09       		.uleb128 0x9
+ 265 00f0 B3000000 		.4byte	0xb3
+ 266 00f4 07       		.byte	0x7
+ 267 00f5 00       		.byte	0
+ 268 00f6 03       		.uleb128 0x3
+ 269 00f7 BF010000 		.4byte	.LASF19
+ 270 00fb 04       		.byte	0x4
+ 271 00fc 14       		.byte	0x14
+ 272 00fd BA000000 		.4byte	0xba
+ 273 0101 0A       		.uleb128 0xa
+ 274 0102 FB000000 		.4byte	.LASF32
+ 275 0106 01       		.byte	0x1
+ 276 0107 0F       		.byte	0xf
+ 277 0108 73000000 		.4byte	0x73
+ 278 010c 00000000 		.4byte	.LFB35
+ 279 0110 88000000 		.4byte	.LFE35-.LFB35
+ 280 0114 01       		.uleb128 0x1
+ 281 0115 9C       		.byte	0x9c
+ 282 0116 C5010000 		.4byte	0x1c5
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 7
 
 
- 269 0027 06       		.byte	0x6
- 270 0028 69020000 		.4byte	.LASF0
- 271 002c 03       		.uleb128 0x3
- 272 002d 00000000 		.4byte	.LASF3
- 273 0031 02       		.byte	0x2
- 274 0032 1D       		.byte	0x1d
- 275 0033 37000000 		.4byte	0x37
- 276 0037 02       		.uleb128 0x2
- 277 0038 01       		.byte	0x1
- 278 0039 08       		.byte	0x8
- 279 003a 69000000 		.4byte	.LASF1
- 280 003e 02       		.uleb128 0x2
- 281 003f 02       		.byte	0x2
- 282 0040 05       		.byte	0x5
- 283 0041 01010000 		.4byte	.LASF2
- 284 0045 03       		.uleb128 0x3
- 285 0046 EF000000 		.4byte	.LASF4
- 286 004a 02       		.byte	0x2
- 287 004b 2B       		.byte	0x2b
- 288 004c 50000000 		.4byte	0x50
- 289 0050 02       		.uleb128 0x2
- 290 0051 02       		.byte	0x2
- 291 0052 07       		.byte	0x7
- 292 0053 89000000 		.4byte	.LASF5
- 293 0057 02       		.uleb128 0x2
- 294 0058 04       		.byte	0x4
- 295 0059 05       		.byte	0x5
- 296 005a 17000000 		.4byte	.LASF6
- 297 005e 02       		.uleb128 0x2
- 298 005f 04       		.byte	0x4
- 299 0060 07       		.byte	0x7
- 300 0061 77000000 		.4byte	.LASF7
- 301 0065 02       		.uleb128 0x2
- 302 0066 08       		.byte	0x8
- 303 0067 05       		.byte	0x5
- 304 0068 E2010000 		.4byte	.LASF8
- 305 006c 02       		.uleb128 0x2
- 306 006d 08       		.byte	0x8
- 307 006e 07       		.byte	0x7
- 308 006f 22010000 		.4byte	.LASF9
- 309 0073 04       		.uleb128 0x4
- 310 0074 04       		.byte	0x4
- 311 0075 05       		.byte	0x5
- 312 0076 696E7400 		.ascii	"int\000"
- 313 007a 02       		.uleb128 0x2
- 314 007b 04       		.byte	0x4
- 315 007c 07       		.byte	0x7
- 316 007d 10010000 		.4byte	.LASF10
- 317 0081 03       		.uleb128 0x3
- 318 0082 39010000 		.4byte	.LASF11
- 319 0086 03       		.byte	0x3
- 320 0087 18       		.byte	0x18
- 321 0088 2C000000 		.4byte	0x2c
- 322 008c 03       		.uleb128 0x3
- 323 008d 2A020000 		.4byte	.LASF12
- 324 0091 03       		.byte	0x3
- 325 0092 24       		.byte	0x24
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 8
+ 283 011a 0B       		.uleb128 0xb
+ 284 011b 22000000 		.4byte	.LVL0
+ 285 011f 3A020000 		.4byte	0x23a
+ 286 0123 38010000 		.4byte	0x138
+ 287 0127 0C       		.uleb128 0xc
+ 288 0128 01       		.uleb128 0x1
+ 289 0129 50       		.byte	0x50
+ 290 012a 02       		.uleb128 0x2
+ 291 012b 74       		.byte	0x74
+ 292 012c 00       		.sleb128 0
+ 293 012d 0C       		.uleb128 0xc
+ 294 012e 01       		.uleb128 0x1
+ 295 012f 51       		.byte	0x51
+ 296 0130 01       		.uleb128 0x1
+ 297 0131 35       		.byte	0x35
+ 298 0132 0C       		.uleb128 0xc
+ 299 0133 01       		.uleb128 0x1
+ 300 0134 52       		.byte	0x52
+ 301 0135 01       		.uleb128 0x1
+ 302 0136 31       		.byte	0x31
+ 303 0137 00       		.byte	0
+ 304 0138 0B       		.uleb128 0xb
+ 305 0139 28000000 		.4byte	.LVL1
+ 306 013d 45020000 		.4byte	0x245
+ 307 0141 4C010000 		.4byte	0x14c
+ 308 0145 0C       		.uleb128 0xc
+ 309 0146 01       		.uleb128 0x1
+ 310 0147 50       		.byte	0x50
+ 311 0148 02       		.uleb128 0x2
+ 312 0149 74       		.byte	0x74
+ 313 014a 00       		.sleb128 0
+ 314 014b 00       		.byte	0
+ 315 014c 0B       		.uleb128 0xb
+ 316 014d 3E000000 		.4byte	.LVL2
+ 317 0151 3A020000 		.4byte	0x23a
+ 318 0155 6F010000 		.4byte	0x16f
+ 319 0159 0C       		.uleb128 0xc
+ 320 015a 01       		.uleb128 0x1
+ 321 015b 50       		.byte	0x50
+ 322 015c 02       		.uleb128 0x2
+ 323 015d 74       		.byte	0x74
+ 324 015e 00       		.sleb128 0
+ 325 015f 0C       		.uleb128 0xc
+ 326 0160 01       		.uleb128 0x1
+ 327 0161 51       		.byte	0x51
+ 328 0162 01       		.uleb128 0x1
+ 329 0163 35       		.byte	0x35
+ 330 0164 0C       		.uleb128 0xc
+ 331 0165 01       		.uleb128 0x1
+ 332 0166 52       		.byte	0x52
+ 333 0167 01       		.uleb128 0x1
+ 334 0168 31       		.byte	0x31
+ 335 0169 0C       		.uleb128 0xc
+ 336 016a 01       		.uleb128 0x1
+ 337 016b 53       		.byte	0x53
+ 338 016c 01       		.uleb128 0x1
+ 339 016d 36       		.byte	0x36
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 8
 
 
- 326 0093 45000000 		.4byte	0x45
- 327 0097 02       		.uleb128 0x2
- 328 0098 04       		.byte	0x4
- 329 0099 04       		.byte	0x4
- 330 009a 59000000 		.4byte	.LASF13
- 331 009e 02       		.uleb128 0x2
- 332 009f 08       		.byte	0x8
- 333 00a0 04       		.byte	0x4
- 334 00a1 FA000000 		.4byte	.LASF14
- 335 00a5 02       		.uleb128 0x2
- 336 00a6 01       		.byte	0x1
- 337 00a7 08       		.byte	0x8
- 338 00a8 F7010000 		.4byte	.LASF15
- 339 00ac 02       		.uleb128 0x2
- 340 00ad 08       		.byte	0x8
- 341 00ae 04       		.byte	0x4
- 342 00af 5D020000 		.4byte	.LASF16
- 343 00b3 02       		.uleb128 0x2
- 344 00b4 04       		.byte	0x4
- 345 00b5 07       		.byte	0x7
- 346 00b6 D9010000 		.4byte	.LASF17
- 347 00ba 05       		.uleb128 0x5
- 348 00bb 0C       		.byte	0xc
- 349 00bc 04       		.byte	0x4
- 350 00bd 0F       		.byte	0xf
- 351 00be E6000000 		.4byte	0xe6
- 352 00c2 06       		.uleb128 0x6
- 353 00c3 696400   		.ascii	"id\000"
- 354 00c6 04       		.byte	0x4
- 355 00c7 11       		.byte	0x11
- 356 00c8 8C000000 		.4byte	0x8c
- 357 00cc 00       		.byte	0
- 358 00cd 06       		.uleb128 0x6
- 359 00ce 646C6300 		.ascii	"dlc\000"
- 360 00d2 04       		.byte	0x4
- 361 00d3 12       		.byte	0x12
- 362 00d4 81000000 		.4byte	0x81
- 363 00d8 02       		.byte	0x2
- 364 00d9 07       		.uleb128 0x7
- 365 00da 5F000000 		.4byte	.LASF18
- 366 00de 04       		.byte	0x4
- 367 00df 13       		.byte	0x13
- 368 00e0 E6000000 		.4byte	0xe6
- 369 00e4 03       		.byte	0x3
- 370 00e5 00       		.byte	0
- 371 00e6 08       		.uleb128 0x8
- 372 00e7 81000000 		.4byte	0x81
- 373 00eb F6000000 		.4byte	0xf6
- 374 00ef 09       		.uleb128 0x9
- 375 00f0 B3000000 		.4byte	0xb3
- 376 00f4 07       		.byte	0x7
- 377 00f5 00       		.byte	0
- 378 00f6 03       		.uleb128 0x3
- 379 00f7 CF010000 		.4byte	.LASF19
- 380 00fb 04       		.byte	0x4
- 381 00fc 14       		.byte	0x14
- 382 00fd BA000000 		.4byte	0xba
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 9
+ 340 016e 00       		.byte	0
+ 341 016f 0B       		.uleb128 0xb
+ 342 0170 44000000 		.4byte	.LVL3
+ 343 0174 45020000 		.4byte	0x245
+ 344 0178 83010000 		.4byte	0x183
+ 345 017c 0C       		.uleb128 0xc
+ 346 017d 01       		.uleb128 0x1
+ 347 017e 50       		.byte	0x50
+ 348 017f 02       		.uleb128 0x2
+ 349 0180 74       		.byte	0x74
+ 350 0181 00       		.sleb128 0
+ 351 0182 00       		.byte	0
+ 352 0183 0B       		.uleb128 0xb
+ 353 0184 52000000 		.4byte	.LVL4
+ 354 0188 50020000 		.4byte	0x250
+ 355 018c 9A010000 		.4byte	0x19a
+ 356 0190 0C       		.uleb128 0xc
+ 357 0191 01       		.uleb128 0x1
+ 358 0192 50       		.byte	0x50
+ 359 0193 05       		.uleb128 0x5
+ 360 0194 03       		.byte	0x3
+ 361 0195 00000000 		.4byte	receive
+ 362 0199 00       		.byte	0
+ 363 019a 0B       		.uleb128 0xb
+ 364 019b 5C000000 		.4byte	.LVL5
+ 365 019f 5B020000 		.4byte	0x25b
+ 366 01a3 B1010000 		.4byte	0x1b1
+ 367 01a7 0C       		.uleb128 0xc
+ 368 01a8 01       		.uleb128 0x1
+ 369 01a9 50       		.byte	0x50
+ 370 01aa 05       		.uleb128 0x5
+ 371 01ab 03       		.byte	0x3
+ 372 01ac 00000000 		.4byte	receive
+ 373 01b0 00       		.byte	0
+ 374 01b1 0D       		.uleb128 0xd
+ 375 01b2 6E000000 		.4byte	.LVL6
+ 376 01b6 5B020000 		.4byte	0x25b
+ 377 01ba 0C       		.uleb128 0xc
+ 378 01bb 01       		.uleb128 0x1
+ 379 01bc 50       		.byte	0x50
+ 380 01bd 05       		.uleb128 0x5
+ 381 01be 03       		.byte	0x3
+ 382 01bf 00000000 		.4byte	receive
+ 383 01c3 00       		.byte	0
+ 384 01c4 00       		.byte	0
+ 385 01c5 08       		.uleb128 0x8
+ 386 01c6 A5000000 		.4byte	0xa5
+ 387 01ca D5010000 		.4byte	0x1d5
+ 388 01ce 09       		.uleb128 0x9
+ 389 01cf B3000000 		.4byte	0xb3
+ 390 01d3 1F       		.byte	0x1f
+ 391 01d4 00       		.byte	0
+ 392 01d5 0E       		.uleb128 0xe
+ 393 01d6 3D020000 		.4byte	.LASF20
+ 394 01da 05       		.byte	0x5
+ 395 01db 15       		.byte	0x15
+ 396 01dc C5010000 		.4byte	0x1c5
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 9
 
 
- 383 0101 0A       		.uleb128 0xa
- 384 0102 0B010000 		.4byte	.LASF36
- 385 0106 01       		.byte	0x1
- 386 0107 0F       		.byte	0xf
- 387 0108 73000000 		.4byte	0x73
- 388 010c 00000000 		.4byte	.LFB35
- 389 0110 28010000 		.4byte	.LFE35-.LFB35
- 390 0114 01       		.uleb128 0x1
- 391 0115 9C       		.byte	0x9c
- 392 0116 8A030000 		.4byte	0x38a
- 393 011a 0B       		.uleb128 0xb
- 394 011b 56000000 		.4byte	.LBB2
- 395 011f D2000000 		.4byte	.LBE2-.LBB2
- 396 0123 0D030000 		.4byte	0x30d
- 397 0127 0C       		.uleb128 0xc
- 398 0128 FC010000 		.4byte	.LASF25
- 399 012c 01       		.byte	0x1
- 400 012d 2A       		.byte	0x2a
- 401 012e 73000000 		.4byte	0x73
- 402 0132 38010000 		.4byte	0x138
- 403 0136 0D       		.uleb128 0xd
- 404 0137 00       		.byte	0
- 405 0138 0E       		.uleb128 0xe
- 406 0139 5C000000 		.4byte	.LVL5
- 407 013d FF030000 		.4byte	0x3ff
- 408 0141 4F010000 		.4byte	0x14f
- 409 0145 0F       		.uleb128 0xf
- 410 0146 01       		.uleb128 0x1
- 411 0147 50       		.byte	0x50
- 412 0148 05       		.uleb128 0x5
- 413 0149 03       		.byte	0x3
- 414 014a 00000000 		.4byte	.LC3
- 415 014e 00       		.byte	0
- 416 014f 0E       		.uleb128 0xe
- 417 0150 62000000 		.4byte	.LVL6
- 418 0154 0A040000 		.4byte	0x40a
- 419 0158 66010000 		.4byte	0x166
- 420 015c 0F       		.uleb128 0xf
- 421 015d 01       		.uleb128 0x1
- 422 015e 50       		.byte	0x50
- 423 015f 05       		.uleb128 0x5
- 424 0160 03       		.byte	0x3
- 425 0161 00000000 		.4byte	receive
- 426 0165 00       		.byte	0
- 427 0166 0E       		.uleb128 0xe
- 428 0167 6C000000 		.4byte	.LVL7
- 429 016b FF030000 		.4byte	0x3ff
- 430 016f 7D010000 		.4byte	0x17d
- 431 0173 0F       		.uleb128 0xf
- 432 0174 01       		.uleb128 0x1
- 433 0175 50       		.byte	0x50
- 434 0176 05       		.uleb128 0x5
- 435 0177 03       		.byte	0x3
- 436 0178 10000000 		.4byte	.LC5
- 437 017c 00       		.byte	0
- 438 017d 0E       		.uleb128 0xe
- 439 017e 72000000 		.4byte	.LVL8
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 10
+ 397 01e0 05       		.uleb128 0x5
+ 398 01e1 03       		.byte	0x3
+ 399 01e2 00000000 		.4byte	debugOutput
+ 400 01e6 0E       		.uleb128 0xe
+ 401 01e7 0D010000 		.4byte	.LASF21
+ 402 01eb 05       		.byte	0x5
+ 403 01ec 18       		.byte	0x18
+ 404 01ed F6000000 		.4byte	0xf6
+ 405 01f1 05       		.uleb128 0x5
+ 406 01f2 03       		.byte	0x3
+ 407 01f3 00000000 		.4byte	send
+ 408 01f7 0E       		.uleb128 0xe
+ 409 01f8 20000000 		.4byte	.LASF22
+ 410 01fc 05       		.byte	0x5
+ 411 01fd 19       		.byte	0x19
+ 412 01fe F6000000 		.4byte	0xf6
+ 413 0202 05       		.uleb128 0x5
+ 414 0203 03       		.byte	0x3
+ 415 0204 00000000 		.4byte	receive
+ 416 0208 0E       		.uleb128 0xe
+ 417 0209 0A000000 		.4byte	.LASF23
+ 418 020d 05       		.byte	0x5
+ 419 020e 2B       		.byte	0x2b
+ 420 020f 73000000 		.4byte	0x73
+ 421 0213 05       		.uleb128 0x5
+ 422 0214 03       		.byte	0x3
+ 423 0215 00000000 		.4byte	state
+ 424 0219 08       		.uleb128 0x8
+ 425 021a A5000000 		.4byte	0xa5
+ 426 021e 29020000 		.4byte	0x229
+ 427 0222 09       		.uleb128 0x9
+ 428 0223 B3000000 		.4byte	0xb3
+ 429 0227 03       		.byte	0x3
+ 430 0228 00       		.byte	0
+ 431 0229 0E       		.uleb128 0xe
+ 432 022a 10000000 		.4byte	.LASF24
+ 433 022e 05       		.byte	0x5
+ 434 022f 2D       		.byte	0x2d
+ 435 0230 19020000 		.4byte	0x219
+ 436 0234 05       		.uleb128 0x5
+ 437 0235 03       		.byte	0x3
+ 438 0236 00000000 		.4byte	txData
+ 439 023a 0F       		.uleb128 0xf
+ 440 023b F5010000 		.4byte	.LASF25
+ 441 023f F5010000 		.4byte	.LASF25
+ 442 0243 06       		.byte	0x6
+ 443 0244 37       		.byte	0x37
+ 444 0245 0F       		.uleb128 0xf
+ 445 0246 4B000000 		.4byte	.LASF26
+ 446 024a 4B000000 		.4byte	.LASF26
+ 447 024e 07       		.byte	0x7
+ 448 024f 1C       		.byte	0x1c
+ 449 0250 0F       		.uleb128 0xf
+ 450 0251 28000000 		.4byte	.LASF27
+ 451 0255 28000000 		.4byte	.LASF27
+ 452 0259 07       		.byte	0x7
+ 453 025a 22       		.byte	0x22
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 10
 
 
- 440 0182 15040000 		.4byte	0x415
- 441 0186 94010000 		.4byte	0x194
- 442 018a 0F       		.uleb128 0xf
- 443 018b 01       		.uleb128 0x1
- 444 018c 50       		.byte	0x50
- 445 018d 05       		.uleb128 0x5
- 446 018e 03       		.byte	0x3
- 447 018f 00000000 		.4byte	receive
- 448 0193 00       		.byte	0
- 449 0194 0E       		.uleb128 0xe
- 450 0195 7A000000 		.4byte	.LVL9
- 451 0199 20040000 		.4byte	0x420
- 452 019d B0010000 		.4byte	0x1b0
- 453 01a1 0F       		.uleb128 0xf
- 454 01a2 01       		.uleb128 0x1
- 455 01a3 51       		.byte	0x51
- 456 01a4 05       		.uleb128 0x5
- 457 01a5 03       		.byte	0x3
- 458 01a6 00000000 		.4byte	debugOutput
- 459 01aa 0F       		.uleb128 0xf
- 460 01ab 01       		.uleb128 0x1
- 461 01ac 52       		.byte	0x52
- 462 01ad 01       		.uleb128 0x1
- 463 01ae 3A       		.byte	0x3a
- 464 01af 00       		.byte	0
- 465 01b0 10       		.uleb128 0x10
- 466 01b1 7E000000 		.4byte	.LVL10
- 467 01b5 FF030000 		.4byte	0x3ff
- 468 01b9 0E       		.uleb128 0xe
- 469 01ba 84000000 		.4byte	.LVL11
- 470 01be FF030000 		.4byte	0x3ff
- 471 01c2 D0010000 		.4byte	0x1d0
- 472 01c6 0F       		.uleb128 0xf
- 473 01c7 01       		.uleb128 0x1
- 474 01c8 50       		.byte	0x50
- 475 01c9 05       		.uleb128 0x5
- 476 01ca 03       		.byte	0x3
- 477 01cb 1C000000 		.4byte	.LC8
- 478 01cf 00       		.byte	0
- 479 01d0 0E       		.uleb128 0xe
- 480 01d1 92000000 		.4byte	.LVL12
- 481 01d5 0A040000 		.4byte	0x40a
- 482 01d9 E7010000 		.4byte	0x1e7
- 483 01dd 0F       		.uleb128 0xf
- 484 01de 01       		.uleb128 0x1
- 485 01df 50       		.byte	0x50
- 486 01e0 05       		.uleb128 0x5
- 487 01e1 03       		.byte	0x3
- 488 01e2 00000000 		.4byte	receive
- 489 01e6 00       		.byte	0
- 490 01e7 0E       		.uleb128 0xe
- 491 01e8 9C000000 		.4byte	.LVL13
- 492 01ec FF030000 		.4byte	0x3ff
- 493 01f0 FE010000 		.4byte	0x1fe
- 494 01f4 0F       		.uleb128 0xf
- 495 01f5 01       		.uleb128 0x1
- 496 01f6 50       		.byte	0x50
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 11
+ 454 025b 0F       		.uleb128 0xf
+ 455 025c 29020000 		.4byte	.LASF28
+ 456 0260 29020000 		.4byte	.LASF28
+ 457 0264 06       		.byte	0x6
+ 458 0265 44       		.byte	0x44
+ 459 0266 00       		.byte	0
+ 460              		.section	.debug_abbrev,"",%progbits
+ 461              	.Ldebug_abbrev0:
+ 462 0000 01       		.uleb128 0x1
+ 463 0001 11       		.uleb128 0x11
+ 464 0002 01       		.byte	0x1
+ 465 0003 25       		.uleb128 0x25
+ 466 0004 0E       		.uleb128 0xe
+ 467 0005 13       		.uleb128 0x13
+ 468 0006 0B       		.uleb128 0xb
+ 469 0007 03       		.uleb128 0x3
+ 470 0008 0E       		.uleb128 0xe
+ 471 0009 1B       		.uleb128 0x1b
+ 472 000a 0E       		.uleb128 0xe
+ 473 000b 55       		.uleb128 0x55
+ 474 000c 17       		.uleb128 0x17
+ 475 000d 11       		.uleb128 0x11
+ 476 000e 01       		.uleb128 0x1
+ 477 000f 10       		.uleb128 0x10
+ 478 0010 17       		.uleb128 0x17
+ 479 0011 00       		.byte	0
+ 480 0012 00       		.byte	0
+ 481 0013 02       		.uleb128 0x2
+ 482 0014 24       		.uleb128 0x24
+ 483 0015 00       		.byte	0
+ 484 0016 0B       		.uleb128 0xb
+ 485 0017 0B       		.uleb128 0xb
+ 486 0018 3E       		.uleb128 0x3e
+ 487 0019 0B       		.uleb128 0xb
+ 488 001a 03       		.uleb128 0x3
+ 489 001b 0E       		.uleb128 0xe
+ 490 001c 00       		.byte	0
+ 491 001d 00       		.byte	0
+ 492 001e 03       		.uleb128 0x3
+ 493 001f 16       		.uleb128 0x16
+ 494 0020 00       		.byte	0
+ 495 0021 03       		.uleb128 0x3
+ 496 0022 0E       		.uleb128 0xe
+ 497 0023 3A       		.uleb128 0x3a
+ 498 0024 0B       		.uleb128 0xb
+ 499 0025 3B       		.uleb128 0x3b
+ 500 0026 0B       		.uleb128 0xb
+ 501 0027 49       		.uleb128 0x49
+ 502 0028 13       		.uleb128 0x13
+ 503 0029 00       		.byte	0
+ 504 002a 00       		.byte	0
+ 505 002b 04       		.uleb128 0x4
+ 506 002c 24       		.uleb128 0x24
+ 507 002d 00       		.byte	0
+ 508 002e 0B       		.uleb128 0xb
+ 509 002f 0B       		.uleb128 0xb
+ 510 0030 3E       		.uleb128 0x3e
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 11
 
 
- 497 01f7 05       		.uleb128 0x5
- 498 01f8 03       		.byte	0x3
- 499 01f9 24000000 		.4byte	.LC10
- 500 01fd 00       		.byte	0
- 501 01fe 0E       		.uleb128 0xe
- 502 01ff A2000000 		.4byte	.LVL14
- 503 0203 15040000 		.4byte	0x415
- 504 0207 15020000 		.4byte	0x215
- 505 020b 0F       		.uleb128 0xf
- 506 020c 01       		.uleb128 0x1
- 507 020d 50       		.byte	0x50
- 508 020e 05       		.uleb128 0x5
- 509 020f 03       		.byte	0x3
- 510 0210 00000000 		.4byte	receive
- 511 0214 00       		.byte	0
- 512 0215 0E       		.uleb128 0xe
- 513 0216 AA000000 		.4byte	.LVL15
- 514 021a 20040000 		.4byte	0x420
- 515 021e 31020000 		.4byte	0x231
- 516 0222 0F       		.uleb128 0xf
- 517 0223 01       		.uleb128 0x1
- 518 0224 51       		.byte	0x51
- 519 0225 05       		.uleb128 0x5
- 520 0226 03       		.byte	0x3
- 521 0227 00000000 		.4byte	debugOutput
- 522 022b 0F       		.uleb128 0xf
- 523 022c 01       		.uleb128 0x1
- 524 022d 52       		.byte	0x52
- 525 022e 01       		.uleb128 0x1
- 526 022f 3A       		.byte	0x3a
- 527 0230 00       		.byte	0
- 528 0231 10       		.uleb128 0x10
- 529 0232 AE000000 		.4byte	.LVL16
- 530 0236 FF030000 		.4byte	0x3ff
- 531 023a 0E       		.uleb128 0xe
- 532 023b B4000000 		.4byte	.LVL17
- 533 023f FF030000 		.4byte	0x3ff
- 534 0243 51020000 		.4byte	0x251
- 535 0247 0F       		.uleb128 0xf
- 536 0248 01       		.uleb128 0x1
- 537 0249 50       		.byte	0x50
- 538 024a 05       		.uleb128 0x5
- 539 024b 03       		.byte	0x3
- 540 024c 30000000 		.4byte	.LC12
- 541 0250 00       		.byte	0
- 542 0251 0E       		.uleb128 0xe
- 543 0252 C2000000 		.4byte	.LVL18
- 544 0256 FF030000 		.4byte	0x3ff
- 545 025a 68020000 		.4byte	0x268
- 546 025e 0F       		.uleb128 0xf
- 547 025f 01       		.uleb128 0x1
- 548 0260 50       		.byte	0x50
- 549 0261 05       		.uleb128 0x5
- 550 0262 03       		.byte	0x3
- 551 0263 34000000 		.4byte	.LC14
- 552 0267 00       		.byte	0
- 553 0268 0E       		.uleb128 0xe
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 12
+ 511 0031 0B       		.uleb128 0xb
+ 512 0032 03       		.uleb128 0x3
+ 513 0033 08       		.uleb128 0x8
+ 514 0034 00       		.byte	0
+ 515 0035 00       		.byte	0
+ 516 0036 05       		.uleb128 0x5
+ 517 0037 13       		.uleb128 0x13
+ 518 0038 01       		.byte	0x1
+ 519 0039 0B       		.uleb128 0xb
+ 520 003a 0B       		.uleb128 0xb
+ 521 003b 3A       		.uleb128 0x3a
+ 522 003c 0B       		.uleb128 0xb
+ 523 003d 3B       		.uleb128 0x3b
+ 524 003e 0B       		.uleb128 0xb
+ 525 003f 01       		.uleb128 0x1
+ 526 0040 13       		.uleb128 0x13
+ 527 0041 00       		.byte	0
+ 528 0042 00       		.byte	0
+ 529 0043 06       		.uleb128 0x6
+ 530 0044 0D       		.uleb128 0xd
+ 531 0045 00       		.byte	0
+ 532 0046 03       		.uleb128 0x3
+ 533 0047 08       		.uleb128 0x8
+ 534 0048 3A       		.uleb128 0x3a
+ 535 0049 0B       		.uleb128 0xb
+ 536 004a 3B       		.uleb128 0x3b
+ 537 004b 0B       		.uleb128 0xb
+ 538 004c 49       		.uleb128 0x49
+ 539 004d 13       		.uleb128 0x13
+ 540 004e 38       		.uleb128 0x38
+ 541 004f 0B       		.uleb128 0xb
+ 542 0050 00       		.byte	0
+ 543 0051 00       		.byte	0
+ 544 0052 07       		.uleb128 0x7
+ 545 0053 0D       		.uleb128 0xd
+ 546 0054 00       		.byte	0
+ 547 0055 03       		.uleb128 0x3
+ 548 0056 0E       		.uleb128 0xe
+ 549 0057 3A       		.uleb128 0x3a
+ 550 0058 0B       		.uleb128 0xb
+ 551 0059 3B       		.uleb128 0x3b
+ 552 005a 0B       		.uleb128 0xb
+ 553 005b 49       		.uleb128 0x49
+ 554 005c 13       		.uleb128 0x13
+ 555 005d 38       		.uleb128 0x38
+ 556 005e 0B       		.uleb128 0xb
+ 557 005f 00       		.byte	0
+ 558 0060 00       		.byte	0
+ 559 0061 08       		.uleb128 0x8
+ 560 0062 01       		.uleb128 0x1
+ 561 0063 01       		.byte	0x1
+ 562 0064 49       		.uleb128 0x49
+ 563 0065 13       		.uleb128 0x13
+ 564 0066 01       		.uleb128 0x1
+ 565 0067 13       		.uleb128 0x13
+ 566 0068 00       		.byte	0
+ 567 0069 00       		.byte	0
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 12
 
 
- 554 0269 CA000000 		.4byte	.LVL19
- 555 026d 0A040000 		.4byte	0x40a
- 556 0271 7C020000 		.4byte	0x27c
- 557 0275 0F       		.uleb128 0xf
- 558 0276 01       		.uleb128 0x1
- 559 0277 50       		.byte	0x50
- 560 0278 02       		.uleb128 0x2
- 561 0279 76       		.byte	0x76
- 562 027a 00       		.sleb128 0
- 563 027b 00       		.byte	0
- 564 027c 0E       		.uleb128 0xe
- 565 027d D4000000 		.4byte	.LVL20
- 566 0281 20040000 		.4byte	0x420
- 567 0285 95020000 		.4byte	0x295
- 568 0289 0F       		.uleb128 0xf
- 569 028a 01       		.uleb128 0x1
- 570 028b 51       		.byte	0x51
- 571 028c 02       		.uleb128 0x2
- 572 028d 75       		.byte	0x75
- 573 028e 00       		.sleb128 0
- 574 028f 0F       		.uleb128 0xf
- 575 0290 01       		.uleb128 0x1
- 576 0291 52       		.byte	0x52
- 577 0292 01       		.uleb128 0x1
- 578 0293 3A       		.byte	0x3a
- 579 0294 00       		.byte	0
- 580 0295 10       		.uleb128 0x10
- 581 0296 D8000000 		.4byte	.LVL21
- 582 029a FF030000 		.4byte	0x3ff
- 583 029e 0E       		.uleb128 0xe
- 584 029f E0000000 		.4byte	.LVL22
- 585 02a3 FF030000 		.4byte	0x3ff
- 586 02a7 B2020000 		.4byte	0x2b2
- 587 02ab 0F       		.uleb128 0xf
- 588 02ac 01       		.uleb128 0x1
- 589 02ad 50       		.byte	0x50
- 590 02ae 02       		.uleb128 0x2
- 591 02af 74       		.byte	0x74
- 592 02b0 00       		.sleb128 0
- 593 02b1 00       		.byte	0
- 594 02b2 0E       		.uleb128 0xe
- 595 02b3 E6000000 		.4byte	.LVL23
- 596 02b7 2B040000 		.4byte	0x42b
- 597 02bb C6020000 		.4byte	0x2c6
- 598 02bf 0F       		.uleb128 0xf
- 599 02c0 01       		.uleb128 0x1
- 600 02c1 50       		.byte	0x50
- 601 02c2 02       		.uleb128 0x2
- 602 02c3 76       		.byte	0x76
- 603 02c4 00       		.sleb128 0
- 604 02c5 00       		.byte	0
- 605 02c6 0E       		.uleb128 0xe
- 606 02c7 EE000000 		.4byte	.LVL24
- 607 02cb 20040000 		.4byte	0x420
- 608 02cf DF020000 		.4byte	0x2df
- 609 02d3 0F       		.uleb128 0xf
- 610 02d4 01       		.uleb128 0x1
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 13
+ 568 006a 09       		.uleb128 0x9
+ 569 006b 21       		.uleb128 0x21
+ 570 006c 00       		.byte	0
+ 571 006d 49       		.uleb128 0x49
+ 572 006e 13       		.uleb128 0x13
+ 573 006f 2F       		.uleb128 0x2f
+ 574 0070 0B       		.uleb128 0xb
+ 575 0071 00       		.byte	0
+ 576 0072 00       		.byte	0
+ 577 0073 0A       		.uleb128 0xa
+ 578 0074 2E       		.uleb128 0x2e
+ 579 0075 01       		.byte	0x1
+ 580 0076 3F       		.uleb128 0x3f
+ 581 0077 19       		.uleb128 0x19
+ 582 0078 03       		.uleb128 0x3
+ 583 0079 0E       		.uleb128 0xe
+ 584 007a 3A       		.uleb128 0x3a
+ 585 007b 0B       		.uleb128 0xb
+ 586 007c 3B       		.uleb128 0x3b
+ 587 007d 0B       		.uleb128 0xb
+ 588 007e 27       		.uleb128 0x27
+ 589 007f 19       		.uleb128 0x19
+ 590 0080 49       		.uleb128 0x49
+ 591 0081 13       		.uleb128 0x13
+ 592 0082 8701     		.uleb128 0x87
+ 593 0084 19       		.uleb128 0x19
+ 594 0085 11       		.uleb128 0x11
+ 595 0086 01       		.uleb128 0x1
+ 596 0087 12       		.uleb128 0x12
+ 597 0088 06       		.uleb128 0x6
+ 598 0089 40       		.uleb128 0x40
+ 599 008a 18       		.uleb128 0x18
+ 600 008b 9742     		.uleb128 0x2117
+ 601 008d 19       		.uleb128 0x19
+ 602 008e 01       		.uleb128 0x1
+ 603 008f 13       		.uleb128 0x13
+ 604 0090 00       		.byte	0
+ 605 0091 00       		.byte	0
+ 606 0092 0B       		.uleb128 0xb
+ 607 0093 898201   		.uleb128 0x4109
+ 608 0096 01       		.byte	0x1
+ 609 0097 11       		.uleb128 0x11
+ 610 0098 01       		.uleb128 0x1
+ 611 0099 31       		.uleb128 0x31
+ 612 009a 13       		.uleb128 0x13
+ 613 009b 01       		.uleb128 0x1
+ 614 009c 13       		.uleb128 0x13
+ 615 009d 00       		.byte	0
+ 616 009e 00       		.byte	0
+ 617 009f 0C       		.uleb128 0xc
+ 618 00a0 8A8201   		.uleb128 0x410a
+ 619 00a3 00       		.byte	0
+ 620 00a4 02       		.uleb128 0x2
+ 621 00a5 18       		.uleb128 0x18
+ 622 00a6 9142     		.uleb128 0x2111
+ 623 00a8 18       		.uleb128 0x18
+ 624 00a9 00       		.byte	0
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 13
 
 
- 611 02d5 51       		.byte	0x51
- 612 02d6 02       		.uleb128 0x2
- 613 02d7 75       		.byte	0x75
- 614 02d8 00       		.sleb128 0
- 615 02d9 0F       		.uleb128 0xf
- 616 02da 01       		.uleb128 0x1
- 617 02db 52       		.byte	0x52
- 618 02dc 01       		.uleb128 0x1
- 619 02dd 3A       		.byte	0x3a
- 620 02de 00       		.byte	0
- 621 02df 10       		.uleb128 0x10
- 622 02e0 F2000000 		.4byte	.LVL25
- 623 02e4 FF030000 		.4byte	0x3ff
- 624 02e8 0E       		.uleb128 0xe
- 625 02e9 F8000000 		.4byte	.LVL26
- 626 02ed FF030000 		.4byte	0x3ff
- 627 02f1 FC020000 		.4byte	0x2fc
- 628 02f5 0F       		.uleb128 0xf
- 629 02f6 01       		.uleb128 0x1
- 630 02f7 50       		.byte	0x50
- 631 02f8 02       		.uleb128 0x2
- 632 02f9 74       		.byte	0x74
- 633 02fa 00       		.sleb128 0
- 634 02fb 00       		.byte	0
- 635 02fc 11       		.uleb128 0x11
- 636 02fd FE000000 		.4byte	.LVL27
- 637 0301 FF030000 		.4byte	0x3ff
- 638 0305 0F       		.uleb128 0xf
- 639 0306 01       		.uleb128 0x1
- 640 0307 50       		.byte	0x50
- 641 0308 02       		.uleb128 0x2
- 642 0309 74       		.byte	0x74
- 643 030a 00       		.sleb128 0
- 644 030b 00       		.byte	0
- 645 030c 00       		.byte	0
- 646 030d 0E       		.uleb128 0xe
- 647 030e 22000000 		.4byte	.LVL0
- 648 0312 36040000 		.4byte	0x436
- 649 0316 2B030000 		.4byte	0x32b
- 650 031a 0F       		.uleb128 0xf
- 651 031b 01       		.uleb128 0x1
- 652 031c 50       		.byte	0x50
- 653 031d 02       		.uleb128 0x2
- 654 031e 74       		.byte	0x74
- 655 031f 00       		.sleb128 0
- 656 0320 0F       		.uleb128 0xf
- 657 0321 01       		.uleb128 0x1
- 658 0322 51       		.byte	0x51
- 659 0323 01       		.uleb128 0x1
- 660 0324 35       		.byte	0x35
- 661 0325 0F       		.uleb128 0xf
- 662 0326 01       		.uleb128 0x1
- 663 0327 52       		.byte	0x52
- 664 0328 01       		.uleb128 0x1
- 665 0329 31       		.byte	0x31
- 666 032a 00       		.byte	0
- 667 032b 0E       		.uleb128 0xe
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 14
+ 625 00aa 00       		.byte	0
+ 626 00ab 0D       		.uleb128 0xd
+ 627 00ac 898201   		.uleb128 0x4109
+ 628 00af 01       		.byte	0x1
+ 629 00b0 11       		.uleb128 0x11
+ 630 00b1 01       		.uleb128 0x1
+ 631 00b2 31       		.uleb128 0x31
+ 632 00b3 13       		.uleb128 0x13
+ 633 00b4 00       		.byte	0
+ 634 00b5 00       		.byte	0
+ 635 00b6 0E       		.uleb128 0xe
+ 636 00b7 34       		.uleb128 0x34
+ 637 00b8 00       		.byte	0
+ 638 00b9 03       		.uleb128 0x3
+ 639 00ba 0E       		.uleb128 0xe
+ 640 00bb 3A       		.uleb128 0x3a
+ 641 00bc 0B       		.uleb128 0xb
+ 642 00bd 3B       		.uleb128 0x3b
+ 643 00be 0B       		.uleb128 0xb
+ 644 00bf 49       		.uleb128 0x49
+ 645 00c0 13       		.uleb128 0x13
+ 646 00c1 3F       		.uleb128 0x3f
+ 647 00c2 19       		.uleb128 0x19
+ 648 00c3 02       		.uleb128 0x2
+ 649 00c4 18       		.uleb128 0x18
+ 650 00c5 00       		.byte	0
+ 651 00c6 00       		.byte	0
+ 652 00c7 0F       		.uleb128 0xf
+ 653 00c8 2E       		.uleb128 0x2e
+ 654 00c9 00       		.byte	0
+ 655 00ca 3F       		.uleb128 0x3f
+ 656 00cb 19       		.uleb128 0x19
+ 657 00cc 3C       		.uleb128 0x3c
+ 658 00cd 19       		.uleb128 0x19
+ 659 00ce 6E       		.uleb128 0x6e
+ 660 00cf 0E       		.uleb128 0xe
+ 661 00d0 03       		.uleb128 0x3
+ 662 00d1 0E       		.uleb128 0xe
+ 663 00d2 3A       		.uleb128 0x3a
+ 664 00d3 0B       		.uleb128 0xb
+ 665 00d4 3B       		.uleb128 0x3b
+ 666 00d5 0B       		.uleb128 0xb
+ 667 00d6 00       		.byte	0
+ 668 00d7 00       		.byte	0
+ 669 00d8 00       		.byte	0
+ 670              		.section	.debug_aranges,"",%progbits
+ 671 0000 1C000000 		.4byte	0x1c
+ 672 0004 0200     		.2byte	0x2
+ 673 0006 00000000 		.4byte	.Ldebug_info0
+ 674 000a 04       		.byte	0x4
+ 675 000b 00       		.byte	0
+ 676 000c 0000     		.2byte	0
+ 677 000e 0000     		.2byte	0
+ 678 0010 00000000 		.4byte	.LFB35
+ 679 0014 88000000 		.4byte	.LFE35-.LFB35
+ 680 0018 00000000 		.4byte	0
+ 681 001c 00000000 		.4byte	0
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 14
 
 
- 668 032c 28000000 		.4byte	.LVL1
- 669 0330 41040000 		.4byte	0x441
- 670 0334 3F030000 		.4byte	0x33f
- 671 0338 0F       		.uleb128 0xf
- 672 0339 01       		.uleb128 0x1
- 673 033a 50       		.byte	0x50
- 674 033b 02       		.uleb128 0x2
- 675 033c 74       		.byte	0x74
- 676 033d 00       		.sleb128 0
- 677 033e 00       		.byte	0
- 678 033f 0E       		.uleb128 0xe
- 679 0340 3E000000 		.4byte	.LVL2
- 680 0344 36040000 		.4byte	0x436
- 681 0348 62030000 		.4byte	0x362
- 682 034c 0F       		.uleb128 0xf
- 683 034d 01       		.uleb128 0x1
- 684 034e 50       		.byte	0x50
- 685 034f 02       		.uleb128 0x2
- 686 0350 74       		.byte	0x74
- 687 0351 00       		.sleb128 0
- 688 0352 0F       		.uleb128 0xf
- 689 0353 01       		.uleb128 0x1
- 690 0354 51       		.byte	0x51
- 691 0355 01       		.uleb128 0x1
- 692 0356 35       		.byte	0x35
- 693 0357 0F       		.uleb128 0xf
- 694 0358 01       		.uleb128 0x1
- 695 0359 52       		.byte	0x52
- 696 035a 01       		.uleb128 0x1
- 697 035b 31       		.byte	0x31
- 698 035c 0F       		.uleb128 0xf
- 699 035d 01       		.uleb128 0x1
- 700 035e 53       		.byte	0x53
- 701 035f 01       		.uleb128 0x1
- 702 0360 36       		.byte	0x36
- 703 0361 00       		.byte	0
- 704 0362 0E       		.uleb128 0xe
- 705 0363 44000000 		.4byte	.LVL3
- 706 0367 41040000 		.4byte	0x441
- 707 036b 76030000 		.4byte	0x376
- 708 036f 0F       		.uleb128 0xf
- 709 0370 01       		.uleb128 0x1
- 710 0371 50       		.byte	0x50
- 711 0372 02       		.uleb128 0x2
- 712 0373 74       		.byte	0x74
- 713 0374 00       		.sleb128 0
- 714 0375 00       		.byte	0
- 715 0376 11       		.uleb128 0x11
- 716 0377 52000000 		.4byte	.LVL4
- 717 037b 4C040000 		.4byte	0x44c
- 718 037f 0F       		.uleb128 0xf
- 719 0380 01       		.uleb128 0x1
- 720 0381 50       		.byte	0x50
- 721 0382 05       		.uleb128 0x5
- 722 0383 03       		.byte	0x3
- 723 0384 00000000 		.4byte	receive
- 724 0388 00       		.byte	0
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 15
+ 682              		.section	.debug_ranges,"",%progbits
+ 683              	.Ldebug_ranges0:
+ 684 0000 00000000 		.4byte	.LFB35
+ 685 0004 88000000 		.4byte	.LFE35
+ 686 0008 00000000 		.4byte	0
+ 687 000c 00000000 		.4byte	0
+ 688              		.section	.debug_line,"",%progbits
+ 689              	.Ldebug_line0:
+ 690 0000 81010000 		.section	.debug_str,"MS",%progbits,1
+ 690      02005B01 
+ 690      00000201 
+ 690      FB0E0D00 
+ 690      01010101 
+ 691              	.LASF3:
+ 692 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 692      6E74385F 
+ 692      7400
+ 693              	.LASF23:
+ 694 000a 73746174 		.ascii	"state\000"
+ 694      6500
+ 695              	.LASF24:
+ 696 0010 74784461 		.ascii	"txData\000"
+ 696      746100
+ 697              	.LASF6:
+ 698 0017 6C6F6E67 		.ascii	"long int\000"
+ 698      20696E74 
+ 698      00
+ 699              	.LASF22:
+ 700 0020 72656365 		.ascii	"receive\000"
+ 700      69766500 
+ 701              	.LASF27:
+ 702 0028 506F6C6C 		.ascii	"PollAndReceiveCANPacket\000"
+ 702      416E6452 
+ 702      65636569 
+ 702      76654341 
+ 702      4E506163 
+ 703              	.LASF13:
+ 704 0040 666C6F61 		.ascii	"float\000"
+ 704      7400
+ 705              	.LASF18:
+ 706 0046 64617461 		.ascii	"data\000"
+ 706      00
+ 707              	.LASF26:
+ 708 004b 53656E64 		.ascii	"SendCANPacket\000"
+ 708      43414E50 
+ 708      61636B65 
+ 708      7400
+ 709              	.LASF1:
+ 710 0059 756E7369 		.ascii	"unsigned char\000"
+ 710      676E6564 
+ 710      20636861 
+ 710      7200
+ 711              	.LASF7:
+ 712 0067 6C6F6E67 		.ascii	"long unsigned int\000"
+ 712      20756E73 
+ 712      69676E65 
+ 712      6420696E 
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 15
 
 
- 725 0389 00       		.byte	0
- 726 038a 08       		.uleb128 0x8
- 727 038b A5000000 		.4byte	0xa5
- 728 038f 9A030000 		.4byte	0x39a
- 729 0393 09       		.uleb128 0x9
- 730 0394 B3000000 		.4byte	0xb3
- 731 0398 1F       		.byte	0x1f
- 732 0399 00       		.byte	0
- 733 039a 12       		.uleb128 0x12
- 734 039b 89020000 		.4byte	.LASF20
- 735 039f 05       		.byte	0x5
- 736 03a0 13       		.byte	0x13
- 737 03a1 8A030000 		.4byte	0x38a
- 738 03a5 05       		.uleb128 0x5
- 739 03a6 03       		.byte	0x3
- 740 03a7 00000000 		.4byte	debugOutput
- 741 03ab 12       		.uleb128 0x12
- 742 03ac 1D010000 		.4byte	.LASF21
- 743 03b0 05       		.byte	0x5
- 744 03b1 16       		.byte	0x16
- 745 03b2 F6000000 		.4byte	0xf6
- 746 03b6 05       		.uleb128 0x5
- 747 03b7 03       		.byte	0x3
- 748 03b8 00000000 		.4byte	send
- 749 03bc 12       		.uleb128 0x12
- 750 03bd 20000000 		.4byte	.LASF22
- 751 03c1 05       		.byte	0x5
- 752 03c2 17       		.byte	0x17
- 753 03c3 F6000000 		.4byte	0xf6
- 754 03c7 05       		.uleb128 0x5
- 755 03c8 03       		.byte	0x3
- 756 03c9 00000000 		.4byte	receive
- 757 03cd 12       		.uleb128 0x12
- 758 03ce 0A000000 		.4byte	.LASF23
- 759 03d2 05       		.byte	0x5
- 760 03d3 24       		.byte	0x24
- 761 03d4 73000000 		.4byte	0x73
- 762 03d8 05       		.uleb128 0x5
- 763 03d9 03       		.byte	0x3
- 764 03da 00000000 		.4byte	state
- 765 03de 08       		.uleb128 0x8
- 766 03df A5000000 		.4byte	0xa5
- 767 03e3 EE030000 		.4byte	0x3ee
- 768 03e7 09       		.uleb128 0x9
- 769 03e8 B3000000 		.4byte	0xb3
- 770 03ec 03       		.byte	0x3
- 771 03ed 00       		.byte	0
- 772 03ee 12       		.uleb128 0x12
- 773 03ef 10000000 		.4byte	.LASF24
- 774 03f3 05       		.byte	0x5
- 775 03f4 26       		.byte	0x26
- 776 03f5 DE030000 		.4byte	0x3de
- 777 03f9 05       		.uleb128 0x5
- 778 03fa 03       		.byte	0x3
- 779 03fb 00000000 		.4byte	txData
- 780 03ff 13       		.uleb128 0x13
- 781 0400 FC010000 		.4byte	.LASF25
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 16
+ 712      7400
+ 713              	.LASF5:
+ 714 0079 73686F72 		.ascii	"short unsigned int\000"
+ 714      7420756E 
+ 714      7369676E 
+ 714      65642069 
+ 714      6E7400
+ 715              	.LASF31:
+ 716 008c 433A5C55 		.ascii	"C:\\Users\\Min\\Documents\\PSoC Creator\\GPS_IMU\\G"
+ 716      73657273 
+ 716      5C4D696E 
+ 716      5C446F63 
+ 716      756D656E 
+ 717 00b9 50532D52 		.ascii	"PS-RTK_IMU_Board_PY2023\\GPS_IMU.cydsn\000"
+ 717      544B5F49 
+ 717      4D555F42 
+ 717      6F617264 
+ 717      5F505932 
+ 718              	.LASF4:
+ 719 00df 5F5F7569 		.ascii	"__uint16_t\000"
+ 719      6E743136 
+ 719      5F7400
+ 720              	.LASF14:
+ 721 00ea 646F7562 		.ascii	"double\000"
+ 721      6C6500
+ 722              	.LASF2:
+ 723 00f1 73686F72 		.ascii	"short int\000"
+ 723      7420696E 
+ 723      7400
+ 724              	.LASF32:
+ 725 00fb 6D61696E 		.ascii	"main\000"
+ 725      00
+ 726              	.LASF10:
+ 727 0100 756E7369 		.ascii	"unsigned int\000"
+ 727      676E6564 
+ 727      20696E74 
+ 727      00
+ 728              	.LASF21:
+ 729 010d 73656E64 		.ascii	"send\000"
+ 729      00
+ 730              	.LASF9:
+ 731 0112 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 731      206C6F6E 
+ 731      6720756E 
+ 731      7369676E 
+ 731      65642069 
+ 732              	.LASF11:
+ 733 0129 75696E74 		.ascii	"uint8_t\000"
+ 733      385F7400 
+ 734              	.LASF29:
+ 735 0131 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 735      43313120 
+ 735      352E342E 
+ 735      31203230 
+ 735      31363036 
+ 736 0164 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 736      20726576 
+ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTnjsb5.s 			page 16
 
 
- 782 0404 FC010000 		.4byte	.LASF25
- 783 0408 01       		.byte	0x1
- 784 0409 2A       		.byte	0x2a
- 785 040a 13       		.uleb128 0x13
- 786 040b 75020000 		.4byte	.LASF26
- 787 040f 75020000 		.4byte	.LASF26
- 788 0413 06       		.byte	0x6
- 789 0414 44       		.byte	0x44
- 790 0415 13       		.uleb128 0x13
- 791 0416 10020000 		.4byte	.LASF27
- 792 041a 10020000 		.4byte	.LASF27
- 793 041e 06       		.byte	0x6
- 794 041f 42       		.byte	0x42
- 795 0420 13       		.uleb128 0x13
- 796 0421 64000000 		.4byte	.LASF28
- 797 0425 64000000 		.4byte	.LASF28
- 798 0429 07       		.byte	0x7
- 799 042a CB       		.byte	0xcb
- 800 042b 13       		.uleb128 0x13
- 801 042c 28000000 		.4byte	.LASF29
- 802 0430 28000000 		.4byte	.LASF29
- 803 0434 04       		.byte	0x4
- 804 0435 22       		.byte	0x22
- 805 0436 13       		.uleb128 0x13
- 806 0437 41020000 		.4byte	.LASF30
- 807 043b 41020000 		.4byte	.LASF30
- 808 043f 06       		.byte	0x6
- 809 0440 37       		.byte	0x37
- 810 0441 13       		.uleb128 0x13
- 811 0442 33020000 		.4byte	.LASF31
- 812 0446 33020000 		.4byte	.LASF31
- 813 044a 08       		.byte	0x8
- 814 044b 1C       		.byte	0x1c
- 815 044c 13       		.uleb128 0x13
- 816 044d 41000000 		.4byte	.LASF32
- 817 0451 41000000 		.4byte	.LASF32
- 818 0455 08       		.byte	0x8
- 819 0456 22       		.byte	0x22
- 820 0457 00       		.byte	0
- 821              		.section	.debug_abbrev,"",%progbits
- 822              	.Ldebug_abbrev0:
- 823 0000 01       		.uleb128 0x1
- 824 0001 11       		.uleb128 0x11
- 825 0002 01       		.byte	0x1
- 826 0003 25       		.uleb128 0x25
- 827 0004 0E       		.uleb128 0xe
- 828 0005 13       		.uleb128 0x13
- 829 0006 0B       		.uleb128 0xb
- 830 0007 03       		.uleb128 0x3
- 831 0008 0E       		.uleb128 0xe
- 832 0009 1B       		.uleb128 0x1b
- 833 000a 0E       		.uleb128 0xe
- 834 000b 55       		.uleb128 0x55
- 835 000c 17       		.uleb128 0x17
- 836 000d 11       		.uleb128 0x11
- 837 000e 01       		.uleb128 0x1
- 838 000f 10       		.uleb128 0x10
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 17
-
-
- 839 0010 17       		.uleb128 0x17
- 840 0011 00       		.byte	0
- 841 0012 00       		.byte	0
- 842 0013 02       		.uleb128 0x2
- 843 0014 24       		.uleb128 0x24
- 844 0015 00       		.byte	0
- 845 0016 0B       		.uleb128 0xb
- 846 0017 0B       		.uleb128 0xb
- 847 0018 3E       		.uleb128 0x3e
- 848 0019 0B       		.uleb128 0xb
- 849 001a 03       		.uleb128 0x3
- 850 001b 0E       		.uleb128 0xe
- 851 001c 00       		.byte	0
- 852 001d 00       		.byte	0
- 853 001e 03       		.uleb128 0x3
- 854 001f 16       		.uleb128 0x16
- 855 0020 00       		.byte	0
- 856 0021 03       		.uleb128 0x3
- 857 0022 0E       		.uleb128 0xe
- 858 0023 3A       		.uleb128 0x3a
- 859 0024 0B       		.uleb128 0xb
- 860 0025 3B       		.uleb128 0x3b
- 861 0026 0B       		.uleb128 0xb
- 862 0027 49       		.uleb128 0x49
- 863 0028 13       		.uleb128 0x13
- 864 0029 00       		.byte	0
- 865 002a 00       		.byte	0
- 866 002b 04       		.uleb128 0x4
- 867 002c 24       		.uleb128 0x24
- 868 002d 00       		.byte	0
- 869 002e 0B       		.uleb128 0xb
- 870 002f 0B       		.uleb128 0xb
- 871 0030 3E       		.uleb128 0x3e
- 872 0031 0B       		.uleb128 0xb
- 873 0032 03       		.uleb128 0x3
- 874 0033 08       		.uleb128 0x8
- 875 0034 00       		.byte	0
- 876 0035 00       		.byte	0
- 877 0036 05       		.uleb128 0x5
- 878 0037 13       		.uleb128 0x13
- 879 0038 01       		.byte	0x1
- 880 0039 0B       		.uleb128 0xb
- 881 003a 0B       		.uleb128 0xb
- 882 003b 3A       		.uleb128 0x3a
- 883 003c 0B       		.uleb128 0xb
- 884 003d 3B       		.uleb128 0x3b
- 885 003e 0B       		.uleb128 0xb
- 886 003f 01       		.uleb128 0x1
- 887 0040 13       		.uleb128 0x13
- 888 0041 00       		.byte	0
- 889 0042 00       		.byte	0
- 890 0043 06       		.uleb128 0x6
- 891 0044 0D       		.uleb128 0xd
- 892 0045 00       		.byte	0
- 893 0046 03       		.uleb128 0x3
- 894 0047 08       		.uleb128 0x8
- 895 0048 3A       		.uleb128 0x3a
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 18
-
-
- 896 0049 0B       		.uleb128 0xb
- 897 004a 3B       		.uleb128 0x3b
- 898 004b 0B       		.uleb128 0xb
- 899 004c 49       		.uleb128 0x49
- 900 004d 13       		.uleb128 0x13
- 901 004e 38       		.uleb128 0x38
- 902 004f 0B       		.uleb128 0xb
- 903 0050 00       		.byte	0
- 904 0051 00       		.byte	0
- 905 0052 07       		.uleb128 0x7
- 906 0053 0D       		.uleb128 0xd
- 907 0054 00       		.byte	0
- 908 0055 03       		.uleb128 0x3
- 909 0056 0E       		.uleb128 0xe
- 910 0057 3A       		.uleb128 0x3a
- 911 0058 0B       		.uleb128 0xb
- 912 0059 3B       		.uleb128 0x3b
- 913 005a 0B       		.uleb128 0xb
- 914 005b 49       		.uleb128 0x49
- 915 005c 13       		.uleb128 0x13
- 916 005d 38       		.uleb128 0x38
- 917 005e 0B       		.uleb128 0xb
- 918 005f 00       		.byte	0
- 919 0060 00       		.byte	0
- 920 0061 08       		.uleb128 0x8
- 921 0062 01       		.uleb128 0x1
- 922 0063 01       		.byte	0x1
- 923 0064 49       		.uleb128 0x49
- 924 0065 13       		.uleb128 0x13
- 925 0066 01       		.uleb128 0x1
- 926 0067 13       		.uleb128 0x13
- 927 0068 00       		.byte	0
- 928 0069 00       		.byte	0
- 929 006a 09       		.uleb128 0x9
- 930 006b 21       		.uleb128 0x21
- 931 006c 00       		.byte	0
- 932 006d 49       		.uleb128 0x49
- 933 006e 13       		.uleb128 0x13
- 934 006f 2F       		.uleb128 0x2f
- 935 0070 0B       		.uleb128 0xb
- 936 0071 00       		.byte	0
- 937 0072 00       		.byte	0
- 938 0073 0A       		.uleb128 0xa
- 939 0074 2E       		.uleb128 0x2e
- 940 0075 01       		.byte	0x1
- 941 0076 3F       		.uleb128 0x3f
- 942 0077 19       		.uleb128 0x19
- 943 0078 03       		.uleb128 0x3
- 944 0079 0E       		.uleb128 0xe
- 945 007a 3A       		.uleb128 0x3a
- 946 007b 0B       		.uleb128 0xb
- 947 007c 3B       		.uleb128 0x3b
- 948 007d 0B       		.uleb128 0xb
- 949 007e 27       		.uleb128 0x27
- 950 007f 19       		.uleb128 0x19
- 951 0080 49       		.uleb128 0x49
- 952 0081 13       		.uleb128 0x13
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 19
-
-
- 953 0082 8701     		.uleb128 0x87
- 954 0084 19       		.uleb128 0x19
- 955 0085 11       		.uleb128 0x11
- 956 0086 01       		.uleb128 0x1
- 957 0087 12       		.uleb128 0x12
- 958 0088 06       		.uleb128 0x6
- 959 0089 40       		.uleb128 0x40
- 960 008a 18       		.uleb128 0x18
- 961 008b 9742     		.uleb128 0x2117
- 962 008d 19       		.uleb128 0x19
- 963 008e 01       		.uleb128 0x1
- 964 008f 13       		.uleb128 0x13
- 965 0090 00       		.byte	0
- 966 0091 00       		.byte	0
- 967 0092 0B       		.uleb128 0xb
- 968 0093 0B       		.uleb128 0xb
- 969 0094 01       		.byte	0x1
- 970 0095 11       		.uleb128 0x11
- 971 0096 01       		.uleb128 0x1
- 972 0097 12       		.uleb128 0x12
- 973 0098 06       		.uleb128 0x6
- 974 0099 01       		.uleb128 0x1
- 975 009a 13       		.uleb128 0x13
- 976 009b 00       		.byte	0
- 977 009c 00       		.byte	0
- 978 009d 0C       		.uleb128 0xc
- 979 009e 2E       		.uleb128 0x2e
- 980 009f 01       		.byte	0x1
- 981 00a0 3F       		.uleb128 0x3f
- 982 00a1 19       		.uleb128 0x19
- 983 00a2 03       		.uleb128 0x3
- 984 00a3 0E       		.uleb128 0xe
- 985 00a4 3A       		.uleb128 0x3a
- 986 00a5 0B       		.uleb128 0xb
- 987 00a6 3B       		.uleb128 0x3b
- 988 00a7 0B       		.uleb128 0xb
- 989 00a8 49       		.uleb128 0x49
- 990 00a9 13       		.uleb128 0x13
- 991 00aa 3C       		.uleb128 0x3c
- 992 00ab 19       		.uleb128 0x19
- 993 00ac 01       		.uleb128 0x1
- 994 00ad 13       		.uleb128 0x13
- 995 00ae 00       		.byte	0
- 996 00af 00       		.byte	0
- 997 00b0 0D       		.uleb128 0xd
- 998 00b1 18       		.uleb128 0x18
- 999 00b2 00       		.byte	0
- 1000 00b3 00       		.byte	0
- 1001 00b4 00       		.byte	0
- 1002 00b5 0E       		.uleb128 0xe
- 1003 00b6 898201   		.uleb128 0x4109
- 1004 00b9 01       		.byte	0x1
- 1005 00ba 11       		.uleb128 0x11
- 1006 00bb 01       		.uleb128 0x1
- 1007 00bc 31       		.uleb128 0x31
- 1008 00bd 13       		.uleb128 0x13
- 1009 00be 01       		.uleb128 0x1
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 20
-
-
- 1010 00bf 13       		.uleb128 0x13
- 1011 00c0 00       		.byte	0
- 1012 00c1 00       		.byte	0
- 1013 00c2 0F       		.uleb128 0xf
- 1014 00c3 8A8201   		.uleb128 0x410a
- 1015 00c6 00       		.byte	0
- 1016 00c7 02       		.uleb128 0x2
- 1017 00c8 18       		.uleb128 0x18
- 1018 00c9 9142     		.uleb128 0x2111
- 1019 00cb 18       		.uleb128 0x18
- 1020 00cc 00       		.byte	0
- 1021 00cd 00       		.byte	0
- 1022 00ce 10       		.uleb128 0x10
- 1023 00cf 898201   		.uleb128 0x4109
- 1024 00d2 00       		.byte	0
- 1025 00d3 11       		.uleb128 0x11
- 1026 00d4 01       		.uleb128 0x1
- 1027 00d5 31       		.uleb128 0x31
- 1028 00d6 13       		.uleb128 0x13
- 1029 00d7 00       		.byte	0
- 1030 00d8 00       		.byte	0
- 1031 00d9 11       		.uleb128 0x11
- 1032 00da 898201   		.uleb128 0x4109
- 1033 00dd 01       		.byte	0x1
- 1034 00de 11       		.uleb128 0x11
- 1035 00df 01       		.uleb128 0x1
- 1036 00e0 31       		.uleb128 0x31
- 1037 00e1 13       		.uleb128 0x13
- 1038 00e2 00       		.byte	0
- 1039 00e3 00       		.byte	0
- 1040 00e4 12       		.uleb128 0x12
- 1041 00e5 34       		.uleb128 0x34
- 1042 00e6 00       		.byte	0
- 1043 00e7 03       		.uleb128 0x3
- 1044 00e8 0E       		.uleb128 0xe
- 1045 00e9 3A       		.uleb128 0x3a
- 1046 00ea 0B       		.uleb128 0xb
- 1047 00eb 3B       		.uleb128 0x3b
- 1048 00ec 0B       		.uleb128 0xb
- 1049 00ed 49       		.uleb128 0x49
- 1050 00ee 13       		.uleb128 0x13
- 1051 00ef 3F       		.uleb128 0x3f
- 1052 00f0 19       		.uleb128 0x19
- 1053 00f1 02       		.uleb128 0x2
- 1054 00f2 18       		.uleb128 0x18
- 1055 00f3 00       		.byte	0
- 1056 00f4 00       		.byte	0
- 1057 00f5 13       		.uleb128 0x13
- 1058 00f6 2E       		.uleb128 0x2e
- 1059 00f7 00       		.byte	0
- 1060 00f8 3F       		.uleb128 0x3f
- 1061 00f9 19       		.uleb128 0x19
- 1062 00fa 3C       		.uleb128 0x3c
- 1063 00fb 19       		.uleb128 0x19
- 1064 00fc 6E       		.uleb128 0x6e
- 1065 00fd 0E       		.uleb128 0xe
- 1066 00fe 03       		.uleb128 0x3
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 21
-
-
- 1067 00ff 0E       		.uleb128 0xe
- 1068 0100 3A       		.uleb128 0x3a
- 1069 0101 0B       		.uleb128 0xb
- 1070 0102 3B       		.uleb128 0x3b
- 1071 0103 0B       		.uleb128 0xb
- 1072 0104 00       		.byte	0
- 1073 0105 00       		.byte	0
- 1074 0106 00       		.byte	0
- 1075              		.section	.debug_aranges,"",%progbits
- 1076 0000 1C000000 		.4byte	0x1c
- 1077 0004 0200     		.2byte	0x2
- 1078 0006 00000000 		.4byte	.Ldebug_info0
- 1079 000a 04       		.byte	0x4
- 1080 000b 00       		.byte	0
- 1081 000c 0000     		.2byte	0
- 1082 000e 0000     		.2byte	0
- 1083 0010 00000000 		.4byte	.LFB35
- 1084 0014 28010000 		.4byte	.LFE35-.LFB35
- 1085 0018 00000000 		.4byte	0
- 1086 001c 00000000 		.4byte	0
- 1087              		.section	.debug_ranges,"",%progbits
- 1088              	.Ldebug_ranges0:
- 1089 0000 00000000 		.4byte	.LFB35
- 1090 0004 28010000 		.4byte	.LFE35
- 1091 0008 00000000 		.4byte	0
- 1092 000c 00000000 		.4byte	0
- 1093              		.section	.debug_line,"",%progbits
- 1094              	.Ldebug_line0:
- 1095 0000 00020000 		.section	.debug_str,"MS",%progbits,1
- 1095      0200CF01 
- 1095      00000201 
- 1095      FB0E0D00 
- 1095      01010101 
- 1096              	.LASF3:
- 1097 0000 5F5F7569 		.ascii	"__uint8_t\000"
- 1097      6E74385F 
- 1097      7400
- 1098              	.LASF23:
- 1099 000a 73746174 		.ascii	"state\000"
- 1099      6500
- 1100              	.LASF24:
- 1101 0010 74784461 		.ascii	"txData\000"
- 1101      746100
- 1102              	.LASF6:
- 1103 0017 6C6F6E67 		.ascii	"long int\000"
- 1103      20696E74 
- 1103      00
- 1104              	.LASF22:
- 1105 0020 72656365 		.ascii	"receive\000"
- 1105      69766500 
- 1106              	.LASF29:
- 1107 0028 47657453 		.ascii	"GetSenderDeviceGroupCode\000"
- 1107      656E6465 
- 1107      72446576 
- 1107      69636547 
- 1107      726F7570 
- 1108              	.LASF32:
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 22
-
-
- 1109 0041 506F6C6C 		.ascii	"PollAndReceiveCANPacket\000"
- 1109      416E6452 
- 1109      65636569 
- 1109      76654341 
- 1109      4E506163 
- 1110              	.LASF13:
- 1111 0059 666C6F61 		.ascii	"float\000"
- 1111      7400
- 1112              	.LASF18:
- 1113 005f 64617461 		.ascii	"data\000"
- 1113      00
- 1114              	.LASF28:
- 1115 0064 69746F61 		.ascii	"itoa\000"
- 1115      00
- 1116              	.LASF1:
- 1117 0069 756E7369 		.ascii	"unsigned char\000"
- 1117      676E6564 
- 1117      20636861 
- 1117      7200
- 1118              	.LASF7:
- 1119 0077 6C6F6E67 		.ascii	"long unsigned int\000"
- 1119      20756E73 
- 1119      69676E65 
- 1119      6420696E 
- 1119      7400
- 1120              	.LASF5:
- 1121 0089 73686F72 		.ascii	"short unsigned int\000"
- 1121      7420756E 
- 1121      7369676E 
- 1121      65642069 
- 1121      6E7400
- 1122              	.LASF35:
- 1123 009c 433A5C55 		.ascii	"C:\\Users\\Min\\Documents\\PSoC Creator\\GPS_IMU\\G"
- 1123      73657273 
- 1123      5C4D696E 
- 1123      5C446F63 
- 1123      756D656E 
- 1124 00c9 50532D52 		.ascii	"PS-RTK_IMU_Board_PY2023\\GPS_IMU.cydsn\000"
- 1124      544B5F49 
- 1124      4D555F42 
- 1124      6F617264 
- 1124      5F505932 
- 1125              	.LASF4:
- 1126 00ef 5F5F7569 		.ascii	"__uint16_t\000"
- 1126      6E743136 
- 1126      5F7400
- 1127              	.LASF14:
- 1128 00fa 646F7562 		.ascii	"double\000"
- 1128      6C6500
- 1129              	.LASF2:
- 1130 0101 73686F72 		.ascii	"short int\000"
- 1130      7420696E 
- 1130      7400
- 1131              	.LASF36:
- 1132 010b 6D61696E 		.ascii	"main\000"
- 1132      00
- 1133              	.LASF10:
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 23
-
-
- 1134 0110 756E7369 		.ascii	"unsigned int\000"
- 1134      676E6564 
- 1134      20696E74 
- 1134      00
- 1135              	.LASF21:
- 1136 011d 73656E64 		.ascii	"send\000"
- 1136      00
- 1137              	.LASF9:
- 1138 0122 6C6F6E67 		.ascii	"long long unsigned int\000"
- 1138      206C6F6E 
- 1138      6720756E 
- 1138      7369676E 
- 1138      65642069 
- 1139              	.LASF11:
- 1140 0139 75696E74 		.ascii	"uint8_t\000"
- 1140      385F7400 
- 1141              	.LASF33:
- 1142 0141 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 1142      43313120 
- 1142      352E342E 
- 1142      31203230 
- 1142      31363036 
- 1143 0174 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
- 1143      20726576 
- 1143      6973696F 
- 1143      6E203233 
- 1143      37373135 
- 1144 01a7 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
- 1144      66756E63 
- 1144      74696F6E 
- 1144      2D736563 
- 1144      74696F6E 
- 1145              	.LASF19:
- 1146 01cf 43414E50 		.ascii	"CANPacket\000"
- 1146      61636B65 
- 1146      7400
- 1147              	.LASF17:
- 1148 01d9 73697A65 		.ascii	"sizetype\000"
- 1148      74797065 
- 1148      00
- 1149              	.LASF8:
- 1150 01e2 6C6F6E67 		.ascii	"long long int\000"
- 1150      206C6F6E 
- 1150      6720696E 
- 1150      7400
- 1151              	.LASF34:
- 1152 01f0 6D61696E 		.ascii	"main.c\000"
- 1152      2E6300
- 1153              	.LASF15:
- 1154 01f7 63686172 		.ascii	"char\000"
- 1154      00
- 1155              	.LASF25:
- 1156 01fc 44454255 		.ascii	"DEBUG_UartPutString\000"
- 1156      475F5561 
- 1156      72745075 
- 1156      74537472 
- 1156      696E6700 
-ARM GAS  C:\Users\Min\AppData\Local\Temp\ccTNfyJs.s 			page 24
-
-
- 1157              	.LASF27:
- 1158 0210 4465636F 		.ascii	"DecodeTelemetryDataSigned\000"
- 1158      64655465 
- 1158      6C656D65 
- 1158      74727944 
- 1158      61746153 
- 1159              	.LASF12:
- 1160 022a 75696E74 		.ascii	"uint16_t\000"
- 1160      31365F74 
- 1160      00
- 1161              	.LASF31:
- 1162 0233 53656E64 		.ascii	"SendCANPacket\000"
- 1162      43414E50 
- 1162      61636B65 
- 1162      7400
- 1163              	.LASF30:
- 1164 0241 41737365 		.ascii	"AssembleTelemetryPullPacket\000"
- 1164      6D626C65 
- 1164      54656C65 
- 1164      6D657472 
- 1164      7950756C 
- 1165              	.LASF16:
- 1166 025d 6C6F6E67 		.ascii	"long double\000"
- 1166      20646F75 
- 1166      626C6500 
- 1167              	.LASF0:
- 1168 0269 7369676E 		.ascii	"signed char\000"
- 1168      65642063 
- 1168      68617200 
- 1169              	.LASF26:
- 1170 0275 4465636F 		.ascii	"DecodeTelemetryType\000"
- 1170      64655465 
- 1170      6C656D65 
- 1170      74727954 
- 1170      79706500 
- 1171              	.LASF20:
- 1172 0289 64656275 		.ascii	"debugOutput\000"
- 1172      674F7574 
- 1172      70757400 
- 1173              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 736      6973696F 
+ 736      6E203233 
+ 736      37373135 
+ 737 0197 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 737      66756E63 
+ 737      74696F6E 
+ 737      2D736563 
+ 737      74696F6E 
+ 738              	.LASF19:
+ 739 01bf 43414E50 		.ascii	"CANPacket\000"
+ 739      61636B65 
+ 739      7400
+ 740              	.LASF17:
+ 741 01c9 73697A65 		.ascii	"sizetype\000"
+ 741      74797065 
+ 741      00
+ 742              	.LASF8:
+ 743 01d2 6C6F6E67 		.ascii	"long long int\000"
+ 743      206C6F6E 
+ 743      6720696E 
+ 743      7400
+ 744              	.LASF30:
+ 745 01e0 6D61696E 		.ascii	"main.c\000"
+ 745      2E6300
+ 746              	.LASF15:
+ 747 01e7 63686172 		.ascii	"char\000"
+ 747      00
+ 748              	.LASF12:
+ 749 01ec 75696E74 		.ascii	"uint16_t\000"
+ 749      31365F74 
+ 749      00
+ 750              	.LASF25:
+ 751 01f5 41737365 		.ascii	"AssembleTelemetryPullPacket\000"
+ 751      6D626C65 
+ 751      54656C65 
+ 751      6D657472 
+ 751      7950756C 
+ 752              	.LASF16:
+ 753 0211 6C6F6E67 		.ascii	"long double\000"
+ 753      20646F75 
+ 753      626C6500 
+ 754              	.LASF0:
+ 755 021d 7369676E 		.ascii	"signed char\000"
+ 755      65642063 
+ 755      68617200 
+ 756              	.LASF28:
+ 757 0229 4465636F 		.ascii	"DecodeTelemetryType\000"
+ 757      64655465 
+ 757      6C656D65 
+ 757      74727954 
+ 757      79706500 
+ 758              	.LASF20:
+ 759 023d 64656275 		.ascii	"debugOutput\000"
+ 759      674F7574 
+ 759      70757400 
+ 760              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

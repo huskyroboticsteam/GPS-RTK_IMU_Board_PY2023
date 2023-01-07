@@ -6,7 +6,7 @@
     <Toolchain Name="ARM GCC Generic" Selected="True">
       <Tool Name="prebuild" Command="" Options="" />
       <Tool Name="assembler" Command="arm-none-eabi-as.exe" Options="-mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -alh=${OutputDir}/${CompileFile}.lst -g -W" />
-      <Tool Name="compiler" Command="arm-none-eabi-gcc.exe" Options="-mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=${OutputDir}/${CompileFile}.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og" />
+      <Tool Name="compiler" Command="arm-none-eabi-gcc.exe" Options="-mcpu=cortex-m0 -mthumb -I.\HindsightCAN -I. -IGenerated_Source\PSoC4 -Wa,-alh=${OutputDir}/${CompileFile}.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og" />
       <Tool Name="linker" Command="arm-none-eabi-gcc.exe" Options="-mcpu=cortex-m0 -mthumb -L Generated_Source\PSoC4 -Wl,-Map,${OutputDir}/${ProjectShortName}.map -T Generated_Source\PSoC4\cm0gcc.ld -specs=nano.specs -Wl,--gc-sections -g -ffunction-sections -Og -ffat-lto-objects" />
       <Tool Name="postbuild" Command="" Options="" />
     </Toolchain>
@@ -37,7 +37,9 @@
       <Folder BuildType="STRICT" Path="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn">
         <Files Root="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn">
           <File BuildType="BUILD" Toolchain="">main.c</File>
+          <File BuildType="BUILD" Toolchain="">PortCANDebug.c</File>
           <File BuildType="BUILD" Toolchain="">cyapicallbacks.h</File>
+          <File BuildType="BUILD" Toolchain="">main.h</File>
         </Files>
       </Folder>
       <Folder BuildType="STRICT" Path="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\Generated_Source\PSoC4">
@@ -54,19 +56,6 @@
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\cyfitteriar.inc</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\cyfitter.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\cydisabledsheets.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\RX_1.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\RX_1.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\RX_1_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\RX_1_PM.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\TX_1.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\TX_1.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\TX_1_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\TX_1_PM.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_1.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_1.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_1_INT.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_1_PM.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_1_TX_RX_func.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\UART_1.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\UART_1.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\UART_1_SPI_UART.h</File>
@@ -93,10 +82,6 @@
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\I2C_1_I2C_PVT.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\I2C_1_PVT.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\I2C_1_BOOT.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_1_isr.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_1_isr.h</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_1_HFCLK.c</File>
-          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_1_HFCLK.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\UART_1_tx.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\UART_1_tx.h</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\UART_1_tx_aliases.h</File>
@@ -152,6 +137,44 @@
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\cycodeshareimport.scat</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\UART_CLOCK.c</File>
           <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\UART_CLOCK.h</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\RX.c</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\RX.h</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\RX_aliases.h</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\RX_PM.c</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\TX.c</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\TX.h</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\TX_aliases.h</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\TX_PM.c</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN.c</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN.h</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_INT.c</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_PM.c</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_TX_RX_func.c</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_isr.c</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_isr.h</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_HFCLK.c</File>
+          <File BuildType="BUILD" Toolchain="">Generated_Source\PSoC4\CAN_HFCLK.h</File>
+        </Files>
+      </Folder>
+      <Folder BuildType="STRICT" Path="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn">
+        <Files Root="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn">
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANCommon.c</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANCommon.h</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANGPIO.c</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANGPIO.h</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANLibrary.h</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANLocalization.c</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANLocalization.h</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANMotorUnit.c</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANMotorUnit.h</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANPacket.c</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANPacket.h</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANPower.c</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANPower.h</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANScience.c</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANScience.h</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\CANSerialNumbers.h</File>
+          <File BuildType="BUILD" Toolchain="">HindsightCAN\Port.h</File>
         </Files>
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\codegentemp">

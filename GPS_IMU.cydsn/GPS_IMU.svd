@@ -22305,7 +22305,7 @@
       </registers>
     </peripheral>
     <peripheral>
-      <name>CAN_1</name>
+      <name>CAN</name>
       <description>No description available</description>
       <baseAddress>0x0</baseAddress>
       <addressBlock>
@@ -22315,7 +22315,7 @@
       </addressBlock>
       <registers>
         <register>
-          <name>CAN_1_CAN_INT_SR</name>
+          <name>CAN_CAN_INT_SR</name>
           <description>The interrupt status register stores internal interrupt events.  ? Once a bit is set it remains set until it is cleared by writing a '1' to it.  ? The interrupt enable register has no effect on the interrupt status register.  ? A pending interrupt occurs when the flag is set to '1'. To acknowledge an interrupt, set the flag to '1'</description>
           <addressOffset>0x402E0000</addressOffset>
           <size>32</size>
@@ -22424,7 +22424,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_BUF_SR</name>
+          <name>CAN_CAN_BUF_SR</name>
           <description>These status indicators bundle the respective flags from all RxMessage and TxMessage buffers.  ? Note All flags are read only. To acknowledge a MsgAv flag, the CPU must write to the respective RxMessage buffer</description>
           <addressOffset>0x402E0008</addressOffset>
           <size>32</size>
@@ -22603,7 +22603,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_ERR_SR</name>
+          <name>CAN_CAN_ERR_SR</name>
           <description>Status indicators are provided to report the CAN controller error state, receive error count, and transmit error count. ? Special flags report error counter values equal to or in excess of 96 errors are available to indicate heavily disturbed bus situations.  ? The transmitter error counter according to the CAN standard. When it is greater than 255 Decimal, it is fixed at 255 Decimal.</description>
           <addressOffset>0x402E000C</addressOffset>
           <size>32</size>
@@ -22649,7 +22649,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_ECR</name>
+          <name>CAN_CAN_ECR</name>
           <description>The Error Capture register operates in two different modes: ? Free running mode - ECR displays the fiels and bit positions within the current CAN frame ? Error Capture mode - ECR samples the field and bit position when a CAN error is detected ? In order to sample such an event, the ECR needs to be armed by performing a write access to it. ? When armed, the ECR only captures one error event.  ? For successive error captures, the ECR needs to be armed again.</description>
           <addressOffset>0x402E0018</addressOffset>
           <size>32</size>
@@ -22702,7 +22702,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX0_ID</name>
+          <name>CAN_CAN_TX0_ID</name>
           <description>CAN Tx Msg Identifier</description>
           <addressOffset>0x402E0024</addressOffset>
           <size>32</size>
@@ -22720,7 +22720,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX0_DH</name>
+          <name>CAN_CAN_TX0_DH</name>
           <description>CAN Tx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0028</addressOffset>
           <size>32</size>
@@ -22738,7 +22738,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX0_DL</name>
+          <name>CAN_CAN_TX0_DL</name>
           <description>CAN Tx Msg Lower Data Bytes</description>
           <addressOffset>0x402E002C</addressOffset>
           <size>32</size>
@@ -22756,7 +22756,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX1_ID</name>
+          <name>CAN_CAN_TX1_ID</name>
           <description>CAN Tx Msg Identifier</description>
           <addressOffset>0x402E0034</addressOffset>
           <size>32</size>
@@ -22774,7 +22774,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX1_DH</name>
+          <name>CAN_CAN_TX1_DH</name>
           <description>CAN Tx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0038</addressOffset>
           <size>32</size>
@@ -22792,7 +22792,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX1_DL</name>
+          <name>CAN_CAN_TX1_DL</name>
           <description>CAN Tx Msg Lower Data Bytes</description>
           <addressOffset>0x402E003C</addressOffset>
           <size>32</size>
@@ -22810,7 +22810,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX2_ID</name>
+          <name>CAN_CAN_TX2_ID</name>
           <description>CAN Tx Msg Identifier</description>
           <addressOffset>0x402E0044</addressOffset>
           <size>32</size>
@@ -22828,7 +22828,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX2_DH</name>
+          <name>CAN_CAN_TX2_DH</name>
           <description>CAN Tx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0048</addressOffset>
           <size>32</size>
@@ -22846,7 +22846,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX2_DL</name>
+          <name>CAN_CAN_TX2_DL</name>
           <description>CAN Tx Msg Lower Data Bytes</description>
           <addressOffset>0x402E004C</addressOffset>
           <size>32</size>
@@ -22864,7 +22864,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX3_ID</name>
+          <name>CAN_CAN_TX3_ID</name>
           <description>CAN Tx Msg Identifier</description>
           <addressOffset>0x402E0054</addressOffset>
           <size>32</size>
@@ -22882,7 +22882,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX3_DH</name>
+          <name>CAN_CAN_TX3_DH</name>
           <description>CAN Tx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0058</addressOffset>
           <size>32</size>
@@ -22900,7 +22900,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX3_DL</name>
+          <name>CAN_CAN_TX3_DL</name>
           <description>CAN Tx Msg Lower Data Bytes</description>
           <addressOffset>0x402E005C</addressOffset>
           <size>32</size>
@@ -22918,7 +22918,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX4_ID</name>
+          <name>CAN_CAN_TX4_ID</name>
           <description>CAN Tx Msg Identifier</description>
           <addressOffset>0x402E0064</addressOffset>
           <size>32</size>
@@ -22936,7 +22936,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX4_DH</name>
+          <name>CAN_CAN_TX4_DH</name>
           <description>CAN Tx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0068</addressOffset>
           <size>32</size>
@@ -22954,7 +22954,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX4_DL</name>
+          <name>CAN_CAN_TX4_DL</name>
           <description>CAN Tx Msg Lower Data Bytes</description>
           <addressOffset>0x402E006C</addressOffset>
           <size>32</size>
@@ -22972,7 +22972,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX5_ID</name>
+          <name>CAN_CAN_TX5_ID</name>
           <description>CAN Tx Msg Identifier</description>
           <addressOffset>0x402E0074</addressOffset>
           <size>32</size>
@@ -22990,7 +22990,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX5_DH</name>
+          <name>CAN_CAN_TX5_DH</name>
           <description>CAN Tx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0078</addressOffset>
           <size>32</size>
@@ -23008,7 +23008,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX5_DL</name>
+          <name>CAN_CAN_TX5_DL</name>
           <description>CAN Tx Msg Lower Data Bytes</description>
           <addressOffset>0x402E007C</addressOffset>
           <size>32</size>
@@ -23026,7 +23026,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX6_ID</name>
+          <name>CAN_CAN_TX6_ID</name>
           <description>CAN Tx Msg Identifier</description>
           <addressOffset>0x402E0084</addressOffset>
           <size>32</size>
@@ -23044,7 +23044,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX6_DH</name>
+          <name>CAN_CAN_TX6_DH</name>
           <description>CAN Tx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0088</addressOffset>
           <size>32</size>
@@ -23062,7 +23062,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX6_DL</name>
+          <name>CAN_CAN_TX6_DL</name>
           <description>CAN Tx Msg Lower Data Bytes</description>
           <addressOffset>0x402E008C</addressOffset>
           <size>32</size>
@@ -23080,7 +23080,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX7_ID</name>
+          <name>CAN_CAN_TX7_ID</name>
           <description>CAN Tx Msg Identifier</description>
           <addressOffset>0x402E0094</addressOffset>
           <size>32</size>
@@ -23098,7 +23098,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX7_DH</name>
+          <name>CAN_CAN_TX7_DH</name>
           <description>CAN Tx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0098</addressOffset>
           <size>32</size>
@@ -23116,7 +23116,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_TX7_DL</name>
+          <name>CAN_CAN_TX7_DL</name>
           <description>CAN Tx Msg Lower Data Bytes</description>
           <addressOffset>0x402E009C</addressOffset>
           <size>32</size>
@@ -23134,7 +23134,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX0_ID</name>
+          <name>CAN_CAN_RX0_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E00A4</addressOffset>
           <size>32</size>
@@ -23159,7 +23159,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX0_DH</name>
+          <name>CAN_CAN_RX0_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E00A8</addressOffset>
           <size>32</size>
@@ -23177,7 +23177,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX0_DL</name>
+          <name>CAN_CAN_RX0_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E00AC</addressOffset>
           <size>32</size>
@@ -23195,7 +23195,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX1_ID</name>
+          <name>CAN_CAN_RX1_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E00C4</addressOffset>
           <size>32</size>
@@ -23220,7 +23220,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX1_DH</name>
+          <name>CAN_CAN_RX1_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E00C8</addressOffset>
           <size>32</size>
@@ -23238,7 +23238,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX1_DL</name>
+          <name>CAN_CAN_RX1_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E00CC</addressOffset>
           <size>32</size>
@@ -23256,7 +23256,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX2_ID</name>
+          <name>CAN_CAN_RX2_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E00E4</addressOffset>
           <size>32</size>
@@ -23281,7 +23281,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX2_DH</name>
+          <name>CAN_CAN_RX2_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E00E8</addressOffset>
           <size>32</size>
@@ -23299,7 +23299,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX2_DL</name>
+          <name>CAN_CAN_RX2_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E00EC</addressOffset>
           <size>32</size>
@@ -23317,7 +23317,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX3_ID</name>
+          <name>CAN_CAN_RX3_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E0104</addressOffset>
           <size>32</size>
@@ -23342,7 +23342,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX3_DH</name>
+          <name>CAN_CAN_RX3_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0108</addressOffset>
           <size>32</size>
@@ -23360,7 +23360,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX3_DL</name>
+          <name>CAN_CAN_RX3_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E010C</addressOffset>
           <size>32</size>
@@ -23378,7 +23378,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX4_ID</name>
+          <name>CAN_CAN_RX4_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E0124</addressOffset>
           <size>32</size>
@@ -23403,7 +23403,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX4_DH</name>
+          <name>CAN_CAN_RX4_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0128</addressOffset>
           <size>32</size>
@@ -23421,7 +23421,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX4_DL</name>
+          <name>CAN_CAN_RX4_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E012C</addressOffset>
           <size>32</size>
@@ -23439,7 +23439,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX5_ID</name>
+          <name>CAN_CAN_RX5_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E0144</addressOffset>
           <size>32</size>
@@ -23464,7 +23464,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX5_DH</name>
+          <name>CAN_CAN_RX5_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0148</addressOffset>
           <size>32</size>
@@ -23482,7 +23482,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX5_DL</name>
+          <name>CAN_CAN_RX5_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E014C</addressOffset>
           <size>32</size>
@@ -23500,7 +23500,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX6_ID</name>
+          <name>CAN_CAN_RX6_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E0164</addressOffset>
           <size>32</size>
@@ -23525,7 +23525,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX6_DH</name>
+          <name>CAN_CAN_RX6_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0168</addressOffset>
           <size>32</size>
@@ -23543,7 +23543,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX6_DL</name>
+          <name>CAN_CAN_RX6_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E016C</addressOffset>
           <size>32</size>
@@ -23561,7 +23561,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX7_ID</name>
+          <name>CAN_CAN_RX7_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E0184</addressOffset>
           <size>32</size>
@@ -23586,7 +23586,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX7_DH</name>
+          <name>CAN_CAN_RX7_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0188</addressOffset>
           <size>32</size>
@@ -23604,7 +23604,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX7_DL</name>
+          <name>CAN_CAN_RX7_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E018C</addressOffset>
           <size>32</size>
@@ -23622,7 +23622,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX8_ID</name>
+          <name>CAN_CAN_RX8_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E01A4</addressOffset>
           <size>32</size>
@@ -23647,7 +23647,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX8_DH</name>
+          <name>CAN_CAN_RX8_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E01A8</addressOffset>
           <size>32</size>
@@ -23665,7 +23665,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX8_DL</name>
+          <name>CAN_CAN_RX8_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E01AC</addressOffset>
           <size>32</size>
@@ -23683,7 +23683,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX9_ID</name>
+          <name>CAN_CAN_RX9_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E01C4</addressOffset>
           <size>32</size>
@@ -23708,7 +23708,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX9_DH</name>
+          <name>CAN_CAN_RX9_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E01C8</addressOffset>
           <size>32</size>
@@ -23726,7 +23726,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX9_DL</name>
+          <name>CAN_CAN_RX9_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E01CC</addressOffset>
           <size>32</size>
@@ -23744,7 +23744,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX10_ID</name>
+          <name>CAN_CAN_RX10_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E01E4</addressOffset>
           <size>32</size>
@@ -23769,7 +23769,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX10_DH</name>
+          <name>CAN_CAN_RX10_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E01E8</addressOffset>
           <size>32</size>
@@ -23787,7 +23787,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX10_DL</name>
+          <name>CAN_CAN_RX10_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E01EC</addressOffset>
           <size>32</size>
@@ -23805,7 +23805,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX11_ID</name>
+          <name>CAN_CAN_RX11_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E0204</addressOffset>
           <size>32</size>
@@ -23830,7 +23830,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX11_DH</name>
+          <name>CAN_CAN_RX11_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0208</addressOffset>
           <size>32</size>
@@ -23848,7 +23848,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX11_DL</name>
+          <name>CAN_CAN_RX11_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E020C</addressOffset>
           <size>32</size>
@@ -23866,7 +23866,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX12_ID</name>
+          <name>CAN_CAN_RX12_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E0224</addressOffset>
           <size>32</size>
@@ -23891,7 +23891,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX12_DH</name>
+          <name>CAN_CAN_RX12_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0228</addressOffset>
           <size>32</size>
@@ -23909,7 +23909,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX12_DL</name>
+          <name>CAN_CAN_RX12_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E022C</addressOffset>
           <size>32</size>
@@ -23927,7 +23927,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX13_ID</name>
+          <name>CAN_CAN_RX13_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E0244</addressOffset>
           <size>32</size>
@@ -23952,7 +23952,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX13_DH</name>
+          <name>CAN_CAN_RX13_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0248</addressOffset>
           <size>32</size>
@@ -23970,7 +23970,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX13_DL</name>
+          <name>CAN_CAN_RX13_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E024C</addressOffset>
           <size>32</size>
@@ -23988,7 +23988,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX14_ID</name>
+          <name>CAN_CAN_RX14_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E0264</addressOffset>
           <size>32</size>
@@ -24013,7 +24013,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX14_DH</name>
+          <name>CAN_CAN_RX14_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0268</addressOffset>
           <size>32</size>
@@ -24031,7 +24031,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX14_DL</name>
+          <name>CAN_CAN_RX14_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E026C</addressOffset>
           <size>32</size>
@@ -24049,7 +24049,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX15_ID</name>
+          <name>CAN_CAN_RX15_ID</name>
           <description>The register contains Rx Msg Identifier</description>
           <addressOffset>0x402E0284</addressOffset>
           <size>32</size>
@@ -24074,7 +24074,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX15_DH</name>
+          <name>CAN_CAN_RX15_DH</name>
           <description>The register contains the Rx Msg Upper Data Bytes</description>
           <addressOffset>0x402E0288</addressOffset>
           <size>32</size>
@@ -24092,7 +24092,7 @@
           </fields>
         </register>
         <register>
-          <name>CAN_1_CAN_RX15_DL</name>
+          <name>CAN_CAN_RX15_DL</name>
           <description>The register contains the Rx Msg Lover Data Bytes</description>
           <addressOffset>0x402E028C</addressOffset>
           <size>32</size>

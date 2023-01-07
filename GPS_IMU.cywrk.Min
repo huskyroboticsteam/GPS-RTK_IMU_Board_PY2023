@@ -259,7 +259,6 @@
 <name v=".\GPS_IMU.cydsn\main.c" />
 <name v=".\GPS_IMU.cydsn\main.h" />
 <name v=".\GPS_IMU.cydsn\cyapicallbacks.h" />
-<name v=".\GPS_IMU.cydsn\HindsightCAN-master\CANPacket.c" />
 </OpenDocs>
 <OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
 
@@ -267,7 +266,7 @@
   Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
   http://www.actiprosoftware.com
 
---><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1101, 631" SelectedTabbedMdiWindow="ef8617d3-b951-479d-bfb4-dd4cd6a8b15c"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="948705b7-bac4-4d98-8260-f7b5c8904106" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\TopDesign\TopDesign.cysch" Guid="32ab6956-3497-4c98-87c6-785fa50c319c" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\main.c" Guid="ef8617d3-b951-479d-bfb4-dd4cd6a8b15c" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\main.h" Guid="b415a7a9-f23b-4351-8594-c54cd31b2eda" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\cyapicallbacks.h" Guid="96dff071-6a97-43c8-9817-73f34409db59" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\HindsightCAN-master\CANPacket.c" Guid="8dabfd4e-94b7-4def-96a7-3f303995fe8e" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1101, 673" SelectedTabbedMdiWindow="ef8617d3-b951-479d-bfb4-dd4cd6a8b15c"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="948705b7-bac4-4d98-8260-f7b5c8904106" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\TopDesign\TopDesign.cysch" Guid="32ab6956-3497-4c98-87c6-785fa50c319c" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\main.c" Guid="ef8617d3-b951-479d-bfb4-dd4cd6a8b15c" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\main.h" Guid="b415a7a9-f23b-4351-8594-c54cd31b2eda" /><DocumentWindow Key="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn\cyapicallbacks.h" Guid="96dff071-6a97-43c8-9817-73f34409db59" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>

@@ -171,7 +171,7 @@ void countRemoveFIFO(){
 
 CY_ISR(CAN_FLAG_ISR)
 {
-    Print("Interupt Triggered!\r\n");
+    //Print("Interupt Triggered!\r\n");
     //*(reg32*)0x402F0000 = CAN_RX_MESSAGE_MASK & CAN_SST_FAILURE_MASK & CAN_CRC_ERROR_MASK; //Clear Receive Message flag
     CAN_INT_SR_REG = CAN_RX_MESSAGE_MASK;
     uint32_t statusReg = (uint32_t) CAN_BUF_SR_REG; //Hardcoded for speed, translation from reg

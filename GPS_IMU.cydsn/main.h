@@ -28,6 +28,12 @@ CANPacket receive;
 #define GPS_LAT 0x05
 #define GPS_LON 0x06
 
+#define IMU_ACC 0x07
+#define IMU_ANGVEL 0x08
+#define IMU_VEL 0x09
+#define IMU_MAGF 0x10
+#define IMU_TEMP 0xA
+
 //switch cases
 #define PULL_LAT    0
 #define PULL_LON    1
@@ -36,9 +42,9 @@ CANPacket receive;
 #define PULL_VEL    4
 #define PULL_MAGF   5
 #define PULL_TEMP   6
-#define WAIT        4
-#define READ_LAT    5
-#define READ_LON    6
+#define WAIT    7
+#define READ_LAT    8
+#define READ_LON    9
 
 int state;
 

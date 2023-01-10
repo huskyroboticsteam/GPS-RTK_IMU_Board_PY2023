@@ -48,7 +48,7 @@ int main(void)
                         PrintInt(DecodeTelemetryDataSigned( &receive ));
                         Print("\r\n\r\n");
                         */
-                        state = PULL_LAT;
+                        state = PULL_LON;
                     }
                     else if (DecodeTelemetryType ( &receive ) == GPS_LAT)
                     {
@@ -57,7 +57,7 @@ int main(void)
                         PrintInt(DecodeTelemetryDataSigned( &receive ));
                         Print("\r\n");
                         */
-                        state = PULL_LON;
+                        state = PULL_LAT;
                     }
                     else {
                         /*

@@ -36,7 +36,7 @@
     <Folders>
       <Folder BuildType="STRICT" Path="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn">
         <Files Root="C:\Users\Min\Documents\PSoC Creator\GPS_IMU\GPS-RTK_IMU_Board_PY2023\GPS_IMU.cydsn">
-          <File BuildType="BUILD" Toolchain="">main.c</File>
+          <File BuildType="BUILD" Toolchain="">GPS.c</File>
           <File BuildType="BUILD" Toolchain="">PortCANDebug.c</File>
           <File BuildType="BUILD" Toolchain="">cyapicallbacks.h</File>
           <File BuildType="BUILD" Toolchain="">main.h</File>

@@ -69,11 +69,6 @@ Discarded input sections
                 0x00000000       0x50 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .text.CAN_FLAG_ISR
                 0x00000000      0x12c .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
- .text          0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\IMU.o
- .data          0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\IMU.o
- .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\IMU.o
- .text.main     0x00000000      0x114 .\CortexM0\ARM_GCC_541\Debug\IMU.o
- .rodata        0x00000000       0x20 .\CortexM0\ARM_GCC_541\Debug\IMU.o
  .text          0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
  .data          0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
  .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
@@ -625,7 +620,6 @@ LOAD c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm
 START GROUP
 LOAD .\CortexM0\ARM_GCC_541\Debug\GPS.o
 LOAD .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
-LOAD .\CortexM0\ARM_GCC_541\Debug\IMU.o
 LOAD .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
 LOAD .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
 LOAD .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
@@ -675,7 +669,7 @@ END GROUP
                 0x00000001                cy_project_type_bootloader = (appl_start == 0x0)?0x1:0x0
                 0x00000000                cy_project_type_app_for_stack_and_copier = (CY_APP_FOR_STACK_AND_COPIER == 0x1)?0x1:0x0
 
-.text           0x00000000      0xdd6
+.text           0x00000000      0xec6
  CREATE_OBJECT_SYMBOLS
                 0x00000000                PROVIDE (__cy_interrupt_vector, RomVectors)
  *(.romvectors)
@@ -694,215 +688,217 @@ END GROUP
                 0x000001a4                . = MAX (., 0x100)
  *(.text .text.* .gnu.linkonce.t.*)
  .text          0x000001a4       0x60 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
- .text.main     0x00000204       0x88 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .text.main     0x00000204      0x174 .\CortexM0\ARM_GCC_541\Debug\GPS.o
                 0x00000204                main
  .text.SendCANPacket
-                0x0000028c       0x40 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
-                0x0000028c                SendCANPacket
+                0x00000378       0x40 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
+                0x00000378                SendCANPacket
  .text.getLocalDeviceSerial
-                0x000002cc        0xc .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
-                0x000002cc                getLocalDeviceSerial
+                0x000003b8        0xc .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
+                0x000003b8                getLocalDeviceSerial
  .text.getLocalDeviceGroup
-                0x000002d8        0xc .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
-                0x000002d8                getLocalDeviceGroup
+                0x000003c4        0xc .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
+                0x000003c4                getLocalDeviceGroup
  .text.FIFOSize
-                0x000002e4       0x48 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
-                0x000002e4                FIFOSize
+                0x000003d0       0x48 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
+                0x000003d0                FIFOSize
  .text.countRemoveFIFO
-                0x0000032c       0x28 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
-                0x0000032c                countRemoveFIFO
+                0x00000418       0x28 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
+                0x00000418                countRemoveFIFO
  .text.PollAndReceiveCANPacket
-                0x00000354       0x4c .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
-                0x00000354                PollAndReceiveCANPacket
+                0x00000440       0x4c .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
+                0x00000440                PollAndReceiveCANPacket
  .text.AssembleTelemetryPullPacket
-                0x000003a0       0x20 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
-                0x000003a0                AssembleTelemetryPullPacket
+                0x0000048c       0x20 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+                0x0000048c                AssembleTelemetryPullPacket
  .text.DecodeTelemetryType
-                0x000003c0        0x4 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
-                0x000003c0                DecodeTelemetryType
+                0x000004ac        0x4 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+                0x000004ac                DecodeTelemetryType
  .text.ConstructCANID
-                0x000003c4       0x1c .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
-                0x000003c4                ConstructCANID
+                0x000004b0       0x1c .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+                0x000004b0                ConstructCANID
  .text.WriteSenderSerialAndPacketID
-                0x000003e0       0x18 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
-                0x000003e0                WriteSenderSerialAndPacketID
+                0x000004cc       0x18 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+                0x000004cc                WriteSenderSerialAndPacketID
  .text.AnalogSetDefault
-                0x000003f8       0x20 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+                0x000004e4       0x20 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
  .text.CYMEMZERO
-                0x00000418        0xc .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+                0x00000504        0xc .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
  .text.IntDefaultHandler
-                0x00000424       0x10 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
-                0x00000424                IntDefaultHandler
- .text.Start_c  0x00000434       0x48 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
-                0x00000434                Start_c
+                0x00000510       0x10 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+                0x00000510                IntDefaultHandler
+ .text.Start_c  0x00000520       0x48 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+                0x00000520                Start_c
  .text.initialize_psoc
-                0x0000047c       0x4c .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
-                0x0000047c                initialize_psoc
+                0x00000568       0x4c .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+                0x00000568                initialize_psoc
  .text.CySysClkImoSetPwrBgTrim5
-                0x000004c8       0x30 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x000005b4       0x30 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
  .text.CySysClkImoSetImoTrims
-                0x000004f8       0xb0 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x000005e4       0xb0 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
  .text.CySysClkImoDisableWcoLock
-                0x000005a8       0x54 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x000005a8                CySysClkImoDisableWcoLock
+                0x00000694       0x54 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x00000694                CySysClkImoDisableWcoLock
  .text.CySysClkImoGetWcoLock
-                0x000005fc       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x000005fc                CySysClkImoGetWcoLock
+                0x000006e8       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x000006e8                CySysClkImoGetWcoLock
  .text.CySysClkImoEnableUsbLock
-                0x00000610       0x44 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x00000610                CySysClkImoEnableUsbLock
+                0x000006fc       0x44 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x000006fc                CySysClkImoEnableUsbLock
  .text.CySysClkImoDisableUsbLock
-                0x00000654       0x74 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x00000654                CySysClkImoDisableUsbLock
+                0x00000740       0x74 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x00000740                CySysClkImoDisableUsbLock
  .text.CySysClkImoGetUsbLock
-                0x000006c8       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x000006c8                CySysClkImoGetUsbLock
+                0x000007b4       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x000007b4                CySysClkImoGetUsbLock
  .text.CyIntEnable
-                0x000006dc       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x000006dc                CyIntEnable
+                0x000007c8       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x000007c8                CyIntEnable
  .text.CyIntDisable
-                0x000006f0       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x000006f0                CyIntDisable
- .text.CyHalt   0x00000704        0x4 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x00000704                CyHalt
+                0x000007dc       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x000007dc                CyIntDisable
+ .text.CyHalt   0x000007f0        0x4 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x000007f0                CyHalt
  .text.CyIntSetVector
-                0x00000708       0x24 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x00000708                CyIntSetVector
- .text.CyDelay  0x0000072c       0x30 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x0000072c                CyDelay
+                0x000007f4       0x24 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x000007f4                CyIntSetVector
+ .text.CyDelay  0x00000818       0x30 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x00000818                CyDelay
  .text.CySysClkImoEnableWcoLock
-                0x0000075c      0x104 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x0000075c                CySysClkImoEnableWcoLock
+                0x00000848      0x104 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x00000848                CySysClkImoEnableWcoLock
  .text.CyDelayUs
-                0x00000860       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x00000860                CyDelayUs
+                0x0000094c       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x0000094c                CyDelayUs
  .text.CySysClkWriteImoFreq
-                0x00000874      0x1bc .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x00000874                CySysClkWriteImoFreq
+                0x00000960      0x1bc .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x00000960                CySysClkWriteImoFreq
  .text.CySysWdtLocked
-                0x00000a30       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+                0x00000b1c       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
  .text.CySysClkWcoEnabled
-                0x00000a44       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
-                0x00000a44                CySysClkWcoEnabled
+                0x00000b30       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+                0x00000b30                CySysClkWcoEnabled
  .text.CySysWdtLock
-                0x00000a58       0x1c .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
-                0x00000a58                CySysWdtLock
+                0x00000b44       0x1c .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+                0x00000b44                CySysWdtLock
  .text.CySysWdtUnlock
-                0x00000a74       0x30 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
-                0x00000a74                CySysWdtUnlock
+                0x00000b60       0x30 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+                0x00000b60                CySysWdtUnlock
  .text.CySysWdtClearInterrupt
-                0x00000aa4       0x4c .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
-                0x00000aa4                CySysWdtClearInterrupt
+                0x00000b90       0x4c .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+                0x00000b90                CySysWdtClearInterrupt
  .text.CySysWdtIsr
-                0x00000af0       0xa4 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
-                0x00000af0                CySysWdtIsr
+                0x00000bdc       0xa4 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+                0x00000bdc                CySysWdtIsr
  .text.CAN_SendMsg
-                0x00000b94      0x154 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
-                0x00000b94                CAN_SendMsg
- .text          0x00000ce8       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
-                0x00000ce8                CyDelayCycles
-                0x00000cfa                CyEnterCriticalSection
-                0x00000d02                CyExitCriticalSection
+                0x00000c80      0x154 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
+                0x00000c80                CAN_SendMsg
+ *fill*         0x00000dd4        0x4 
+ .text          0x00000dd8       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
+                0x00000dd8                CyDelayCycles
+                0x00000dea                CyEnterCriticalSection
+                0x00000df2                CyExitCriticalSection
  .text.CySysFlashSetWaitCycles
-                0x00000d08       0x54 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
-                0x00000d08                CySysFlashSetWaitCycles
- .text.__errno  0x00000d5c        0xc c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-errno.o)
-                0x00000d5c                __errno
+                0x00000df8       0x54 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
+                0x00000df8                CySysFlashSetWaitCycles
+ .text.__errno  0x00000e4c        0xc c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-errno.o)
+                0x00000e4c                __errno
  .text.__libc_init_array
-                0x00000d68       0x4c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-init.o)
-                0x00000d68                __libc_init_array
- .text.memcpy   0x00000db4       0x12 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memcpy-stub.o)
-                0x00000db4                memcpy
- .text.memset   0x00000dc6       0x10 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memset.o)
-                0x00000dc6                memset
+                0x00000e58       0x4c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-init.o)
+                0x00000e58                __libc_init_array
+ .text.memcpy   0x00000ea4       0x12 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memcpy-stub.o)
+                0x00000ea4                memcpy
+ .text.memset   0x00000eb6       0x10 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memset.o)
+                0x00000eb6                memset
  *(.plt)
  *(.gnu.warning)
  *(.glue_7t)
- .glue_7t       0x00000dd6        0x0 linker stubs
+ .glue_7t       0x00000ec6        0x0 linker stubs
  *(.glue_7)
- .glue_7        0x00000dd6        0x0 linker stubs
+ .glue_7        0x00000ec6        0x0 linker stubs
  *(.vfp11_veneer)
- .vfp11_veneer  0x00000dd6        0x0 linker stubs
+ .vfp11_veneer  0x00000ec6        0x0 linker stubs
  *(.bootloader)
  *(.ARM.extab* .gnu.linkonce.armextab.*)
  *(.gcc_except_table)
 
-.v4_bx          0x00000dd8        0x0
- .v4_bx         0x00000dd8        0x0 linker stubs
+.v4_bx          0x00000ec8        0x0
+ .v4_bx         0x00000ec8        0x0 linker stubs
 
-.iplt           0x00000dd8        0x0
- .iplt          0x00000dd8        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+.iplt           0x00000ec8        0x0
+ .iplt          0x00000ec8        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
 
 .eh_frame_hdr
  *(.eh_frame_hdr)
 
-.eh_frame       0x00000dd8        0x4
+.eh_frame       0x00000ec8        0x4
  *(.eh_frame)
- .eh_frame      0x00000dd8        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
- .eh_frame      0x00000dd8        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o
+ .eh_frame      0x00000ec8        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+ .eh_frame      0x00000ec8        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o
                 [!provide]                PROVIDE (__exidx_start, .)
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x00000ddc                __exidx_end = .
+                0x00000ecc                __exidx_end = .
 
-.rodata         0x00000ddc       0x74
+.rodata         0x00000ecc       0x94
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x00000ddc        0xc .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
- .rodata        0x00000de8       0x2e .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
-                0x00000de8                cyImoFreqMhz2Reg
+ .rodata        0x00000ecc       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .rodata        0x00000eec        0xc .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .rodata        0x00000ef8       0x2e .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x00000ef8                cyImoFreqMhz2Reg
  .rodata.str1.1
-                0x00000e16        0x2 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-impure.o)
-                0x00000e18                . = ALIGN (0x4)
+                0x00000f26        0x2 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-impure.o)
+                0x00000f28                . = ALIGN (0x4)
  *(.init)
- .init          0x00000e18        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o
-                0x00000e18                _init
- .init          0x00000e1c        0x8 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
-                0x00000e24                . = ALIGN (0x4)
-                0x00000e24                __preinit_array_start = .
+ .init          0x00000f28        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o
+                0x00000f28                _init
+ .init          0x00000f2c        0x8 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
+                0x00000f34                . = ALIGN (0x4)
+                0x00000f34                __preinit_array_start = .
  *(.preinit_array)
-                0x00000e24                __preinit_array_end = .
-                0x00000e24                . = ALIGN (0x4)
-                0x00000e24                __init_array_start = .
+                0x00000f34                __preinit_array_end = .
+                0x00000f34                . = ALIGN (0x4)
+                0x00000f34                __init_array_start = .
  *(SORT(.init_array.*))
  *(.init_array)
- .init_array    0x00000e24        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
- .init_array    0x00000e28        0x4 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
-                0x00000e2c                __init_array_end = .
-                0x00000e2c                . = ALIGN (0x4)
+ .init_array    0x00000f34        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+ .init_array    0x00000f38        0x4 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+                0x00000f3c                __init_array_end = .
+                0x00000f3c                . = ALIGN (0x4)
  *(.fini)
- .fini          0x00000e2c        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o
-                0x00000e2c                _fini
- .fini          0x00000e30        0x8 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
-                0x00000e38                . = ALIGN (0x4)
-                0x00000e38                __fini_array_start = .
+ .fini          0x00000f3c        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o
+                0x00000f3c                _fini
+ .fini          0x00000f40        0x8 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
+                0x00000f48                . = ALIGN (0x4)
+                0x00000f48                __fini_array_start = .
  *(.fini_array)
- .fini_array    0x00000e38        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+ .fini_array    0x00000f48        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
  *(SORT(.fini_array.*))
-                0x00000e3c                __fini_array_end = .
-                0x00000e3c                . = ALIGN (0x4)
+                0x00000f4c                __fini_array_end = .
+                0x00000f4c                . = ALIGN (0x4)
  *crtbegin.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o) .ctors)
  *(SORT(.ctors.*))
  *crtend.o(.ctors)
-                0x00000e3c                . = ALIGN (0x4)
+                0x00000f4c                . = ALIGN (0x4)
  *crtbegin.o(.dtors)
  *(EXCLUDE_FILE(*crtend.o) .dtors)
  *(SORT(.dtors.*))
  *crtend.o(.dtors)
-                0x00000e3c                . = ALIGN (0x4)
-                0x00000e3c                __cy_regions = .
-                0x00000e3c        0x4 LONG 0xe50 __cy_region_init_ram
-                0x00000e40        0x4 LONG 0x200000c0 __cy_region_start_data
-                0x00000e44        0x4 LONG 0x88 __cy_region_init_size_ram
-                0x00000e48        0x4 LONG 0x180 __cy_region_zero_size_ram
-                0x00000e4c                __cy_regions_end = .
-                0x00000e50                . = ALIGN (0x8)
- *fill*         0x00000e4c        0x4 
-                0x00000e50                _etext = .
+                0x00000f4c                . = ALIGN (0x4)
+                0x00000f4c                __cy_regions = .
+                0x00000f4c        0x4 LONG 0xf60 __cy_region_init_ram
+                0x00000f50        0x4 LONG 0x200000c0 __cy_region_start_data
+                0x00000f54        0x4 LONG 0x88 __cy_region_init_size_ram
+                0x00000f58        0x4 LONG 0x180 __cy_region_zero_size_ram
+                0x00000f5c                __cy_regions_end = .
+                0x00000f60                . = ALIGN (0x8)
+ *fill*         0x00000f5c        0x4 
+                0x00000f60                _etext = .
 
 .cy_checksum_exclude
-                0x00000e50        0x0
+                0x00000f60        0x0
  *(.cy_checksum_exclude)
 
 .ramvectors     0x20000000       0xc0
@@ -914,7 +910,7 @@ END GROUP
 .noinit
  *(.noinit)
 
-.data           0x200000c0       0x88 load address 0x00000e50
+.data           0x200000c0       0x88 load address 0x00000f60
                 0x200000c0                __cy_region_start_data = .
  *(.jcr)
  .jcr           0x200000c0        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
@@ -940,10 +936,10 @@ END GROUP
  *(.ram)
                 0x20000148                _edata = .
 
-.igot.plt       0x20000148        0x0 load address 0x00000ed8
+.igot.plt       0x20000148        0x0 load address 0x00000fe8
  .igot.plt      0x20000148        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
 
-.bss            0x20000148      0x180 load address 0x00000ed8
+.bss            0x20000148      0x180 load address 0x00000fe8
                 0x20000148                PROVIDE (__bss_start__, .)
  *(.shbss)
  *(.bss .bss.* .gnu.linkonce.b.*)
@@ -976,11 +972,11 @@ END GROUP
                 0x200002c8                __end = .
                 0x200002c8                PROVIDE (end, .)
                 0x200002c8                PROVIDE (__bss_end__, .)
-                0x00000e50                __cy_region_init_ram = LOADADDR (.data)
+                0x00000f60                __cy_region_init_ram = LOADADDR (.data)
                 0x00000088                __cy_region_init_size_ram = (_edata - ADDR (.data))
                 0x00000180                __cy_region_zero_size_ram = (_end - _edata)
 
-.heap           0x200002c8       0x80 load address 0x00000ed8
+.heap           0x200002c8       0x80 load address 0x00000fe8
                 0x200002c8                . = _end
                 0x20000348                . = (. + 0x80)
  *fill*         0x200002c8       0x80 
@@ -1020,8 +1016,8 @@ END GROUP
                 0x90600000        0x1 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
                 0x90600000                cy_meta_chipprotect
 
-.rel.dyn        0x00000ed8        0x0 load address 0x90600004
- .rel.iplt      0x00000ed8        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
+.rel.dyn        0x00000fe8        0x0 load address 0x90600004
+ .rel.iplt      0x00000fe8        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
 
 .stab
  *(.stab)
@@ -1041,187 +1037,179 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0xa78
+.debug_aranges  0x00000000      0xa58
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS.o
  .debug_aranges
                 0x00000020       0x68 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .debug_aranges
-                0x00000088       0x20 .\CortexM0\ARM_GCC_541\Debug\IMU.o
+                0x00000088       0xc0 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
  .debug_aranges
-                0x000000a8       0xc0 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+                0x00000148       0x88 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
  .debug_aranges
-                0x00000168       0x88 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
+                0x000001d0       0x18 .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
  .debug_aranges
-                0x000001f0       0x18 .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
+                0x000001e8      0x110 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
  .debug_aranges
-                0x00000208      0x110 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
+                0x000002f8       0xa8 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
  .debug_aranges
-                0x00000318       0xa8 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+                0x000003a0       0x40 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
  .debug_aranges
-                0x000003c0       0x40 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
+                0x000003e0       0x50 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
  .debug_aranges
-                0x00000400       0x50 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
+                0x00000430       0x38 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
  .debug_aranges
-                0x00000450       0x38 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+                0x00000468       0x18 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
  .debug_aranges
-                0x00000488       0x18 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
+                0x00000480       0x48 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
  .debug_aranges
-                0x000004a0       0x48 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+                0x000004c8      0x270 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
  .debug_aranges
-                0x000004e8      0x270 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x00000738      0x188 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
  .debug_aranges
-                0x00000758      0x188 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+                0x000008c0       0xe8 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
  .debug_aranges
-                0x000008e0       0xe8 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
+                0x000009a8       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
  .debug_aranges
-                0x000009c8       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
+                0x000009c8       0x30 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
  .debug_aranges
-                0x000009e8       0x30 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
+                0x000009f8       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
  .debug_aranges
-                0x00000a18       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
- .debug_aranges
-                0x00000a38       0x40 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
+                0x00000a18       0x40 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x78ee
+.debug_info     0x00000000     0x7723
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x267 .\CortexM0\ARM_GCC_541\Debug\GPS.o
- .debug_info    0x00000267      0x639 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
- .debug_info    0x000008a0      0x356 .\CortexM0\ARM_GCC_541\Debug\IMU.o
- .debug_info    0x00000bf6      0xa46 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
- .debug_info    0x0000163c      0x60d .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
- .debug_info    0x00001c49       0x6b .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
- .debug_info    0x00001cb4      0xe62 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
- .debug_info    0x00002b16      0x641 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
- .debug_info    0x00003157      0x2ff .\CortexM0\ARM_GCC_541\Debug\CANPower.o
- .debug_info    0x00003456      0x353 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
- .debug_info    0x000037a9      0x298 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
- .debug_info    0x00003a41       0xf8 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
- .debug_info    0x00003b39      0x3a2 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
- .debug_info    0x00003edb     0x17e4 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
- .debug_info    0x000056bf     0x1058 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
- .debug_info    0x00006717      0x9c6 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
- .debug_info    0x000070dd       0xa0 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
- .debug_info    0x0000717d      0x37e .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
- .debug_info    0x000074fb       0xa1 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
- .debug_info    0x0000759c      0x352 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
+ .debug_info    0x00000000      0x3f2 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .debug_info    0x000003f2      0x639 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
+ .debug_info    0x00000a2b      0xa46 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+ .debug_info    0x00001471      0x60d .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
+ .debug_info    0x00001a7e       0x6b .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
+ .debug_info    0x00001ae9      0xe62 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
+ .debug_info    0x0000294b      0x641 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+ .debug_info    0x00002f8c      0x2ff .\CortexM0\ARM_GCC_541\Debug\CANPower.o
+ .debug_info    0x0000328b      0x353 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
+ .debug_info    0x000035de      0x298 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_info    0x00003876       0xf8 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
+ .debug_info    0x0000396e      0x3a2 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+ .debug_info    0x00003d10     0x17e4 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+ .debug_info    0x000054f4     0x1058 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+ .debug_info    0x0000654c      0x9c6 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
+ .debug_info    0x00006f12       0xa0 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
+ .debug_info    0x00006fb2      0x37e .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
+ .debug_info    0x00007330       0xa1 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
+ .debug_info    0x000073d1      0x352 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
 
-.debug_abbrev   0x00000000     0x181f
+.debug_abbrev   0x00000000     0x1746
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0xd9 .\CortexM0\ARM_GCC_541\Debug\GPS.o
  .debug_abbrev  0x000000d9      0x1ad .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
- .debug_abbrev  0x00000286       0xd9 .\CortexM0\ARM_GCC_541\Debug\IMU.o
- .debug_abbrev  0x0000035f      0x149 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
- .debug_abbrev  0x000004a8      0x106 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
- .debug_abbrev  0x000005ae       0x26 .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
- .debug_abbrev  0x000005d4      0x18e .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
- .debug_abbrev  0x00000762      0x16f .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
- .debug_abbrev  0x000008d1      0x124 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
- .debug_abbrev  0x000009f5       0xfe .\CortexM0\ARM_GCC_541\Debug\CANScience.o
- .debug_abbrev  0x00000af3      0x166 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
- .debug_abbrev  0x00000c59       0x5d .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
- .debug_abbrev  0x00000cb6      0x1d7 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
- .debug_abbrev  0x00000e8d      0x293 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
- .debug_abbrev  0x00001120      0x248 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
- .debug_abbrev  0x00001368      0x186 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
- .debug_abbrev  0x000014ee       0x42 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
- .debug_abbrev  0x00001530      0x159 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
- .debug_abbrev  0x00001689       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
- .debug_abbrev  0x0000169d      0x182 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
+ .debug_abbrev  0x00000286      0x149 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+ .debug_abbrev  0x000003cf      0x106 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
+ .debug_abbrev  0x000004d5       0x26 .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
+ .debug_abbrev  0x000004fb      0x18e .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
+ .debug_abbrev  0x00000689      0x16f .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+ .debug_abbrev  0x000007f8      0x124 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
+ .debug_abbrev  0x0000091c       0xfe .\CortexM0\ARM_GCC_541\Debug\CANScience.o
+ .debug_abbrev  0x00000a1a      0x166 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_abbrev  0x00000b80       0x5d .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
+ .debug_abbrev  0x00000bdd      0x1d7 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+ .debug_abbrev  0x00000db4      0x293 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+ .debug_abbrev  0x00001047      0x248 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+ .debug_abbrev  0x0000128f      0x186 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
+ .debug_abbrev  0x00001415       0x42 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
+ .debug_abbrev  0x00001457      0x159 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
+ .debug_abbrev  0x000015b0       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
+ .debug_abbrev  0x000015c4      0x182 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
 
-.debug_line     0x00000000     0x2fcf
+.debug_line     0x00000000     0x2e57
  *(.debug_line)
- .debug_line    0x00000000      0x184 .\CortexM0\ARM_GCC_541\Debug\GPS.o
- .debug_line    0x00000184      0x2ca .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
- .debug_line    0x0000044e      0x196 .\CortexM0\ARM_GCC_541\Debug\IMU.o
- .debug_line    0x000005e4      0x2f6 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
- .debug_line    0x000008da      0x251 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
- .debug_line    0x00000b2b       0x1d .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
- .debug_line    0x00000b48      0x3a4 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
- .debug_line    0x00000eec      0x2df .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
- .debug_line    0x000011cb      0x1a0 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
- .debug_line    0x0000136b      0x1c8 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
- .debug_line    0x00001533      0x154 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
- .debug_line    0x00001687      0x141 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
- .debug_line    0x000017c8      0x236 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
- .debug_line    0x000019fe      0x8ef .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
- .debug_line    0x000022ed      0x5d1 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
- .debug_line    0x000028be      0x3e7 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
- .debug_line    0x00002ca5       0x53 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
- .debug_line    0x00002cf8       0xfc .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
- .debug_line    0x00002df4       0x68 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
- .debug_line    0x00002e5c      0x173 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
+ .debug_line    0x00000000      0x1a2 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .debug_line    0x000001a2      0x2ca .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
+ .debug_line    0x0000046c      0x2f6 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+ .debug_line    0x00000762      0x251 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
+ .debug_line    0x000009b3       0x1d .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
+ .debug_line    0x000009d0      0x3a4 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
+ .debug_line    0x00000d74      0x2df .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+ .debug_line    0x00001053      0x1a0 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
+ .debug_line    0x000011f3      0x1c8 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
+ .debug_line    0x000013bb      0x154 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_line    0x0000150f      0x141 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
+ .debug_line    0x00001650      0x236 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+ .debug_line    0x00001886      0x8ef .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+ .debug_line    0x00002175      0x5d1 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+ .debug_line    0x00002746      0x3e7 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
+ .debug_line    0x00002b2d       0x53 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
+ .debug_line    0x00002b80       0xfc .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
+ .debug_line    0x00002c7c       0x68 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
+ .debug_line    0x00002ce4      0x173 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
 
-.debug_frame    0x00000000     0x1cb8
+.debug_frame    0x00000000     0x1c8c
  *(.debug_frame)
  .debug_frame   0x00000000       0x2c .\CortexM0\ARM_GCC_541\Debug\GPS.o
  .debug_frame   0x0000002c       0xfc .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
- .debug_frame   0x00000128       0x2c .\CortexM0\ARM_GCC_541\Debug\IMU.o
- .debug_frame   0x00000154      0x27c .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
- .debug_frame   0x000003d0      0x178 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
- .debug_frame   0x00000548      0x360 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
- .debug_frame   0x000008a8      0x1a4 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
- .debug_frame   0x00000a4c       0x8c .\CortexM0\ARM_GCC_541\Debug\CANPower.o
- .debug_frame   0x00000ad8       0xb0 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
- .debug_frame   0x00000b88       0x74 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
- .debug_frame   0x00000bfc       0xbc .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
- .debug_frame   0x00000cb8      0x718 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
- .debug_frame   0x000013d0      0x4a4 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
- .debug_frame   0x00001874      0x238 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
- .debug_frame   0x00001aac       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
- .debug_frame   0x00001acc       0x60 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
- .debug_frame   0x00001b2c       0x90 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
- .debug_frame   0x00001bbc       0x20 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m\libgcc.a(_udivsi3.o)
- .debug_frame   0x00001bdc       0x20 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m\libgcc.a(_divsi3.o)
- .debug_frame   0x00001bfc       0x20 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-errno.o)
- .debug_frame   0x00001c1c       0x28 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-exit.o)
- .debug_frame   0x00001c44       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-init.o)
- .debug_frame   0x00001c70       0x28 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memcpy-stub.o)
- .debug_frame   0x00001c98       0x20 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memset.o)
+ .debug_frame   0x00000128      0x27c .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+ .debug_frame   0x000003a4      0x178 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
+ .debug_frame   0x0000051c      0x360 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
+ .debug_frame   0x0000087c      0x1a4 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+ .debug_frame   0x00000a20       0x8c .\CortexM0\ARM_GCC_541\Debug\CANPower.o
+ .debug_frame   0x00000aac       0xb0 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
+ .debug_frame   0x00000b5c       0x74 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_frame   0x00000bd0       0xbc .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+ .debug_frame   0x00000c8c      0x718 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+ .debug_frame   0x000013a4      0x4a4 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+ .debug_frame   0x00001848      0x238 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
+ .debug_frame   0x00001a80       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
+ .debug_frame   0x00001aa0       0x60 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
+ .debug_frame   0x00001b00       0x90 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
+ .debug_frame   0x00001b90       0x20 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m\libgcc.a(_udivsi3.o)
+ .debug_frame   0x00001bb0       0x20 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m\libgcc.a(_divsi3.o)
+ .debug_frame   0x00001bd0       0x20 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-errno.o)
+ .debug_frame   0x00001bf0       0x28 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-exit.o)
+ .debug_frame   0x00001c18       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-init.o)
+ .debug_frame   0x00001c44       0x28 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memcpy-stub.o)
+ .debug_frame   0x00001c6c       0x20 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memset.o)
 
-.debug_str      0x00000000     0x2785
+.debug_str      0x00000000     0x277f
  *(.debug_str)
  .debug_str     0x00000000      0x1e8 .\CortexM0\ARM_GCC_541\Debug\GPS.o
                                 0x248 (size before relaxing)
  .debug_str     0x000001e8      0x268 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
                                 0x465 (size before relaxing)
- .debug_str     0x00000450        0x6 .\CortexM0\ARM_GCC_541\Debug\IMU.o
-                                0x248 (size before relaxing)
- .debug_str     0x00000456      0x3bc .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+ .debug_str     0x00000450      0x3bc .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
                                 0x5b7 (size before relaxing)
- .debug_str     0x00000812      0x1ff .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
+ .debug_str     0x0000080c      0x1ff .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
                                 0x440 (size before relaxing)
- .debug_str     0x00000a11       0x1f .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
+ .debug_str     0x00000a0b       0x1f .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
                                 0x18d (size before relaxing)
- .debug_str     0x00000a30      0x3a6 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
+ .debug_str     0x00000a2a      0x3a6 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
                                 0x62c (size before relaxing)
- .debug_str     0x00000dd6      0x171 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+ .debug_str     0x00000dd0      0x171 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
                                 0x43f (size before relaxing)
- .debug_str     0x00000f47       0xbf .\CortexM0\ARM_GCC_541\Debug\CANPower.o
+ .debug_str     0x00000f41       0xbf .\CortexM0\ARM_GCC_541\Debug\CANPower.o
                                 0x325 (size before relaxing)
- .debug_str     0x00001006      0x126 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
+ .debug_str     0x00001000      0x126 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
                                 0x347 (size before relaxing)
- .debug_str     0x0000112c       0xac .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_str     0x00001126       0xac .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
                                 0x26c (size before relaxing)
- .debug_str     0x000011d8       0x59 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
+ .debug_str     0x000011d2       0x59 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
                                 0x1d9 (size before relaxing)
- .debug_str     0x00001231      0x140 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+ .debug_str     0x0000122b      0x140 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
                                 0x312 (size before relaxing)
- .debug_str     0x00001371      0x940 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+ .debug_str     0x0000136b      0x940 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
                                 0xb59 (size before relaxing)
- .debug_str     0x00001cb1      0x6e2 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+ .debug_str     0x00001cab      0x6e2 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
                                 0x92e (size before relaxing)
- .debug_str     0x00002393      0x2bb .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
+ .debug_str     0x0000238d      0x2bb .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
                                 0x547 (size before relaxing)
- .debug_str     0x0000264e       0x29 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
+ .debug_str     0x00002648       0x29 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
                                 0x1b5 (size before relaxing)
- .debug_str     0x00002677       0x63 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
+ .debug_str     0x00002671       0x63 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
                                 0x2da (size before relaxing)
- .debug_str     0x000026da       0xab .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
+ .debug_str     0x000026d4       0xab .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
                                 0x2c1 (size before relaxing)
 
 .debug_loc      0x00000000     0x5cef
@@ -1244,31 +1232,29 @@ END GROUP
 .debug_macinfo
  *(.debug_macinfo)
 
-.debug_ranges   0x00000000      0x948
+.debug_ranges   0x00000000      0x938
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x10 .\CortexM0\ARM_GCC_541\Debug\GPS.o
  .debug_ranges  0x00000010       0x58 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
- .debug_ranges  0x00000068       0x10 .\CortexM0\ARM_GCC_541\Debug\IMU.o
- .debug_ranges  0x00000078       0xb0 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
- .debug_ranges  0x00000128       0x78 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
- .debug_ranges  0x000001a0      0x100 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
- .debug_ranges  0x000002a0       0xc8 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
- .debug_ranges  0x00000368       0x30 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
- .debug_ranges  0x00000398       0x40 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
- .debug_ranges  0x000003d8       0x28 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
- .debug_ranges  0x00000400       0x38 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
- .debug_ranges  0x00000438      0x260 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
- .debug_ranges  0x00000698      0x178 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
- .debug_ranges  0x00000810       0xd8 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
- .debug_ranges  0x000008e8       0x10 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
- .debug_ranges  0x000008f8       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
- .debug_ranges  0x00000918       0x30 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
+ .debug_ranges  0x00000068       0xb0 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+ .debug_ranges  0x00000118       0x78 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
+ .debug_ranges  0x00000190      0x100 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
+ .debug_ranges  0x00000290       0xc8 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+ .debug_ranges  0x00000358       0x30 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
+ .debug_ranges  0x00000388       0x40 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
+ .debug_ranges  0x000003c8       0x28 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_ranges  0x000003f0       0x38 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+ .debug_ranges  0x00000428      0x260 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+ .debug_ranges  0x00000688      0x178 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+ .debug_ranges  0x00000800       0xd8 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
+ .debug_ranges  0x000008d8       0x10 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
+ .debug_ranges  0x000008e8       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
+ .debug_ranges  0x00000908       0x30 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
 
 .comment        0x00000000       0x6e
  .comment       0x00000000       0x6e .\CortexM0\ARM_GCC_541\Debug\GPS.o
                                  0x6f (size before relaxing)
  .comment       0x0000006e       0x6f .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
- .comment       0x0000006e       0x6f .\CortexM0\ARM_GCC_541\Debug\IMU.o
  .comment       0x0000006e       0x6f .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
  .comment       0x0000006e       0x6f .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
  .comment       0x0000006e       0x6f .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
@@ -1315,63 +1301,61 @@ END GROUP
  .ARM.attributes
                 0x00000096       0x31 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .ARM.attributes
-                0x000000c7       0x31 .\CortexM0\ARM_GCC_541\Debug\IMU.o
+                0x000000c7       0x31 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
  .ARM.attributes
-                0x000000f8       0x31 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+                0x000000f8       0x31 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
  .ARM.attributes
-                0x00000129       0x31 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
+                0x00000129       0x31 .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
  .ARM.attributes
-                0x0000015a       0x31 .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
+                0x0000015a       0x31 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
  .ARM.attributes
-                0x0000018b       0x31 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
+                0x0000018b       0x31 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
  .ARM.attributes
-                0x000001bc       0x31 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+                0x000001bc       0x31 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
  .ARM.attributes
-                0x000001ed       0x31 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
+                0x000001ed       0x31 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
  .ARM.attributes
-                0x0000021e       0x31 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
+                0x0000021e       0x31 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
  .ARM.attributes
-                0x0000024f       0x31 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+                0x0000024f       0x31 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
  .ARM.attributes
-                0x00000280       0x31 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
+                0x00000280       0x31 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
  .ARM.attributes
-                0x000002b1       0x31 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+                0x000002b1       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
  .ARM.attributes
-                0x000002e2       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+                0x000002e2       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
  .ARM.attributes
-                0x00000313       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+                0x00000313       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
  .ARM.attributes
-                0x00000344       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
+                0x00000344       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
  .ARM.attributes
-                0x00000375       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
+                0x00000375       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
  .ARM.attributes
-                0x000003a6       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
+                0x000003a6       0x21 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
  .ARM.attributes
-                0x000003d7       0x21 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
+                0x000003c7       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
  .ARM.attributes
-                0x000003f8       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
+                0x000003f8       0x1e c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m\libgcc.a(_udivsi3.o)
  .ARM.attributes
-                0x00000429       0x1e c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m\libgcc.a(_udivsi3.o)
+                0x00000416       0x1e c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m\libgcc.a(_divsi3.o)
  .ARM.attributes
-                0x00000447       0x1e c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m\libgcc.a(_divsi3.o)
+                0x00000434       0x1e c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m\libgcc.a(_dvmd_tls.o)
  .ARM.attributes
-                0x00000465       0x1e c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m\libgcc.a(_dvmd_tls.o)
+                0x00000452       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-errno.o)
  .ARM.attributes
-                0x00000483       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-errno.o)
+                0x0000047e       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-exit.o)
  .ARM.attributes
-                0x000004af       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-exit.o)
+                0x000004aa       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-impure.o)
  .ARM.attributes
-                0x000004db       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-impure.o)
+                0x000004d6       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-init.o)
  .ARM.attributes
-                0x00000507       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-init.o)
+                0x00000502       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memcpy-stub.o)
  .ARM.attributes
-                0x00000533       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memcpy-stub.o)
+                0x0000052e       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memset.o)
  .ARM.attributes
-                0x0000055f       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memset.o)
+                0x0000055a       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o
  .ARM.attributes
-                0x0000058b       0x2c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o
- .ARM.attributes
-                0x000005b7       0x1e c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
+                0x00000586       0x1e c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o
 
 /DISCARD/
  *(.note.GNU-stack)

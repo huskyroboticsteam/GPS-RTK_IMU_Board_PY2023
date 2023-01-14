@@ -36,6 +36,31 @@ int main(void)
                 SendCANPacket( &send );
                 state = WAIT;
                 break;
+            case(PULL_ACC):
+                AssembleTelemetryPullPacket(&send, DEVICE_GROUP_TELEMETRY, DEVICE_SERIAL_TELEM_LOCALIZATION, IMU_ACC);
+                SendCANPacket( &send );
+                state = WAIT;
+                break;
+            case(PULL_ANGVEL):
+                AssembleTelemetryPullPacket(&send, DEVICE_GROUP_TELEMETRY, DEVICE_SERIAL_TELEM_LOCALIZATION, IMU_ANGVEL);
+                SendCANPacket( &send );
+                state = WAIT;
+                break;
+            case(PULL_MAGF):
+                AssembleTelemetryPullPacket(&send, DEVICE_GROUP_TELEMETRY, DEVICE_SERIAL_TELEM_LOCALIZATION, IMU_MAGF);
+                SendCANPacket( &send) ;
+                state = WAIT;
+                break;
+            case(PULL_TEMP):
+                AssembleTelemetryPullPacket(&send, DEVICE_GROUP_TELEMETRY, DEVICE_SERIAL_TELEM_LOCALIZATION, IMU_TEMP);
+                SendCANPacket( &send) ;
+                state = WAIT;
+                break;                
+            case(PULL_VEL):
+                AssembleTelemetryPullPacket(&send, DEVICE_GROUP_TELEMETRY, DEVICE_SERIAL_TELEM_LOCALIZATION, IMU_VEL);
+                SendCANPacket( &send) ;
+                state = WAIT;
+                break;
                 
             case(WAIT):
                 if (PollAndReceiveCANPacket( &receive ) == ERROR_NONE)
@@ -58,6 +83,52 @@ int main(void)
                         Print("\r\n");
                         */
                         state = PULL_LAT;
+                    }
+                    //Print("Packet Found!\r\n");
+                    else if (DecodeTelemetryType( &receive ) == IMU_ACC)
+                    {
+                        /*
+                        Print("LONGITUDE: ");
+                        PrintInt(DecodeTelemetryDataSigned( &receive ));
+                        Print("\r\n\r\n");
+                        */
+                        state = PULL_ACC;
+                    }
+                    else if (DecodeTelemetryType ( &receive ) == IMU_ANGVEL)
+                    {
+                        /*
+                        Print("LATITUDE: ");
+                        PrintInt(DecodeTelemetryDataSigned( &receive ));
+                        Print("\r\n");
+                        */
+                        state = PULL_ANGVEL;
+                    }
+                    else if (DecodeTelemetryType ( &receive ) == IMU_MAGF)
+                    {
+                        /*
+                        Print("LATITUDE: ");
+                        PrintInt(DecodeTelemetryDataSigned( &receive ));
+                        Print("\r\n");
+                        */
+                        state = PULL_MAGF;
+                    }
+                    else if (DecodeTelemetryType ( &receive ) == IMU_TEMP)
+                    {
+                        /*
+                        Print("LATITUDE: ");
+                        PrintInt(DecodeTelemetryDataSigned( &receive ));
+                        Print("\r\n");
+                        */
+                        state = PULL_TEMP;
+                    }
+                    else if (DecodeTelemetryType ( &receive ) == IMU_VEL)
+                    {
+                        /*
+                        Print("LATITUDE: ");
+                        PrintInt(DecodeTelemetryDataSigned( &receive ));
+                        Print("\r\n");
+                        */
+                        state = PULL_VEL;
                     }
                     else {
                         /*

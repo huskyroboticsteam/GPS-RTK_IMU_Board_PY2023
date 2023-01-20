@@ -37,13 +37,13 @@ Allocating common symbols
 Common symbol       size              file
 
 deviceGroup         0x4               .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
-txData              0x4               .\CortexM0\ARM_GCC_541\Debug\GPS.o
-send                0xc               .\CortexM0\ARM_GCC_541\Debug\GPS.o
-debugOutput         0x20              .\CortexM0\ARM_GCC_541\Debug\GPS.o
-state               0x4               .\CortexM0\ARM_GCC_541\Debug\GPS.o
+txData              0x4               .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
+send                0xc               .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
+debugOutput         0x20              .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
+state               0x4               .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
 rxMailbox           0x10              .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
 deviceAddress       0x4               .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
-receive             0xc               .\CortexM0\ARM_GCC_541\Debug\GPS.o
+receive             0xc               .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
 latestMessage       0xc0              .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
 
 Discarded input sections
@@ -57,9 +57,9 @@ Discarded input sections
  .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
  .ARM.extab     0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
  .ARM.exidx     0x00000000        0x8 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
- .text          0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\GPS.o
- .data          0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\GPS.o
- .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
  .text          0x00000000        0x0 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .data          0x00000000        0x1 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .text.InitCAN  0x00000000       0x98 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
@@ -618,7 +618,7 @@ LOAD c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm
 LOAD c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
 LOAD c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
 START GROUP
-LOAD .\CortexM0\ARM_GCC_541\Debug\GPS.o
+LOAD .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
 LOAD .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
 LOAD .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
 LOAD .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
@@ -688,7 +688,7 @@ END GROUP
                 0x000001a4                . = MAX (., 0x100)
  *(.text .text.* .gnu.linkonce.t.*)
  .text          0x000001a4       0x60 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o
- .text.main     0x00000204      0x174 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .text.main     0x00000204      0x174 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
                 0x00000204                main
  .text.SendCANPacket
                 0x00000378       0x40 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
@@ -843,7 +843,7 @@ END GROUP
 
 .rodata         0x00000ecc       0x94
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x00000ecc       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .rodata        0x00000ecc       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
  .rodata        0x00000eec        0xc .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
  .rodata        0x00000ef8       0x2e .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
                 0x00000ef8                cyImoFreqMhz2Reg
@@ -955,7 +955,7 @@ END GROUP
                 0x20000184                CySysTickInitVar
  .bss           0x20000188       0x28 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
  *(COMMON)
- COMMON         0x200001b0       0x40 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ COMMON         0x200001b0       0x40 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
                 0x200001b0                txData
                 0x200001b4                send
                 0x200001c0                debugOutput
@@ -1040,7 +1040,7 @@ END GROUP
 .debug_aranges  0x00000000      0xa58
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+                0x00000000       0x20 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
  .debug_aranges
                 0x00000020       0x68 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .debug_aranges
@@ -1083,7 +1083,7 @@ END GROUP
 
 .debug_info     0x00000000     0x7723
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x3f2 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .debug_info    0x00000000      0x3f2 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
  .debug_info    0x000003f2      0x639 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .debug_info    0x00000a2b      0xa46 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
  .debug_info    0x00001471      0x60d .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
@@ -1105,7 +1105,7 @@ END GROUP
 
 .debug_abbrev   0x00000000     0x1746
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0xd9 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .debug_abbrev  0x00000000       0xd9 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
  .debug_abbrev  0x000000d9      0x1ad .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .debug_abbrev  0x00000286      0x149 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
  .debug_abbrev  0x000003cf      0x106 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
@@ -1125,31 +1125,31 @@ END GROUP
  .debug_abbrev  0x000015b0       0x14 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
  .debug_abbrev  0x000015c4      0x182 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
 
-.debug_line     0x00000000     0x2e57
+.debug_line     0x00000000     0x2e5b
  *(.debug_line)
- .debug_line    0x00000000      0x1a2 .\CortexM0\ARM_GCC_541\Debug\GPS.o
- .debug_line    0x000001a2      0x2ca .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
- .debug_line    0x0000046c      0x2f6 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
- .debug_line    0x00000762      0x251 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
- .debug_line    0x000009b3       0x1d .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
- .debug_line    0x000009d0      0x3a4 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
- .debug_line    0x00000d74      0x2df .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
- .debug_line    0x00001053      0x1a0 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
- .debug_line    0x000011f3      0x1c8 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
- .debug_line    0x000013bb      0x154 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
- .debug_line    0x0000150f      0x141 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
- .debug_line    0x00001650      0x236 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
- .debug_line    0x00001886      0x8ef .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
- .debug_line    0x00002175      0x5d1 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
- .debug_line    0x00002746      0x3e7 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
- .debug_line    0x00002b2d       0x53 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
- .debug_line    0x00002b80       0xfc .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
- .debug_line    0x00002c7c       0x68 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
- .debug_line    0x00002ce4      0x173 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
+ .debug_line    0x00000000      0x1a6 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
+ .debug_line    0x000001a6      0x2ca .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
+ .debug_line    0x00000470      0x2f6 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+ .debug_line    0x00000766      0x251 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
+ .debug_line    0x000009b7       0x1d .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
+ .debug_line    0x000009d4      0x3a4 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
+ .debug_line    0x00000d78      0x2df .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+ .debug_line    0x00001057      0x1a0 .\CortexM0\ARM_GCC_541\Debug\CANPower.o
+ .debug_line    0x000011f7      0x1c8 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
+ .debug_line    0x000013bf      0x154 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_line    0x00001513      0x141 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
+ .debug_line    0x00001654      0x236 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+ .debug_line    0x0000188a      0x8ef .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+ .debug_line    0x00002179      0x5d1 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+ .debug_line    0x0000274a      0x3e7 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
+ .debug_line    0x00002b31       0x53 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
+ .debug_line    0x00002b84       0xfc .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
+ .debug_line    0x00002c80       0x68 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyBootAsmGnu.o)
+ .debug_line    0x00002ce8      0x173 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
 
 .debug_frame    0x00000000     0x1c8c
  *(.debug_frame)
- .debug_frame   0x00000000       0x2c .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .debug_frame   0x00000000       0x2c .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
  .debug_frame   0x0000002c       0xfc .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .debug_frame   0x00000128      0x27c .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
  .debug_frame   0x000003a4      0x178 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
@@ -1173,43 +1173,43 @@ END GROUP
  .debug_frame   0x00001c44       0x28 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memcpy-stub.o)
  .debug_frame   0x00001c6c       0x20 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m\libg_nano.a(lib_a-memset.o)
 
-.debug_str      0x00000000     0x277f
+.debug_str      0x00000000     0x2783
  *(.debug_str)
- .debug_str     0x00000000      0x1e8 .\CortexM0\ARM_GCC_541\Debug\GPS.o
-                                0x248 (size before relaxing)
- .debug_str     0x000001e8      0x268 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
+ .debug_str     0x00000000      0x1ec .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
+                                0x24c (size before relaxing)
+ .debug_str     0x000001ec      0x268 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
                                 0x465 (size before relaxing)
- .debug_str     0x00000450      0x3bc .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
+ .debug_str     0x00000454      0x3bc .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
                                 0x5b7 (size before relaxing)
- .debug_str     0x0000080c      0x1ff .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
+ .debug_str     0x00000810      0x1ff .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
                                 0x440 (size before relaxing)
- .debug_str     0x00000a0b       0x1f .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
+ .debug_str     0x00000a0f       0x1f .\CortexM0\ARM_GCC_541\Debug\CANLocalization.o
                                 0x18d (size before relaxing)
- .debug_str     0x00000a2a      0x3a6 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
+ .debug_str     0x00000a2e      0x3a6 .\CortexM0\ARM_GCC_541\Debug\CANMotorUnit.o
                                 0x62c (size before relaxing)
- .debug_str     0x00000dd0      0x171 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
+ .debug_str     0x00000dd4      0x171 .\CortexM0\ARM_GCC_541\Debug\CANPacket.o
                                 0x43f (size before relaxing)
- .debug_str     0x00000f41       0xbf .\CortexM0\ARM_GCC_541\Debug\CANPower.o
+ .debug_str     0x00000f45       0xbf .\CortexM0\ARM_GCC_541\Debug\CANPower.o
                                 0x325 (size before relaxing)
- .debug_str     0x00001000      0x126 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
+ .debug_str     0x00001004      0x126 .\CortexM0\ARM_GCC_541\Debug\CANScience.o
                                 0x347 (size before relaxing)
- .debug_str     0x00001126       0xac .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_str     0x0000112a       0xac .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
                                 0x26c (size before relaxing)
- .debug_str     0x000011d2       0x59 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
+ .debug_str     0x000011d6       0x59 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
                                 0x1d9 (size before relaxing)
- .debug_str     0x0000122b      0x140 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+ .debug_str     0x0000122f      0x140 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
                                 0x312 (size before relaxing)
- .debug_str     0x0000136b      0x940 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
+ .debug_str     0x0000136f      0x940 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLib.o)
                                 0xb59 (size before relaxing)
- .debug_str     0x00001cab      0x6e2 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
+ .debug_str     0x00001caf      0x6e2 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyLFClk.o)
                                 0x92e (size before relaxing)
- .debug_str     0x0000238d      0x2bb .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
+ .debug_str     0x00002391      0x2bb .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN.o)
                                 0x547 (size before relaxing)
- .debug_str     0x00002648       0x29 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
+ .debug_str     0x0000264c       0x29 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_INT.o)
                                 0x1b5 (size before relaxing)
- .debug_str     0x00002671       0x63 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
+ .debug_str     0x00002675       0x63 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CAN_TX_RX_func.o)
                                 0x2da (size before relaxing)
- .debug_str     0x000026d4       0xab .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
+ .debug_str     0x000026d8       0xab .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
                                 0x2c1 (size before relaxing)
 
 .debug_loc      0x00000000     0x5cef
@@ -1234,7 +1234,7 @@ END GROUP
 
 .debug_ranges   0x00000000      0x938
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x10 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .debug_ranges  0x00000000       0x10 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
  .debug_ranges  0x00000010       0x58 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .debug_ranges  0x00000068       0xb0 .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
  .debug_ranges  0x00000118       0x78 .\CortexM0\ARM_GCC_541\Debug\CANGPIO.o
@@ -1252,7 +1252,7 @@ END GROUP
  .debug_ranges  0x00000908       0x30 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.a(CyFlash.o)
 
 .comment        0x00000000       0x6e
- .comment       0x00000000       0x6e .\CortexM0\ARM_GCC_541\Debug\GPS.o
+ .comment       0x00000000       0x6e .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
                                  0x6f (size before relaxing)
  .comment       0x0000006e       0x6f .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .comment       0x0000006e       0x6f .\CortexM0\ARM_GCC_541\Debug\CANCommon.o
@@ -1297,7 +1297,7 @@ END GROUP
  .ARM.attributes
                 0x0000004a       0x1b c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o
  .ARM.attributes
-                0x00000065       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS.o
+                0x00000065       0x31 .\CortexM0\ARM_GCC_541\Debug\GPS_IMU.o
  .ARM.attributes
                 0x00000096       0x31 .\CortexM0\ARM_GCC_541\Debug\PortCANDebug.o
  .ARM.attributes

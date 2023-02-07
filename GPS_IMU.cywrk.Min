@@ -250,6 +250,15 @@
 <v>GPS_IMU\GPS_IMU\PSoC 4 Architecture TRM</v>
 <v>GPS_IMU\GPS_IMU\PSoC 4200L Family Datasheet</v>
 <v>GPS_IMU\GPS_IMU\System Reference Guides</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_boot_v6_0</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_dmac_v1_10</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_lfclk_v1_20</v>
+<v>GPS_IMU\GPS_IMU\CAN_v3_0.pdf</v>
+<v>GPS_IMU\GPS_IMU\cy_clock_v2_20.pdf</v>
+<v>GPS_IMU\GPS_IMU\cy_pins_v2_20</v>
+<v>GPS_IMU\GPS_IMU\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>GPS_IMU\GPS_IMU\SCB_P4_v4_0</v>
+<v>GPS_IMU\GPS_IMU\SCB_P4_v4_0\SCB_P4_v4_0.pdf</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
 <v>GPS_IMU</v>
@@ -257,6 +266,15 @@
 <v>GPS_IMU\GPS_IMU\PSoC 4 Architecture TRM</v>
 <v>GPS_IMU\GPS_IMU\PSoC 4200L Family Datasheet</v>
 <v>GPS_IMU\GPS_IMU\System Reference Guides</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_boot_v6_0</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_dmac_v1_10</v>
+<v>GPS_IMU\GPS_IMU\System Reference Guides\cy_lfclk_v1_20</v>
+<v>GPS_IMU\GPS_IMU\CAN_v3_0.pdf</v>
+<v>GPS_IMU\GPS_IMU\cy_clock_v2_20.pdf</v>
+<v>GPS_IMU\GPS_IMU\cy_pins_v2_20</v>
+<v>GPS_IMU\GPS_IMU\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>GPS_IMU\GPS_IMU\SCB_P4_v4_0</v>
+<v>GPS_IMU\GPS_IMU\SCB_P4_v4_0\SCB_P4_v4_0.pdf</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 </TreeStatesV2>

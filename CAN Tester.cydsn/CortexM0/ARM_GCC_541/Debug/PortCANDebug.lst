@@ -1,0 +1,2912 @@
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"PortCANDebug.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.InitCAN,"ax",%progbits
+  20              		.align	2
+  21              		.global	InitCAN
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	InitCAN, %function
+  25              	InitCAN:
+  26              	.LFB34:
+  27              		.file 1 "PortCANDebug.c"
+   1:PortCANDebug.c **** /*
+   2:PortCANDebug.c ****  *This code was stolen from the CAN github Portfiles examples.
+   3:PortCANDebug.c ****  *If it's broken you know who to blame:
+   4:PortCANDebug.c ****  *
+   5:PortCANDebug.c ****  * Authors: Austin Chan
+   6:PortCANDebug.c ****  * Documentation: ClickUp
+   7:PortCANDebug.c ****  * 
+   8:PortCANDebug.c ****  * Port specific notes:
+   9:PortCANDebug.c ****  * Design must include a CAN block called CAN (not CAN0 or variation)
+  10:PortCANDebug.c ****  * Must auto generate code within PSoC IDE to use APIs
+  11:PortCANDebug.c ****  */
+  12:PortCANDebug.c **** #if CHIP_TYPE == CHIP_TYPE_PSOC_CY8C4248AZI_L485
+  13:PortCANDebug.c **** 
+  14:PortCANDebug.c **** #include "Port.h"
+  15:PortCANDebug.c **** #include "project.h"
+  16:PortCANDebug.c **** #include "stdlib.h"
+  17:PortCANDebug.c ****     
+  18:PortCANDebug.c **** #define Print(message) DEBUG_UartPutString(message)
+  19:PortCANDebug.c ****     
+  20:PortCANDebug.c **** //Flag internal to this port, 0xFF if no message waiting, doubles as mailbox number
+  21:PortCANDebug.c **** volatile uint8_t messagePresentFlag = 0xFF;
+  22:PortCANDebug.c **** volatile uint8_t messageReadFlag = 0x0;
+  23:PortCANDebug.c **** uint8_t FIFOSize(void);
+  24:PortCANDebug.c **** void countAddFIFO(void);
+  25:PortCANDebug.c **** void countRemoveFIFO(void);
+  26:PortCANDebug.c **** 
+  27:PortCANDebug.c **** #define FIFO_SIZE   16
+  28:PortCANDebug.c **** volatile CANPacket latestMessage[FIFO_SIZE];//internal to this port acts like a FIFO with 10 packet
+  29:PortCANDebug.c **** volatile uint8_t latestMessageHead = 0; //which index to read
+  30:PortCANDebug.c **** volatile uint8_t latestMessageTail = 0; //which index to write to next
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 2
+
+
+  31:PortCANDebug.c **** volatile uint8_t latestMessageFull = 0; //FIFO is full
+  32:PortCANDebug.c **** 
+  33:PortCANDebug.c **** #define STATUS_MAILBOX0 0x1
+  34:PortCANDebug.c **** #define STATUS_MAILBOX1 0x2
+  35:PortCANDebug.c **** #define STATUS_MAILBOX2 0x4
+  36:PortCANDebug.c **** #define STATUS_MAILBOX3 0x8
+  37:PortCANDebug.c **** #define STATUS_MAILBOX4 0x10
+  38:PortCANDebug.c **** #define STATUS_MAILBOX5 0x20
+  39:PortCANDebug.c **** 
+  40:PortCANDebug.c **** 
+  41:PortCANDebug.c **** CY_ISR_PROTO(CAN_FLAG_ISR);
+  42:PortCANDebug.c **** 
+  43:PortCANDebug.c **** int deviceAddress;
+  44:PortCANDebug.c **** int deviceGroup;
+  45:PortCANDebug.c **** CAN_RX_CFG rxMailbox;
+  46:PortCANDebug.c **** void InitCAN(int deviceGroupInput, int deviceAddressInput)
+  47:PortCANDebug.c **** {
+  28              		.loc 1 47 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  34              		.cfi_def_cfa_offset 24
+  35              		.cfi_offset 3, -24
+  36              		.cfi_offset 4, -20
+  37              		.cfi_offset 5, -16
+  38              		.cfi_offset 6, -12
+  39              		.cfi_offset 7, -8
+  40              		.cfi_offset 14, -4
+  41 0002 0400     		movs	r4, r0
+  42 0004 0D00     		movs	r5, r1
+  48:PortCANDebug.c ****     CAN_Start();//must name CAN Top Design block as "CAN"
+  43              		.loc 1 48 0
+  44 0006 FFF7FEFF 		bl	CAN_Start
+  45              	.LVL1:
+  49:PortCANDebug.c ****     
+  50:PortCANDebug.c ****     //TODO: I'm sure there's a better way of doing this part
+  51:PortCANDebug.c ****     deviceGroup = deviceGroupInput & 0xF; // 4bits of ID
+  46              		.loc 1 51 0
+  47 000a 0F20     		movs	r0, #15
+  48 000c 2040     		ands	r0, r4
+  49 000e 1A4E     		ldr	r6, .L2
+  50 0010 3060     		str	r0, [r6]
+  52:PortCANDebug.c ****     deviceAddress = deviceAddressInput & (0x3f);//6bits of ID
+  51              		.loc 1 52 0
+  52 0012 3F21     		movs	r1, #63
+  53 0014 2940     		ands	r1, r5
+  54 0016 194B     		ldr	r3, .L2+4
+  55 0018 1960     		str	r1, [r3]
+  53:PortCANDebug.c ****     
+  54:PortCANDebug.c ****     //sets up inidvidual recieve mailbox (3rd priority mailbox)
+  55:PortCANDebug.c ****     rxMailbox.rxmailbox = 0;
+  56              		.loc 1 55 0
+  57 001a 194C     		ldr	r4, .L2+8
+  58              	.LVL2:
+  59 001c 0025     		movs	r5, #0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 3
+
+
+  60              	.LVL3:
+  61 001e 2570     		strb	r5, [r4]
+  56:PortCANDebug.c ****     rxMailbox.rxacr = ((deviceGroup << 6)|(deviceAddress)) << 21;  // first 11 bits are the CAN ID 
+  62              		.loc 1 56 0
+  63 0020 8001     		lsls	r0, r0, #6
+  64 0022 0843     		orrs	r0, r1
+  65 0024 4005     		lsls	r0, r0, #21
+  66 0026 E060     		str	r0, [r4, #12]
+  57:PortCANDebug.c ****     rxMailbox.rxamr = 0x801FFFFF; // what bits to ignore
+  67              		.loc 1 57 0
+  68 0028 164F     		ldr	r7, .L2+12
+  69 002a A760     		str	r7, [r4, #8]
+  58:PortCANDebug.c ****     rxMailbox.rxcmd = CAN_RX_CMD_REG(CAN_RX_MAILBOX_0);//need to know what this is
+  70              		.loc 1 58 0
+  71 002c 164B     		ldr	r3, .L2+16
+  72 002e 1B68     		ldr	r3, [r3]
+  73 0030 6360     		str	r3, [r4, #4]
+  59:PortCANDebug.c ****     CAN_RxBufConfig(&rxMailbox);
+  74              		.loc 1 59 0
+  75 0032 2000     		movs	r0, r4
+  76 0034 FFF7FEFF 		bl	CAN_RxBufConfig
+  77              	.LVL4:
+  60:PortCANDebug.c ****     
+  61:PortCANDebug.c ****     //setup broadcast recieve mailbox (1st priority mailbox)
+  62:PortCANDebug.c ****     rxMailbox.rxmailbox = 1;
+  78              		.loc 1 62 0
+  79 0038 0123     		movs	r3, #1
+  80 003a 2370     		strb	r3, [r4]
+  63:PortCANDebug.c ****     rxMailbox.rxacr = ((0x0 << 6)|(0x0)) << 21; //0x20F<<21; // first 11 bits are the CAN ID that i
+  81              		.loc 1 63 0
+  82 003c E560     		str	r5, [r4, #12]
+  64:PortCANDebug.c ****     rxMailbox.rxamr = 0x801FFFFF; // what bits to ignore
+  83              		.loc 1 64 0
+  84 003e A760     		str	r7, [r4, #8]
+  65:PortCANDebug.c ****     rxMailbox.rxcmd = CAN_RX_CMD_REG(CAN_RX_MAILBOX_1);//need to know what this is
+  85              		.loc 1 65 0
+  86 0040 124B     		ldr	r3, .L2+20
+  87 0042 1B68     		ldr	r3, [r3]
+  88 0044 6360     		str	r3, [r4, #4]
+  66:PortCANDebug.c ****     CAN_RxBufConfig(&rxMailbox);
+  89              		.loc 1 66 0
+  90 0046 2000     		movs	r0, r4
+  91 0048 FFF7FEFF 		bl	CAN_RxBufConfig
+  92              	.LVL5:
+  67:PortCANDebug.c ****     
+  68:PortCANDebug.c ****     //setup group broadcast recieve mailbox (2nd priority mailbox)
+  69:PortCANDebug.c ****     rxMailbox.rxmailbox = 2;
+  93              		.loc 1 69 0
+  94 004c 0223     		movs	r3, #2
+  95 004e 2370     		strb	r3, [r4]
+  70:PortCANDebug.c ****     rxMailbox.rxacr = ((deviceGroup << 6)|(0x3F)) << 21; //0x20F<<21; // first 11 bits are the CAN 
+  96              		.loc 1 70 0
+  97 0050 3368     		ldr	r3, [r6]
+  98 0052 DB06     		lsls	r3, r3, #27
+  99 0054 FC22     		movs	r2, #252
+ 100 0056 D204     		lsls	r2, r2, #19
+ 101 0058 1343     		orrs	r3, r2
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 4
+
+
+ 102 005a E360     		str	r3, [r4, #12]
+  71:PortCANDebug.c ****     rxMailbox.rxamr = 0x801FFFFF; // what bits to ignore
+ 103              		.loc 1 71 0
+ 104 005c A760     		str	r7, [r4, #8]
+  72:PortCANDebug.c ****     rxMailbox.rxcmd = CAN_RX_CMD_REG(CAN_RX_MAILBOX_2);//need to know what this is
+ 105              		.loc 1 72 0
+ 106 005e 0C4B     		ldr	r3, .L2+24
+ 107 0060 1B68     		ldr	r3, [r3]
+ 108 0062 6360     		str	r3, [r4, #4]
+  73:PortCANDebug.c ****     CAN_RxBufConfig(&rxMailbox);
+ 109              		.loc 1 73 0
+ 110 0064 2000     		movs	r0, r4
+ 111 0066 FFF7FEFF 		bl	CAN_RxBufConfig
+ 112              	.LVL6:
+  74:PortCANDebug.c ****     
+  75:PortCANDebug.c ****     CAN_GlobalIntEnable();
+ 113              		.loc 1 75 0
+ 114 006a FFF7FEFF 		bl	CAN_GlobalIntEnable
+ 115              	.LVL7:
+  76:PortCANDebug.c ****     CyIntSetVector(CAN_ISR_NUMBER, CAN_FLAG_ISR);
+ 116              		.loc 1 76 0
+ 117 006e 0949     		ldr	r1, .L2+28
+ 118 0070 1C20     		movs	r0, #28
+ 119 0072 FFF7FEFF 		bl	CyIntSetVector
+ 120              	.LVL8:
+  77:PortCANDebug.c ****     //CY_ISR_PROTO(CAN_FLAG_ISR);
+  78:PortCANDebug.c ****     
+  79:PortCANDebug.c **** }
+ 121              		.loc 1 79 0
+ 122              		@ sp needed
+ 123 0076 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 124              	.L3:
+ 125              		.align	2
+ 126              	.L2:
+ 127 0078 00000000 		.word	deviceGroup
+ 128 007c 00000000 		.word	deviceAddress
+ 129 0080 00000000 		.word	rxMailbox
+ 130 0084 FFFF1F80 		.word	-2145386497
+ 131 0088 A0002F40 		.word	1076822176
+ 132 008c C0002F40 		.word	1076822208
+ 133 0090 E0002F40 		.word	1076822240
+ 134 0094 00000000 		.word	CAN_FLAG_ISR
+ 135              		.cfi_endproc
+ 136              	.LFE34:
+ 137              		.size	InitCAN, .-InitCAN
+ 138              		.section	.text.SendCANPacket,"ax",%progbits
+ 139              		.align	2
+ 140              		.global	SendCANPacket
+ 141              		.code	16
+ 142              		.thumb_func
+ 143              		.type	SendCANPacket, %function
+ 144              	SendCANPacket:
+ 145              	.LFB35:
+  80:PortCANDebug.c **** int SendCANPacket(CANPacket *packetToSend)
+  81:PortCANDebug.c **** {
+ 146              		.loc 1 81 0
+ 147              		.cfi_startproc
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 5
+
+
+ 148              		@ args = 0, pretend = 0, frame = 24
+ 149              		@ frame_needed = 0, uses_anonymous_args = 0
+ 150              	.LVL9:
+ 151 0000 10B5     		push	{r4, lr}
+ 152              		.cfi_def_cfa_offset 8
+ 153              		.cfi_offset 4, -8
+ 154              		.cfi_offset 14, -4
+ 155 0002 86B0     		sub	sp, sp, #24
+ 156              		.cfi_def_cfa_offset 32
+  82:PortCANDebug.c ****     if(!packetToSend) {return ERROR_NULL_POINTER;}
+ 157              		.loc 1 82 0
+ 158 0004 0028     		cmp	r0, #0
+ 159 0006 15D0     		beq	.L6
+  83:PortCANDebug.c ****     CAN_TX_MSG PSoCMessage;//CAN structure
+  84:PortCANDebug.c ****     CAN_DATA_BYTES_MSG PSoCData;//CAN data
+  85:PortCANDebug.c ****     PSoCMessage.id = packetToSend->id;
+ 160              		.loc 1 85 0
+ 161 0008 0388     		ldrh	r3, [r0]
+ 162 000a 02AC     		add	r4, sp, #8
+ 163 000c 0293     		str	r3, [sp, #8]
+  86:PortCANDebug.c ****     PSoCMessage.rtr = 0x0;
+ 164              		.loc 1 86 0
+ 165 000e 0023     		movs	r3, #0
+ 166 0010 2371     		strb	r3, [r4, #4]
+  87:PortCANDebug.c ****     PSoCMessage.ide = 0x0;//Not extended
+ 167              		.loc 1 87 0
+ 168 0012 6371     		strb	r3, [r4, #5]
+  88:PortCANDebug.c ****     PSoCMessage.dlc = packetToSend->dlc;
+ 169              		.loc 1 88 0
+ 170 0014 8278     		ldrb	r2, [r0, #2]
+ 171 0016 A271     		strb	r2, [r4, #6]
+  89:PortCANDebug.c ****     PSoCMessage.irq = 0x0;
+ 172              		.loc 1 89 0
+ 173 0018 E371     		strb	r3, [r4, #7]
+  90:PortCANDebug.c ****     PSoCMessage.msg = &PSoCData;
+ 174              		.loc 1 90 0
+ 175 001a 6B46     		mov	r3, sp
+ 176 001c 0593     		str	r3, [sp, #20]
+  91:PortCANDebug.c ****     
+  92:PortCANDebug.c ****     memcpy(PSoCData.byte, packetToSend->data, 8);
+ 177              		.loc 1 92 0
+ 178 001e C11C     		adds	r1, r0, #3
+ 179 0020 0822     		movs	r2, #8
+ 180 0022 6846     		mov	r0, sp
+ 181              	.LVL10:
+ 182 0024 FFF7FEFF 		bl	memcpy
+ 183              	.LVL11:
+  93:PortCANDebug.c ****     
+  94:PortCANDebug.c ****     if(CAN_SendMsg(&PSoCMessage) == CYRET_SUCCESS) {
+ 184              		.loc 1 94 0
+ 185 0028 2000     		movs	r0, r4
+ 186 002a FFF7FEFF 		bl	CAN_SendMsg
+ 187              	.LVL12:
+ 188 002e 0028     		cmp	r0, #0
+ 189 0030 02D1     		bne	.L7
+ 190 0032 02E0     		b	.L5
+ 191              	.LVL13:
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 6
+
+
+ 192              	.L6:
+  82:PortCANDebug.c ****     CAN_TX_MSG PSoCMessage;//CAN structure
+ 193              		.loc 1 82 0
+ 194 0034 0220     		movs	r0, #2
+ 195              	.LVL14:
+ 196 0036 00E0     		b	.L5
+ 197              	.L7:
+  95:PortCANDebug.c ****         return ERROR_NONE;
+  96:PortCANDebug.c ****     } else
+  97:PortCANDebug.c ****     {
+  98:PortCANDebug.c ****         return ERROR_GENERIC_ERROR;
+ 198              		.loc 1 98 0
+ 199 0038 0120     		movs	r0, #1
+ 200              	.L5:
+  99:PortCANDebug.c ****     }
+ 100:PortCANDebug.c **** }
+ 201              		.loc 1 100 0
+ 202 003a 06B0     		add	sp, sp, #24
+ 203              		@ sp needed
+ 204 003c 10BD     		pop	{r4, pc}
+ 205              		.cfi_endproc
+ 206              	.LFE35:
+ 207              		.size	SendCANPacket, .-SendCANPacket
+ 208 003e C046     		.section	.text.getLocalDeviceSerial,"ax",%progbits
+ 209              		.align	2
+ 210              		.global	getLocalDeviceSerial
+ 211              		.code	16
+ 212              		.thumb_func
+ 213              		.type	getLocalDeviceSerial, %function
+ 214              	getLocalDeviceSerial:
+ 215              	.LFB37:
+ 101:PortCANDebug.c **** //
+ 102:PortCANDebug.c **** int PollAndReceiveCANPacket(CANPacket *receivedPacket)
+ 103:PortCANDebug.c **** {
+ 104:PortCANDebug.c ****     if(!receivedPacket) {
+ 105:PortCANDebug.c ****         return ERROR_NULL_POINTER;
+ 106:PortCANDebug.c ****     }
+ 107:PortCANDebug.c ****     volatile uint8_t size = FIFOSize();
+ 108:PortCANDebug.c ****     if(size)
+ 109:PortCANDebug.c ****     {
+ 110:PortCANDebug.c ****         *(receivedPacket) = latestMessage[latestMessageHead];
+ 111:PortCANDebug.c ****         countRemoveFIFO();
+ 112:PortCANDebug.c ****         return ERROR_NONE;
+ 113:PortCANDebug.c ****     }
+ 114:PortCANDebug.c ****     return 0x02; //No message received error
+ 115:PortCANDebug.c **** }
+ 116:PortCANDebug.c **** 
+ 117:PortCANDebug.c **** uint8_t getLocalDeviceSerial()
+ 118:PortCANDebug.c **** {
+ 216              		.loc 1 118 0
+ 217              		.cfi_startproc
+ 218              		@ args = 0, pretend = 0, frame = 0
+ 219              		@ frame_needed = 0, uses_anonymous_args = 0
+ 220              		@ link register save eliminated.
+ 119:PortCANDebug.c ****     return deviceAddress; 
+ 221              		.loc 1 119 0
+ 222 0000 014B     		ldr	r3, .L9
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 7
+
+
+ 223 0002 1878     		ldrb	r0, [r3]
+ 120:PortCANDebug.c **** }
+ 224              		.loc 1 120 0
+ 225              		@ sp needed
+ 226 0004 7047     		bx	lr
+ 227              	.L10:
+ 228 0006 C046     		.align	2
+ 229              	.L9:
+ 230 0008 00000000 		.word	deviceAddress
+ 231              		.cfi_endproc
+ 232              	.LFE37:
+ 233              		.size	getLocalDeviceSerial, .-getLocalDeviceSerial
+ 234              		.section	.text.getLocalDeviceGroup,"ax",%progbits
+ 235              		.align	2
+ 236              		.global	getLocalDeviceGroup
+ 237              		.code	16
+ 238              		.thumb_func
+ 239              		.type	getLocalDeviceGroup, %function
+ 240              	getLocalDeviceGroup:
+ 241              	.LFB38:
+ 121:PortCANDebug.c **** uint8_t getLocalDeviceGroup()
+ 122:PortCANDebug.c **** {
+ 242              		.loc 1 122 0
+ 243              		.cfi_startproc
+ 244              		@ args = 0, pretend = 0, frame = 0
+ 245              		@ frame_needed = 0, uses_anonymous_args = 0
+ 246              		@ link register save eliminated.
+ 123:PortCANDebug.c ****     return deviceGroup;
+ 247              		.loc 1 123 0
+ 248 0000 014B     		ldr	r3, .L12
+ 249 0002 1878     		ldrb	r0, [r3]
+ 124:PortCANDebug.c **** }
+ 250              		.loc 1 124 0
+ 251              		@ sp needed
+ 252 0004 7047     		bx	lr
+ 253              	.L13:
+ 254 0006 C046     		.align	2
+ 255              	.L12:
+ 256 0008 00000000 		.word	deviceGroup
+ 257              		.cfi_endproc
+ 258              	.LFE38:
+ 259              		.size	getLocalDeviceGroup, .-getLocalDeviceGroup
+ 260              		.section	.text.getChipType,"ax",%progbits
+ 261              		.align	2
+ 262              		.global	getChipType
+ 263              		.code	16
+ 264              		.thumb_func
+ 265              		.type	getChipType, %function
+ 266              	getChipType:
+ 267              	.LFB39:
+ 125:PortCANDebug.c **** 
+ 126:PortCANDebug.c **** uint8_t getChipType()
+ 127:PortCANDebug.c **** {
+ 268              		.loc 1 127 0
+ 269              		.cfi_startproc
+ 270              		@ args = 0, pretend = 0, frame = 0
+ 271              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 8
+
+
+ 272              		@ link register save eliminated.
+ 128:PortCANDebug.c ****     return 0x0000000; //This is supposed to be the CHIP_TYPE but Idk how that works so it's 0 now
+ 129:PortCANDebug.c **** }
+ 273              		.loc 1 129 0
+ 274 0000 0020     		movs	r0, #0
+ 275              		@ sp needed
+ 276 0002 7047     		bx	lr
+ 277              		.cfi_endproc
+ 278              	.LFE39:
+ 279              		.size	getChipType, .-getChipType
+ 280              		.section	.text.FIFOSize,"ax",%progbits
+ 281              		.align	2
+ 282              		.global	FIFOSize
+ 283              		.code	16
+ 284              		.thumb_func
+ 285              		.type	FIFOSize, %function
+ 286              	FIFOSize:
+ 287              	.LFB40:
+ 130:PortCANDebug.c **** 
+ 131:PortCANDebug.c **** //helper function calculate size of Fifo
+ 132:PortCANDebug.c **** uint8_t FIFOSize(){
+ 288              		.loc 1 132 0
+ 289              		.cfi_startproc
+ 290              		@ args = 0, pretend = 0, frame = 0
+ 291              		@ frame_needed = 0, uses_anonymous_args = 0
+ 292              		@ link register save eliminated.
+ 133:PortCANDebug.c ****     if(latestMessageFull) {
+ 293              		.loc 1 133 0
+ 294 0000 104B     		ldr	r3, .L19
+ 295 0002 1878     		ldrb	r0, [r3]
+ 296 0004 C0B2     		uxtb	r0, r0
+ 297 0006 0028     		cmp	r0, #0
+ 298 0008 19D1     		bne	.L18
+ 134:PortCANDebug.c ****         return FIFO_SIZE;
+ 135:PortCANDebug.c ****     }
+ 136:PortCANDebug.c ****     else if(latestMessageHead < latestMessageTail) {
+ 299              		.loc 1 136 0
+ 300 000a 5A78     		ldrb	r2, [r3, #1]
+ 301 000c D2B2     		uxtb	r2, r2
+ 302 000e 9B78     		ldrb	r3, [r3, #2]
+ 303 0010 DBB2     		uxtb	r3, r3
+ 304 0012 9A42     		cmp	r2, r3
+ 305 0014 05D2     		bcs	.L17
+ 137:PortCANDebug.c ****         return latestMessageTail - latestMessageHead;
+ 306              		.loc 1 137 0
+ 307 0016 0B4A     		ldr	r2, .L19
+ 308 0018 9378     		ldrb	r3, [r2, #2]
+ 309 001a 5078     		ldrb	r0, [r2, #1]
+ 310 001c 181A     		subs	r0, r3, r0
+ 311 001e C0B2     		uxtb	r0, r0
+ 312 0020 0EE0     		b	.L16
+ 313              	.L17:
+ 138:PortCANDebug.c ****     }
+ 139:PortCANDebug.c ****     else if(latestMessageHead > latestMessageTail) {
+ 314              		.loc 1 139 0
+ 315 0022 084B     		ldr	r3, .L19
+ 316 0024 5A78     		ldrb	r2, [r3, #1]
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 9
+
+
+ 317 0026 D2B2     		uxtb	r2, r2
+ 318 0028 9B78     		ldrb	r3, [r3, #2]
+ 319 002a DBB2     		uxtb	r3, r3
+ 320 002c 9A42     		cmp	r2, r3
+ 321 002e 07D9     		bls	.L16
+ 140:PortCANDebug.c ****         return (FIFO_SIZE - latestMessageHead) + latestMessageTail;
+ 322              		.loc 1 140 0
+ 323 0030 044A     		ldr	r2, .L19
+ 324 0032 9378     		ldrb	r3, [r2, #2]
+ 325 0034 5078     		ldrb	r0, [r2, #1]
+ 326 0036 181A     		subs	r0, r3, r0
+ 327 0038 1030     		adds	r0, r0, #16
+ 328 003a C0B2     		uxtb	r0, r0
+ 329 003c 00E0     		b	.L16
+ 330              	.L18:
+ 134:PortCANDebug.c ****     }
+ 331              		.loc 1 134 0
+ 332 003e 1020     		movs	r0, #16
+ 333              	.L16:
+ 141:PortCANDebug.c ****     }
+ 142:PortCANDebug.c ****     else { // latestMessageHead == latestMessageTail && !latestMessageFull
+ 143:PortCANDebug.c ****         return 0;
+ 144:PortCANDebug.c ****     }
+ 145:PortCANDebug.c **** }
+ 334              		.loc 1 145 0
+ 335              		@ sp needed
+ 336 0040 7047     		bx	lr
+ 337              	.L20:
+ 338 0042 C046     		.align	2
+ 339              	.L19:
+ 340 0044 00000000 		.word	.LANCHOR0
+ 341              		.cfi_endproc
+ 342              	.LFE40:
+ 343              		.size	FIFOSize, .-FIFOSize
+ 344              		.section	.text.countAddFIFO,"ax",%progbits
+ 345              		.align	2
+ 346              		.global	countAddFIFO
+ 347              		.code	16
+ 348              		.thumb_func
+ 349              		.type	countAddFIFO, %function
+ 350              	countAddFIFO:
+ 351              	.LFB41:
+ 146:PortCANDebug.c **** 
+ 147:PortCANDebug.c **** void countAddFIFO(){ 
+ 352              		.loc 1 147 0
+ 353              		.cfi_startproc
+ 354              		@ args = 0, pretend = 0, frame = 0
+ 355              		@ frame_needed = 0, uses_anonymous_args = 0
+ 356              		@ link register save eliminated.
+ 148:PortCANDebug.c ****     latestMessageTail++;
+ 357              		.loc 1 148 0
+ 358 0000 124A     		ldr	r2, .L24
+ 359 0002 9378     		ldrb	r3, [r2, #2]
+ 360 0004 0133     		adds	r3, r3, #1
+ 361 0006 DBB2     		uxtb	r3, r3
+ 362 0008 9370     		strb	r3, [r2, #2]
+ 149:PortCANDebug.c ****     if(latestMessageTail >= FIFO_SIZE){
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 10
+
+
+ 363              		.loc 1 149 0
+ 364 000a 9378     		ldrb	r3, [r2, #2]
+ 365 000c DBB2     		uxtb	r3, r3
+ 366 000e 0F2B     		cmp	r3, #15
+ 367 0010 02D9     		bls	.L22
+ 150:PortCANDebug.c ****         latestMessageTail = 0;
+ 368              		.loc 1 150 0
+ 369 0012 0022     		movs	r2, #0
+ 370 0014 0D4B     		ldr	r3, .L24
+ 371 0016 9A70     		strb	r2, [r3, #2]
+ 372              	.L22:
+ 151:PortCANDebug.c ****     }
+ 152:PortCANDebug.c ****     if(latestMessageFull) {
+ 373              		.loc 1 152 0
+ 374 0018 0C4B     		ldr	r3, .L24
+ 375 001a 1B78     		ldrb	r3, [r3]
+ 376 001c 002B     		cmp	r3, #0
+ 377 001e 0BD0     		beq	.L23
+ 153:PortCANDebug.c ****         latestMessageHead++;
+ 378              		.loc 1 153 0
+ 379 0020 0A4A     		ldr	r2, .L24
+ 380 0022 5378     		ldrb	r3, [r2, #1]
+ 381 0024 0133     		adds	r3, r3, #1
+ 382 0026 DBB2     		uxtb	r3, r3
+ 383 0028 5370     		strb	r3, [r2, #1]
+ 154:PortCANDebug.c ****         if(latestMessageHead >= FIFO_SIZE) {
+ 384              		.loc 1 154 0
+ 385 002a 5378     		ldrb	r3, [r2, #1]
+ 386 002c DBB2     		uxtb	r3, r3
+ 387 002e 0F2B     		cmp	r3, #15
+ 388 0030 02D9     		bls	.L23
+ 155:PortCANDebug.c ****             latestMessageHead = 0;
+ 389              		.loc 1 155 0
+ 390 0032 0022     		movs	r2, #0
+ 391 0034 054B     		ldr	r3, .L24
+ 392 0036 5A70     		strb	r2, [r3, #1]
+ 393              	.L23:
+ 156:PortCANDebug.c ****         }
+ 157:PortCANDebug.c ****     }
+ 158:PortCANDebug.c ****     latestMessageFull = (latestMessageHead == latestMessageTail);
+ 394              		.loc 1 158 0
+ 395 0038 044A     		ldr	r2, .L24
+ 396 003a 5378     		ldrb	r3, [r2, #1]
+ 397 003c 9178     		ldrb	r1, [r2, #2]
+ 398 003e 5B1A     		subs	r3, r3, r1
+ 399 0040 5942     		rsbs	r1, r3, #0
+ 400 0042 4B41     		adcs	r3, r3, r1
+ 401 0044 DBB2     		uxtb	r3, r3
+ 402 0046 1370     		strb	r3, [r2]
+ 159:PortCANDebug.c **** }
+ 403              		.loc 1 159 0
+ 404              		@ sp needed
+ 405 0048 7047     		bx	lr
+ 406              	.L25:
+ 407 004a C046     		.align	2
+ 408              	.L24:
+ 409 004c 00000000 		.word	.LANCHOR0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 11
+
+
+ 410              		.cfi_endproc
+ 411              	.LFE41:
+ 412              		.size	countAddFIFO, .-countAddFIFO
+ 413              		.section	.text.CAN_FLAG_ISR,"ax",%progbits
+ 414              		.align	2
+ 415              		.global	CAN_FLAG_ISR
+ 416              		.code	16
+ 417              		.thumb_func
+ 418              		.type	CAN_FLAG_ISR, %function
+ 419              	CAN_FLAG_ISR:
+ 420              	.LFB43:
+ 160:PortCANDebug.c **** 
+ 161:PortCANDebug.c **** void countRemoveFIFO(){
+ 162:PortCANDebug.c ****     if(FIFOSize() > 0) {
+ 163:PortCANDebug.c ****         latestMessageHead++;
+ 164:PortCANDebug.c ****         if(latestMessageHead >= FIFO_SIZE) {
+ 165:PortCANDebug.c ****             latestMessageHead = 0;
+ 166:PortCANDebug.c ****         }
+ 167:PortCANDebug.c ****     }
+ 168:PortCANDebug.c **** }
+ 169:PortCANDebug.c **** 
+ 170:PortCANDebug.c **** 
+ 171:PortCANDebug.c **** 
+ 172:PortCANDebug.c **** CY_ISR(CAN_FLAG_ISR)
+ 173:PortCANDebug.c **** {
+ 421              		.loc 1 173 0
+ 422              		.cfi_startproc
+ 423              		@ args = 0, pretend = 0, frame = 0
+ 424              		@ frame_needed = 0, uses_anonymous_args = 0
+ 425 0000 70B5     		push	{r4, r5, r6, lr}
+ 426              		.cfi_def_cfa_offset 16
+ 427              		.cfi_offset 4, -16
+ 428              		.cfi_offset 5, -12
+ 429              		.cfi_offset 6, -8
+ 430              		.cfi_offset 14, -4
+ 174:PortCANDebug.c ****     Print("Interupt Triggered!\r\n");
+ 431              		.loc 1 174 0
+ 432 0002 4648     		ldr	r0, .L34
+ 433 0004 FFF7FEFF 		bl	DEBUG_UartPutString
+ 434              	.LVL15:
+ 175:PortCANDebug.c ****     //*(reg32*)0x402F0000 = CAN_RX_MESSAGE_MASK & CAN_SST_FAILURE_MASK & CAN_CRC_ERROR_MASK; //Clea
+ 176:PortCANDebug.c ****     CAN_INT_SR_REG = CAN_RX_MESSAGE_MASK;
+ 435              		.loc 1 176 0
+ 436 0008 8022     		movs	r2, #128
+ 437 000a 5201     		lsls	r2, r2, #5
+ 438 000c 444B     		ldr	r3, .L34+4
+ 439 000e 1A60     		str	r2, [r3]
+ 177:PortCANDebug.c ****     uint32_t statusReg = (uint32_t) CAN_BUF_SR_REG; //Hardcoded for speed, translation from reg
+ 440              		.loc 1 177 0
+ 441 0010 444B     		ldr	r3, .L34+8
+ 442 0012 1B68     		ldr	r3, [r3]
+ 443              	.LVL16:
+ 178:PortCANDebug.c ****     uint8_t mailbox;
+ 179:PortCANDebug.c ****     
+ 180:PortCANDebug.c ****     if(statusReg & 0b1) { // mailbox0 is full (individual)
+ 444              		.loc 1 180 0
+ 445 0014 DA07     		lsls	r2, r3, #31
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 12
+
+
+ 446 0016 06D4     		bmi	.L30
+ 181:PortCANDebug.c ****         mailbox = CAN_RX_MAILBOX_0;
+ 182:PortCANDebug.c ****     }
+ 183:PortCANDebug.c ****     else if(statusReg & 0b10) { // mailbox1 is full (broadcast)
+ 447              		.loc 1 183 0
+ 448 0018 9A07     		lsls	r2, r3, #30
+ 449 001a 06D4     		bmi	.L31
+ 184:PortCANDebug.c ****         mailbox = CAN_RX_MAILBOX_1;
+ 185:PortCANDebug.c ****     }    
+ 186:PortCANDebug.c ****     else if(statusReg & 0b100) { // mailbox2 is full (group broadcast)
+ 450              		.loc 1 186 0
+ 451 001c 5A07     		lsls	r2, r3, #29
+ 452 001e 06D4     		bmi	.L32
+ 187:PortCANDebug.c ****         mailbox = CAN_RX_MAILBOX_2;
+ 188:PortCANDebug.c ****     } 
+ 189:PortCANDebug.c ****     else if(statusReg & 0b1000) { // mailbox3 is full currently recieves anything enable in top des
+ 453              		.loc 1 189 0
+ 454 0020 1B07     		lsls	r3, r3, #28
+ 455 0022 06D4     		bmi	.L33
+ 456              	.LVL17:
+ 457 0024 06E0     		b	.L27
+ 458              	.LVL18:
+ 459              	.L30:
+ 181:PortCANDebug.c ****     }
+ 460              		.loc 1 181 0
+ 461 0026 0024     		movs	r4, #0
+ 462 0028 04E0     		b	.L27
+ 463              	.L31:
+ 184:PortCANDebug.c ****         mailbox = CAN_RX_MAILBOX_1;
+ 464              		.loc 1 184 0
+ 465 002a 0124     		movs	r4, #1
+ 466 002c 02E0     		b	.L27
+ 467              	.L32:
+ 187:PortCANDebug.c ****         mailbox = CAN_RX_MAILBOX_2;
+ 468              		.loc 1 187 0
+ 469 002e 0224     		movs	r4, #2
+ 470 0030 00E0     		b	.L27
+ 471              	.LVL19:
+ 472              	.L33:
+ 190:PortCANDebug.c ****         mailbox = CAN_RX_MAILBOX_3;
+ 473              		.loc 1 190 0
+ 474 0032 0324     		movs	r4, #3
+ 475              	.L27:
+ 476              	.LVL20:
+ 191:PortCANDebug.c ****     }
+ 192:PortCANDebug.c ****     
+ 193:PortCANDebug.c ****     latestMessage[latestMessageTail].id = CAN_GET_RX_ID(mailbox);
+ 477              		.loc 1 193 0
+ 478 0034 3C4B     		ldr	r3, .L34+12
+ 479 0036 9A78     		ldrb	r2, [r3, #2]
+ 480 0038 D2B2     		uxtb	r2, r2
+ 481 003a 6401     		lsls	r4, r4, #5
+ 482              	.LVL21:
+ 483 003c 3B4B     		ldr	r3, .L34+16
+ 484 003e 9C46     		mov	ip, r3
+ 485 0040 6444     		add	r4, r4, ip
+ 486 0042 2368     		ldr	r3, [r4]
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 13
+
+
+ 487 0044 DB02     		lsls	r3, r3, #11
+ 488 0046 02D4     		bmi	.L28
+ 489              		.loc 1 193 0 is_stmt 0 discriminator 1
+ 490 0048 6168     		ldr	r1, [r4, #4]
+ 491 004a 490D     		lsrs	r1, r1, #21
+ 492 004c 02E0     		b	.L29
+ 493              	.L28:
+ 494              		.loc 1 193 0 discriminator 2
+ 495 004e 6168     		ldr	r1, [r4, #4]
+ 496 0050 C908     		lsrs	r1, r1, #3
+ 497 0052 89B2     		uxth	r1, r1
+ 498              	.L29:
+ 499              		.loc 1 193 0 discriminator 4
+ 500 0054 364B     		ldr	r3, .L34+20
+ 501 0056 5000     		lsls	r0, r2, #1
+ 502 0058 8218     		adds	r2, r0, r2
+ 503 005a 9000     		lsls	r0, r2, #2
+ 504 005c C152     		strh	r1, [r0, r3]
+ 194:PortCANDebug.c ****     latestMessage[latestMessageTail].dlc = CAN_GET_DLC(mailbox);
+ 505              		.loc 1 194 0 is_stmt 1 discriminator 4
+ 506 005e 324A     		ldr	r2, .L34+12
+ 507 0060 9178     		ldrb	r1, [r2, #2]
+ 508 0062 C9B2     		uxtb	r1, r1
+ 509 0064 2068     		ldr	r0, [r4]
+ 510 0066 000C     		lsrs	r0, r0, #16
+ 511 0068 0F25     		movs	r5, #15
+ 512 006a 2840     		ands	r0, r5
+ 513 006c 4D00     		lsls	r5, r1, #1
+ 514 006e 6918     		adds	r1, r5, r1
+ 515 0070 8D00     		lsls	r5, r1, #2
+ 516 0072 5D19     		adds	r5, r3, r5
+ 517 0074 A870     		strb	r0, [r5, #2]
+ 195:PortCANDebug.c ****     latestMessage[latestMessageTail].data[0] = CAN_RX_DATA_BYTE1(mailbox);
+ 518              		.loc 1 195 0 discriminator 4
+ 519 0076 9178     		ldrb	r1, [r2, #2]
+ 520 0078 C9B2     		uxtb	r1, r1
+ 521 007a A568     		ldr	r5, [r4, #8]
+ 522 007c 2D0E     		lsrs	r5, r5, #24
+ 523 007e 4800     		lsls	r0, r1, #1
+ 524 0080 4118     		adds	r1, r0, r1
+ 525 0082 8800     		lsls	r0, r1, #2
+ 526 0084 1818     		adds	r0, r3, r0
+ 527 0086 C570     		strb	r5, [r0, #3]
+ 196:PortCANDebug.c ****     latestMessage[latestMessageTail].data[1] = CAN_RX_DATA_BYTE2(mailbox);
+ 528              		.loc 1 196 0 discriminator 4
+ 529 0088 9178     		ldrb	r1, [r2, #2]
+ 530 008a C9B2     		uxtb	r1, r1
+ 531 008c A068     		ldr	r0, [r4, #8]
+ 532 008e 000C     		lsrs	r0, r0, #16
+ 533 0090 C0B2     		uxtb	r0, r0
+ 534 0092 4D00     		lsls	r5, r1, #1
+ 535 0094 6918     		adds	r1, r5, r1
+ 536 0096 8D00     		lsls	r5, r1, #2
+ 537 0098 5D19     		adds	r5, r3, r5
+ 538 009a 2871     		strb	r0, [r5, #4]
+ 197:PortCANDebug.c ****     latestMessage[latestMessageTail].data[2] = CAN_RX_DATA_BYTE3(mailbox);
+ 539              		.loc 1 197 0 discriminator 4
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 14
+
+
+ 540 009c 9178     		ldrb	r1, [r2, #2]
+ 541 009e C9B2     		uxtb	r1, r1
+ 542 00a0 A068     		ldr	r0, [r4, #8]
+ 543 00a2 000A     		lsrs	r0, r0, #8
+ 544 00a4 C0B2     		uxtb	r0, r0
+ 545 00a6 4D00     		lsls	r5, r1, #1
+ 546 00a8 6918     		adds	r1, r5, r1
+ 547 00aa 8D00     		lsls	r5, r1, #2
+ 548 00ac 5D19     		adds	r5, r3, r5
+ 549 00ae 6871     		strb	r0, [r5, #5]
+ 198:PortCANDebug.c ****     latestMessage[latestMessageTail].data[3] = CAN_RX_DATA_BYTE4(mailbox);
+ 550              		.loc 1 198 0 discriminator 4
+ 551 00b0 9178     		ldrb	r1, [r2, #2]
+ 552 00b2 C9B2     		uxtb	r1, r1
+ 553 00b4 A568     		ldr	r5, [r4, #8]
+ 554 00b6 EDB2     		uxtb	r5, r5
+ 555 00b8 4800     		lsls	r0, r1, #1
+ 556 00ba 4118     		adds	r1, r0, r1
+ 557 00bc 8800     		lsls	r0, r1, #2
+ 558 00be 1818     		adds	r0, r3, r0
+ 559 00c0 8571     		strb	r5, [r0, #6]
+ 199:PortCANDebug.c ****     latestMessage[latestMessageTail].data[4] = CAN_RX_DATA_BYTE5(mailbox);
+ 560              		.loc 1 199 0 discriminator 4
+ 561 00c2 9178     		ldrb	r1, [r2, #2]
+ 562 00c4 C9B2     		uxtb	r1, r1
+ 563 00c6 E568     		ldr	r5, [r4, #12]
+ 564 00c8 2D0E     		lsrs	r5, r5, #24
+ 565 00ca 4800     		lsls	r0, r1, #1
+ 566 00cc 4118     		adds	r1, r0, r1
+ 567 00ce 8800     		lsls	r0, r1, #2
+ 568 00d0 1818     		adds	r0, r3, r0
+ 569 00d2 C571     		strb	r5, [r0, #7]
+ 200:PortCANDebug.c ****     latestMessage[latestMessageTail].data[5] = CAN_RX_DATA_BYTE6(mailbox);
+ 570              		.loc 1 200 0 discriminator 4
+ 571 00d4 9178     		ldrb	r1, [r2, #2]
+ 572 00d6 C9B2     		uxtb	r1, r1
+ 573 00d8 E068     		ldr	r0, [r4, #12]
+ 574 00da 000C     		lsrs	r0, r0, #16
+ 575 00dc C0B2     		uxtb	r0, r0
+ 576 00de 4D00     		lsls	r5, r1, #1
+ 577 00e0 6918     		adds	r1, r5, r1
+ 578 00e2 8D00     		lsls	r5, r1, #2
+ 579 00e4 5D19     		adds	r5, r3, r5
+ 580 00e6 2872     		strb	r0, [r5, #8]
+ 201:PortCANDebug.c ****     latestMessage[latestMessageTail].data[6] = CAN_RX_DATA_BYTE7(mailbox);
+ 581              		.loc 1 201 0 discriminator 4
+ 582 00e8 9178     		ldrb	r1, [r2, #2]
+ 583 00ea C9B2     		uxtb	r1, r1
+ 584 00ec E068     		ldr	r0, [r4, #12]
+ 585 00ee 000A     		lsrs	r0, r0, #8
+ 586 00f0 C0B2     		uxtb	r0, r0
+ 587 00f2 4D00     		lsls	r5, r1, #1
+ 588 00f4 6918     		adds	r1, r5, r1
+ 589 00f6 8D00     		lsls	r5, r1, #2
+ 590 00f8 5D19     		adds	r5, r3, r5
+ 591 00fa 6872     		strb	r0, [r5, #9]
+ 202:PortCANDebug.c ****     latestMessage[latestMessageTail].data[7] = CAN_RX_DATA_BYTE8(mailbox);
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 15
+
+
+ 592              		.loc 1 202 0 discriminator 4
+ 593 00fc 9278     		ldrb	r2, [r2, #2]
+ 594 00fe D2B2     		uxtb	r2, r2
+ 595 0100 E068     		ldr	r0, [r4, #12]
+ 596 0102 C0B2     		uxtb	r0, r0
+ 597 0104 5100     		lsls	r1, r2, #1
+ 598 0106 8A18     		adds	r2, r1, r2
+ 599 0108 9100     		lsls	r1, r2, #2
+ 600 010a 5B18     		adds	r3, r3, r1
+ 601 010c 9872     		strb	r0, [r3, #10]
+ 203:PortCANDebug.c ****     countAddFIFO();
+ 602              		.loc 1 203 0 discriminator 4
+ 603 010e FFF7FEFF 		bl	countAddFIFO
+ 604              	.LVL22:
+ 204:PortCANDebug.c **** 
+ 205:PortCANDebug.c ****     //CAN_ReceiveMsg(messagePresentFlag);
+ 206:PortCANDebug.c ****     CAN_RX_ACK_MESSAGE(mailbox);
+ 605              		.loc 1 206 0 discriminator 4
+ 606 0112 2268     		ldr	r2, [r4]
+ 607 0114 0123     		movs	r3, #1
+ 608 0116 1343     		orrs	r3, r2
+ 609 0118 2360     		str	r3, [r4]
+ 207:PortCANDebug.c **** }
+ 610              		.loc 1 207 0 discriminator 4
+ 611              		@ sp needed
+ 612 011a 70BD     		pop	{r4, r5, r6, pc}
+ 613              	.L35:
+ 614              		.align	2
+ 615              	.L34:
+ 616 011c 00000000 		.word	.LC8
+ 617 0120 00002F40 		.word	1076822016
+ 618 0124 08002F40 		.word	1076822024
+ 619 0128 00000000 		.word	.LANCHOR0
+ 620 012c A0002F40 		.word	1076822176
+ 621 0130 00000000 		.word	latestMessage
+ 622              		.cfi_endproc
+ 623              	.LFE43:
+ 624              		.size	CAN_FLAG_ISR, .-CAN_FLAG_ISR
+ 625              		.section	.text.countRemoveFIFO,"ax",%progbits
+ 626              		.align	2
+ 627              		.global	countRemoveFIFO
+ 628              		.code	16
+ 629              		.thumb_func
+ 630              		.type	countRemoveFIFO, %function
+ 631              	countRemoveFIFO:
+ 632              	.LFB42:
+ 161:PortCANDebug.c ****     if(FIFOSize() > 0) {
+ 633              		.loc 1 161 0
+ 634              		.cfi_startproc
+ 635              		@ args = 0, pretend = 0, frame = 0
+ 636              		@ frame_needed = 0, uses_anonymous_args = 0
+ 637 0000 10B5     		push	{r4, lr}
+ 638              		.cfi_def_cfa_offset 8
+ 639              		.cfi_offset 4, -8
+ 640              		.cfi_offset 14, -4
+ 162:PortCANDebug.c ****         latestMessageHead++;
+ 641              		.loc 1 162 0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 16
+
+
+ 642 0002 FFF7FEFF 		bl	FIFOSize
+ 643              	.LVL23:
+ 644 0006 0028     		cmp	r0, #0
+ 645 0008 0BD0     		beq	.L36
+ 163:PortCANDebug.c ****         if(latestMessageHead >= FIFO_SIZE) {
+ 646              		.loc 1 163 0
+ 647 000a 064A     		ldr	r2, .L38
+ 648 000c 5378     		ldrb	r3, [r2, #1]
+ 649 000e 0133     		adds	r3, r3, #1
+ 650 0010 DBB2     		uxtb	r3, r3
+ 651 0012 5370     		strb	r3, [r2, #1]
+ 164:PortCANDebug.c ****             latestMessageHead = 0;
+ 652              		.loc 1 164 0
+ 653 0014 5378     		ldrb	r3, [r2, #1]
+ 654 0016 DBB2     		uxtb	r3, r3
+ 655 0018 0F2B     		cmp	r3, #15
+ 656 001a 02D9     		bls	.L36
+ 165:PortCANDebug.c ****         }
+ 657              		.loc 1 165 0
+ 658 001c 0022     		movs	r2, #0
+ 659 001e 014B     		ldr	r3, .L38
+ 660 0020 5A70     		strb	r2, [r3, #1]
+ 661              	.L36:
+ 168:PortCANDebug.c **** 
+ 662              		.loc 1 168 0
+ 663              		@ sp needed
+ 664 0022 10BD     		pop	{r4, pc}
+ 665              	.L39:
+ 666              		.align	2
+ 667              	.L38:
+ 668 0024 00000000 		.word	.LANCHOR0
+ 669              		.cfi_endproc
+ 670              	.LFE42:
+ 671              		.size	countRemoveFIFO, .-countRemoveFIFO
+ 672              		.section	.text.PollAndReceiveCANPacket,"ax",%progbits
+ 673              		.align	2
+ 674              		.global	PollAndReceiveCANPacket
+ 675              		.code	16
+ 676              		.thumb_func
+ 677              		.type	PollAndReceiveCANPacket, %function
+ 678              	PollAndReceiveCANPacket:
+ 679              	.LFB36:
+ 103:PortCANDebug.c ****     if(!receivedPacket) {
+ 680              		.loc 1 103 0
+ 681              		.cfi_startproc
+ 682              		@ args = 0, pretend = 0, frame = 8
+ 683              		@ frame_needed = 0, uses_anonymous_args = 0
+ 684              	.LVL24:
+ 685 0000 10B5     		push	{r4, lr}
+ 686              		.cfi_def_cfa_offset 8
+ 687              		.cfi_offset 4, -8
+ 688              		.cfi_offset 14, -4
+ 689 0002 82B0     		sub	sp, sp, #8
+ 690              		.cfi_def_cfa_offset 16
+ 691 0004 041E     		subs	r4, r0, #0
+ 104:PortCANDebug.c ****         return ERROR_NULL_POINTER;
+ 692              		.loc 1 104 0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 17
+
+
+ 693 0006 17D0     		beq	.L42
+ 107:PortCANDebug.c ****     if(size)
+ 694              		.loc 1 107 0
+ 695 0008 FFF7FEFF 		bl	FIFOSize
+ 696              	.LVL25:
+ 697 000c 6B46     		mov	r3, sp
+ 698 000e D871     		strb	r0, [r3, #7]
+ 699 0010 0733     		adds	r3, r3, #7
+ 108:PortCANDebug.c ****     {
+ 700              		.loc 1 108 0
+ 701 0012 1B78     		ldrb	r3, [r3]
+ 702 0014 002B     		cmp	r3, #0
+ 703 0016 11D0     		beq	.L43
+ 110:PortCANDebug.c ****         countRemoveFIFO();
+ 704              		.loc 1 110 0
+ 705 0018 0A4B     		ldr	r3, .L44
+ 706 001a 5B78     		ldrb	r3, [r3, #1]
+ 707 001c DBB2     		uxtb	r3, r3
+ 708 001e 5A00     		lsls	r2, r3, #1
+ 709 0020 D318     		adds	r3, r2, r3
+ 710 0022 9900     		lsls	r1, r3, #2
+ 711 0024 084B     		ldr	r3, .L44+4
+ 712 0026 5918     		adds	r1, r3, r1
+ 713 0028 0C22     		movs	r2, #12
+ 714 002a 2000     		movs	r0, r4
+ 715 002c FFF7FEFF 		bl	memcpy
+ 716              	.LVL26:
+ 111:PortCANDebug.c ****         return ERROR_NONE;
+ 717              		.loc 1 111 0
+ 718 0030 FFF7FEFF 		bl	countRemoveFIFO
+ 719              	.LVL27:
+ 112:PortCANDebug.c ****     }
+ 720              		.loc 1 112 0
+ 721 0034 0020     		movs	r0, #0
+ 722 0036 02E0     		b	.L41
+ 723              	.LVL28:
+ 724              	.L42:
+ 105:PortCANDebug.c ****     }
+ 725              		.loc 1 105 0
+ 726 0038 0220     		movs	r0, #2
+ 727              	.LVL29:
+ 728 003a 00E0     		b	.L41
+ 729              	.L43:
+ 114:PortCANDebug.c **** }
+ 730              		.loc 1 114 0
+ 731 003c 0220     		movs	r0, #2
+ 732              	.L41:
+ 115:PortCANDebug.c **** 
+ 733              		.loc 1 115 0
+ 734 003e 02B0     		add	sp, sp, #8
+ 735              		@ sp needed
+ 736              	.LVL30:
+ 737 0040 10BD     		pop	{r4, pc}
+ 738              	.L45:
+ 739 0042 C046     		.align	2
+ 740              	.L44:
+ 741 0044 00000000 		.word	.LANCHOR0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 18
+
+
+ 742 0048 00000000 		.word	latestMessage
+ 743              		.cfi_endproc
+ 744              	.LFE36:
+ 745              		.size	PollAndReceiveCANPacket, .-PollAndReceiveCANPacket
+ 746              		.comm	rxMailbox,16,4
+ 747              		.comm	deviceGroup,4,4
+ 748              		.comm	deviceAddress,4,4
+ 749              		.global	latestMessageFull
+ 750              		.global	latestMessageTail
+ 751              		.global	latestMessageHead
+ 752              		.comm	latestMessage,192,4
+ 753              		.global	messageReadFlag
+ 754              		.global	messagePresentFlag
+ 755              		.data
+ 756              		.type	messagePresentFlag, %object
+ 757              		.size	messagePresentFlag, 1
+ 758              	messagePresentFlag:
+ 759 0000 FF       		.byte	-1
+ 760              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 761              		.align	2
+ 762              	.LC8:
+ 763 0000 496E7465 		.ascii	"Interupt Triggered!\015\012\000"
+ 763      72757074 
+ 763      20547269 
+ 763      67676572 
+ 763      6564210D 
+ 764              		.bss
+ 765              		.set	.LANCHOR0,. + 0
+ 766              		.type	latestMessageFull, %object
+ 767              		.size	latestMessageFull, 1
+ 768              	latestMessageFull:
+ 769 0000 00       		.space	1
+ 770              		.type	latestMessageHead, %object
+ 771              		.size	latestMessageHead, 1
+ 772              	latestMessageHead:
+ 773 0001 00       		.space	1
+ 774              		.type	latestMessageTail, %object
+ 775              		.size	latestMessageTail, 1
+ 776              	latestMessageTail:
+ 777 0002 00       		.space	1
+ 778              		.type	messageReadFlag, %object
+ 779              		.size	messageReadFlag, 1
+ 780              	messageReadFlag:
+ 781 0003 00       		.space	1
+ 782              		.text
+ 783              	.Letext0:
+ 784              		.file 2 "x:\\programs\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none
+ 785              		.file 3 "x:\\programs\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none
+ 786              		.file 4 ".\\HindsightCAN/CANPacket.h"
+ 787              		.file 5 "Generated_Source\\PSoC4/cytypes.h"
+ 788              		.file 6 "Generated_Source\\PSoC4/CAN.h"
+ 789              		.file 7 "Generated_Source\\PSoC4/CyLib.h"
+ 790              		.file 8 "Generated_Source\\PSoC4/DEBUG_SPI_UART.h"
+ 791              		.section	.debug_info,"",%progbits
+ 792              	.Ldebug_info0:
+ 793 0000 58060000 		.4byte	0x658
+ 794 0004 0400     		.2byte	0x4
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 19
+
+
+ 795 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 796 000a 04       		.byte	0x4
+ 797 000b 01       		.uleb128 0x1
+ 798 000c ED000000 		.4byte	.LASF74
+ 799 0010 0C       		.byte	0xc
+ 800 0011 31040000 		.4byte	.LASF75
+ 801 0015 8B030000 		.4byte	.LASF76
+ 802 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 803 001d 00000000 		.4byte	0
+ 804 0021 00000000 		.4byte	.Ldebug_line0
+ 805 0025 02       		.uleb128 0x2
+ 806 0026 01       		.byte	0x1
+ 807 0027 06       		.byte	0x6
+ 808 0028 B6010000 		.4byte	.LASF0
+ 809 002c 03       		.uleb128 0x3
+ 810 002d 0C020000 		.4byte	.LASF3
+ 811 0031 02       		.byte	0x2
+ 812 0032 1D       		.byte	0x1d
+ 813 0033 37000000 		.4byte	0x37
+ 814 0037 02       		.uleb128 0x2
+ 815 0038 01       		.byte	0x1
+ 816 0039 08       		.byte	0x8
+ 817 003a 52020000 		.4byte	.LASF1
+ 818 003e 02       		.uleb128 0x2
+ 819 003f 02       		.byte	0x2
+ 820 0040 05       		.byte	0x5
+ 821 0041 62000000 		.4byte	.LASF2
+ 822 0045 03       		.uleb128 0x3
+ 823 0046 CC000000 		.4byte	.LASF4
+ 824 004a 02       		.byte	0x2
+ 825 004b 2B       		.byte	0x2b
+ 826 004c 50000000 		.4byte	0x50
+ 827 0050 02       		.uleb128 0x2
+ 828 0051 02       		.byte	0x2
+ 829 0052 07       		.byte	0x7
+ 830 0053 CF020000 		.4byte	.LASF5
+ 831 0057 02       		.uleb128 0x2
+ 832 0058 04       		.byte	0x4
+ 833 0059 05       		.byte	0x5
+ 834 005a 03020000 		.4byte	.LASF6
+ 835 005e 03       		.uleb128 0x3
+ 836 005f 16020000 		.4byte	.LASF7
+ 837 0063 02       		.byte	0x2
+ 838 0064 41       		.byte	0x41
+ 839 0065 69000000 		.4byte	0x69
+ 840 0069 02       		.uleb128 0x2
+ 841 006a 04       		.byte	0x4
+ 842 006b 07       		.byte	0x7
+ 843 006c 62030000 		.4byte	.LASF8
+ 844 0070 02       		.uleb128 0x2
+ 845 0071 08       		.byte	0x8
+ 846 0072 05       		.byte	0x5
+ 847 0073 C8010000 		.4byte	.LASF9
+ 848 0077 02       		.uleb128 0x2
+ 849 0078 08       		.byte	0x8
+ 850 0079 07       		.byte	0x7
+ 851 007a 80020000 		.4byte	.LASF10
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 20
+
+
+ 852 007e 04       		.uleb128 0x4
+ 853 007f 04       		.byte	0x4
+ 854 0080 05       		.byte	0x5
+ 855 0081 696E7400 		.ascii	"int\000"
+ 856 0085 02       		.uleb128 0x2
+ 857 0086 04       		.byte	0x4
+ 858 0087 07       		.byte	0x7
+ 859 0088 A0020000 		.4byte	.LASF11
+ 860 008c 03       		.uleb128 0x3
+ 861 008d 7B010000 		.4byte	.LASF12
+ 862 0091 03       		.byte	0x3
+ 863 0092 18       		.byte	0x18
+ 864 0093 2C000000 		.4byte	0x2c
+ 865 0097 03       		.uleb128 0x3
+ 866 0098 AD020000 		.4byte	.LASF13
+ 867 009c 03       		.byte	0x3
+ 868 009d 24       		.byte	0x24
+ 869 009e 45000000 		.4byte	0x45
+ 870 00a2 03       		.uleb128 0x3
+ 871 00a3 97020000 		.4byte	.LASF14
+ 872 00a7 03       		.byte	0x3
+ 873 00a8 30       		.byte	0x30
+ 874 00a9 5E000000 		.4byte	0x5e
+ 875 00ad 05       		.uleb128 0x5
+ 876 00ae 0C       		.byte	0xc
+ 877 00af 04       		.byte	0x4
+ 878 00b0 0F       		.byte	0xf
+ 879 00b1 D9000000 		.4byte	0xd9
+ 880 00b5 06       		.uleb128 0x6
+ 881 00b6 696400   		.ascii	"id\000"
+ 882 00b9 04       		.byte	0x4
+ 883 00ba 11       		.byte	0x11
+ 884 00bb 97000000 		.4byte	0x97
+ 885 00bf 00       		.byte	0
+ 886 00c0 06       		.uleb128 0x6
+ 887 00c1 646C6300 		.ascii	"dlc\000"
+ 888 00c5 04       		.byte	0x4
+ 889 00c6 12       		.byte	0x12
+ 890 00c7 8C000000 		.4byte	0x8c
+ 891 00cb 02       		.byte	0x2
+ 892 00cc 07       		.uleb128 0x7
+ 893 00cd 51030000 		.4byte	.LASF15
+ 894 00d1 04       		.byte	0x4
+ 895 00d2 13       		.byte	0x13
+ 896 00d3 D9000000 		.4byte	0xd9
+ 897 00d7 03       		.byte	0x3
+ 898 00d8 00       		.byte	0
+ 899 00d9 08       		.uleb128 0x8
+ 900 00da 8C000000 		.4byte	0x8c
+ 901 00de E9000000 		.4byte	0xe9
+ 902 00e2 09       		.uleb128 0x9
+ 903 00e3 E9000000 		.4byte	0xe9
+ 904 00e7 07       		.byte	0x7
+ 905 00e8 00       		.byte	0
+ 906 00e9 02       		.uleb128 0x2
+ 907 00ea 04       		.byte	0x4
+ 908 00eb 07       		.byte	0x7
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 21
+
+
+ 909 00ec 6C000000 		.4byte	.LASF16
+ 910 00f0 03       		.uleb128 0x3
+ 911 00f1 E1010000 		.4byte	.LASF17
+ 912 00f5 04       		.byte	0x4
+ 913 00f6 14       		.byte	0x14
+ 914 00f7 AD000000 		.4byte	0xad
+ 915 00fb 0A       		.uleb128 0xa
+ 916 00fc 83010000 		.4byte	.LASF18
+ 917 0100 05       		.byte	0x5
+ 918 0101 FB01     		.2byte	0x1fb
+ 919 0103 37000000 		.4byte	0x37
+ 920 0107 0A       		.uleb128 0xa
+ 921 0108 56030000 		.4byte	.LASF19
+ 922 010c 05       		.byte	0x5
+ 923 010d FD01     		.2byte	0x1fd
+ 924 010f 69000000 		.4byte	0x69
+ 925 0113 02       		.uleb128 0x2
+ 926 0114 04       		.byte	0x4
+ 927 0115 04       		.byte	0x4
+ 928 0116 C2010000 		.4byte	.LASF20
+ 929 011a 02       		.uleb128 0x2
+ 930 011b 08       		.byte	0x8
+ 931 011c 04       		.byte	0x4
+ 932 011d 1D040000 		.4byte	.LASF21
+ 933 0121 02       		.uleb128 0x2
+ 934 0122 01       		.byte	0x1
+ 935 0123 08       		.byte	0x8
+ 936 0124 F6020000 		.4byte	.LASF22
+ 937 0128 0A       		.uleb128 0xa
+ 938 0129 5D030000 		.4byte	.LASF23
+ 939 012d 05       		.byte	0x5
+ 940 012e A502     		.2byte	0x2a5
+ 941 0130 34010000 		.4byte	0x134
+ 942 0134 0B       		.uleb128 0xb
+ 943 0135 FB000000 		.4byte	0xfb
+ 944 0139 0A       		.uleb128 0xa
+ 945 013a C9020000 		.4byte	.LASF24
+ 946 013e 05       		.byte	0x5
+ 947 013f A702     		.2byte	0x2a7
+ 948 0141 45010000 		.4byte	0x145
+ 949 0145 0B       		.uleb128 0xb
+ 950 0146 07010000 		.4byte	0x107
+ 951 014a 02       		.uleb128 0x2
+ 952 014b 08       		.byte	0x8
+ 953 014c 04       		.byte	0x4
+ 954 014d 31020000 		.4byte	.LASF25
+ 955 0151 05       		.uleb128 0x5
+ 956 0152 08       		.byte	0x8
+ 957 0153 06       		.byte	0x6
+ 958 0154 6F       		.byte	0x6f
+ 959 0155 66010000 		.4byte	0x166
+ 960 0159 07       		.uleb128 0x7
+ 961 015a D7000000 		.4byte	.LASF26
+ 962 015e 06       		.byte	0x6
+ 963 015f 71       		.byte	0x71
+ 964 0160 66010000 		.4byte	0x166
+ 965 0164 00       		.byte	0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 22
+
+
+ 966 0165 00       		.byte	0
+ 967 0166 08       		.uleb128 0x8
+ 968 0167 FB000000 		.4byte	0xfb
+ 969 016b 76010000 		.4byte	0x176
+ 970 016f 09       		.uleb128 0x9
+ 971 0170 E9000000 		.4byte	0xe9
+ 972 0174 07       		.byte	0x7
+ 973 0175 00       		.byte	0
+ 974 0176 03       		.uleb128 0x3
+ 975 0177 B6020000 		.4byte	.LASF27
+ 976 017b 06       		.byte	0x6
+ 977 017c 72       		.byte	0x72
+ 978 017d 51010000 		.4byte	0x151
+ 979 0181 05       		.uleb128 0x5
+ 980 0182 08       		.byte	0x8
+ 981 0183 06       		.byte	0x6
+ 982 0184 75       		.byte	0x75
+ 983 0185 96010000 		.4byte	0x196
+ 984 0189 07       		.uleb128 0x7
+ 985 018a D7000000 		.4byte	.LASF26
+ 986 018e 06       		.byte	0x6
+ 987 018f 77       		.byte	0x77
+ 988 0190 A6010000 		.4byte	0x1a6
+ 989 0194 00       		.byte	0
+ 990 0195 00       		.byte	0
+ 991 0196 08       		.uleb128 0x8
+ 992 0197 28010000 		.4byte	0x128
+ 993 019b A6010000 		.4byte	0x1a6
+ 994 019f 09       		.uleb128 0x9
+ 995 01a0 E9000000 		.4byte	0xe9
+ 996 01a4 07       		.byte	0x7
+ 997 01a5 00       		.byte	0
+ 998 01a6 0B       		.uleb128 0xb
+ 999 01a7 96010000 		.4byte	0x196
+ 1000 01ab 03       		.uleb128 0x3
+ 1001 01ac 3F000000 		.4byte	.LASF28
+ 1002 01b0 06       		.byte	0x6
+ 1003 01b1 78       		.byte	0x78
+ 1004 01b2 81010000 		.4byte	0x181
+ 1005 01b6 05       		.uleb128 0x5
+ 1006 01b7 04       		.byte	0x4
+ 1007 01b8 06       		.byte	0x6
+ 1008 01b9 7B       		.byte	0x7b
+ 1009 01ba CB010000 		.4byte	0x1cb
+ 1010 01be 07       		.uleb128 0x7
+ 1011 01bf D7000000 		.4byte	.LASF26
+ 1012 01c3 06       		.byte	0x6
+ 1013 01c4 7D       		.byte	0x7d
+ 1014 01c5 DB010000 		.4byte	0x1db
+ 1015 01c9 00       		.byte	0
+ 1016 01ca 00       		.byte	0
+ 1017 01cb 08       		.uleb128 0x8
+ 1018 01cc 28010000 		.4byte	0x128
+ 1019 01d0 DB010000 		.4byte	0x1db
+ 1020 01d4 09       		.uleb128 0x9
+ 1021 01d5 E9000000 		.4byte	0xe9
+ 1022 01d9 03       		.byte	0x3
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 23
+
+
+ 1023 01da 00       		.byte	0
+ 1024 01db 0B       		.uleb128 0xb
+ 1025 01dc CB010000 		.4byte	0x1cb
+ 1026 01e0 03       		.uleb128 0x3
+ 1027 01e1 D6010000 		.4byte	.LASF29
+ 1028 01e5 06       		.byte	0x6
+ 1029 01e6 7E       		.byte	0x7e
+ 1030 01e7 B6010000 		.4byte	0x1b6
+ 1031 01eb 05       		.uleb128 0x5
+ 1032 01ec 10       		.byte	0x10
+ 1033 01ed 06       		.byte	0x6
+ 1034 01ee 81       		.byte	0x81
+ 1035 01ef 47020000 		.4byte	0x247
+ 1036 01f3 06       		.uleb128 0x6
+ 1037 01f4 696400   		.ascii	"id\000"
+ 1038 01f7 06       		.byte	0x6
+ 1039 01f8 83       		.byte	0x83
+ 1040 01f9 07010000 		.4byte	0x107
+ 1041 01fd 00       		.byte	0
+ 1042 01fe 06       		.uleb128 0x6
+ 1043 01ff 72747200 		.ascii	"rtr\000"
+ 1044 0203 06       		.byte	0x6
+ 1045 0204 84       		.byte	0x84
+ 1046 0205 FB000000 		.4byte	0xfb
+ 1047 0209 04       		.byte	0x4
+ 1048 020a 06       		.uleb128 0x6
+ 1049 020b 69646500 		.ascii	"ide\000"
+ 1050 020f 06       		.byte	0x6
+ 1051 0210 85       		.byte	0x85
+ 1052 0211 FB000000 		.4byte	0xfb
+ 1053 0215 05       		.byte	0x5
+ 1054 0216 06       		.uleb128 0x6
+ 1055 0217 646C6300 		.ascii	"dlc\000"
+ 1056 021b 06       		.byte	0x6
+ 1057 021c 86       		.byte	0x86
+ 1058 021d FB000000 		.4byte	0xfb
+ 1059 0221 06       		.byte	0x6
+ 1060 0222 06       		.uleb128 0x6
+ 1061 0223 69727100 		.ascii	"irq\000"
+ 1062 0227 06       		.byte	0x6
+ 1063 0228 87       		.byte	0x87
+ 1064 0229 FB000000 		.4byte	0xfb
+ 1065 022d 07       		.byte	0x7
+ 1066 022e 06       		.uleb128 0x6
+ 1067 022f 73737400 		.ascii	"sst\000"
+ 1068 0233 06       		.byte	0x6
+ 1069 0234 89       		.byte	0x89
+ 1070 0235 FB000000 		.4byte	0xfb
+ 1071 0239 08       		.byte	0x8
+ 1072 023a 06       		.uleb128 0x6
+ 1073 023b 6D736700 		.ascii	"msg\000"
+ 1074 023f 06       		.byte	0x6
+ 1075 0240 8B       		.byte	0x8b
+ 1076 0241 47020000 		.4byte	0x247
+ 1077 0245 0C       		.byte	0xc
+ 1078 0246 00       		.byte	0
+ 1079 0247 0C       		.uleb128 0xc
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 24
+
+
+ 1080 0248 04       		.byte	0x4
+ 1081 0249 76010000 		.4byte	0x176
+ 1082 024d 03       		.uleb128 0x3
+ 1083 024e 74030000 		.4byte	.LASF30
+ 1084 0252 06       		.byte	0x6
+ 1085 0253 8C       		.byte	0x8c
+ 1086 0254 EB010000 		.4byte	0x1eb
+ 1087 0258 05       		.uleb128 0x5
+ 1088 0259 10       		.byte	0x10
+ 1089 025a 06       		.byte	0x6
+ 1090 025b 8F       		.byte	0x8f
+ 1091 025c 91020000 		.4byte	0x291
+ 1092 0260 07       		.uleb128 0x7
+ 1093 0261 2D000000 		.4byte	.LASF31
+ 1094 0265 06       		.byte	0x6
+ 1095 0266 91       		.byte	0x91
+ 1096 0267 FB000000 		.4byte	0xfb
+ 1097 026b 00       		.byte	0
+ 1098 026c 07       		.uleb128 0x7
+ 1099 026d 26030000 		.4byte	.LASF32
+ 1100 0271 06       		.byte	0x6
+ 1101 0272 92       		.byte	0x92
+ 1102 0273 07010000 		.4byte	0x107
+ 1103 0277 04       		.byte	0x4
+ 1104 0278 07       		.uleb128 0x7
+ 1105 0279 4D040000 		.4byte	.LASF33
+ 1106 027d 06       		.byte	0x6
+ 1107 027e 93       		.byte	0x93
+ 1108 027f 07010000 		.4byte	0x107
+ 1109 0283 08       		.byte	0x8
+ 1110 0284 07       		.uleb128 0x7
+ 1111 0285 B0010000 		.4byte	.LASF34
+ 1112 0289 06       		.byte	0x6
+ 1113 028a 94       		.byte	0x94
+ 1114 028b 07010000 		.4byte	0x107
+ 1115 028f 0C       		.byte	0xc
+ 1116 0290 00       		.byte	0
+ 1117 0291 03       		.uleb128 0x3
+ 1118 0292 53040000 		.4byte	.LASF35
+ 1119 0296 06       		.byte	0x6
+ 1120 0297 95       		.byte	0x95
+ 1121 0298 58020000 		.4byte	0x258
+ 1122 029c 05       		.uleb128 0x5
+ 1123 029d 20       		.byte	0x20
+ 1124 029e 06       		.byte	0x6
+ 1125 029f A0       		.byte	0xa0
+ 1126 02a0 F9020000 		.4byte	0x2f9
+ 1127 02a4 07       		.uleb128 0x7
+ 1128 02a5 26030000 		.4byte	.LASF32
+ 1129 02a9 06       		.byte	0x6
+ 1130 02aa A2       		.byte	0xa2
+ 1131 02ab E0010000 		.4byte	0x1e0
+ 1132 02af 00       		.byte	0
+ 1133 02b0 07       		.uleb128 0x7
+ 1134 02b1 9B010000 		.4byte	.LASF36
+ 1135 02b5 06       		.byte	0x6
+ 1136 02b6 A3       		.byte	0xa3
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 25
+
+
+ 1137 02b7 E0010000 		.4byte	0x1e0
+ 1138 02bb 04       		.byte	0x4
+ 1139 02bc 07       		.uleb128 0x7
+ 1140 02bd C5000000 		.4byte	.LASF37
+ 1141 02c1 06       		.byte	0x6
+ 1142 02c2 A4       		.byte	0xa4
+ 1143 02c3 AB010000 		.4byte	0x1ab
+ 1144 02c7 08       		.byte	0x8
+ 1145 02c8 07       		.uleb128 0x7
+ 1146 02c9 4D040000 		.4byte	.LASF33
+ 1147 02cd 06       		.byte	0x6
+ 1148 02ce A5       		.byte	0xa5
+ 1149 02cf E0010000 		.4byte	0x1e0
+ 1150 02d3 10       		.byte	0x10
+ 1151 02d4 07       		.uleb128 0x7
+ 1152 02d5 B0010000 		.4byte	.LASF34
+ 1153 02d9 06       		.byte	0x6
+ 1154 02da A6       		.byte	0xa6
+ 1155 02db E0010000 		.4byte	0x1e0
+ 1156 02df 14       		.byte	0x14
+ 1157 02e0 07       		.uleb128 0x7
+ 1158 02e1 3D020000 		.4byte	.LASF38
+ 1159 02e5 06       		.byte	0x6
+ 1160 02e6 A7       		.byte	0xa7
+ 1161 02e7 E0010000 		.4byte	0x1e0
+ 1162 02eb 18       		.byte	0x18
+ 1163 02ec 07       		.uleb128 0x7
+ 1164 02ed EF020000 		.4byte	.LASF39
+ 1165 02f1 06       		.byte	0x6
+ 1166 02f2 A8       		.byte	0xa8
+ 1167 02f3 E0010000 		.4byte	0x1e0
+ 1168 02f7 1C       		.byte	0x1c
+ 1169 02f8 00       		.byte	0
+ 1170 02f9 03       		.uleb128 0x3
+ 1171 02fa FB020000 		.4byte	.LASF40
+ 1172 02fe 06       		.byte	0x6
+ 1173 02ff A9       		.byte	0xa9
+ 1174 0300 9C020000 		.4byte	0x29c
+ 1175 0304 0D       		.uleb128 0xd
+ 1176 0305 B3000000 		.4byte	.LASF50
+ 1177 0309 01       		.byte	0x1
+ 1178 030a 2E       		.byte	0x2e
+ 1179 030b 00000000 		.4byte	.LFB34
+ 1180 030f 98000000 		.4byte	.LFE34-.LFB34
+ 1181 0313 01       		.uleb128 0x1
+ 1182 0314 9C       		.byte	0x9c
+ 1183 0315 9E030000 		.4byte	0x39e
+ 1184 0319 0E       		.uleb128 0xe
+ 1185 031a 96000000 		.4byte	.LASF41
+ 1186 031e 01       		.byte	0x1
+ 1187 031f 2E       		.byte	0x2e
+ 1188 0320 7E000000 		.4byte	0x7e
+ 1189 0324 00000000 		.4byte	.LLST0
+ 1190 0328 0E       		.uleb128 0xe
+ 1191 0329 00000000 		.4byte	.LASF42
+ 1192 032d 01       		.byte	0x1
+ 1193 032e 2E       		.byte	0x2e
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 26
+
+
+ 1194 032f 7E000000 		.4byte	0x7e
+ 1195 0333 2C000000 		.4byte	.LLST1
+ 1196 0337 0F       		.uleb128 0xf
+ 1197 0338 0A000000 		.4byte	.LVL1
+ 1198 033c 0D060000 		.4byte	0x60d
+ 1199 0340 10       		.uleb128 0x10
+ 1200 0341 38000000 		.4byte	.LVL4
+ 1201 0345 18060000 		.4byte	0x618
+ 1202 0349 54030000 		.4byte	0x354
+ 1203 034d 11       		.uleb128 0x11
+ 1204 034e 01       		.uleb128 0x1
+ 1205 034f 50       		.byte	0x50
+ 1206 0350 02       		.uleb128 0x2
+ 1207 0351 74       		.byte	0x74
+ 1208 0352 00       		.sleb128 0
+ 1209 0353 00       		.byte	0
+ 1210 0354 10       		.uleb128 0x10
+ 1211 0355 4C000000 		.4byte	.LVL5
+ 1212 0359 18060000 		.4byte	0x618
+ 1213 035d 68030000 		.4byte	0x368
+ 1214 0361 11       		.uleb128 0x11
+ 1215 0362 01       		.uleb128 0x1
+ 1216 0363 50       		.byte	0x50
+ 1217 0364 02       		.uleb128 0x2
+ 1218 0365 74       		.byte	0x74
+ 1219 0366 00       		.sleb128 0
+ 1220 0367 00       		.byte	0
+ 1221 0368 10       		.uleb128 0x10
+ 1222 0369 6A000000 		.4byte	.LVL6
+ 1223 036d 18060000 		.4byte	0x618
+ 1224 0371 7C030000 		.4byte	0x37c
+ 1225 0375 11       		.uleb128 0x11
+ 1226 0376 01       		.uleb128 0x1
+ 1227 0377 50       		.byte	0x50
+ 1228 0378 02       		.uleb128 0x2
+ 1229 0379 74       		.byte	0x74
+ 1230 037a 00       		.sleb128 0
+ 1231 037b 00       		.byte	0
+ 1232 037c 0F       		.uleb128 0xf
+ 1233 037d 6E000000 		.4byte	.LVL7
+ 1234 0381 24060000 		.4byte	0x624
+ 1235 0385 12       		.uleb128 0x12
+ 1236 0386 76000000 		.4byte	.LVL8
+ 1237 038a 2F060000 		.4byte	0x62f
+ 1238 038e 11       		.uleb128 0x11
+ 1239 038f 01       		.uleb128 0x1
+ 1240 0390 50       		.byte	0x50
+ 1241 0391 01       		.uleb128 0x1
+ 1242 0392 4C       		.byte	0x4c
+ 1243 0393 11       		.uleb128 0x11
+ 1244 0394 01       		.uleb128 0x1
+ 1245 0395 51       		.byte	0x51
+ 1246 0396 05       		.uleb128 0x5
+ 1247 0397 03       		.byte	0x3
+ 1248 0398 00000000 		.4byte	CAN_FLAG_ISR
+ 1249 039c 00       		.byte	0
+ 1250 039d 00       		.byte	0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 27
+
+
+ 1251 039e 13       		.uleb128 0x13
+ 1252 039f 1F000000 		.4byte	.LASF55
+ 1253 03a3 01       		.byte	0x1
+ 1254 03a4 50       		.byte	0x50
+ 1255 03a5 7E000000 		.4byte	0x7e
+ 1256 03a9 00000000 		.4byte	.LFB35
+ 1257 03ad 3E000000 		.4byte	.LFE35-.LFB35
+ 1258 03b1 01       		.uleb128 0x1
+ 1259 03b2 9C       		.byte	0x9c
+ 1260 03b3 15040000 		.4byte	0x415
+ 1261 03b7 0E       		.uleb128 0xe
+ 1262 03b8 24040000 		.4byte	.LASF43
+ 1263 03bc 01       		.byte	0x1
+ 1264 03bd 50       		.byte	0x50
+ 1265 03be 15040000 		.4byte	0x415
+ 1266 03c2 58000000 		.4byte	.LLST2
+ 1267 03c6 14       		.uleb128 0x14
+ 1268 03c7 A7000000 		.4byte	.LASF44
+ 1269 03cb 01       		.byte	0x1
+ 1270 03cc 53       		.byte	0x53
+ 1271 03cd 4D020000 		.4byte	0x24d
+ 1272 03d1 02       		.uleb128 0x2
+ 1273 03d2 91       		.byte	0x91
+ 1274 03d3 68       		.sleb128 -24
+ 1275 03d4 14       		.uleb128 0x14
+ 1276 03d5 48030000 		.4byte	.LASF45
+ 1277 03d9 01       		.byte	0x1
+ 1278 03da 54       		.byte	0x54
+ 1279 03db 76010000 		.4byte	0x176
+ 1280 03df 02       		.uleb128 0x2
+ 1281 03e0 91       		.byte	0x91
+ 1282 03e1 60       		.sleb128 -32
+ 1283 03e2 10       		.uleb128 0x10
+ 1284 03e3 28000000 		.4byte	.LVL11
+ 1285 03e7 3A060000 		.4byte	0x63a
+ 1286 03eb 04040000 		.4byte	0x404
+ 1287 03ef 11       		.uleb128 0x11
+ 1288 03f0 01       		.uleb128 0x1
+ 1289 03f1 50       		.byte	0x50
+ 1290 03f2 02       		.uleb128 0x2
+ 1291 03f3 7D       		.byte	0x7d
+ 1292 03f4 00       		.sleb128 0
+ 1293 03f5 11       		.uleb128 0x11
+ 1294 03f6 01       		.uleb128 0x1
+ 1295 03f7 51       		.byte	0x51
+ 1296 03f8 05       		.uleb128 0x5
+ 1297 03f9 F3       		.byte	0xf3
+ 1298 03fa 01       		.uleb128 0x1
+ 1299 03fb 50       		.byte	0x50
+ 1300 03fc 23       		.byte	0x23
+ 1301 03fd 03       		.uleb128 0x3
+ 1302 03fe 11       		.uleb128 0x11
+ 1303 03ff 01       		.uleb128 0x1
+ 1304 0400 52       		.byte	0x52
+ 1305 0401 01       		.uleb128 0x1
+ 1306 0402 38       		.byte	0x38
+ 1307 0403 00       		.byte	0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 28
+
+
+ 1308 0404 12       		.uleb128 0x12
+ 1309 0405 2E000000 		.4byte	.LVL12
+ 1310 0409 43060000 		.4byte	0x643
+ 1311 040d 11       		.uleb128 0x11
+ 1312 040e 01       		.uleb128 0x1
+ 1313 040f 50       		.byte	0x50
+ 1314 0410 02       		.uleb128 0x2
+ 1315 0411 74       		.byte	0x74
+ 1316 0412 00       		.sleb128 0
+ 1317 0413 00       		.byte	0
+ 1318 0414 00       		.byte	0
+ 1319 0415 0C       		.uleb128 0xc
+ 1320 0416 04       		.byte	0x4
+ 1321 0417 F0000000 		.4byte	0xf0
+ 1322 041b 15       		.uleb128 0x15
+ 1323 041c F0030000 		.4byte	.LASF46
+ 1324 0420 01       		.byte	0x1
+ 1325 0421 75       		.byte	0x75
+ 1326 0422 8C000000 		.4byte	0x8c
+ 1327 0426 00000000 		.4byte	.LFB37
+ 1328 042a 0C000000 		.4byte	.LFE37-.LFB37
+ 1329 042e 01       		.uleb128 0x1
+ 1330 042f 9C       		.byte	0x9c
+ 1331 0430 15       		.uleb128 0x15
+ 1332 0431 5E040000 		.4byte	.LASF47
+ 1333 0435 01       		.byte	0x1
+ 1334 0436 79       		.byte	0x79
+ 1335 0437 8C000000 		.4byte	0x8c
+ 1336 043b 00000000 		.4byte	.LFB38
+ 1337 043f 0C000000 		.4byte	.LFE38-.LFB38
+ 1338 0443 01       		.uleb128 0x1
+ 1339 0444 9C       		.byte	0x9c
+ 1340 0445 15       		.uleb128 0x15
+ 1341 0446 13000000 		.4byte	.LASF48
+ 1342 044a 01       		.byte	0x1
+ 1343 044b 7E       		.byte	0x7e
+ 1344 044c 8C000000 		.4byte	0x8c
+ 1345 0450 00000000 		.4byte	.LFB39
+ 1346 0454 04000000 		.4byte	.LFE39-.LFB39
+ 1347 0458 01       		.uleb128 0x1
+ 1348 0459 9C       		.byte	0x9c
+ 1349 045a 16       		.uleb128 0x16
+ 1350 045b 14040000 		.4byte	.LASF77
+ 1351 045f 01       		.byte	0x1
+ 1352 0460 84       		.byte	0x84
+ 1353 0461 8C000000 		.4byte	0x8c
+ 1354 0465 00000000 		.4byte	.LFB40
+ 1355 0469 48000000 		.4byte	.LFE40-.LFB40
+ 1356 046d 01       		.uleb128 0x1
+ 1357 046e 9C       		.byte	0x9c
+ 1358 046f 17       		.uleb128 0x17
+ 1359 0470 E2020000 		.4byte	.LASF49
+ 1360 0474 01       		.byte	0x1
+ 1361 0475 93       		.byte	0x93
+ 1362 0476 00000000 		.4byte	.LFB41
+ 1363 047a 50000000 		.4byte	.LFE41-.LFB41
+ 1364 047e 01       		.uleb128 0x1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 29
+
+
+ 1365 047f 9C       		.byte	0x9c
+ 1366 0480 0D       		.uleb128 0xd
+ 1367 0481 40040000 		.4byte	.LASF51
+ 1368 0485 01       		.byte	0x1
+ 1369 0486 AC       		.byte	0xac
+ 1370 0487 00000000 		.4byte	.LFB43
+ 1371 048b 34010000 		.4byte	.LFE43-.LFB43
+ 1372 048f 01       		.uleb128 0x1
+ 1373 0490 9C       		.byte	0x9c
+ 1374 0491 D4040000 		.4byte	0x4d4
+ 1375 0495 18       		.uleb128 0x18
+ 1376 0496 BB000000 		.4byte	.LASF52
+ 1377 049a 01       		.byte	0x1
+ 1378 049b B1       		.byte	0xb1
+ 1379 049c A2000000 		.4byte	0xa2
+ 1380 04a0 9F000000 		.4byte	.LLST3
+ 1381 04a4 18       		.uleb128 0x18
+ 1382 04a5 37000000 		.4byte	.LASF53
+ 1383 04a9 01       		.byte	0x1
+ 1384 04aa B2       		.byte	0xb2
+ 1385 04ab 8C000000 		.4byte	0x8c
+ 1386 04af BD000000 		.4byte	.LLST4
+ 1387 04b3 10       		.uleb128 0x10
+ 1388 04b4 08000000 		.4byte	.LVL15
+ 1389 04b8 4F060000 		.4byte	0x64f
+ 1390 04bc CA040000 		.4byte	0x4ca
+ 1391 04c0 11       		.uleb128 0x11
+ 1392 04c1 01       		.uleb128 0x1
+ 1393 04c2 50       		.byte	0x50
+ 1394 04c3 05       		.uleb128 0x5
+ 1395 04c4 03       		.byte	0x3
+ 1396 04c5 00000000 		.4byte	.LC8
+ 1397 04c9 00       		.byte	0
+ 1398 04ca 0F       		.uleb128 0xf
+ 1399 04cb 12010000 		.4byte	.LVL22
+ 1400 04cf 6F040000 		.4byte	0x46f
+ 1401 04d3 00       		.byte	0
+ 1402 04d4 0D       		.uleb128 0xd
+ 1403 04d5 38030000 		.4byte	.LASF54
+ 1404 04d9 01       		.byte	0x1
+ 1405 04da A1       		.byte	0xa1
+ 1406 04db 00000000 		.4byte	.LFB42
+ 1407 04df 28000000 		.4byte	.LFE42-.LFB42
+ 1408 04e3 01       		.uleb128 0x1
+ 1409 04e4 9C       		.byte	0x9c
+ 1410 04e5 F3040000 		.4byte	0x4f3
+ 1411 04e9 0F       		.uleb128 0xf
+ 1412 04ea 06000000 		.4byte	.LVL23
+ 1413 04ee 5A040000 		.4byte	0x45a
+ 1414 04f2 00       		.byte	0
+ 1415 04f3 13       		.uleb128 0x13
+ 1416 04f4 EB010000 		.4byte	.LASF56
+ 1417 04f8 01       		.byte	0x1
+ 1418 04f9 66       		.byte	0x66
+ 1419 04fa 7E000000 		.4byte	0x7e
+ 1420 04fe 00000000 		.4byte	.LFB36
+ 1421 0502 4C000000 		.4byte	.LFE36-.LFB36
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 30
+
+
+ 1422 0506 01       		.uleb128 0x1
+ 1423 0507 9C       		.byte	0x9c
+ 1424 0508 55050000 		.4byte	0x555
+ 1425 050c 0E       		.uleb128 0xe
+ 1426 050d 75000000 		.4byte	.LASF57
+ 1427 0511 01       		.byte	0x1
+ 1428 0512 66       		.byte	0x66
+ 1429 0513 15040000 		.4byte	0x415
+ 1430 0517 D0000000 		.4byte	.LLST5
+ 1431 051b 14       		.uleb128 0x14
+ 1432 051c EB030000 		.4byte	.LASF58
+ 1433 0520 01       		.byte	0x1
+ 1434 0521 6B       		.byte	0x6b
+ 1435 0522 55050000 		.4byte	0x555
+ 1436 0526 02       		.uleb128 0x2
+ 1437 0527 91       		.byte	0x91
+ 1438 0528 77       		.sleb128 -9
+ 1439 0529 0F       		.uleb128 0xf
+ 1440 052a 0C000000 		.4byte	.LVL25
+ 1441 052e 5A040000 		.4byte	0x45a
+ 1442 0532 10       		.uleb128 0x10
+ 1443 0533 30000000 		.4byte	.LVL26
+ 1444 0537 3A060000 		.4byte	0x63a
+ 1445 053b 4B050000 		.4byte	0x54b
+ 1446 053f 11       		.uleb128 0x11
+ 1447 0540 01       		.uleb128 0x1
+ 1448 0541 50       		.byte	0x50
+ 1449 0542 02       		.uleb128 0x2
+ 1450 0543 74       		.byte	0x74
+ 1451 0544 00       		.sleb128 0
+ 1452 0545 11       		.uleb128 0x11
+ 1453 0546 01       		.uleb128 0x1
+ 1454 0547 52       		.byte	0x52
+ 1455 0548 01       		.uleb128 0x1
+ 1456 0549 3C       		.byte	0x3c
+ 1457 054a 00       		.byte	0
+ 1458 054b 0F       		.uleb128 0xf
+ 1459 054c 34000000 		.4byte	.LVL27
+ 1460 0550 D4040000 		.4byte	0x4d4
+ 1461 0554 00       		.byte	0
+ 1462 0555 0B       		.uleb128 0xb
+ 1463 0556 8C000000 		.4byte	0x8c
+ 1464 055a 19       		.uleb128 0x19
+ 1465 055b 13030000 		.4byte	.LASF59
+ 1466 055f 01       		.byte	0x1
+ 1467 0560 15       		.byte	0x15
+ 1468 0561 55050000 		.4byte	0x555
+ 1469 0565 05       		.uleb128 0x5
+ 1470 0566 03       		.byte	0x3
+ 1471 0567 00000000 		.4byte	messagePresentFlag
+ 1472 056b 19       		.uleb128 0x19
+ 1473 056c 21020000 		.4byte	.LASF60
+ 1474 0570 01       		.byte	0x1
+ 1475 0571 16       		.byte	0x16
+ 1476 0572 55050000 		.4byte	0x555
+ 1477 0576 05       		.uleb128 0x5
+ 1478 0577 03       		.byte	0x3
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 31
+
+
+ 1479 0578 00000000 		.4byte	messageReadFlag
+ 1480 057c 08       		.uleb128 0x8
+ 1481 057d 8C050000 		.4byte	0x58c
+ 1482 0581 8C050000 		.4byte	0x58c
+ 1483 0585 09       		.uleb128 0x9
+ 1484 0586 E9000000 		.4byte	0xe9
+ 1485 058a 0F       		.byte	0xf
+ 1486 058b 00       		.byte	0
+ 1487 058c 0B       		.uleb128 0xb
+ 1488 058d F0000000 		.4byte	0xf0
+ 1489 0591 19       		.uleb128 0x19
+ 1490 0592 60020000 		.4byte	.LASF61
+ 1491 0596 01       		.byte	0x1
+ 1492 0597 1C       		.byte	0x1c
+ 1493 0598 A2050000 		.4byte	0x5a2
+ 1494 059c 05       		.uleb128 0x5
+ 1495 059d 03       		.byte	0x3
+ 1496 059e 00000000 		.4byte	latestMessage
+ 1497 05a2 0B       		.uleb128 0xb
+ 1498 05a3 7C050000 		.4byte	0x57c
+ 1499 05a7 19       		.uleb128 0x19
+ 1500 05a8 6E020000 		.4byte	.LASF62
+ 1501 05ac 01       		.byte	0x1
+ 1502 05ad 1D       		.byte	0x1d
+ 1503 05ae 55050000 		.4byte	0x555
+ 1504 05b2 05       		.uleb128 0x5
+ 1505 05b3 03       		.byte	0x3
+ 1506 05b4 00000000 		.4byte	latestMessageHead
+ 1507 05b8 19       		.uleb128 0x19
+ 1508 05b9 89010000 		.4byte	.LASF63
+ 1509 05bd 01       		.byte	0x1
+ 1510 05be 1E       		.byte	0x1e
+ 1511 05bf 55050000 		.4byte	0x555
+ 1512 05c3 05       		.uleb128 0x5
+ 1513 05c4 03       		.byte	0x3
+ 1514 05c5 00000000 		.4byte	latestMessageTail
+ 1515 05c9 19       		.uleb128 0x19
+ 1516 05ca 84000000 		.4byte	.LASF64
+ 1517 05ce 01       		.byte	0x1
+ 1518 05cf 1F       		.byte	0x1f
+ 1519 05d0 55050000 		.4byte	0x555
+ 1520 05d4 05       		.uleb128 0x5
+ 1521 05d5 03       		.byte	0x3
+ 1522 05d6 00000000 		.4byte	latestMessageFull
+ 1523 05da 19       		.uleb128 0x19
+ 1524 05db 44020000 		.4byte	.LASF65
+ 1525 05df 01       		.byte	0x1
+ 1526 05e0 2B       		.byte	0x2b
+ 1527 05e1 7E000000 		.4byte	0x7e
+ 1528 05e5 05       		.uleb128 0x5
+ 1529 05e6 03       		.byte	0x3
+ 1530 05e7 00000000 		.4byte	deviceAddress
+ 1531 05eb 19       		.uleb128 0x19
+ 1532 05ec 2C030000 		.4byte	.LASF66
+ 1533 05f0 01       		.byte	0x1
+ 1534 05f1 2C       		.byte	0x2c
+ 1535 05f2 7E000000 		.4byte	0x7e
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 32
+
+
+ 1536 05f6 05       		.uleb128 0x5
+ 1537 05f7 03       		.byte	0x3
+ 1538 05f8 00000000 		.4byte	deviceGroup
+ 1539 05fc 19       		.uleb128 0x19
+ 1540 05fd 09030000 		.4byte	.LASF67
+ 1541 0601 01       		.byte	0x1
+ 1542 0602 2D       		.byte	0x2d
+ 1543 0603 91020000 		.4byte	0x291
+ 1544 0607 05       		.uleb128 0x5
+ 1545 0608 03       		.byte	0x3
+ 1546 0609 00000000 		.4byte	rxMailbox
+ 1547 060d 1A       		.uleb128 0x1a
+ 1548 060e DC000000 		.4byte	.LASF68
+ 1549 0612 DC000000 		.4byte	.LASF68
+ 1550 0616 06       		.byte	0x6
+ 1551 0617 C5       		.byte	0xc5
+ 1552 0618 1B       		.uleb128 0x1b
+ 1553 0619 A0010000 		.4byte	.LASF69
+ 1554 061d A0010000 		.4byte	.LASF69
+ 1555 0621 06       		.byte	0x6
+ 1556 0622 1301     		.2byte	0x113
+ 1557 0624 1A       		.uleb128 0x1a
+ 1558 0625 D7030000 		.4byte	.LASF70
+ 1559 0629 D7030000 		.4byte	.LASF70
+ 1560 062d 06       		.byte	0x6
+ 1561 062e C8       		.byte	0xc8
+ 1562 062f 1A       		.uleb128 0x1a
+ 1563 0630 05040000 		.4byte	.LASF71
+ 1564 0634 05040000 		.4byte	.LASF71
+ 1565 0638 07       		.byte	0x7
+ 1566 0639 D0       		.byte	0xd0
+ 1567 063a 1C       		.uleb128 0x1c
+ 1568 063b E6000000 		.4byte	.LASF78
+ 1569 063f E6000000 		.4byte	.LASF78
+ 1570 0643 1B       		.uleb128 0x1b
+ 1571 0644 7F030000 		.4byte	.LASF72
+ 1572 0648 7F030000 		.4byte	.LASF72
+ 1573 064c 06       		.byte	0x6
+ 1574 064d 1801     		.2byte	0x118
+ 1575 064f 1B       		.uleb128 0x1b
+ 1576 0650 4E000000 		.4byte	.LASF73
+ 1577 0654 4E000000 		.4byte	.LASF73
+ 1578 0658 08       		.byte	0x8
+ 1579 0659 2A03     		.2byte	0x32a
+ 1580 065b 00       		.byte	0
+ 1581              		.section	.debug_abbrev,"",%progbits
+ 1582              	.Ldebug_abbrev0:
+ 1583 0000 01       		.uleb128 0x1
+ 1584 0001 11       		.uleb128 0x11
+ 1585 0002 01       		.byte	0x1
+ 1586 0003 25       		.uleb128 0x25
+ 1587 0004 0E       		.uleb128 0xe
+ 1588 0005 13       		.uleb128 0x13
+ 1589 0006 0B       		.uleb128 0xb
+ 1590 0007 03       		.uleb128 0x3
+ 1591 0008 0E       		.uleb128 0xe
+ 1592 0009 1B       		.uleb128 0x1b
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 33
+
+
+ 1593 000a 0E       		.uleb128 0xe
+ 1594 000b 55       		.uleb128 0x55
+ 1595 000c 17       		.uleb128 0x17
+ 1596 000d 11       		.uleb128 0x11
+ 1597 000e 01       		.uleb128 0x1
+ 1598 000f 10       		.uleb128 0x10
+ 1599 0010 17       		.uleb128 0x17
+ 1600 0011 00       		.byte	0
+ 1601 0012 00       		.byte	0
+ 1602 0013 02       		.uleb128 0x2
+ 1603 0014 24       		.uleb128 0x24
+ 1604 0015 00       		.byte	0
+ 1605 0016 0B       		.uleb128 0xb
+ 1606 0017 0B       		.uleb128 0xb
+ 1607 0018 3E       		.uleb128 0x3e
+ 1608 0019 0B       		.uleb128 0xb
+ 1609 001a 03       		.uleb128 0x3
+ 1610 001b 0E       		.uleb128 0xe
+ 1611 001c 00       		.byte	0
+ 1612 001d 00       		.byte	0
+ 1613 001e 03       		.uleb128 0x3
+ 1614 001f 16       		.uleb128 0x16
+ 1615 0020 00       		.byte	0
+ 1616 0021 03       		.uleb128 0x3
+ 1617 0022 0E       		.uleb128 0xe
+ 1618 0023 3A       		.uleb128 0x3a
+ 1619 0024 0B       		.uleb128 0xb
+ 1620 0025 3B       		.uleb128 0x3b
+ 1621 0026 0B       		.uleb128 0xb
+ 1622 0027 49       		.uleb128 0x49
+ 1623 0028 13       		.uleb128 0x13
+ 1624 0029 00       		.byte	0
+ 1625 002a 00       		.byte	0
+ 1626 002b 04       		.uleb128 0x4
+ 1627 002c 24       		.uleb128 0x24
+ 1628 002d 00       		.byte	0
+ 1629 002e 0B       		.uleb128 0xb
+ 1630 002f 0B       		.uleb128 0xb
+ 1631 0030 3E       		.uleb128 0x3e
+ 1632 0031 0B       		.uleb128 0xb
+ 1633 0032 03       		.uleb128 0x3
+ 1634 0033 08       		.uleb128 0x8
+ 1635 0034 00       		.byte	0
+ 1636 0035 00       		.byte	0
+ 1637 0036 05       		.uleb128 0x5
+ 1638 0037 13       		.uleb128 0x13
+ 1639 0038 01       		.byte	0x1
+ 1640 0039 0B       		.uleb128 0xb
+ 1641 003a 0B       		.uleb128 0xb
+ 1642 003b 3A       		.uleb128 0x3a
+ 1643 003c 0B       		.uleb128 0xb
+ 1644 003d 3B       		.uleb128 0x3b
+ 1645 003e 0B       		.uleb128 0xb
+ 1646 003f 01       		.uleb128 0x1
+ 1647 0040 13       		.uleb128 0x13
+ 1648 0041 00       		.byte	0
+ 1649 0042 00       		.byte	0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 34
+
+
+ 1650 0043 06       		.uleb128 0x6
+ 1651 0044 0D       		.uleb128 0xd
+ 1652 0045 00       		.byte	0
+ 1653 0046 03       		.uleb128 0x3
+ 1654 0047 08       		.uleb128 0x8
+ 1655 0048 3A       		.uleb128 0x3a
+ 1656 0049 0B       		.uleb128 0xb
+ 1657 004a 3B       		.uleb128 0x3b
+ 1658 004b 0B       		.uleb128 0xb
+ 1659 004c 49       		.uleb128 0x49
+ 1660 004d 13       		.uleb128 0x13
+ 1661 004e 38       		.uleb128 0x38
+ 1662 004f 0B       		.uleb128 0xb
+ 1663 0050 00       		.byte	0
+ 1664 0051 00       		.byte	0
+ 1665 0052 07       		.uleb128 0x7
+ 1666 0053 0D       		.uleb128 0xd
+ 1667 0054 00       		.byte	0
+ 1668 0055 03       		.uleb128 0x3
+ 1669 0056 0E       		.uleb128 0xe
+ 1670 0057 3A       		.uleb128 0x3a
+ 1671 0058 0B       		.uleb128 0xb
+ 1672 0059 3B       		.uleb128 0x3b
+ 1673 005a 0B       		.uleb128 0xb
+ 1674 005b 49       		.uleb128 0x49
+ 1675 005c 13       		.uleb128 0x13
+ 1676 005d 38       		.uleb128 0x38
+ 1677 005e 0B       		.uleb128 0xb
+ 1678 005f 00       		.byte	0
+ 1679 0060 00       		.byte	0
+ 1680 0061 08       		.uleb128 0x8
+ 1681 0062 01       		.uleb128 0x1
+ 1682 0063 01       		.byte	0x1
+ 1683 0064 49       		.uleb128 0x49
+ 1684 0065 13       		.uleb128 0x13
+ 1685 0066 01       		.uleb128 0x1
+ 1686 0067 13       		.uleb128 0x13
+ 1687 0068 00       		.byte	0
+ 1688 0069 00       		.byte	0
+ 1689 006a 09       		.uleb128 0x9
+ 1690 006b 21       		.uleb128 0x21
+ 1691 006c 00       		.byte	0
+ 1692 006d 49       		.uleb128 0x49
+ 1693 006e 13       		.uleb128 0x13
+ 1694 006f 2F       		.uleb128 0x2f
+ 1695 0070 0B       		.uleb128 0xb
+ 1696 0071 00       		.byte	0
+ 1697 0072 00       		.byte	0
+ 1698 0073 0A       		.uleb128 0xa
+ 1699 0074 16       		.uleb128 0x16
+ 1700 0075 00       		.byte	0
+ 1701 0076 03       		.uleb128 0x3
+ 1702 0077 0E       		.uleb128 0xe
+ 1703 0078 3A       		.uleb128 0x3a
+ 1704 0079 0B       		.uleb128 0xb
+ 1705 007a 3B       		.uleb128 0x3b
+ 1706 007b 05       		.uleb128 0x5
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 35
+
+
+ 1707 007c 49       		.uleb128 0x49
+ 1708 007d 13       		.uleb128 0x13
+ 1709 007e 00       		.byte	0
+ 1710 007f 00       		.byte	0
+ 1711 0080 0B       		.uleb128 0xb
+ 1712 0081 35       		.uleb128 0x35
+ 1713 0082 00       		.byte	0
+ 1714 0083 49       		.uleb128 0x49
+ 1715 0084 13       		.uleb128 0x13
+ 1716 0085 00       		.byte	0
+ 1717 0086 00       		.byte	0
+ 1718 0087 0C       		.uleb128 0xc
+ 1719 0088 0F       		.uleb128 0xf
+ 1720 0089 00       		.byte	0
+ 1721 008a 0B       		.uleb128 0xb
+ 1722 008b 0B       		.uleb128 0xb
+ 1723 008c 49       		.uleb128 0x49
+ 1724 008d 13       		.uleb128 0x13
+ 1725 008e 00       		.byte	0
+ 1726 008f 00       		.byte	0
+ 1727 0090 0D       		.uleb128 0xd
+ 1728 0091 2E       		.uleb128 0x2e
+ 1729 0092 01       		.byte	0x1
+ 1730 0093 3F       		.uleb128 0x3f
+ 1731 0094 19       		.uleb128 0x19
+ 1732 0095 03       		.uleb128 0x3
+ 1733 0096 0E       		.uleb128 0xe
+ 1734 0097 3A       		.uleb128 0x3a
+ 1735 0098 0B       		.uleb128 0xb
+ 1736 0099 3B       		.uleb128 0x3b
+ 1737 009a 0B       		.uleb128 0xb
+ 1738 009b 27       		.uleb128 0x27
+ 1739 009c 19       		.uleb128 0x19
+ 1740 009d 11       		.uleb128 0x11
+ 1741 009e 01       		.uleb128 0x1
+ 1742 009f 12       		.uleb128 0x12
+ 1743 00a0 06       		.uleb128 0x6
+ 1744 00a1 40       		.uleb128 0x40
+ 1745 00a2 18       		.uleb128 0x18
+ 1746 00a3 9742     		.uleb128 0x2117
+ 1747 00a5 19       		.uleb128 0x19
+ 1748 00a6 01       		.uleb128 0x1
+ 1749 00a7 13       		.uleb128 0x13
+ 1750 00a8 00       		.byte	0
+ 1751 00a9 00       		.byte	0
+ 1752 00aa 0E       		.uleb128 0xe
+ 1753 00ab 05       		.uleb128 0x5
+ 1754 00ac 00       		.byte	0
+ 1755 00ad 03       		.uleb128 0x3
+ 1756 00ae 0E       		.uleb128 0xe
+ 1757 00af 3A       		.uleb128 0x3a
+ 1758 00b0 0B       		.uleb128 0xb
+ 1759 00b1 3B       		.uleb128 0x3b
+ 1760 00b2 0B       		.uleb128 0xb
+ 1761 00b3 49       		.uleb128 0x49
+ 1762 00b4 13       		.uleb128 0x13
+ 1763 00b5 02       		.uleb128 0x2
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 36
+
+
+ 1764 00b6 17       		.uleb128 0x17
+ 1765 00b7 00       		.byte	0
+ 1766 00b8 00       		.byte	0
+ 1767 00b9 0F       		.uleb128 0xf
+ 1768 00ba 898201   		.uleb128 0x4109
+ 1769 00bd 00       		.byte	0
+ 1770 00be 11       		.uleb128 0x11
+ 1771 00bf 01       		.uleb128 0x1
+ 1772 00c0 31       		.uleb128 0x31
+ 1773 00c1 13       		.uleb128 0x13
+ 1774 00c2 00       		.byte	0
+ 1775 00c3 00       		.byte	0
+ 1776 00c4 10       		.uleb128 0x10
+ 1777 00c5 898201   		.uleb128 0x4109
+ 1778 00c8 01       		.byte	0x1
+ 1779 00c9 11       		.uleb128 0x11
+ 1780 00ca 01       		.uleb128 0x1
+ 1781 00cb 31       		.uleb128 0x31
+ 1782 00cc 13       		.uleb128 0x13
+ 1783 00cd 01       		.uleb128 0x1
+ 1784 00ce 13       		.uleb128 0x13
+ 1785 00cf 00       		.byte	0
+ 1786 00d0 00       		.byte	0
+ 1787 00d1 11       		.uleb128 0x11
+ 1788 00d2 8A8201   		.uleb128 0x410a
+ 1789 00d5 00       		.byte	0
+ 1790 00d6 02       		.uleb128 0x2
+ 1791 00d7 18       		.uleb128 0x18
+ 1792 00d8 9142     		.uleb128 0x2111
+ 1793 00da 18       		.uleb128 0x18
+ 1794 00db 00       		.byte	0
+ 1795 00dc 00       		.byte	0
+ 1796 00dd 12       		.uleb128 0x12
+ 1797 00de 898201   		.uleb128 0x4109
+ 1798 00e1 01       		.byte	0x1
+ 1799 00e2 11       		.uleb128 0x11
+ 1800 00e3 01       		.uleb128 0x1
+ 1801 00e4 31       		.uleb128 0x31
+ 1802 00e5 13       		.uleb128 0x13
+ 1803 00e6 00       		.byte	0
+ 1804 00e7 00       		.byte	0
+ 1805 00e8 13       		.uleb128 0x13
+ 1806 00e9 2E       		.uleb128 0x2e
+ 1807 00ea 01       		.byte	0x1
+ 1808 00eb 3F       		.uleb128 0x3f
+ 1809 00ec 19       		.uleb128 0x19
+ 1810 00ed 03       		.uleb128 0x3
+ 1811 00ee 0E       		.uleb128 0xe
+ 1812 00ef 3A       		.uleb128 0x3a
+ 1813 00f0 0B       		.uleb128 0xb
+ 1814 00f1 3B       		.uleb128 0x3b
+ 1815 00f2 0B       		.uleb128 0xb
+ 1816 00f3 27       		.uleb128 0x27
+ 1817 00f4 19       		.uleb128 0x19
+ 1818 00f5 49       		.uleb128 0x49
+ 1819 00f6 13       		.uleb128 0x13
+ 1820 00f7 11       		.uleb128 0x11
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 37
+
+
+ 1821 00f8 01       		.uleb128 0x1
+ 1822 00f9 12       		.uleb128 0x12
+ 1823 00fa 06       		.uleb128 0x6
+ 1824 00fb 40       		.uleb128 0x40
+ 1825 00fc 18       		.uleb128 0x18
+ 1826 00fd 9742     		.uleb128 0x2117
+ 1827 00ff 19       		.uleb128 0x19
+ 1828 0100 01       		.uleb128 0x1
+ 1829 0101 13       		.uleb128 0x13
+ 1830 0102 00       		.byte	0
+ 1831 0103 00       		.byte	0
+ 1832 0104 14       		.uleb128 0x14
+ 1833 0105 34       		.uleb128 0x34
+ 1834 0106 00       		.byte	0
+ 1835 0107 03       		.uleb128 0x3
+ 1836 0108 0E       		.uleb128 0xe
+ 1837 0109 3A       		.uleb128 0x3a
+ 1838 010a 0B       		.uleb128 0xb
+ 1839 010b 3B       		.uleb128 0x3b
+ 1840 010c 0B       		.uleb128 0xb
+ 1841 010d 49       		.uleb128 0x49
+ 1842 010e 13       		.uleb128 0x13
+ 1843 010f 02       		.uleb128 0x2
+ 1844 0110 18       		.uleb128 0x18
+ 1845 0111 00       		.byte	0
+ 1846 0112 00       		.byte	0
+ 1847 0113 15       		.uleb128 0x15
+ 1848 0114 2E       		.uleb128 0x2e
+ 1849 0115 00       		.byte	0
+ 1850 0116 3F       		.uleb128 0x3f
+ 1851 0117 19       		.uleb128 0x19
+ 1852 0118 03       		.uleb128 0x3
+ 1853 0119 0E       		.uleb128 0xe
+ 1854 011a 3A       		.uleb128 0x3a
+ 1855 011b 0B       		.uleb128 0xb
+ 1856 011c 3B       		.uleb128 0x3b
+ 1857 011d 0B       		.uleb128 0xb
+ 1858 011e 49       		.uleb128 0x49
+ 1859 011f 13       		.uleb128 0x13
+ 1860 0120 11       		.uleb128 0x11
+ 1861 0121 01       		.uleb128 0x1
+ 1862 0122 12       		.uleb128 0x12
+ 1863 0123 06       		.uleb128 0x6
+ 1864 0124 40       		.uleb128 0x40
+ 1865 0125 18       		.uleb128 0x18
+ 1866 0126 9742     		.uleb128 0x2117
+ 1867 0128 19       		.uleb128 0x19
+ 1868 0129 00       		.byte	0
+ 1869 012a 00       		.byte	0
+ 1870 012b 16       		.uleb128 0x16
+ 1871 012c 2E       		.uleb128 0x2e
+ 1872 012d 00       		.byte	0
+ 1873 012e 3F       		.uleb128 0x3f
+ 1874 012f 19       		.uleb128 0x19
+ 1875 0130 03       		.uleb128 0x3
+ 1876 0131 0E       		.uleb128 0xe
+ 1877 0132 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 38
+
+
+ 1878 0133 0B       		.uleb128 0xb
+ 1879 0134 3B       		.uleb128 0x3b
+ 1880 0135 0B       		.uleb128 0xb
+ 1881 0136 27       		.uleb128 0x27
+ 1882 0137 19       		.uleb128 0x19
+ 1883 0138 49       		.uleb128 0x49
+ 1884 0139 13       		.uleb128 0x13
+ 1885 013a 11       		.uleb128 0x11
+ 1886 013b 01       		.uleb128 0x1
+ 1887 013c 12       		.uleb128 0x12
+ 1888 013d 06       		.uleb128 0x6
+ 1889 013e 40       		.uleb128 0x40
+ 1890 013f 18       		.uleb128 0x18
+ 1891 0140 9742     		.uleb128 0x2117
+ 1892 0142 19       		.uleb128 0x19
+ 1893 0143 00       		.byte	0
+ 1894 0144 00       		.byte	0
+ 1895 0145 17       		.uleb128 0x17
+ 1896 0146 2E       		.uleb128 0x2e
+ 1897 0147 00       		.byte	0
+ 1898 0148 3F       		.uleb128 0x3f
+ 1899 0149 19       		.uleb128 0x19
+ 1900 014a 03       		.uleb128 0x3
+ 1901 014b 0E       		.uleb128 0xe
+ 1902 014c 3A       		.uleb128 0x3a
+ 1903 014d 0B       		.uleb128 0xb
+ 1904 014e 3B       		.uleb128 0x3b
+ 1905 014f 0B       		.uleb128 0xb
+ 1906 0150 27       		.uleb128 0x27
+ 1907 0151 19       		.uleb128 0x19
+ 1908 0152 11       		.uleb128 0x11
+ 1909 0153 01       		.uleb128 0x1
+ 1910 0154 12       		.uleb128 0x12
+ 1911 0155 06       		.uleb128 0x6
+ 1912 0156 40       		.uleb128 0x40
+ 1913 0157 18       		.uleb128 0x18
+ 1914 0158 9742     		.uleb128 0x2117
+ 1915 015a 19       		.uleb128 0x19
+ 1916 015b 00       		.byte	0
+ 1917 015c 00       		.byte	0
+ 1918 015d 18       		.uleb128 0x18
+ 1919 015e 34       		.uleb128 0x34
+ 1920 015f 00       		.byte	0
+ 1921 0160 03       		.uleb128 0x3
+ 1922 0161 0E       		.uleb128 0xe
+ 1923 0162 3A       		.uleb128 0x3a
+ 1924 0163 0B       		.uleb128 0xb
+ 1925 0164 3B       		.uleb128 0x3b
+ 1926 0165 0B       		.uleb128 0xb
+ 1927 0166 49       		.uleb128 0x49
+ 1928 0167 13       		.uleb128 0x13
+ 1929 0168 02       		.uleb128 0x2
+ 1930 0169 17       		.uleb128 0x17
+ 1931 016a 00       		.byte	0
+ 1932 016b 00       		.byte	0
+ 1933 016c 19       		.uleb128 0x19
+ 1934 016d 34       		.uleb128 0x34
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 39
+
+
+ 1935 016e 00       		.byte	0
+ 1936 016f 03       		.uleb128 0x3
+ 1937 0170 0E       		.uleb128 0xe
+ 1938 0171 3A       		.uleb128 0x3a
+ 1939 0172 0B       		.uleb128 0xb
+ 1940 0173 3B       		.uleb128 0x3b
+ 1941 0174 0B       		.uleb128 0xb
+ 1942 0175 49       		.uleb128 0x49
+ 1943 0176 13       		.uleb128 0x13
+ 1944 0177 3F       		.uleb128 0x3f
+ 1945 0178 19       		.uleb128 0x19
+ 1946 0179 02       		.uleb128 0x2
+ 1947 017a 18       		.uleb128 0x18
+ 1948 017b 00       		.byte	0
+ 1949 017c 00       		.byte	0
+ 1950 017d 1A       		.uleb128 0x1a
+ 1951 017e 2E       		.uleb128 0x2e
+ 1952 017f 00       		.byte	0
+ 1953 0180 3F       		.uleb128 0x3f
+ 1954 0181 19       		.uleb128 0x19
+ 1955 0182 3C       		.uleb128 0x3c
+ 1956 0183 19       		.uleb128 0x19
+ 1957 0184 6E       		.uleb128 0x6e
+ 1958 0185 0E       		.uleb128 0xe
+ 1959 0186 03       		.uleb128 0x3
+ 1960 0187 0E       		.uleb128 0xe
+ 1961 0188 3A       		.uleb128 0x3a
+ 1962 0189 0B       		.uleb128 0xb
+ 1963 018a 3B       		.uleb128 0x3b
+ 1964 018b 0B       		.uleb128 0xb
+ 1965 018c 00       		.byte	0
+ 1966 018d 00       		.byte	0
+ 1967 018e 1B       		.uleb128 0x1b
+ 1968 018f 2E       		.uleb128 0x2e
+ 1969 0190 00       		.byte	0
+ 1970 0191 3F       		.uleb128 0x3f
+ 1971 0192 19       		.uleb128 0x19
+ 1972 0193 3C       		.uleb128 0x3c
+ 1973 0194 19       		.uleb128 0x19
+ 1974 0195 6E       		.uleb128 0x6e
+ 1975 0196 0E       		.uleb128 0xe
+ 1976 0197 03       		.uleb128 0x3
+ 1977 0198 0E       		.uleb128 0xe
+ 1978 0199 3A       		.uleb128 0x3a
+ 1979 019a 0B       		.uleb128 0xb
+ 1980 019b 3B       		.uleb128 0x3b
+ 1981 019c 05       		.uleb128 0x5
+ 1982 019d 00       		.byte	0
+ 1983 019e 00       		.byte	0
+ 1984 019f 1C       		.uleb128 0x1c
+ 1985 01a0 2E       		.uleb128 0x2e
+ 1986 01a1 00       		.byte	0
+ 1987 01a2 3F       		.uleb128 0x3f
+ 1988 01a3 19       		.uleb128 0x19
+ 1989 01a4 3C       		.uleb128 0x3c
+ 1990 01a5 19       		.uleb128 0x19
+ 1991 01a6 6E       		.uleb128 0x6e
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 40
+
+
+ 1992 01a7 0E       		.uleb128 0xe
+ 1993 01a8 03       		.uleb128 0x3
+ 1994 01a9 0E       		.uleb128 0xe
+ 1995 01aa 00       		.byte	0
+ 1996 01ab 00       		.byte	0
+ 1997 01ac 00       		.byte	0
+ 1998              		.section	.debug_loc,"",%progbits
+ 1999              	.Ldebug_loc0:
+ 2000              	.LLST0:
+ 2001 0000 00000000 		.4byte	.LVL0
+ 2002 0004 09000000 		.4byte	.LVL1-1
+ 2003 0008 0100     		.2byte	0x1
+ 2004 000a 50       		.byte	0x50
+ 2005 000b 09000000 		.4byte	.LVL1-1
+ 2006 000f 1C000000 		.4byte	.LVL2
+ 2007 0013 0100     		.2byte	0x1
+ 2008 0015 54       		.byte	0x54
+ 2009 0016 1C000000 		.4byte	.LVL2
+ 2010 001a 98000000 		.4byte	.LFE34
+ 2011 001e 0400     		.2byte	0x4
+ 2012 0020 F3       		.byte	0xf3
+ 2013 0021 01       		.uleb128 0x1
+ 2014 0022 50       		.byte	0x50
+ 2015 0023 9F       		.byte	0x9f
+ 2016 0024 00000000 		.4byte	0
+ 2017 0028 00000000 		.4byte	0
+ 2018              	.LLST1:
+ 2019 002c 00000000 		.4byte	.LVL0
+ 2020 0030 09000000 		.4byte	.LVL1-1
+ 2021 0034 0100     		.2byte	0x1
+ 2022 0036 51       		.byte	0x51
+ 2023 0037 09000000 		.4byte	.LVL1-1
+ 2024 003b 1E000000 		.4byte	.LVL3
+ 2025 003f 0100     		.2byte	0x1
+ 2026 0041 55       		.byte	0x55
+ 2027 0042 1E000000 		.4byte	.LVL3
+ 2028 0046 98000000 		.4byte	.LFE34
+ 2029 004a 0400     		.2byte	0x4
+ 2030 004c F3       		.byte	0xf3
+ 2031 004d 01       		.uleb128 0x1
+ 2032 004e 51       		.byte	0x51
+ 2033 004f 9F       		.byte	0x9f
+ 2034 0050 00000000 		.4byte	0
+ 2035 0054 00000000 		.4byte	0
+ 2036              	.LLST2:
+ 2037 0058 00000000 		.4byte	.LVL9
+ 2038 005c 24000000 		.4byte	.LVL10
+ 2039 0060 0100     		.2byte	0x1
+ 2040 0062 50       		.byte	0x50
+ 2041 0063 24000000 		.4byte	.LVL10
+ 2042 0067 27000000 		.4byte	.LVL11-1
+ 2043 006b 0300     		.2byte	0x3
+ 2044 006d 71       		.byte	0x71
+ 2045 006e 7D       		.sleb128 -3
+ 2046 006f 9F       		.byte	0x9f
+ 2047 0070 27000000 		.4byte	.LVL11-1
+ 2048 0074 34000000 		.4byte	.LVL13
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 41
+
+
+ 2049 0078 0400     		.2byte	0x4
+ 2050 007a F3       		.byte	0xf3
+ 2051 007b 01       		.uleb128 0x1
+ 2052 007c 50       		.byte	0x50
+ 2053 007d 9F       		.byte	0x9f
+ 2054 007e 34000000 		.4byte	.LVL13
+ 2055 0082 36000000 		.4byte	.LVL14
+ 2056 0086 0100     		.2byte	0x1
+ 2057 0088 50       		.byte	0x50
+ 2058 0089 36000000 		.4byte	.LVL14
+ 2059 008d 3E000000 		.4byte	.LFE35
+ 2060 0091 0400     		.2byte	0x4
+ 2061 0093 F3       		.byte	0xf3
+ 2062 0094 01       		.uleb128 0x1
+ 2063 0095 50       		.byte	0x50
+ 2064 0096 9F       		.byte	0x9f
+ 2065 0097 00000000 		.4byte	0
+ 2066 009b 00000000 		.4byte	0
+ 2067              	.LLST3:
+ 2068 009f 14000000 		.4byte	.LVL16
+ 2069 00a3 24000000 		.4byte	.LVL17
+ 2070 00a7 0100     		.2byte	0x1
+ 2071 00a9 53       		.byte	0x53
+ 2072 00aa 26000000 		.4byte	.LVL18
+ 2073 00ae 32000000 		.4byte	.LVL19
+ 2074 00b2 0100     		.2byte	0x1
+ 2075 00b4 53       		.byte	0x53
+ 2076 00b5 00000000 		.4byte	0
+ 2077 00b9 00000000 		.4byte	0
+ 2078              	.LLST4:
+ 2079 00bd 34000000 		.4byte	.LVL20
+ 2080 00c1 3C000000 		.4byte	.LVL21
+ 2081 00c5 0100     		.2byte	0x1
+ 2082 00c7 54       		.byte	0x54
+ 2083 00c8 00000000 		.4byte	0
+ 2084 00cc 00000000 		.4byte	0
+ 2085              	.LLST5:
+ 2086 00d0 00000000 		.4byte	.LVL24
+ 2087 00d4 0B000000 		.4byte	.LVL25-1
+ 2088 00d8 0100     		.2byte	0x1
+ 2089 00da 50       		.byte	0x50
+ 2090 00db 0B000000 		.4byte	.LVL25-1
+ 2091 00df 38000000 		.4byte	.LVL28
+ 2092 00e3 0100     		.2byte	0x1
+ 2093 00e5 54       		.byte	0x54
+ 2094 00e6 38000000 		.4byte	.LVL28
+ 2095 00ea 3A000000 		.4byte	.LVL29
+ 2096 00ee 0100     		.2byte	0x1
+ 2097 00f0 50       		.byte	0x50
+ 2098 00f1 3A000000 		.4byte	.LVL29
+ 2099 00f5 40000000 		.4byte	.LVL30
+ 2100 00f9 0100     		.2byte	0x1
+ 2101 00fb 54       		.byte	0x54
+ 2102 00fc 40000000 		.4byte	.LVL30
+ 2103 0100 4C000000 		.4byte	.LFE36
+ 2104 0104 0400     		.2byte	0x4
+ 2105 0106 F3       		.byte	0xf3
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 42
+
+
+ 2106 0107 01       		.uleb128 0x1
+ 2107 0108 50       		.byte	0x50
+ 2108 0109 9F       		.byte	0x9f
+ 2109 010a 00000000 		.4byte	0
+ 2110 010e 00000000 		.4byte	0
+ 2111              		.section	.debug_aranges,"",%progbits
+ 2112 0000 64000000 		.4byte	0x64
+ 2113 0004 0200     		.2byte	0x2
+ 2114 0006 00000000 		.4byte	.Ldebug_info0
+ 2115 000a 04       		.byte	0x4
+ 2116 000b 00       		.byte	0
+ 2117 000c 0000     		.2byte	0
+ 2118 000e 0000     		.2byte	0
+ 2119 0010 00000000 		.4byte	.LFB34
+ 2120 0014 98000000 		.4byte	.LFE34-.LFB34
+ 2121 0018 00000000 		.4byte	.LFB35
+ 2122 001c 3E000000 		.4byte	.LFE35-.LFB35
+ 2123 0020 00000000 		.4byte	.LFB37
+ 2124 0024 0C000000 		.4byte	.LFE37-.LFB37
+ 2125 0028 00000000 		.4byte	.LFB38
+ 2126 002c 0C000000 		.4byte	.LFE38-.LFB38
+ 2127 0030 00000000 		.4byte	.LFB39
+ 2128 0034 04000000 		.4byte	.LFE39-.LFB39
+ 2129 0038 00000000 		.4byte	.LFB40
+ 2130 003c 48000000 		.4byte	.LFE40-.LFB40
+ 2131 0040 00000000 		.4byte	.LFB41
+ 2132 0044 50000000 		.4byte	.LFE41-.LFB41
+ 2133 0048 00000000 		.4byte	.LFB43
+ 2134 004c 34010000 		.4byte	.LFE43-.LFB43
+ 2135 0050 00000000 		.4byte	.LFB42
+ 2136 0054 28000000 		.4byte	.LFE42-.LFB42
+ 2137 0058 00000000 		.4byte	.LFB36
+ 2138 005c 4C000000 		.4byte	.LFE36-.LFB36
+ 2139 0060 00000000 		.4byte	0
+ 2140 0064 00000000 		.4byte	0
+ 2141              		.section	.debug_ranges,"",%progbits
+ 2142              	.Ldebug_ranges0:
+ 2143 0000 00000000 		.4byte	.LFB34
+ 2144 0004 98000000 		.4byte	.LFE34
+ 2145 0008 00000000 		.4byte	.LFB35
+ 2146 000c 3E000000 		.4byte	.LFE35
+ 2147 0010 00000000 		.4byte	.LFB37
+ 2148 0014 0C000000 		.4byte	.LFE37
+ 2149 0018 00000000 		.4byte	.LFB38
+ 2150 001c 0C000000 		.4byte	.LFE38
+ 2151 0020 00000000 		.4byte	.LFB39
+ 2152 0024 04000000 		.4byte	.LFE39
+ 2153 0028 00000000 		.4byte	.LFB40
+ 2154 002c 48000000 		.4byte	.LFE40
+ 2155 0030 00000000 		.4byte	.LFB41
+ 2156 0034 50000000 		.4byte	.LFE41
+ 2157 0038 00000000 		.4byte	.LFB43
+ 2158 003c 34010000 		.4byte	.LFE43
+ 2159 0040 00000000 		.4byte	.LFB42
+ 2160 0044 28000000 		.4byte	.LFE42
+ 2161 0048 00000000 		.4byte	.LFB36
+ 2162 004c 4C000000 		.4byte	.LFE36
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 43
+
+
+ 2163 0050 00000000 		.4byte	0
+ 2164 0054 00000000 		.4byte	0
+ 2165              		.section	.debug_line,"",%progbits
+ 2166              	.Ldebug_line0:
+ 2167 0000 C5020000 		.section	.debug_str,"MS",%progbits,1
+ 2167      02007601 
+ 2167      00000201 
+ 2167      FB0E0D00 
+ 2167      01010101 
+ 2168              	.LASF42:
+ 2169 0000 64657669 		.ascii	"deviceAddressInput\000"
+ 2169      63654164 
+ 2169      64726573 
+ 2169      73496E70 
+ 2169      757400
+ 2170              	.LASF48:
+ 2171 0013 67657443 		.ascii	"getChipType\000"
+ 2171      68697054 
+ 2171      79706500 
+ 2172              	.LASF55:
+ 2173 001f 53656E64 		.ascii	"SendCANPacket\000"
+ 2173      43414E50 
+ 2173      61636B65 
+ 2173      7400
+ 2174              	.LASF31:
+ 2175 002d 72786D61 		.ascii	"rxmailbox\000"
+ 2175      696C626F 
+ 2175      7800
+ 2176              	.LASF53:
+ 2177 0037 6D61696C 		.ascii	"mailbox\000"
+ 2177      626F7800 
+ 2178              	.LASF28:
+ 2179 003f 43414E5F 		.ascii	"CAN_DATA_BYTES\000"
+ 2179      44415441 
+ 2179      5F425954 
+ 2179      455300
+ 2180              	.LASF73:
+ 2181 004e 44454255 		.ascii	"DEBUG_UartPutString\000"
+ 2181      475F5561 
+ 2181      72745075 
+ 2181      74537472 
+ 2181      696E6700 
+ 2182              	.LASF2:
+ 2183 0062 73686F72 		.ascii	"short int\000"
+ 2183      7420696E 
+ 2183      7400
+ 2184              	.LASF16:
+ 2185 006c 73697A65 		.ascii	"sizetype\000"
+ 2185      74797065 
+ 2185      00
+ 2186              	.LASF57:
+ 2187 0075 72656365 		.ascii	"receivedPacket\000"
+ 2187      69766564 
+ 2187      5061636B 
+ 2187      657400
+ 2188              	.LASF64:
+ 2189 0084 6C617465 		.ascii	"latestMessageFull\000"
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 44
+
+
+ 2189      73744D65 
+ 2189      73736167 
+ 2189      6546756C 
+ 2189      6C00
+ 2190              	.LASF41:
+ 2191 0096 64657669 		.ascii	"deviceGroupInput\000"
+ 2191      63654772 
+ 2191      6F757049 
+ 2191      6E707574 
+ 2191      00
+ 2192              	.LASF44:
+ 2193 00a7 50536F43 		.ascii	"PSoCMessage\000"
+ 2193      4D657373 
+ 2193      61676500 
+ 2194              	.LASF50:
+ 2195 00b3 496E6974 		.ascii	"InitCAN\000"
+ 2195      43414E00 
+ 2196              	.LASF52:
+ 2197 00bb 73746174 		.ascii	"statusReg\000"
+ 2197      75735265 
+ 2197      6700
+ 2198              	.LASF37:
+ 2199 00c5 72786461 		.ascii	"rxdata\000"
+ 2199      746100
+ 2200              	.LASF4:
+ 2201 00cc 5F5F7569 		.ascii	"__uint16_t\000"
+ 2201      6E743136 
+ 2201      5F7400
+ 2202              	.LASF26:
+ 2203 00d7 62797465 		.ascii	"byte\000"
+ 2203      00
+ 2204              	.LASF68:
+ 2205 00dc 43414E5F 		.ascii	"CAN_Start\000"
+ 2205      53746172 
+ 2205      7400
+ 2206              	.LASF78:
+ 2207 00e6 6D656D63 		.ascii	"memcpy\000"
+ 2207      707900
+ 2208              	.LASF74:
+ 2209 00ed 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2209      43313120 
+ 2209      352E342E 
+ 2209      31203230 
+ 2209      31363036 
+ 2210 0120 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 2210      20726576 
+ 2210      6973696F 
+ 2210      6E203233 
+ 2210      37373135 
+ 2211 0153 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2211      66756E63 
+ 2211      74696F6E 
+ 2211      2D736563 
+ 2211      74696F6E 
+ 2212              	.LASF12:
+ 2213 017b 75696E74 		.ascii	"uint8_t\000"
+ 2213      385F7400 
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 45
+
+
+ 2214              	.LASF18:
+ 2215 0183 75696E74 		.ascii	"uint8\000"
+ 2215      3800
+ 2216              	.LASF63:
+ 2217 0189 6C617465 		.ascii	"latestMessageTail\000"
+ 2217      73744D65 
+ 2217      73736167 
+ 2217      65546169 
+ 2217      6C00
+ 2218              	.LASF36:
+ 2219 019b 72786964 		.ascii	"rxid\000"
+ 2219      00
+ 2220              	.LASF69:
+ 2221 01a0 43414E5F 		.ascii	"CAN_RxBufConfig\000"
+ 2221      52784275 
+ 2221      66436F6E 
+ 2221      66696700 
+ 2222              	.LASF34:
+ 2223 01b0 72786163 		.ascii	"rxacr\000"
+ 2223      7200
+ 2224              	.LASF0:
+ 2225 01b6 7369676E 		.ascii	"signed char\000"
+ 2225      65642063 
+ 2225      68617200 
+ 2226              	.LASF20:
+ 2227 01c2 666C6F61 		.ascii	"float\000"
+ 2227      7400
+ 2228              	.LASF9:
+ 2229 01c8 6C6F6E67 		.ascii	"long long int\000"
+ 2229      206C6F6E 
+ 2229      6720696E 
+ 2229      7400
+ 2230              	.LASF29:
+ 2231 01d6 43414E5F 		.ascii	"CAN_REG_32\000"
+ 2231      5245475F 
+ 2231      333200
+ 2232              	.LASF17:
+ 2233 01e1 43414E50 		.ascii	"CANPacket\000"
+ 2233      61636B65 
+ 2233      7400
+ 2234              	.LASF56:
+ 2235 01eb 506F6C6C 		.ascii	"PollAndReceiveCANPacket\000"
+ 2235      416E6452 
+ 2235      65636569 
+ 2235      76654341 
+ 2235      4E506163 
+ 2236              	.LASF6:
+ 2237 0203 6C6F6E67 		.ascii	"long int\000"
+ 2237      20696E74 
+ 2237      00
+ 2238              	.LASF3:
+ 2239 020c 5F5F7569 		.ascii	"__uint8_t\000"
+ 2239      6E74385F 
+ 2239      7400
+ 2240              	.LASF7:
+ 2241 0216 5F5F7569 		.ascii	"__uint32_t\000"
+ 2241      6E743332 
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 46
+
+
+ 2241      5F7400
+ 2242              	.LASF60:
+ 2243 0221 6D657373 		.ascii	"messageReadFlag\000"
+ 2243      61676552 
+ 2243      65616446 
+ 2243      6C616700 
+ 2244              	.LASF25:
+ 2245 0231 6C6F6E67 		.ascii	"long double\000"
+ 2245      20646F75 
+ 2245      626C6500 
+ 2246              	.LASF38:
+ 2247 023d 7278616D 		.ascii	"rxamrd\000"
+ 2247      726400
+ 2248              	.LASF65:
+ 2249 0244 64657669 		.ascii	"deviceAddress\000"
+ 2249      63654164 
+ 2249      64726573 
+ 2249      7300
+ 2250              	.LASF1:
+ 2251 0252 756E7369 		.ascii	"unsigned char\000"
+ 2251      676E6564 
+ 2251      20636861 
+ 2251      7200
+ 2252              	.LASF61:
+ 2253 0260 6C617465 		.ascii	"latestMessage\000"
+ 2253      73744D65 
+ 2253      73736167 
+ 2253      6500
+ 2254              	.LASF62:
+ 2255 026e 6C617465 		.ascii	"latestMessageHead\000"
+ 2255      73744D65 
+ 2255      73736167 
+ 2255      65486561 
+ 2255      6400
+ 2256              	.LASF10:
+ 2257 0280 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2257      206C6F6E 
+ 2257      6720756E 
+ 2257      7369676E 
+ 2257      65642069 
+ 2258              	.LASF14:
+ 2259 0297 75696E74 		.ascii	"uint32_t\000"
+ 2259      33325F74 
+ 2259      00
+ 2260              	.LASF11:
+ 2261 02a0 756E7369 		.ascii	"unsigned int\000"
+ 2261      676E6564 
+ 2261      20696E74 
+ 2261      00
+ 2262              	.LASF13:
+ 2263 02ad 75696E74 		.ascii	"uint16_t\000"
+ 2263      31365F74 
+ 2263      00
+ 2264              	.LASF27:
+ 2265 02b6 43414E5F 		.ascii	"CAN_DATA_BYTES_MSG\000"
+ 2265      44415441 
+ 2265      5F425954 
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 47
+
+
+ 2265      45535F4D 
+ 2265      534700
+ 2266              	.LASF24:
+ 2267 02c9 72656733 		.ascii	"reg32\000"
+ 2267      3200
+ 2268              	.LASF5:
+ 2269 02cf 73686F72 		.ascii	"short unsigned int\000"
+ 2269      7420756E 
+ 2269      7369676E 
+ 2269      65642069 
+ 2269      6E7400
+ 2270              	.LASF49:
+ 2271 02e2 636F756E 		.ascii	"countAddFIFO\000"
+ 2271      74416464 
+ 2271      4649464F 
+ 2271      00
+ 2272              	.LASF39:
+ 2273 02ef 72786163 		.ascii	"rxacrd\000"
+ 2273      726400
+ 2274              	.LASF22:
+ 2275 02f6 63686172 		.ascii	"char\000"
+ 2275      00
+ 2276              	.LASF40:
+ 2277 02fb 43414E5F 		.ascii	"CAN_RX_STRUCT\000"
+ 2277      52585F53 
+ 2277      54525543 
+ 2277      5400
+ 2278              	.LASF67:
+ 2279 0309 72784D61 		.ascii	"rxMailbox\000"
+ 2279      696C626F 
+ 2279      7800
+ 2280              	.LASF59:
+ 2281 0313 6D657373 		.ascii	"messagePresentFlag\000"
+ 2281      61676550 
+ 2281      72657365 
+ 2281      6E74466C 
+ 2281      616700
+ 2282              	.LASF32:
+ 2283 0326 7278636D 		.ascii	"rxcmd\000"
+ 2283      6400
+ 2284              	.LASF66:
+ 2285 032c 64657669 		.ascii	"deviceGroup\000"
+ 2285      63654772 
+ 2285      6F757000 
+ 2286              	.LASF54:
+ 2287 0338 636F756E 		.ascii	"countRemoveFIFO\000"
+ 2287      7452656D 
+ 2287      6F766546 
+ 2287      49464F00 
+ 2288              	.LASF45:
+ 2289 0348 50536F43 		.ascii	"PSoCData\000"
+ 2289      44617461 
+ 2289      00
+ 2290              	.LASF15:
+ 2291 0351 64617461 		.ascii	"data\000"
+ 2291      00
+ 2292              	.LASF19:
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 48
+
+
+ 2293 0356 75696E74 		.ascii	"uint32\000"
+ 2293      333200
+ 2294              	.LASF23:
+ 2295 035d 72656738 		.ascii	"reg8\000"
+ 2295      00
+ 2296              	.LASF8:
+ 2297 0362 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2297      20756E73 
+ 2297      69676E65 
+ 2297      6420696E 
+ 2297      7400
+ 2298              	.LASF30:
+ 2299 0374 43414E5F 		.ascii	"CAN_TX_MSG\000"
+ 2299      54585F4D 
+ 2299      534700
+ 2300              	.LASF72:
+ 2301 037f 43414E5F 		.ascii	"CAN_SendMsg\000"
+ 2301      53656E64 
+ 2301      4D736700 
+ 2302              	.LASF76:
+ 2303 038b 433A5C55 		.ascii	"C:\\Users\\Davis Sauer\\Documents\\PSoC Creator\\Hu"
+ 2303      73657273 
+ 2303      5C446176 
+ 2303      69732053 
+ 2303      61756572 
+ 2304 03b9 736B7920 		.ascii	"sky Robotics\\CAN Tester.cydsn\000"
+ 2304      526F626F 
+ 2304      74696373 
+ 2304      5C43414E 
+ 2304      20546573 
+ 2305              	.LASF70:
+ 2306 03d7 43414E5F 		.ascii	"CAN_GlobalIntEnable\000"
+ 2306      476C6F62 
+ 2306      616C496E 
+ 2306      74456E61 
+ 2306      626C6500 
+ 2307              	.LASF58:
+ 2308 03eb 73697A65 		.ascii	"size\000"
+ 2308      00
+ 2309              	.LASF46:
+ 2310 03f0 6765744C 		.ascii	"getLocalDeviceSerial\000"
+ 2310      6F63616C 
+ 2310      44657669 
+ 2310      63655365 
+ 2310      7269616C 
+ 2311              	.LASF71:
+ 2312 0405 4379496E 		.ascii	"CyIntSetVector\000"
+ 2312      74536574 
+ 2312      56656374 
+ 2312      6F7200
+ 2313              	.LASF77:
+ 2314 0414 4649464F 		.ascii	"FIFOSize\000"
+ 2314      53697A65 
+ 2314      00
+ 2315              	.LASF21:
+ 2316 041d 646F7562 		.ascii	"double\000"
+ 2316      6C6500
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\cc47UyYF.s 			page 49
+
+
+ 2317              	.LASF43:
+ 2318 0424 7061636B 		.ascii	"packetToSend\000"
+ 2318      6574546F 
+ 2318      53656E64 
+ 2318      00
+ 2319              	.LASF75:
+ 2320 0431 506F7274 		.ascii	"PortCANDebug.c\000"
+ 2320      43414E44 
+ 2320      65627567 
+ 2320      2E6300
+ 2321              	.LASF51:
+ 2322 0440 43414E5F 		.ascii	"CAN_FLAG_ISR\000"
+ 2322      464C4147 
+ 2322      5F495352 
+ 2322      00
+ 2323              	.LASF33:
+ 2324 044d 7278616D 		.ascii	"rxamr\000"
+ 2324      7200
+ 2325              	.LASF35:
+ 2326 0453 43414E5F 		.ascii	"CAN_RX_CFG\000"
+ 2326      52585F43 
+ 2326      464700
+ 2327              	.LASF47:
+ 2328 045e 6765744C 		.ascii	"getLocalDeviceGroup\000"
+ 2328      6F63616C 
+ 2328      44657669 
+ 2328      63654772 
+ 2328      6F757000 
+ 2329              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

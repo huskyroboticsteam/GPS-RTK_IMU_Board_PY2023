@@ -1,0 +1,6 @@
+X:/Programs/Cypress/PSoC\ Creator/4.4/PSoC\ Creator/warp/lib/ieee/work/stdlogic.vif : 
+
+X:/Programs/Cypress/PSoC\ Creator/4.4/PSoC\ Creator/warp/lib/common/stdlogic/mod_genv.vif : 
+
+X:/Programs/Cypress/PSoC\ Creator/4.4/PSoC\ Creator/warp/lib/common/stdlogic/rtlpkg.vif : 
+

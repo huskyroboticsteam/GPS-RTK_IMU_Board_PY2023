@@ -1,0 +1,9 @@
+--------------- Build Started: 03/31/2021 18:21:04 Project: IMU Board Firmware, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+cydsfit.exe -.appdatapath "C:\Users\Davis Sauer\AppData\Local\Cypress Semiconductor\PSoC Creator\4.4" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p "C:\Users\Davis Sauer\Documents\PSoC Creator\Husky Robotics\IMU Board Firmware.cydsn\IMU Board Firmware.cyprj" -d CY8C4248AZI-L485 -s "C:\Users\Davis Sauer\Documents\PSoC Creator\Husky Robotics\IMU Board Firmware.cydsn\Generated_Source\PSoC4" -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
+Elaborating Design...
+ADD: sdb.M0059: error: Error in component: CAN. The SYSCLK clock is undefined or was changed. For proper bit timing calculation, launch the CAN configuration dialog and select the appropriate values in the Timing tab.
+ * C:\Users\Davis Sauer\Documents\PSoC Creator\Husky Robotics\IMU Board Firmware.cydsn\TopDesign\TopDesign.cysch (Instance:CAN)
+ADD: sdb.M0060: warning: Warning in component: CAN. The SYSCLK clock accuracy should be 0.5% or better. Please, enable WCO PLL in the Design-Wide Resource (*.cydwr) editor or use an external clock to meet the CAN accurate clocking requirements.
+ * C:\Users\Davis Sauer\Documents\PSoC Creator\Husky Robotics\IMU Board Firmware.cydsn\TopDesign\TopDesign.cysch (Instance:CAN)
+Error: fit.M0050: The fitter aborted due to errors, please address all errors and rebuild. (App=cydsfit)
+--------------- Build Failed: 03/31/2021 18:21:07 ---------------

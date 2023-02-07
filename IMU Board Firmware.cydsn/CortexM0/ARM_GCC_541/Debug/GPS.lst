@@ -1,0 +1,3118 @@
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"GPS.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.gps_init,"ax",%progbits
+  20              		.align	2
+  21              		.global	gps_init
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	gps_init, %function
+  25              	gps_init:
+  26              	.LFB34:
+  27              		.file 1 "MTK3339-Sensor-Driver\\GPS.c"
+   1:MTK3339-Sensor-Driver/GPS.c **** #include "GPS.h"
+   2:MTK3339-Sensor-Driver/GPS.c **** #include "project.h"
+   3:MTK3339-Sensor-Driver/GPS.c **** 
+   4:MTK3339-Sensor-Driver/GPS.c **** #define GPS_Send GPS_UART_UartPutString
+   5:MTK3339-Sensor-Driver/GPS.c **** #define DEBUG_Send USB_DEBUG_UartPutString
+   6:MTK3339-Sensor-Driver/GPS.c **** 
+   7:MTK3339-Sensor-Driver/GPS.c **** 
+   8:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+   9:MTK3339-Sensor-Driver/GPS.c **** //  ||                       gps_init				 	   ||
+  10:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+  11:MTK3339-Sensor-Driver/GPS.c **** void gps_init( void )
+  12:MTK3339-Sensor-Driver/GPS.c **** {
+  28              		.loc 1 12 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+  13:MTK3339-Sensor-Driver/GPS.c ****     UART_CLOCK_Start();
+  36              		.loc 1 13 0
+  37 0002 FF20     		movs	r0, #255
+  38 0004 FFF7FEFF 		bl	UART_CLOCK_StartEx
+  39              	.LVL0:
+  14:MTK3339-Sensor-Driver/GPS.c ****     GPS_UART_Start(); //initializes the UART communications
+  40              		.loc 1 14 0
+  41 0008 FFF7FEFF 		bl	GPS_UART_Start
+  42              	.LVL1:
+  15:MTK3339-Sensor-Driver/GPS.c ****     
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 2
+
+
+  16:MTK3339-Sensor-Driver/GPS.c **** 	GPS_Send(PMTK_CMD_HOT_START); //Initializes GPS into "hot start" mode
+  43              		.loc 1 16 0
+  44 000c 0848     		ldr	r0, .L2
+  45 000e FFF7FEFF 		bl	GPS_UART_UartPutString
+  46              	.LVL2:
+  17:MTK3339-Sensor-Driver/GPS.c ****     GPS_Send(PMTK_SET_NMEA_UPDATE_10HZ); //sets transmission rate to 10Hz
+  47              		.loc 1 17 0
+  48 0012 0848     		ldr	r0, .L2+4
+  49 0014 FFF7FEFF 		bl	GPS_UART_UartPutString
+  50              	.LVL3:
+  18:MTK3339-Sensor-Driver/GPS.c ****     GPS_Send(PMTK_SET_NMEA_OUTPUT_GGAONLY); //sets custom output parameters to shorten packet size
+  51              		.loc 1 18 0
+  52 0018 0748     		ldr	r0, .L2+8
+  53 001a FFF7FEFF 		bl	GPS_UART_UartPutString
+  54              	.LVL4:
+  19:MTK3339-Sensor-Driver/GPS.c ****     
+  20:MTK3339-Sensor-Driver/GPS.c ****     GPS_Send(PMTK_SET_NMEA_BAUD_57600); //increases baudrate of GPS to turbocharge the data transfe
+  55              		.loc 1 20 0
+  56 001e 0748     		ldr	r0, .L2+12
+  57 0020 FFF7FEFF 		bl	GPS_UART_UartPutString
+  58              	.LVL5:
+  21:MTK3339-Sensor-Driver/GPS.c ****     UART_CLOCK_SetDivider(416); //sets baudrate of UART to match GPS
+  59              		.loc 1 21 0
+  60 0024 0021     		movs	r1, #0
+  61 0026 D020     		movs	r0, #208
+  62 0028 4000     		lsls	r0, r0, #1
+  63 002a FFF7FEFF 		bl	UART_CLOCK_SetFractionalDividerRegister
+  64              	.LVL6:
+  22:MTK3339-Sensor-Driver/GPS.c **** }
+  65              		.loc 1 22 0
+  66              		@ sp needed
+  67 002e 10BD     		pop	{r4, pc}
+  68              	.L3:
+  69              		.align	2
+  70              	.L2:
+  71 0030 00000000 		.word	.LC0
+  72 0034 14000000 		.word	.LC2
+  73 0038 2C000000 		.word	.LC4
+  74 003c 68000000 		.word	.LC6
+  75              		.cfi_endproc
+  76              	.LFE34:
+  77              		.size	gps_init, .-gps_init
+  78              		.section	.text.gps_parseHex,"ax",%progbits
+  79              		.align	2
+  80              		.global	gps_parseHex
+  81              		.code	16
+  82              		.thumb_func
+  83              		.type	gps_parseHex, %function
+  84              	gps_parseHex:
+  85              	.LFB35:
+  23:MTK3339-Sensor-Driver/GPS.c **** 
+  24:MTK3339-Sensor-Driver/GPS.c **** 
+  25:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+  26:MTK3339-Sensor-Driver/GPS.c **** //  ||                      gps_parseHex			 	   ||
+  27:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+  28:MTK3339-Sensor-Driver/GPS.c **** char gps_parseHex(char c) 
+  29:MTK3339-Sensor-Driver/GPS.c **** {
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 3
+
+
+  86              		.loc 1 29 0
+  87              		.cfi_startproc
+  88              		@ args = 0, pretend = 0, frame = 0
+  89              		@ frame_needed = 0, uses_anonymous_args = 0
+  90              		@ link register save eliminated.
+  91              	.LVL7:
+  30:MTK3339-Sensor-Driver/GPS.c ****     if ( c < '0' )
+  92              		.loc 1 30 0
+  93 0000 2F28     		cmp	r0, #47
+  94 0002 0BD9     		bls	.L7
+  31:MTK3339-Sensor-Driver/GPS.c ****       return 0;
+  32:MTK3339-Sensor-Driver/GPS.c ****     if ( c <= '9' )
+  95              		.loc 1 32 0
+  96 0004 3928     		cmp	r0, #57
+  97 0006 02D8     		bhi	.L6
+  33:MTK3339-Sensor-Driver/GPS.c ****       return c - '0';
+  98              		.loc 1 33 0
+  99 0008 3038     		subs	r0, r0, #48
+ 100              	.LVL8:
+ 101 000a C0B2     		uxtb	r0, r0
+ 102 000c 0BE0     		b	.L5
+ 103              	.LVL9:
+ 104              	.L6:
+  34:MTK3339-Sensor-Driver/GPS.c ****     if ( c < 'A' )
+ 105              		.loc 1 34 0
+ 106 000e 4028     		cmp	r0, #64
+ 107 0010 06D9     		bls	.L8
+  35:MTK3339-Sensor-Driver/GPS.c ****        return 0;
+  36:MTK3339-Sensor-Driver/GPS.c ****     if ( c <= 'F' )
+ 108              		.loc 1 36 0
+ 109 0012 4628     		cmp	r0, #70
+ 110 0014 06D8     		bhi	.L9
+  37:MTK3339-Sensor-Driver/GPS.c ****        return ( c - 'A' ) + 10;
+ 111              		.loc 1 37 0
+ 112 0016 3738     		subs	r0, r0, #55
+ 113              	.LVL10:
+ 114 0018 C0B2     		uxtb	r0, r0
+ 115 001a 04E0     		b	.L5
+ 116              	.LVL11:
+ 117              	.L7:
+  31:MTK3339-Sensor-Driver/GPS.c ****     if ( c <= '9' )
+ 118              		.loc 1 31 0
+ 119 001c 0020     		movs	r0, #0
+ 120              	.LVL12:
+ 121 001e 02E0     		b	.L5
+ 122              	.LVL13:
+ 123              	.L8:
+  35:MTK3339-Sensor-Driver/GPS.c ****        return 0;
+ 124              		.loc 1 35 0
+ 125 0020 0020     		movs	r0, #0
+ 126              	.LVL14:
+ 127 0022 00E0     		b	.L5
+ 128              	.LVL15:
+ 129              	.L9:
+  38:MTK3339-Sensor-Driver/GPS.c **** 	return 0;
+ 130              		.loc 1 38 0
+ 131 0024 0020     		movs	r0, #0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 4
+
+
+ 132              	.LVL16:
+ 133              	.L5:
+  39:MTK3339-Sensor-Driver/GPS.c **** }
+ 134              		.loc 1 39 0
+ 135              		@ sp needed
+ 136 0026 7047     		bx	lr
+ 137              		.cfi_endproc
+ 138              	.LFE35:
+ 139              		.size	gps_parseHex, .-gps_parseHex
+ 140              		.section	.text.gps_parseChecksum,"ax",%progbits
+ 141              		.align	2
+ 142              		.global	gps_parseChecksum
+ 143              		.code	16
+ 144              		.thumb_func
+ 145              		.type	gps_parseChecksum, %function
+ 146              	gps_parseChecksum:
+ 147              	.LFB36:
+  40:MTK3339-Sensor-Driver/GPS.c **** 
+  41:MTK3339-Sensor-Driver/GPS.c **** 
+  42:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+  43:MTK3339-Sensor-Driver/GPS.c **** //  ||                   gps_parseChecksum				   ||
+  44:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+  45:MTK3339-Sensor-Driver/GPS.c **** char gps_parseChecksum( char* checksum )
+  46:MTK3339-Sensor-Driver/GPS.c **** {
+ 148              		.loc 1 46 0
+ 149              		.cfi_startproc
+ 150              		@ args = 0, pretend = 0, frame = 0
+ 151              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152              	.LVL17:
+ 153 0000 70B5     		push	{r4, r5, r6, lr}
+ 154              		.cfi_def_cfa_offset 16
+ 155              		.cfi_offset 4, -16
+ 156              		.cfi_offset 5, -12
+ 157              		.cfi_offset 6, -8
+ 158              		.cfi_offset 14, -4
+ 159 0002 0500     		movs	r5, r0
+ 160              	.LVL18:
+  47:MTK3339-Sensor-Driver/GPS.c **** 	char hex = 0;
+  48:MTK3339-Sensor-Driver/GPS.c **** 	hex += 16 * gps_parseHex( checksum[0] );
+ 161              		.loc 1 48 0
+ 162 0004 0078     		ldrb	r0, [r0]
+ 163              	.LVL19:
+ 164 0006 FFF7FEFF 		bl	gps_parseHex
+ 165              	.LVL20:
+ 166 000a 0001     		lsls	r0, r0, #4
+ 167 000c C4B2     		uxtb	r4, r0
+ 168              	.LVL21:
+  49:MTK3339-Sensor-Driver/GPS.c **** 	hex += gps_parseHex( checksum[1] );
+ 169              		.loc 1 49 0
+ 170 000e 6878     		ldrb	r0, [r5, #1]
+ 171 0010 FFF7FEFF 		bl	gps_parseHex
+ 172              	.LVL22:
+ 173 0014 2018     		adds	r0, r4, r0
+ 174 0016 C0B2     		uxtb	r0, r0
+ 175              	.LVL23:
+  50:MTK3339-Sensor-Driver/GPS.c **** 	return hex;
+  51:MTK3339-Sensor-Driver/GPS.c **** }
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 5
+
+
+ 176              		.loc 1 51 0
+ 177              		@ sp needed
+ 178              	.LVL24:
+ 179 0018 70BD     		pop	{r4, r5, r6, pc}
+ 180              		.cfi_endproc
+ 181              	.LFE36:
+ 182              		.size	gps_parseChecksum, .-gps_parseChecksum
+ 183 001a C046     		.section	.text.gps_calcNMEAChecksum,"ax",%progbits
+ 184              		.align	2
+ 185              		.global	gps_calcNMEAChecksum
+ 186              		.code	16
+ 187              		.thumb_func
+ 188              		.type	gps_calcNMEAChecksum, %function
+ 189              	gps_calcNMEAChecksum:
+ 190              	.LFB37:
+  52:MTK3339-Sensor-Driver/GPS.c **** 
+  53:MTK3339-Sensor-Driver/GPS.c **** 
+  54:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+  55:MTK3339-Sensor-Driver/GPS.c **** //  ||                 gps_calcNMEAChecksum				   ||
+  56:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+  57:MTK3339-Sensor-Driver/GPS.c **** char gps_calcNMEAChecksum( char* str )
+  58:MTK3339-Sensor-Driver/GPS.c **** {
+ 191              		.loc 1 58 0
+ 192              		.cfi_startproc
+ 193              		@ args = 0, pretend = 0, frame = 0
+ 194              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195              	.LVL25:
+ 196 0000 10B5     		push	{r4, lr}
+ 197              		.cfi_def_cfa_offset 8
+ 198              		.cfi_offset 4, -8
+ 199              		.cfi_offset 14, -4
+ 200 0002 0400     		movs	r4, r0
+ 201              	.LVL26:
+  59:MTK3339-Sensor-Driver/GPS.c **** 	int len, sum, i;
+  60:MTK3339-Sensor-Driver/GPS.c **** 	
+  61:MTK3339-Sensor-Driver/GPS.c **** 	sum = 0;
+  62:MTK3339-Sensor-Driver/GPS.c **** 	len = strlen( str );
+ 202              		.loc 1 62 0
+ 203 0004 FFF7FEFF 		bl	strlen
+ 204              	.LVL27:
+  63:MTK3339-Sensor-Driver/GPS.c **** 	for ( i = 0; i < len - 4; i++ )
+ 205              		.loc 1 63 0
+ 206 0008 0023     		movs	r3, #0
+  61:MTK3339-Sensor-Driver/GPS.c **** 	len = strlen( str );
+ 207              		.loc 1 61 0
+ 208 000a 0022     		movs	r2, #0
+ 209              		.loc 1 63 0
+ 210 000c 03E0     		b	.L12
+ 211              	.LVL28:
+ 212              	.L13:
+  64:MTK3339-Sensor-Driver/GPS.c **** 		sum ^= str[ i + 1 ];
+ 213              		.loc 1 64 0 discriminator 3
+ 214 000e E118     		adds	r1, r4, r3
+ 215 0010 4978     		ldrb	r1, [r1, #1]
+ 216 0012 4A40     		eors	r2, r1
+ 217              	.LVL29:
+  63:MTK3339-Sensor-Driver/GPS.c **** 	for ( i = 0; i < len - 4; i++ )
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 6
+
+
+ 218              		.loc 1 63 0 discriminator 3
+ 219 0014 0133     		adds	r3, r3, #1
+ 220              	.LVL30:
+ 221              	.L12:
+  63:MTK3339-Sensor-Driver/GPS.c **** 	for ( i = 0; i < len - 4; i++ )
+ 222              		.loc 1 63 0 is_stmt 0 discriminator 1
+ 223 0016 011F     		subs	r1, r0, #4
+ 224 0018 8B42     		cmp	r3, r1
+ 225 001a F8DB     		blt	.L13
+  65:MTK3339-Sensor-Driver/GPS.c **** 	return sum;	
+ 226              		.loc 1 65 0 is_stmt 1
+ 227 001c D0B2     		uxtb	r0, r2
+ 228              	.LVL31:
+  66:MTK3339-Sensor-Driver/GPS.c **** }
+ 229              		.loc 1 66 0
+ 230              		@ sp needed
+ 231              	.LVL32:
+ 232 001e 10BD     		pop	{r4, pc}
+ 233              		.cfi_endproc
+ 234              	.LFE37:
+ 235              		.size	gps_calcNMEAChecksum, .-gps_calcNMEAChecksum
+ 236              		.section	.text.gps_validateNMEA,"ax",%progbits
+ 237              		.align	2
+ 238              		.global	gps_validateNMEA
+ 239              		.code	16
+ 240              		.thumb_func
+ 241              		.type	gps_validateNMEA, %function
+ 242              	gps_validateNMEA:
+ 243              	.LFB38:
+  67:MTK3339-Sensor-Driver/GPS.c **** 
+  68:MTK3339-Sensor-Driver/GPS.c **** 
+  69:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+  70:MTK3339-Sensor-Driver/GPS.c **** //  ||                   gps_validateNMEA				   ||
+  71:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+  72:MTK3339-Sensor-Driver/GPS.c **** int gps_validateNMEA( char* nmea )
+  73:MTK3339-Sensor-Driver/GPS.c **** {
+ 244              		.loc 1 73 0
+ 245              		.cfi_startproc
+ 246              		@ args = 0, pretend = 0, frame = 0
+ 247              		@ frame_needed = 0, uses_anonymous_args = 0
+ 248              	.LVL33:
+ 249 0000 70B5     		push	{r4, r5, r6, lr}
+ 250              		.cfi_def_cfa_offset 16
+ 251              		.cfi_offset 4, -16
+ 252              		.cfi_offset 5, -12
+ 253              		.cfi_offset 6, -8
+ 254              		.cfi_offset 14, -4
+ 255 0002 0400     		movs	r4, r0
+  74:MTK3339-Sensor-Driver/GPS.c **** 	char targetChecksum = gps_parseChecksum( nmea + ( strlen(nmea) - 2 ) );
+ 256              		.loc 1 74 0
+ 257 0004 FFF7FEFF 		bl	strlen
+ 258              	.LVL34:
+ 259 0008 0238     		subs	r0, r0, #2
+ 260 000a 2018     		adds	r0, r4, r0
+ 261 000c FFF7FEFF 		bl	gps_parseChecksum
+ 262              	.LVL35:
+ 263 0010 0500     		movs	r5, r0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 7
+
+
+ 264              	.LVL36:
+  75:MTK3339-Sensor-Driver/GPS.c **** 
+  76:MTK3339-Sensor-Driver/GPS.c **** 	if ( targetChecksum == gps_calcNMEAChecksum( nmea ) )
+ 265              		.loc 1 76 0
+ 266 0012 2000     		movs	r0, r4
+ 267 0014 FFF7FEFF 		bl	gps_calcNMEAChecksum
+ 268              	.LVL37:
+ 269 0018 8542     		cmp	r5, r0
+ 270 001a 01D1     		bne	.L16
+  77:MTK3339-Sensor-Driver/GPS.c **** 		return 1;
+ 271              		.loc 1 77 0
+ 272 001c 0120     		movs	r0, #1
+ 273 001e 00E0     		b	.L15
+ 274              	.L16:
+  78:MTK3339-Sensor-Driver/GPS.c **** 	return 0;
+ 275              		.loc 1 78 0
+ 276 0020 0020     		movs	r0, #0
+ 277              	.L15:
+  79:MTK3339-Sensor-Driver/GPS.c **** }
+ 278              		.loc 1 79 0
+ 279              		@ sp needed
+ 280              	.LVL38:
+ 281              	.LVL39:
+ 282 0022 70BD     		pop	{r4, r5, r6, pc}
+ 283              		.cfi_endproc
+ 284              	.LFE38:
+ 285              		.size	gps_validateNMEA, .-gps_validateNMEA
+ 286              		.section	.text.gps_parseNMEA,"ax",%progbits
+ 287              		.align	2
+ 288              		.global	gps_parseNMEA
+ 289              		.code	16
+ 290              		.thumb_func
+ 291              		.type	gps_parseNMEA, %function
+ 292              	gps_parseNMEA:
+ 293              	.LFB39:
+  80:MTK3339-Sensor-Driver/GPS.c **** 
+  81:MTK3339-Sensor-Driver/GPS.c **** 
+  82:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+  83:MTK3339-Sensor-Driver/GPS.c **** //  ||                    gps_parseNMEA				   ||
+  84:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+  85:MTK3339-Sensor-Driver/GPS.c **** int gps_parseNMEA( char* nmea, struct GPS_Str_Data *gps )
+  86:MTK3339-Sensor-Driver/GPS.c **** {
+ 294              		.loc 1 86 0
+ 295              		.cfi_startproc
+ 296              		@ args = 0, pretend = 0, frame = 0
+ 297              		@ frame_needed = 0, uses_anonymous_args = 0
+ 298              	.LVL40:
+ 299 0000 70B5     		push	{r4, r5, r6, lr}
+ 300              		.cfi_def_cfa_offset 16
+ 301              		.cfi_offset 4, -16
+ 302              		.cfi_offset 5, -12
+ 303              		.cfi_offset 6, -8
+ 304              		.cfi_offset 14, -4
+ 305 0002 0C00     		movs	r4, r1
+  87:MTK3339-Sensor-Driver/GPS.c **** 	char *ptr, *nmeaStart;
+  88:MTK3339-Sensor-Driver/GPS.c **** 
+  89:MTK3339-Sensor-Driver/GPS.c **** 	// Validate NMEA sentence header
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 8
+
+
+  90:MTK3339-Sensor-Driver/GPS.c **** 	if ( ( nmeaStart = strstr ( nmea, "$GPGGA" ) ) == NULL )
+ 306              		.loc 1 90 0
+ 307 0004 2049     		ldr	r1, .L20
+ 308              	.LVL41:
+ 309 0006 FFF7FEFF 		bl	strstr
+ 310              	.LVL42:
+ 311 000a 051E     		subs	r5, r0, #0
+ 312              	.LVL43:
+ 313 000c 3AD0     		beq	.L19
+  91:MTK3339-Sensor-Driver/GPS.c **** 		return 0;
+  92:MTK3339-Sensor-Driver/GPS.c ****     
+  93:MTK3339-Sensor-Driver/GPS.c **** 	// validate Checksum
+  94:MTK3339-Sensor-Driver/GPS.c **** 	if (!gps_validateNMEA( nmeaStart ) )
+ 314              		.loc 1 94 0
+ 315 000e FFF7FEFF 		bl	gps_validateNMEA
+ 316              	.LVL44:
+ 317 0012 0028     		cmp	r0, #0
+ 318 0014 37D0     		beq	.L18
+  95:MTK3339-Sensor-Driver/GPS.c **** 		return 0;
+  96:MTK3339-Sensor-Driver/GPS.c **** 
+  97:MTK3339-Sensor-Driver/GPS.c **** 	// Separate the sentence by commas	
+  98:MTK3339-Sensor-Driver/GPS.c **** 	ptr = strtok ( nmeaStart, "," );
+ 319              		.loc 1 98 0
+ 320 0016 1D4E     		ldr	r6, .L20+4
+ 321 0018 3100     		movs	r1, r6
+ 322 001a 2800     		movs	r0, r5
+ 323 001c FFF7FEFF 		bl	strtok
+ 324              	.LVL45:
+  99:MTK3339-Sensor-Driver/GPS.c **** 
+ 100:MTK3339-Sensor-Driver/GPS.c **** 	// FastFwd to latitude
+ 101:MTK3339-Sensor-Driver/GPS.c **** 	ptr = strtok ( NULL, "," );
+ 325              		.loc 1 101 0
+ 326 0020 3100     		movs	r1, r6
+ 327 0022 0020     		movs	r0, #0
+ 328 0024 FFF7FEFF 		bl	strtok
+ 329              	.LVL46:
+ 102:MTK3339-Sensor-Driver/GPS.c **** 	ptr = strtok ( NULL, "," );
+ 330              		.loc 1 102 0
+ 331 0028 3100     		movs	r1, r6
+ 332 002a 0020     		movs	r0, #0
+ 333 002c FFF7FEFF 		bl	strtok
+ 334              	.LVL47:
+ 335 0030 0100     		movs	r1, r0
+ 336              	.LVL48:
+ 103:MTK3339-Sensor-Driver/GPS.c **** 	strcpy( gps->latitude, ptr );
+ 337              		.loc 1 103 0
+ 338 0032 2000     		movs	r0, r4
+ 339              	.LVL49:
+ 340 0034 FFF7FEFF 		bl	strcpy
+ 341              	.LVL50:
+ 104:MTK3339-Sensor-Driver/GPS.c **** 
+ 105:MTK3339-Sensor-Driver/GPS.c **** 	// Latitude cardinal
+ 106:MTK3339-Sensor-Driver/GPS.c **** 	ptr = strtok ( NULL, "," );
+ 342              		.loc 1 106 0
+ 343 0038 3100     		movs	r1, r6
+ 344 003a 0020     		movs	r0, #0
+ 345 003c FFF7FEFF 		bl	strtok
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 9
+
+
+ 346              	.LVL51:
+ 347 0040 0100     		movs	r1, r0
+ 348              	.LVL52:
+ 107:MTK3339-Sensor-Driver/GPS.c **** 	strcpy( gps->latCardinal, ptr );
+ 349              		.loc 1 107 0
+ 350 0042 2000     		movs	r0, r4
+ 351              	.LVL53:
+ 352 0044 2030     		adds	r0, r0, #32
+ 353 0046 FFF7FEFF 		bl	strcpy
+ 354              	.LVL54:
+ 108:MTK3339-Sensor-Driver/GPS.c **** 
+ 109:MTK3339-Sensor-Driver/GPS.c **** 	// Longitude
+ 110:MTK3339-Sensor-Driver/GPS.c **** 	ptr = strtok ( NULL, "," );
+ 355              		.loc 1 110 0
+ 356 004a 3100     		movs	r1, r6
+ 357 004c 0020     		movs	r0, #0
+ 358 004e FFF7FEFF 		bl	strtok
+ 359              	.LVL55:
+ 360 0052 0100     		movs	r1, r0
+ 361              	.LVL56:
+ 111:MTK3339-Sensor-Driver/GPS.c **** 	strcpy( gps->longitude, ptr );
+ 362              		.loc 1 111 0
+ 363 0054 2000     		movs	r0, r4
+ 364              	.LVL57:
+ 365 0056 1030     		adds	r0, r0, #16
+ 366 0058 FFF7FEFF 		bl	strcpy
+ 367              	.LVL58:
+ 112:MTK3339-Sensor-Driver/GPS.c ****     
+ 113:MTK3339-Sensor-Driver/GPS.c **** 	// Longitude cardinal
+ 114:MTK3339-Sensor-Driver/GPS.c **** 	ptr = strtok ( NULL, "," );
+ 368              		.loc 1 114 0
+ 369 005c 3100     		movs	r1, r6
+ 370 005e 0020     		movs	r0, #0
+ 371 0060 FFF7FEFF 		bl	strtok
+ 372              	.LVL59:
+ 373 0064 0100     		movs	r1, r0
+ 374              	.LVL60:
+ 115:MTK3339-Sensor-Driver/GPS.c **** 	strcpy( gps->lonCardinal, ptr );
+ 375              		.loc 1 115 0
+ 376 0066 2000     		movs	r0, r4
+ 377              	.LVL61:
+ 378 0068 2230     		adds	r0, r0, #34
+ 379 006a FFF7FEFF 		bl	strcpy
+ 380              	.LVL62:
+ 116:MTK3339-Sensor-Driver/GPS.c ****     
+ 117:MTK3339-Sensor-Driver/GPS.c **** 	// Fix
+ 118:MTK3339-Sensor-Driver/GPS.c **** 	ptr = strtok ( NULL, "," );
+ 381              		.loc 1 118 0
+ 382 006e 3100     		movs	r1, r6
+ 383 0070 0020     		movs	r0, #0
+ 384 0072 FFF7FEFF 		bl	strtok
+ 385              	.LVL63:
+ 386 0076 0100     		movs	r1, r0
+ 387              	.LVL64:
+ 119:MTK3339-Sensor-Driver/GPS.c **** 	strcpy( gps->fix, ptr );
+ 388              		.loc 1 119 0
+ 389 0078 2000     		movs	r0, r4
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 10
+
+
+ 390              	.LVL65:
+ 391 007a 2430     		adds	r0, r0, #36
+ 392 007c FFF7FEFF 		bl	strcpy
+ 393              	.LVL66:
+ 120:MTK3339-Sensor-Driver/GPS.c **** 	return 1;
+ 394              		.loc 1 120 0
+ 395 0080 0120     		movs	r0, #1
+ 396 0082 00E0     		b	.L18
+ 397              	.LVL67:
+ 398              	.L19:
+  91:MTK3339-Sensor-Driver/GPS.c ****     
+ 399              		.loc 1 91 0
+ 400 0084 0020     		movs	r0, #0
+ 401              	.LVL68:
+ 402              	.L18:
+ 121:MTK3339-Sensor-Driver/GPS.c **** }
+ 403              		.loc 1 121 0
+ 404              		@ sp needed
+ 405              	.LVL69:
+ 406              	.LVL70:
+ 407 0086 70BD     		pop	{r4, r5, r6, pc}
+ 408              	.L21:
+ 409              		.align	2
+ 410              	.L20:
+ 411 0088 84000000 		.word	.LC8
+ 412 008c 8C000000 		.word	.LC10
+ 413              		.cfi_endproc
+ 414              	.LFE39:
+ 415              		.size	gps_parseNMEA, .-gps_parseNMEA
+ 416              		.global	__aeabi_ddiv
+ 417              		.global	__aeabi_d2iz
+ 418              		.global	__aeabi_i2d
+ 419              		.global	__aeabi_dsub
+ 420              		.global	__aeabi_dadd
+ 421              		.section	.text.gps_minsToDec,"ax",%progbits
+ 422              		.align	2
+ 423              		.global	gps_minsToDec
+ 424              		.code	16
+ 425              		.thumb_func
+ 426              		.type	gps_minsToDec, %function
+ 427              	gps_minsToDec:
+ 428              	.LFB42:
+ 122:MTK3339-Sensor-Driver/GPS.c **** 
+ 123:MTK3339-Sensor-Driver/GPS.c **** 
+ 124:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+ 125:MTK3339-Sensor-Driver/GPS.c **** //  ||                    gps_parseData					   ||
+ 126:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+ 127:MTK3339-Sensor-Driver/GPS.c **** struct GPS_Data gps_parseData( struct GPS_Str_Data *strData )
+ 128:MTK3339-Sensor-Driver/GPS.c **** {
+ 129:MTK3339-Sensor-Driver/GPS.c **** 	// Convert the struct of strings to a struct of integral types
+ 130:MTK3339-Sensor-Driver/GPS.c **** 	struct GPS_Data gpsData;
+ 131:MTK3339-Sensor-Driver/GPS.c **** 	
+ 132:MTK3339-Sensor-Driver/GPS.c **** 	// ===== Latitude =====
+ 133:MTK3339-Sensor-Driver/GPS.c **** 	gpsData.latitude = atof( strData->latitude );
+ 134:MTK3339-Sensor-Driver/GPS.c **** 	// Negate if Southern hempisphere	
+ 135:MTK3339-Sensor-Driver/GPS.c **** 	if ( strData->latCardinal[0] == 'S' )
+ 136:MTK3339-Sensor-Driver/GPS.c **** 		gpsData.latitude *= -1;
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 11
+
+
+ 137:MTK3339-Sensor-Driver/GPS.c **** 
+ 138:MTK3339-Sensor-Driver/GPS.c **** 	// Convert from NMEA Minute form to pure decimal
+ 139:MTK3339-Sensor-Driver/GPS.c **** 	gpsData.latitude =  gps_minsToDec( gpsData.latitude );
+ 140:MTK3339-Sensor-Driver/GPS.c **** 
+ 141:MTK3339-Sensor-Driver/GPS.c **** 	// ===== Longitude =====
+ 142:MTK3339-Sensor-Driver/GPS.c **** 	gpsData.longitude = atof( strData->longitude );
+ 143:MTK3339-Sensor-Driver/GPS.c **** 	// Negate if Western hempisphere	
+ 144:MTK3339-Sensor-Driver/GPS.c **** 	if ( strData->lonCardinal[0] == 'W' )
+ 145:MTK3339-Sensor-Driver/GPS.c **** 		gpsData.longitude *= -1;
+ 146:MTK3339-Sensor-Driver/GPS.c **** 
+ 147:MTK3339-Sensor-Driver/GPS.c **** 	// Convert from NMEA Minute form to pure decimal
+ 148:MTK3339-Sensor-Driver/GPS.c **** 	gpsData.longitude =  gps_minsToDec( gpsData.longitude );
+ 149:MTK3339-Sensor-Driver/GPS.c **** 
+ 150:MTK3339-Sensor-Driver/GPS.c **** 	gpsData.fix = atoi( strData->fix );
+ 151:MTK3339-Sensor-Driver/GPS.c **** 	return gpsData;
+ 152:MTK3339-Sensor-Driver/GPS.c **** }
+ 153:MTK3339-Sensor-Driver/GPS.c **** 
+ 154:MTK3339-Sensor-Driver/GPS.c **** 
+ 155:MTK3339-Sensor-Driver/GPS.c **** 
+ 156:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+ 157:MTK3339-Sensor-Driver/GPS.c **** //  ||                    gps_getData 					   ||
+ 158:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+ 159:MTK3339-Sensor-Driver/GPS.c **** int gps_getData( struct GPS_Str_Data *gpsData )
+ 160:MTK3339-Sensor-Driver/GPS.c **** {
+ 161:MTK3339-Sensor-Driver/GPS.c **** 	// result will be summed with any successful NMEA parses	
+ 162:MTK3339-Sensor-Driver/GPS.c **** 	int result = 0;
+ 163:MTK3339-Sensor-Driver/GPS.c **** 	char string[255];
+ 164:MTK3339-Sensor-Driver/GPS.c **** 
+ 165:MTK3339-Sensor-Driver/GPS.c **** 	while (GPS_UART_SpiUartGetRxBufferSize()) //checks through all bytes in the buffer
+ 166:MTK3339-Sensor-Driver/GPS.c **** 	{	
+ 167:MTK3339-Sensor-Driver/GPS.c ****         GPS_Recv(string, 255);		                //packet is stored in string array
+ 168:MTK3339-Sensor-Driver/GPS.c **** 		result += gps_parseNMEA( string, gpsData ); //if packet has location info result will store 1
+ 169:MTK3339-Sensor-Driver/GPS.c ****         if (result)
+ 170:MTK3339-Sensor-Driver/GPS.c ****         {
+ 171:MTK3339-Sensor-Driver/GPS.c ****             break;
+ 172:MTK3339-Sensor-Driver/GPS.c ****         }
+ 173:MTK3339-Sensor-Driver/GPS.c **** 	}
+ 174:MTK3339-Sensor-Driver/GPS.c **** 	return result;
+ 175:MTK3339-Sensor-Driver/GPS.c **** }
+ 176:MTK3339-Sensor-Driver/GPS.c **** 
+ 177:MTK3339-Sensor-Driver/GPS.c **** 
+ 178:MTK3339-Sensor-Driver/GPS.c **** 
+ 179:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+ 180:MTK3339-Sensor-Driver/GPS.c **** //  ||                    gps_minsToDec					   ||
+ 181:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+ 182:MTK3339-Sensor-Driver/GPS.c **** // Convert the GPS lat/lon format from DDMM.MMMM to decimal
+ 183:MTK3339-Sensor-Driver/GPS.c **** double gps_minsToDec(double coord)
+ 184:MTK3339-Sensor-Driver/GPS.c **** {
+ 429              		.loc 1 184 0
+ 430              		.cfi_startproc
+ 431              		@ args = 0, pretend = 0, frame = 0
+ 432              		@ frame_needed = 0, uses_anonymous_args = 0
+ 433              	.LVL71:
+ 434 0000 70B5     		push	{r4, r5, r6, lr}
+ 435              		.cfi_def_cfa_offset 16
+ 436              		.cfi_offset 4, -16
+ 437              		.cfi_offset 5, -12
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 12
+
+
+ 438              		.cfi_offset 6, -8
+ 439              		.cfi_offset 14, -4
+ 440 0002 0400     		movs	r4, r0
+ 441 0004 0D00     		movs	r5, r1
+ 185:MTK3339-Sensor-Driver/GPS.c **** 	int degree = coord / 100;
+ 442              		.loc 1 185 0
+ 443 0006 0022     		movs	r2, #0
+ 444 0008 0F4B     		ldr	r3, .L23
+ 445 000a FFF7FEFF 		bl	__aeabi_ddiv
+ 446              	.LVL72:
+ 447 000e FFF7FEFF 		bl	__aeabi_d2iz
+ 448              	.LVL73:
+ 449 0012 0600     		movs	r6, r0
+ 450              	.LVL74:
+ 186:MTK3339-Sensor-Driver/GPS.c **** 	return (coord - degree * 100) / 60 + degree;
+ 451              		.loc 1 186 0
+ 452 0014 6420     		movs	r0, #100
+ 453              	.LVL75:
+ 454 0016 7043     		muls	r0, r6
+ 455 0018 FFF7FEFF 		bl	__aeabi_i2d
+ 456              	.LVL76:
+ 457 001c 0200     		movs	r2, r0
+ 458 001e 0B00     		movs	r3, r1
+ 459 0020 2000     		movs	r0, r4
+ 460 0022 2900     		movs	r1, r5
+ 461 0024 FFF7FEFF 		bl	__aeabi_dsub
+ 462              	.LVL77:
+ 463 0028 0022     		movs	r2, #0
+ 464 002a 084B     		ldr	r3, .L23+4
+ 465 002c FFF7FEFF 		bl	__aeabi_ddiv
+ 466              	.LVL78:
+ 467 0030 0400     		movs	r4, r0
+ 468 0032 0D00     		movs	r5, r1
+ 469 0034 3000     		movs	r0, r6
+ 470 0036 FFF7FEFF 		bl	__aeabi_i2d
+ 471              	.LVL79:
+ 472 003a 0200     		movs	r2, r0
+ 473 003c 0B00     		movs	r3, r1
+ 474 003e 2000     		movs	r0, r4
+ 475 0040 2900     		movs	r1, r5
+ 476 0042 FFF7FEFF 		bl	__aeabi_dadd
+ 477              	.LVL80:
+ 187:MTK3339-Sensor-Driver/GPS.c **** }
+ 478              		.loc 1 187 0
+ 479              		@ sp needed
+ 480              	.LVL81:
+ 481 0046 70BD     		pop	{r4, r5, r6, pc}
+ 482              	.L24:
+ 483              		.align	2
+ 484              	.L23:
+ 485 0048 00005940 		.word	1079574528
+ 486 004c 00004E40 		.word	1078853632
+ 487              		.cfi_endproc
+ 488              	.LFE42:
+ 489              		.size	gps_minsToDec, .-gps_minsToDec
+ 490              		.global	__aeabi_d2f
+ 491              		.global	__aeabi_f2d
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 13
+
+
+ 492              		.section	.text.gps_parseData,"ax",%progbits
+ 493              		.align	2
+ 494              		.global	gps_parseData
+ 495              		.code	16
+ 496              		.thumb_func
+ 497              		.type	gps_parseData, %function
+ 498              	gps_parseData:
+ 499              	.LFB40:
+ 128:MTK3339-Sensor-Driver/GPS.c **** 	// Convert the struct of strings to a struct of integral types
+ 500              		.loc 1 128 0
+ 501              		.cfi_startproc
+ 502              		@ args = 0, pretend = 0, frame = 0
+ 503              		@ frame_needed = 0, uses_anonymous_args = 0
+ 504              	.LVL82:
+ 505 0000 70B5     		push	{r4, r5, r6, lr}
+ 506              		.cfi_def_cfa_offset 16
+ 507              		.cfi_offset 4, -16
+ 508              		.cfi_offset 5, -12
+ 509              		.cfi_offset 6, -8
+ 510              		.cfi_offset 14, -4
+ 511 0002 0400     		movs	r4, r0
+ 512 0004 0D00     		movs	r5, r1
+ 133:MTK3339-Sensor-Driver/GPS.c **** 	// Negate if Southern hempisphere	
+ 513              		.loc 1 133 0
+ 514 0006 0800     		movs	r0, r1
+ 515              	.LVL83:
+ 516 0008 FFF7FEFF 		bl	atof
+ 517              	.LVL84:
+ 518 000c FFF7FEFF 		bl	__aeabi_d2f
+ 519              	.LVL85:
+ 520 0010 2060     		str	r0, [r4]
+ 135:MTK3339-Sensor-Driver/GPS.c **** 		gpsData.latitude *= -1;
+ 521              		.loc 1 135 0
+ 522 0012 2023     		movs	r3, #32
+ 523 0014 EB5C     		ldrb	r3, [r5, r3]
+ 524 0016 532B     		cmp	r3, #83
+ 525 0018 04D1     		bne	.L26
+ 136:MTK3339-Sensor-Driver/GPS.c **** 
+ 526              		.loc 1 136 0
+ 527 001a 8023     		movs	r3, #128
+ 528 001c 1B06     		lsls	r3, r3, #24
+ 529 001e 9C46     		mov	ip, r3
+ 530 0020 6044     		add	r0, r0, ip
+ 531 0022 2060     		str	r0, [r4]
+ 532              	.L26:
+ 139:MTK3339-Sensor-Driver/GPS.c **** 
+ 533              		.loc 1 139 0
+ 534 0024 2068     		ldr	r0, [r4]
+ 535 0026 FFF7FEFF 		bl	__aeabi_f2d
+ 536              	.LVL86:
+ 537 002a FFF7FEFF 		bl	gps_minsToDec
+ 538              	.LVL87:
+ 539 002e FFF7FEFF 		bl	__aeabi_d2f
+ 540              	.LVL88:
+ 541 0032 2060     		str	r0, [r4]
+ 142:MTK3339-Sensor-Driver/GPS.c **** 	// Negate if Western hempisphere	
+ 542              		.loc 1 142 0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 14
+
+
+ 543 0034 2800     		movs	r0, r5
+ 544 0036 1030     		adds	r0, r0, #16
+ 545 0038 FFF7FEFF 		bl	atof
+ 546              	.LVL89:
+ 547 003c FFF7FEFF 		bl	__aeabi_d2f
+ 548              	.LVL90:
+ 549 0040 6060     		str	r0, [r4, #4]
+ 144:MTK3339-Sensor-Driver/GPS.c **** 		gpsData.longitude *= -1;
+ 550              		.loc 1 144 0
+ 551 0042 2223     		movs	r3, #34
+ 552 0044 EB5C     		ldrb	r3, [r5, r3]
+ 553 0046 572B     		cmp	r3, #87
+ 554 0048 04D1     		bne	.L27
+ 145:MTK3339-Sensor-Driver/GPS.c **** 
+ 555              		.loc 1 145 0
+ 556 004a 8023     		movs	r3, #128
+ 557 004c 1B06     		lsls	r3, r3, #24
+ 558 004e 9C46     		mov	ip, r3
+ 559 0050 6044     		add	r0, r0, ip
+ 560 0052 6060     		str	r0, [r4, #4]
+ 561              	.L27:
+ 148:MTK3339-Sensor-Driver/GPS.c **** 
+ 562              		.loc 1 148 0
+ 563 0054 6068     		ldr	r0, [r4, #4]
+ 564 0056 FFF7FEFF 		bl	__aeabi_f2d
+ 565              	.LVL91:
+ 566 005a FFF7FEFF 		bl	gps_minsToDec
+ 567              	.LVL92:
+ 568 005e FFF7FEFF 		bl	__aeabi_d2f
+ 569              	.LVL93:
+ 570 0062 6060     		str	r0, [r4, #4]
+ 150:MTK3339-Sensor-Driver/GPS.c **** 	return gpsData;
+ 571              		.loc 1 150 0
+ 572 0064 2800     		movs	r0, r5
+ 573 0066 2430     		adds	r0, r0, #36
+ 574 0068 FFF7FEFF 		bl	atoi
+ 575              	.LVL94:
+ 576 006c A060     		str	r0, [r4, #8]
+ 152:MTK3339-Sensor-Driver/GPS.c **** 
+ 577              		.loc 1 152 0
+ 578 006e 2000     		movs	r0, r4
+ 579              		@ sp needed
+ 580              	.LVL95:
+ 581              	.LVL96:
+ 582 0070 70BD     		pop	{r4, r5, r6, pc}
+ 583              		.cfi_endproc
+ 584              	.LFE40:
+ 585              		.size	gps_parseData, .-gps_parseData
+ 586 0072 C046     		.section	.text.GPS_Recv,"ax",%progbits
+ 587              		.align	2
+ 588              		.global	GPS_Recv
+ 589              		.code	16
+ 590              		.thumb_func
+ 591              		.type	GPS_Recv, %function
+ 592              	GPS_Recv:
+ 593              	.LFB43:
+ 188:MTK3339-Sensor-Driver/GPS.c **** 
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 15
+
+
+ 189:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+ 190:MTK3339-Sensor-Driver/GPS.c **** //  ||                    GPS_Recv      				   ||
+ 191:MTK3339-Sensor-Driver/GPS.c **** //  =========================================================
+ 192:MTK3339-Sensor-Driver/GPS.c **** //Parses incoming data from the GPS
+ 193:MTK3339-Sensor-Driver/GPS.c **** void GPS_Recv(char myString[], int maxLength) 
+ 194:MTK3339-Sensor-Driver/GPS.c **** {
+ 594              		.loc 1 194 0
+ 595              		.cfi_startproc
+ 596              		@ args = 0, pretend = 0, frame = 0
+ 597              		@ frame_needed = 0, uses_anonymous_args = 0
+ 598              	.LVL97:
+ 599 0000 70B5     		push	{r4, r5, r6, lr}
+ 600              		.cfi_def_cfa_offset 16
+ 601              		.cfi_offset 4, -16
+ 602              		.cfi_offset 5, -12
+ 603              		.cfi_offset 6, -8
+ 604              		.cfi_offset 14, -4
+ 605 0002 0600     		movs	r6, r0
+ 606 0004 0D00     		movs	r5, r1
+ 607              	.LVL98:
+ 195:MTK3339-Sensor-Driver/GPS.c ****   char response;
+ 196:MTK3339-Sensor-Driver/GPS.c ****   int i;
+ 197:MTK3339-Sensor-Driver/GPS.c ****   i = 0;
+ 608              		.loc 1 197 0
+ 609 0006 0024     		movs	r4, #0
+ 198:MTK3339-Sensor-Driver/GPS.c ****     
+ 199:MTK3339-Sensor-Driver/GPS.c ****   while (i < (maxLength - 1)) /* prevent over-runs */
+ 610              		.loc 1 199 0
+ 611 0008 0BE0     		b	.L31
+ 612              	.LVL99:
+ 613              	.L32:
+ 200:MTK3339-Sensor-Driver/GPS.c ****   {                   
+ 201:MTK3339-Sensor-Driver/GPS.c ****     response = GPS_UART_UartGetByte();
+ 614              		.loc 1 201 0
+ 615 000a FFF7FEFF 		bl	GPS_UART_UartGetByte
+ 616              	.LVL100:
+ 617 000e C0B2     		uxtb	r0, r0
+ 618              	.LVL101:
+ 202:MTK3339-Sensor-Driver/GPS.c ****     
+ 203:MTK3339-Sensor-Driver/GPS.c ****     if (response == '\r') /* enter marks the end */
+ 619              		.loc 1 203 0
+ 620 0010 0D28     		cmp	r0, #13
+ 621 0012 09D0     		beq	.L30
+ 204:MTK3339-Sensor-Driver/GPS.c ****     {                     
+ 205:MTK3339-Sensor-Driver/GPS.c ****       break;
+ 206:MTK3339-Sensor-Driver/GPS.c ****     }
+ 207:MTK3339-Sensor-Driver/GPS.c ****     else if (!((response >= ' ') && (response <= '~'))){
+ 622              		.loc 1 207 0
+ 623 0014 0300     		movs	r3, r0
+ 624 0016 203B     		subs	r3, r3, #32
+ 625 0018 DBB2     		uxtb	r3, r3
+ 626 001a 5E2B     		cmp	r3, #94
+ 627 001c 01D8     		bhi	.L31
+ 208:MTK3339-Sensor-Driver/GPS.c ****         //Not an ASCII character that we care about
+ 209:MTK3339-Sensor-Driver/GPS.c ****     }
+ 210:MTK3339-Sensor-Driver/GPS.c ****     else 
+ 211:MTK3339-Sensor-Driver/GPS.c ****     {
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 16
+
+
+ 212:MTK3339-Sensor-Driver/GPS.c ****       myString[i] = response;                       /* add in a letter */
+ 628              		.loc 1 212 0
+ 629 001e 3055     		strb	r0, [r6, r4]
+ 213:MTK3339-Sensor-Driver/GPS.c ****       i++;
+ 630              		.loc 1 213 0
+ 631 0020 0134     		adds	r4, r4, #1
+ 632              	.LVL102:
+ 633              	.L31:
+ 199:MTK3339-Sensor-Driver/GPS.c ****   {                   
+ 634              		.loc 1 199 0
+ 635 0022 6B1E     		subs	r3, r5, #1
+ 636 0024 9C42     		cmp	r4, r3
+ 637 0026 F0DB     		blt	.L32
+ 638              	.L30:
+ 214:MTK3339-Sensor-Driver/GPS.c ****     }
+ 215:MTK3339-Sensor-Driver/GPS.c ****   }
+ 216:MTK3339-Sensor-Driver/GPS.c ****   myString[i] = 0;                          /* terminal NULL character */
+ 639              		.loc 1 216 0
+ 640 0028 3419     		adds	r4, r6, r4
+ 641              	.LVL103:
+ 642 002a 0023     		movs	r3, #0
+ 643 002c 2370     		strb	r3, [r4]
+ 217:MTK3339-Sensor-Driver/GPS.c **** }
+ 644              		.loc 1 217 0
+ 645              		@ sp needed
+ 646              	.LVL104:
+ 647              	.LVL105:
+ 648 002e 70BD     		pop	{r4, r5, r6, pc}
+ 649              		.cfi_endproc
+ 650              	.LFE43:
+ 651              		.size	GPS_Recv, .-GPS_Recv
+ 652              		.section	.text.gps_getData,"ax",%progbits
+ 653              		.align	2
+ 654              		.global	gps_getData
+ 655              		.code	16
+ 656              		.thumb_func
+ 657              		.type	gps_getData, %function
+ 658              	gps_getData:
+ 659              	.LFB41:
+ 160:MTK3339-Sensor-Driver/GPS.c **** 	// result will be summed with any successful NMEA parses	
+ 660              		.loc 1 160 0
+ 661              		.cfi_startproc
+ 662              		@ args = 0, pretend = 0, frame = 256
+ 663              		@ frame_needed = 0, uses_anonymous_args = 0
+ 664              	.LVL106:
+ 665 0000 30B5     		push	{r4, r5, lr}
+ 666              		.cfi_def_cfa_offset 12
+ 667              		.cfi_offset 4, -12
+ 668              		.cfi_offset 5, -8
+ 669              		.cfi_offset 14, -4
+ 670 0002 C1B0     		sub	sp, sp, #260
+ 671              		.cfi_def_cfa_offset 272
+ 672 0004 0500     		movs	r5, r0
+ 673              	.LVL107:
+ 162:MTK3339-Sensor-Driver/GPS.c **** 	char string[255];
+ 674              		.loc 1 162 0
+ 675 0006 0024     		movs	r4, #0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 17
+
+
+ 165:MTK3339-Sensor-Driver/GPS.c **** 	{	
+ 676              		.loc 1 165 0
+ 677 0008 0AE0     		b	.L34
+ 678              	.LVL108:
+ 679              	.L36:
+ 167:MTK3339-Sensor-Driver/GPS.c **** 		result += gps_parseNMEA( string, gpsData ); //if packet has location info result will store 1
+ 680              		.loc 1 167 0
+ 681 000a FF21     		movs	r1, #255
+ 682 000c 6846     		mov	r0, sp
+ 683 000e FFF7FEFF 		bl	GPS_Recv
+ 684              	.LVL109:
+ 168:MTK3339-Sensor-Driver/GPS.c ****         if (result)
+ 685              		.loc 1 168 0
+ 686 0012 2900     		movs	r1, r5
+ 687 0014 6846     		mov	r0, sp
+ 688 0016 FFF7FEFF 		bl	gps_parseNMEA
+ 689              	.LVL110:
+ 690 001a 2418     		adds	r4, r4, r0
+ 691              	.LVL111:
+ 169:MTK3339-Sensor-Driver/GPS.c ****         {
+ 692              		.loc 1 169 0
+ 693 001c 002C     		cmp	r4, #0
+ 694 001e 03D1     		bne	.L35
+ 695              	.LVL112:
+ 696              	.L34:
+ 165:MTK3339-Sensor-Driver/GPS.c **** 	{	
+ 697              		.loc 1 165 0
+ 698 0020 FFF7FEFF 		bl	GPS_UART_SpiUartGetRxBufferSize
+ 699              	.LVL113:
+ 700 0024 0028     		cmp	r0, #0
+ 701 0026 F0D1     		bne	.L36
+ 702              	.L35:
+ 175:MTK3339-Sensor-Driver/GPS.c **** 
+ 703              		.loc 1 175 0
+ 704 0028 2000     		movs	r0, r4
+ 705 002a 41B0     		add	sp, sp, #260
+ 706              		@ sp needed
+ 707              	.LVL114:
+ 708              	.LVL115:
+ 709 002c 30BD     		pop	{r4, r5, pc}
+ 710              		.cfi_endproc
+ 711              	.LFE41:
+ 712              		.size	gps_getData, .-gps_getData
+ 713 002e C046     		.section	.rodata.str1.4,"aMS",%progbits,1
+ 714              		.align	2
+ 715              	.LC0:
+ 716 0000 24504D54 		.ascii	"$PMTK101*32<CR><LF>\000"
+ 716      4B313031 
+ 716      2A33323C 
+ 716      43523E3C 
+ 716      4C463E00 
+ 717              	.LC2:
+ 718 0014 24504D54 		.ascii	"$PMTK220,100*1F<CR><LF>\000"
+ 718      4B323230 
+ 718      2C313030 
+ 718      2A31463C 
+ 718      43523E3C 
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 18
+
+
+ 719              	.LC4:
+ 720 002c 24504D54 		.ascii	"$PMTK314,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29<C"
+ 720      4B333134 
+ 720      2C302C30 
+ 720      2C302C31 
+ 720      2C302C30 
+ 721 005f 523E3C4C 		.ascii	"R><LF>\000"
+ 721      463E00
+ 722 0066 0000     		.space	2
+ 723              	.LC6:
+ 724 0068 24504D54 		.ascii	"$PMTK251,57600*2C<CR><LF>\000"
+ 724      4B323531 
+ 724      2C353736 
+ 724      30302A32 
+ 724      433C4352 
+ 725 0082 0000     		.space	2
+ 726              	.LC8:
+ 727 0084 24475047 		.ascii	"$GPGGA\000"
+ 727      474100
+ 728 008b 00       		.space	1
+ 729              	.LC10:
+ 730 008c 2C00     		.ascii	",\000"
+ 731              		.text
+ 732              	.Letext0:
+ 733              		.file 2 "MTK3339-Sensor-Driver\\GPS.h"
+ 734              		.file 3 "Generated_Source\\PSoC4/UART_CLOCK.h"
+ 735              		.file 4 "Generated_Source\\PSoC4/GPS_UART.h"
+ 736              		.file 5 "Generated_Source\\PSoC4/GPS_UART_SPI_UART.h"
+ 737              		.file 6 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 738              		.file 7 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 739              		.section	.debug_info,"",%progbits
+ 740              	.Ldebug_info0:
+ 741 0000 D6060000 		.4byte	0x6d6
+ 742 0004 0400     		.2byte	0x4
+ 743 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 744 000a 04       		.byte	0x4
+ 745 000b 01       		.uleb128 0x1
+ 746 000c AF000000 		.4byte	.LASF55
+ 747 0010 0C       		.byte	0xc
+ 748 0011 46010000 		.4byte	.LASF56
+ 749 0015 A6020000 		.4byte	.LASF57
+ 750 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 751 001d 00000000 		.4byte	0
+ 752 0021 00000000 		.4byte	.Ldebug_line0
+ 753 0025 02       		.uleb128 0x2
+ 754 0026 08       		.byte	0x8
+ 755 0027 04       		.byte	0x4
+ 756 0028 3C030000 		.4byte	.LASF0
+ 757 002c 03       		.uleb128 0x3
+ 758 002d 04       		.byte	0x4
+ 759 002e 05       		.byte	0x5
+ 760 002f 696E7400 		.ascii	"int\000"
+ 761 0033 02       		.uleb128 0x2
+ 762 0034 04       		.byte	0x4
+ 763 0035 07       		.byte	0x7
+ 764 0036 49020000 		.4byte	.LASF1
+ 765 003a 02       		.uleb128 0x2
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 19
+
+
+ 766 003b 08       		.byte	0x8
+ 767 003c 05       		.byte	0x5
+ 768 003d AB010000 		.4byte	.LASF2
+ 769 0041 02       		.uleb128 0x2
+ 770 0042 08       		.byte	0x8
+ 771 0043 04       		.byte	0x4
+ 772 0044 DF010000 		.4byte	.LASF3
+ 773 0048 02       		.uleb128 0x2
+ 774 0049 01       		.byte	0x1
+ 775 004a 06       		.byte	0x6
+ 776 004b 19020000 		.4byte	.LASF4
+ 777 004f 02       		.uleb128 0x2
+ 778 0050 01       		.byte	0x1
+ 779 0051 08       		.byte	0x8
+ 780 0052 05020000 		.4byte	.LASF5
+ 781 0056 02       		.uleb128 0x2
+ 782 0057 02       		.byte	0x2
+ 783 0058 05       		.byte	0x5
+ 784 0059 7E000000 		.4byte	.LASF6
+ 785 005d 02       		.uleb128 0x2
+ 786 005e 02       		.byte	0x2
+ 787 005f 07       		.byte	0x7
+ 788 0060 87020000 		.4byte	.LASF7
+ 789 0064 02       		.uleb128 0x2
+ 790 0065 04       		.byte	0x4
+ 791 0066 05       		.byte	0x5
+ 792 0067 CA010000 		.4byte	.LASF8
+ 793 006b 02       		.uleb128 0x2
+ 794 006c 04       		.byte	0x4
+ 795 006d 07       		.byte	0x7
+ 796 006e 17030000 		.4byte	.LASF9
+ 797 0072 02       		.uleb128 0x2
+ 798 0073 08       		.byte	0x8
+ 799 0074 07       		.byte	0x7
+ 800 0075 25020000 		.4byte	.LASF10
+ 801 0079 02       		.uleb128 0x2
+ 802 007a 04       		.byte	0x4
+ 803 007b 07       		.byte	0x7
+ 804 007c 88000000 		.4byte	.LASF11
+ 805 0080 04       		.uleb128 0x4
+ 806 0081 04       		.byte	0x4
+ 807 0082 86000000 		.4byte	0x86
+ 808 0086 02       		.uleb128 0x2
+ 809 0087 01       		.byte	0x1
+ 810 0088 08       		.byte	0x8
+ 811 0089 9A020000 		.4byte	.LASF12
+ 812 008d 02       		.uleb128 0x2
+ 813 008e 04       		.byte	0x4
+ 814 008f 04       		.byte	0x4
+ 815 0090 80010000 		.4byte	.LASF13
+ 816 0094 05       		.uleb128 0x5
+ 817 0095 0A030000 		.4byte	.LASF18
+ 818 0099 26       		.byte	0x26
+ 819 009a 02       		.byte	0x2
+ 820 009b 26       		.byte	0x26
+ 821 009c DD000000 		.4byte	0xdd
+ 822 00a0 06       		.uleb128 0x6
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 20
+
+
+ 823 00a1 69020000 		.4byte	.LASF14
+ 824 00a5 02       		.byte	0x2
+ 825 00a6 28       		.byte	0x28
+ 826 00a7 DD000000 		.4byte	0xdd
+ 827 00ab 00       		.byte	0
+ 828 00ac 06       		.uleb128 0x6
+ 829 00ad 5F020000 		.4byte	.LASF15
+ 830 00b1 02       		.byte	0x2
+ 831 00b2 29       		.byte	0x29
+ 832 00b3 DD000000 		.4byte	0xdd
+ 833 00b7 10       		.byte	0x10
+ 834 00b8 06       		.uleb128 0x6
+ 835 00b9 62010000 		.4byte	.LASF16
+ 836 00bd 02       		.byte	0x2
+ 837 00be 2A       		.byte	0x2a
+ 838 00bf ED000000 		.4byte	0xed
+ 839 00c3 20       		.byte	0x20
+ 840 00c4 06       		.uleb128 0x6
+ 841 00c5 8B030000 		.4byte	.LASF17
+ 842 00c9 02       		.byte	0x2
+ 843 00ca 2B       		.byte	0x2b
+ 844 00cb ED000000 		.4byte	0xed
+ 845 00cf 22       		.byte	0x22
+ 846 00d0 07       		.uleb128 0x7
+ 847 00d1 66697800 		.ascii	"fix\000"
+ 848 00d5 02       		.byte	0x2
+ 849 00d6 2C       		.byte	0x2c
+ 850 00d7 ED000000 		.4byte	0xed
+ 851 00db 24       		.byte	0x24
+ 852 00dc 00       		.byte	0
+ 853 00dd 08       		.uleb128 0x8
+ 854 00de 86000000 		.4byte	0x86
+ 855 00e2 ED000000 		.4byte	0xed
+ 856 00e6 09       		.uleb128 0x9
+ 857 00e7 79000000 		.4byte	0x79
+ 858 00eb 0F       		.byte	0xf
+ 859 00ec 00       		.byte	0
+ 860 00ed 08       		.uleb128 0x8
+ 861 00ee 86000000 		.4byte	0x86
+ 862 00f2 FD000000 		.4byte	0xfd
+ 863 00f6 09       		.uleb128 0x9
+ 864 00f7 79000000 		.4byte	0x79
+ 865 00fb 01       		.byte	0x1
+ 866 00fc 00       		.byte	0
+ 867 00fd 05       		.uleb128 0x5
+ 868 00fe 82030000 		.4byte	.LASF19
+ 869 0102 0C       		.byte	0xc
+ 870 0103 02       		.byte	0x2
+ 871 0104 2F       		.byte	0x2f
+ 872 0105 2E010000 		.4byte	0x12e
+ 873 0109 06       		.uleb128 0x6
+ 874 010a 69020000 		.4byte	.LASF14
+ 875 010e 02       		.byte	0x2
+ 876 010f 31       		.byte	0x31
+ 877 0110 8D000000 		.4byte	0x8d
+ 878 0114 00       		.byte	0
+ 879 0115 06       		.uleb128 0x6
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 21
+
+
+ 880 0116 5F020000 		.4byte	.LASF15
+ 881 011a 02       		.byte	0x2
+ 882 011b 32       		.byte	0x32
+ 883 011c 8D000000 		.4byte	0x8d
+ 884 0120 04       		.byte	0x4
+ 885 0121 07       		.uleb128 0x7
+ 886 0122 66697800 		.ascii	"fix\000"
+ 887 0126 02       		.byte	0x2
+ 888 0127 33       		.byte	0x33
+ 889 0128 2C000000 		.4byte	0x2c
+ 890 012c 08       		.byte	0x8
+ 891 012d 00       		.byte	0
+ 892 012e 0A       		.uleb128 0xa
+ 893 012f B9010000 		.4byte	.LASF35
+ 894 0133 01       		.byte	0x1
+ 895 0134 0B       		.byte	0xb
+ 896 0135 00000000 		.4byte	.LFB34
+ 897 0139 40000000 		.4byte	.LFE34-.LFB34
+ 898 013d 01       		.uleb128 0x1
+ 899 013e 9C       		.byte	0x9c
+ 900 013f D3010000 		.4byte	0x1d3
+ 901 0143 0B       		.uleb128 0xb
+ 902 0144 08000000 		.4byte	.LVL0
+ 903 0148 52060000 		.4byte	0x652
+ 904 014c 57010000 		.4byte	0x157
+ 905 0150 0C       		.uleb128 0xc
+ 906 0151 01       		.uleb128 0x1
+ 907 0152 50       		.byte	0x50
+ 908 0153 02       		.uleb128 0x2
+ 909 0154 08       		.byte	0x8
+ 910 0155 FF       		.byte	0xff
+ 911 0156 00       		.byte	0
+ 912 0157 0D       		.uleb128 0xd
+ 913 0158 0C000000 		.4byte	.LVL1
+ 914 015c 5D060000 		.4byte	0x65d
+ 915 0160 0B       		.uleb128 0xb
+ 916 0161 12000000 		.4byte	.LVL2
+ 917 0165 68060000 		.4byte	0x668
+ 918 0169 77010000 		.4byte	0x177
+ 919 016d 0C       		.uleb128 0xc
+ 920 016e 01       		.uleb128 0x1
+ 921 016f 50       		.byte	0x50
+ 922 0170 05       		.uleb128 0x5
+ 923 0171 03       		.byte	0x3
+ 924 0172 00000000 		.4byte	.LC0
+ 925 0176 00       		.byte	0
+ 926 0177 0B       		.uleb128 0xb
+ 927 0178 18000000 		.4byte	.LVL3
+ 928 017c 68060000 		.4byte	0x668
+ 929 0180 8E010000 		.4byte	0x18e
+ 930 0184 0C       		.uleb128 0xc
+ 931 0185 01       		.uleb128 0x1
+ 932 0186 50       		.byte	0x50
+ 933 0187 05       		.uleb128 0x5
+ 934 0188 03       		.byte	0x3
+ 935 0189 14000000 		.4byte	.LC2
+ 936 018d 00       		.byte	0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 22
+
+
+ 937 018e 0B       		.uleb128 0xb
+ 938 018f 1E000000 		.4byte	.LVL4
+ 939 0193 68060000 		.4byte	0x668
+ 940 0197 A5010000 		.4byte	0x1a5
+ 941 019b 0C       		.uleb128 0xc
+ 942 019c 01       		.uleb128 0x1
+ 943 019d 50       		.byte	0x50
+ 944 019e 05       		.uleb128 0x5
+ 945 019f 03       		.byte	0x3
+ 946 01a0 2C000000 		.4byte	.LC4
+ 947 01a4 00       		.byte	0
+ 948 01a5 0B       		.uleb128 0xb
+ 949 01a6 24000000 		.4byte	.LVL5
+ 950 01aa 68060000 		.4byte	0x668
+ 951 01ae BC010000 		.4byte	0x1bc
+ 952 01b2 0C       		.uleb128 0xc
+ 953 01b3 01       		.uleb128 0x1
+ 954 01b4 50       		.byte	0x50
+ 955 01b5 05       		.uleb128 0x5
+ 956 01b6 03       		.byte	0x3
+ 957 01b7 68000000 		.4byte	.LC6
+ 958 01bb 00       		.byte	0
+ 959 01bc 0E       		.uleb128 0xe
+ 960 01bd 2E000000 		.4byte	.LVL6
+ 961 01c1 74060000 		.4byte	0x674
+ 962 01c5 0C       		.uleb128 0xc
+ 963 01c6 01       		.uleb128 0x1
+ 964 01c7 50       		.byte	0x50
+ 965 01c8 03       		.uleb128 0x3
+ 966 01c9 0A       		.byte	0xa
+ 967 01ca A001     		.2byte	0x1a0
+ 968 01cc 0C       		.uleb128 0xc
+ 969 01cd 01       		.uleb128 0x1
+ 970 01ce 51       		.byte	0x51
+ 971 01cf 01       		.uleb128 0x1
+ 972 01d0 30       		.byte	0x30
+ 973 01d1 00       		.byte	0
+ 974 01d2 00       		.byte	0
+ 975 01d3 0F       		.uleb128 0xf
+ 976 01d4 3C020000 		.4byte	.LASF20
+ 977 01d8 01       		.byte	0x1
+ 978 01d9 1C       		.byte	0x1c
+ 979 01da 86000000 		.4byte	0x86
+ 980 01de 00000000 		.4byte	.LFB35
+ 981 01e2 28000000 		.4byte	.LFE35-.LFB35
+ 982 01e6 01       		.uleb128 0x1
+ 983 01e7 9C       		.byte	0x9c
+ 984 01e8 FA010000 		.4byte	0x1fa
+ 985 01ec 10       		.uleb128 0x10
+ 986 01ed 6300     		.ascii	"c\000"
+ 987 01ef 01       		.byte	0x1
+ 988 01f0 1C       		.byte	0x1c
+ 989 01f1 86000000 		.4byte	0x86
+ 990 01f5 00000000 		.4byte	.LLST0
+ 991 01f9 00       		.byte	0
+ 992 01fa 0F       		.uleb128 0xf
+ 993 01fb 6E010000 		.4byte	.LASF21
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 23
+
+
+ 994 01ff 01       		.byte	0x1
+ 995 0200 2D       		.byte	0x2d
+ 996 0201 86000000 		.4byte	0x86
+ 997 0205 00000000 		.4byte	.LFB36
+ 998 0209 1A000000 		.4byte	.LFE36-.LFB36
+ 999 020d 01       		.uleb128 0x1
+ 1000 020e 9C       		.byte	0x9c
+ 1001 020f 44020000 		.4byte	0x244
+ 1002 0213 11       		.uleb128 0x11
+ 1003 0214 3D010000 		.4byte	.LASF22
+ 1004 0218 01       		.byte	0x1
+ 1005 0219 2D       		.byte	0x2d
+ 1006 021a 80000000 		.4byte	0x80
+ 1007 021e 85000000 		.4byte	.LLST1
+ 1008 0222 12       		.uleb128 0x12
+ 1009 0223 68657800 		.ascii	"hex\000"
+ 1010 0227 01       		.byte	0x1
+ 1011 0228 2F       		.byte	0x2f
+ 1012 0229 86000000 		.4byte	0x86
+ 1013 022d B1000000 		.4byte	.LLST2
+ 1014 0231 0D       		.uleb128 0xd
+ 1015 0232 0A000000 		.4byte	.LVL20
+ 1016 0236 D3010000 		.4byte	0x1d3
+ 1017 023a 0D       		.uleb128 0xd
+ 1018 023b 14000000 		.4byte	.LVL22
+ 1019 023f D3010000 		.4byte	0x1d3
+ 1020 0243 00       		.byte	0
+ 1021 0244 0F       		.uleb128 0xf
+ 1022 0245 27000000 		.4byte	.LASF23
+ 1023 0249 01       		.byte	0x1
+ 1024 024a 39       		.byte	0x39
+ 1025 024b 86000000 		.4byte	0x86
+ 1026 024f 00000000 		.4byte	.LFB37
+ 1027 0253 20000000 		.4byte	.LFE37-.LFB37
+ 1028 0257 01       		.uleb128 0x1
+ 1029 0258 9C       		.byte	0x9c
+ 1030 0259 A8020000 		.4byte	0x2a8
+ 1031 025d 10       		.uleb128 0x10
+ 1032 025e 73747200 		.ascii	"str\000"
+ 1033 0262 01       		.byte	0x1
+ 1034 0263 39       		.byte	0x39
+ 1035 0264 80000000 		.4byte	0x80
+ 1036 0268 DB000000 		.4byte	.LLST3
+ 1037 026c 12       		.uleb128 0x12
+ 1038 026d 6C656E00 		.ascii	"len\000"
+ 1039 0271 01       		.byte	0x1
+ 1040 0272 3B       		.byte	0x3b
+ 1041 0273 2C000000 		.4byte	0x2c
+ 1042 0277 07010000 		.4byte	.LLST4
+ 1043 027b 12       		.uleb128 0x12
+ 1044 027c 73756D00 		.ascii	"sum\000"
+ 1045 0280 01       		.byte	0x1
+ 1046 0281 3B       		.byte	0x3b
+ 1047 0282 2C000000 		.4byte	0x2c
+ 1048 0286 27010000 		.4byte	.LLST5
+ 1049 028a 12       		.uleb128 0x12
+ 1050 028b 6900     		.ascii	"i\000"
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 24
+
+
+ 1051 028d 01       		.byte	0x1
+ 1052 028e 3B       		.byte	0x3b
+ 1053 028f 2C000000 		.4byte	0x2c
+ 1054 0293 46010000 		.4byte	.LLST6
+ 1055 0297 0E       		.uleb128 0xe
+ 1056 0298 08000000 		.4byte	.LVL27
+ 1057 029c 7F060000 		.4byte	0x67f
+ 1058 02a0 0C       		.uleb128 0xc
+ 1059 02a1 01       		.uleb128 0x1
+ 1060 02a2 50       		.byte	0x50
+ 1061 02a3 02       		.uleb128 0x2
+ 1062 02a4 74       		.byte	0x74
+ 1063 02a5 00       		.sleb128 0
+ 1064 02a6 00       		.byte	0
+ 1065 02a7 00       		.byte	0
+ 1066 02a8 0F       		.uleb128 0xf
+ 1067 02a9 71030000 		.4byte	.LASF24
+ 1068 02ad 01       		.byte	0x1
+ 1069 02ae 48       		.byte	0x48
+ 1070 02af 2C000000 		.4byte	0x2c
+ 1071 02b3 00000000 		.4byte	.LFB38
+ 1072 02b7 24000000 		.4byte	.LFE38-.LFB38
+ 1073 02bb 01       		.uleb128 0x1
+ 1074 02bc 9C       		.byte	0x9c
+ 1075 02bd 0D030000 		.4byte	0x30d
+ 1076 02c1 11       		.uleb128 0x11
+ 1077 02c2 65030000 		.4byte	.LASF25
+ 1078 02c6 01       		.byte	0x1
+ 1079 02c7 48       		.byte	0x48
+ 1080 02c8 80000000 		.4byte	0x80
+ 1081 02cc 65010000 		.4byte	.LLST7
+ 1082 02d0 13       		.uleb128 0x13
+ 1083 02d1 4C030000 		.4byte	.LASF26
+ 1084 02d5 01       		.byte	0x1
+ 1085 02d6 4A       		.byte	0x4a
+ 1086 02d7 86000000 		.4byte	0x86
+ 1087 02db 91010000 		.4byte	.LLST8
+ 1088 02df 0B       		.uleb128 0xb
+ 1089 02e0 08000000 		.4byte	.LVL34
+ 1090 02e4 7F060000 		.4byte	0x67f
+ 1091 02e8 F3020000 		.4byte	0x2f3
+ 1092 02ec 0C       		.uleb128 0xc
+ 1093 02ed 01       		.uleb128 0x1
+ 1094 02ee 50       		.byte	0x50
+ 1095 02ef 02       		.uleb128 0x2
+ 1096 02f0 74       		.byte	0x74
+ 1097 02f1 00       		.sleb128 0
+ 1098 02f2 00       		.byte	0
+ 1099 02f3 0D       		.uleb128 0xd
+ 1100 02f4 10000000 		.4byte	.LVL35
+ 1101 02f8 FA010000 		.4byte	0x1fa
+ 1102 02fc 0E       		.uleb128 0xe
+ 1103 02fd 18000000 		.4byte	.LVL37
+ 1104 0301 44020000 		.4byte	0x244
+ 1105 0305 0C       		.uleb128 0xc
+ 1106 0306 01       		.uleb128 0x1
+ 1107 0307 50       		.byte	0x50
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 25
+
+
+ 1108 0308 02       		.uleb128 0x2
+ 1109 0309 74       		.byte	0x74
+ 1110 030a 00       		.sleb128 0
+ 1111 030b 00       		.byte	0
+ 1112 030c 00       		.byte	0
+ 1113 030d 0F       		.uleb128 0xf
+ 1114 030e 86010000 		.4byte	.LASF27
+ 1115 0312 01       		.byte	0x1
+ 1116 0313 55       		.byte	0x55
+ 1117 0314 2C000000 		.4byte	0x2c
+ 1118 0318 00000000 		.4byte	.LFB39
+ 1119 031c 90000000 		.4byte	.LFE39-.LFB39
+ 1120 0320 01       		.uleb128 0x1
+ 1121 0321 9C       		.byte	0x9c
+ 1122 0322 A5040000 		.4byte	0x4a5
+ 1123 0326 11       		.uleb128 0x11
+ 1124 0327 65030000 		.4byte	.LASF25
+ 1125 032b 01       		.byte	0x1
+ 1126 032c 55       		.byte	0x55
+ 1127 032d 80000000 		.4byte	0x80
+ 1128 0331 A4010000 		.4byte	.LLST9
+ 1129 0335 10       		.uleb128 0x10
+ 1130 0336 67707300 		.ascii	"gps\000"
+ 1131 033a 01       		.byte	0x1
+ 1132 033b 55       		.byte	0x55
+ 1133 033c A5040000 		.4byte	0x4a5
+ 1134 0340 C5010000 		.4byte	.LLST10
+ 1135 0344 12       		.uleb128 0x12
+ 1136 0345 70747200 		.ascii	"ptr\000"
+ 1137 0349 01       		.byte	0x1
+ 1138 034a 57       		.byte	0x57
+ 1139 034b 80000000 		.4byte	0x80
+ 1140 034f F1010000 		.4byte	.LLST11
+ 1141 0353 13       		.uleb128 0x13
+ 1142 0354 97030000 		.4byte	.LASF28
+ 1143 0358 01       		.byte	0x1
+ 1144 0359 57       		.byte	0x57
+ 1145 035a 80000000 		.4byte	0x80
+ 1146 035e 67020000 		.4byte	.LLST12
+ 1147 0362 0B       		.uleb128 0xb
+ 1148 0363 0A000000 		.4byte	.LVL42
+ 1149 0367 8A060000 		.4byte	0x68a
+ 1150 036b 80030000 		.4byte	0x380
+ 1151 036f 0C       		.uleb128 0xc
+ 1152 0370 01       		.uleb128 0x1
+ 1153 0371 50       		.byte	0x50
+ 1154 0372 03       		.uleb128 0x3
+ 1155 0373 F3       		.byte	0xf3
+ 1156 0374 01       		.uleb128 0x1
+ 1157 0375 50       		.byte	0x50
+ 1158 0376 0C       		.uleb128 0xc
+ 1159 0377 01       		.uleb128 0x1
+ 1160 0378 51       		.byte	0x51
+ 1161 0379 05       		.uleb128 0x5
+ 1162 037a 03       		.byte	0x3
+ 1163 037b 84000000 		.4byte	.LC8
+ 1164 037f 00       		.byte	0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 26
+
+
+ 1165 0380 0B       		.uleb128 0xb
+ 1166 0381 12000000 		.4byte	.LVL44
+ 1167 0385 A8020000 		.4byte	0x2a8
+ 1168 0389 94030000 		.4byte	0x394
+ 1169 038d 0C       		.uleb128 0xc
+ 1170 038e 01       		.uleb128 0x1
+ 1171 038f 50       		.byte	0x50
+ 1172 0390 02       		.uleb128 0x2
+ 1173 0391 75       		.byte	0x75
+ 1174 0392 00       		.sleb128 0
+ 1175 0393 00       		.byte	0
+ 1176 0394 0B       		.uleb128 0xb
+ 1177 0395 20000000 		.4byte	.LVL45
+ 1178 0399 95060000 		.4byte	0x695
+ 1179 039d AE030000 		.4byte	0x3ae
+ 1180 03a1 0C       		.uleb128 0xc
+ 1181 03a2 01       		.uleb128 0x1
+ 1182 03a3 50       		.byte	0x50
+ 1183 03a4 02       		.uleb128 0x2
+ 1184 03a5 75       		.byte	0x75
+ 1185 03a6 00       		.sleb128 0
+ 1186 03a7 0C       		.uleb128 0xc
+ 1187 03a8 01       		.uleb128 0x1
+ 1188 03a9 51       		.byte	0x51
+ 1189 03aa 02       		.uleb128 0x2
+ 1190 03ab 76       		.byte	0x76
+ 1191 03ac 00       		.sleb128 0
+ 1192 03ad 00       		.byte	0
+ 1193 03ae 0B       		.uleb128 0xb
+ 1194 03af 28000000 		.4byte	.LVL46
+ 1195 03b3 95060000 		.4byte	0x695
+ 1196 03b7 C7030000 		.4byte	0x3c7
+ 1197 03bb 0C       		.uleb128 0xc
+ 1198 03bc 01       		.uleb128 0x1
+ 1199 03bd 50       		.byte	0x50
+ 1200 03be 01       		.uleb128 0x1
+ 1201 03bf 30       		.byte	0x30
+ 1202 03c0 0C       		.uleb128 0xc
+ 1203 03c1 01       		.uleb128 0x1
+ 1204 03c2 51       		.byte	0x51
+ 1205 03c3 02       		.uleb128 0x2
+ 1206 03c4 76       		.byte	0x76
+ 1207 03c5 00       		.sleb128 0
+ 1208 03c6 00       		.byte	0
+ 1209 03c7 0B       		.uleb128 0xb
+ 1210 03c8 30000000 		.4byte	.LVL47
+ 1211 03cc 95060000 		.4byte	0x695
+ 1212 03d0 E0030000 		.4byte	0x3e0
+ 1213 03d4 0C       		.uleb128 0xc
+ 1214 03d5 01       		.uleb128 0x1
+ 1215 03d6 50       		.byte	0x50
+ 1216 03d7 01       		.uleb128 0x1
+ 1217 03d8 30       		.byte	0x30
+ 1218 03d9 0C       		.uleb128 0xc
+ 1219 03da 01       		.uleb128 0x1
+ 1220 03db 51       		.byte	0x51
+ 1221 03dc 02       		.uleb128 0x2
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 27
+
+
+ 1222 03dd 76       		.byte	0x76
+ 1223 03de 00       		.sleb128 0
+ 1224 03df 00       		.byte	0
+ 1225 03e0 0B       		.uleb128 0xb
+ 1226 03e1 38000000 		.4byte	.LVL50
+ 1227 03e5 A0060000 		.4byte	0x6a0
+ 1228 03e9 F4030000 		.4byte	0x3f4
+ 1229 03ed 0C       		.uleb128 0xc
+ 1230 03ee 01       		.uleb128 0x1
+ 1231 03ef 50       		.byte	0x50
+ 1232 03f0 02       		.uleb128 0x2
+ 1233 03f1 74       		.byte	0x74
+ 1234 03f2 00       		.sleb128 0
+ 1235 03f3 00       		.byte	0
+ 1236 03f4 0B       		.uleb128 0xb
+ 1237 03f5 40000000 		.4byte	.LVL51
+ 1238 03f9 95060000 		.4byte	0x695
+ 1239 03fd 0D040000 		.4byte	0x40d
+ 1240 0401 0C       		.uleb128 0xc
+ 1241 0402 01       		.uleb128 0x1
+ 1242 0403 50       		.byte	0x50
+ 1243 0404 01       		.uleb128 0x1
+ 1244 0405 30       		.byte	0x30
+ 1245 0406 0C       		.uleb128 0xc
+ 1246 0407 01       		.uleb128 0x1
+ 1247 0408 51       		.byte	0x51
+ 1248 0409 02       		.uleb128 0x2
+ 1249 040a 76       		.byte	0x76
+ 1250 040b 00       		.sleb128 0
+ 1251 040c 00       		.byte	0
+ 1252 040d 0B       		.uleb128 0xb
+ 1253 040e 4A000000 		.4byte	.LVL54
+ 1254 0412 A0060000 		.4byte	0x6a0
+ 1255 0416 21040000 		.4byte	0x421
+ 1256 041a 0C       		.uleb128 0xc
+ 1257 041b 01       		.uleb128 0x1
+ 1258 041c 50       		.byte	0x50
+ 1259 041d 02       		.uleb128 0x2
+ 1260 041e 74       		.byte	0x74
+ 1261 041f 20       		.sleb128 32
+ 1262 0420 00       		.byte	0
+ 1263 0421 0B       		.uleb128 0xb
+ 1264 0422 52000000 		.4byte	.LVL55
+ 1265 0426 95060000 		.4byte	0x695
+ 1266 042a 3A040000 		.4byte	0x43a
+ 1267 042e 0C       		.uleb128 0xc
+ 1268 042f 01       		.uleb128 0x1
+ 1269 0430 50       		.byte	0x50
+ 1270 0431 01       		.uleb128 0x1
+ 1271 0432 30       		.byte	0x30
+ 1272 0433 0C       		.uleb128 0xc
+ 1273 0434 01       		.uleb128 0x1
+ 1274 0435 51       		.byte	0x51
+ 1275 0436 02       		.uleb128 0x2
+ 1276 0437 76       		.byte	0x76
+ 1277 0438 00       		.sleb128 0
+ 1278 0439 00       		.byte	0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 28
+
+
+ 1279 043a 0B       		.uleb128 0xb
+ 1280 043b 5C000000 		.4byte	.LVL58
+ 1281 043f A0060000 		.4byte	0x6a0
+ 1282 0443 4E040000 		.4byte	0x44e
+ 1283 0447 0C       		.uleb128 0xc
+ 1284 0448 01       		.uleb128 0x1
+ 1285 0449 50       		.byte	0x50
+ 1286 044a 02       		.uleb128 0x2
+ 1287 044b 74       		.byte	0x74
+ 1288 044c 10       		.sleb128 16
+ 1289 044d 00       		.byte	0
+ 1290 044e 0B       		.uleb128 0xb
+ 1291 044f 64000000 		.4byte	.LVL59
+ 1292 0453 95060000 		.4byte	0x695
+ 1293 0457 67040000 		.4byte	0x467
+ 1294 045b 0C       		.uleb128 0xc
+ 1295 045c 01       		.uleb128 0x1
+ 1296 045d 50       		.byte	0x50
+ 1297 045e 01       		.uleb128 0x1
+ 1298 045f 30       		.byte	0x30
+ 1299 0460 0C       		.uleb128 0xc
+ 1300 0461 01       		.uleb128 0x1
+ 1301 0462 51       		.byte	0x51
+ 1302 0463 02       		.uleb128 0x2
+ 1303 0464 76       		.byte	0x76
+ 1304 0465 00       		.sleb128 0
+ 1305 0466 00       		.byte	0
+ 1306 0467 0B       		.uleb128 0xb
+ 1307 0468 6E000000 		.4byte	.LVL62
+ 1308 046c A0060000 		.4byte	0x6a0
+ 1309 0470 7B040000 		.4byte	0x47b
+ 1310 0474 0C       		.uleb128 0xc
+ 1311 0475 01       		.uleb128 0x1
+ 1312 0476 50       		.byte	0x50
+ 1313 0477 02       		.uleb128 0x2
+ 1314 0478 74       		.byte	0x74
+ 1315 0479 22       		.sleb128 34
+ 1316 047a 00       		.byte	0
+ 1317 047b 0B       		.uleb128 0xb
+ 1318 047c 76000000 		.4byte	.LVL63
+ 1319 0480 95060000 		.4byte	0x695
+ 1320 0484 94040000 		.4byte	0x494
+ 1321 0488 0C       		.uleb128 0xc
+ 1322 0489 01       		.uleb128 0x1
+ 1323 048a 50       		.byte	0x50
+ 1324 048b 01       		.uleb128 0x1
+ 1325 048c 30       		.byte	0x30
+ 1326 048d 0C       		.uleb128 0xc
+ 1327 048e 01       		.uleb128 0x1
+ 1328 048f 51       		.byte	0x51
+ 1329 0490 02       		.uleb128 0x2
+ 1330 0491 76       		.byte	0x76
+ 1331 0492 00       		.sleb128 0
+ 1332 0493 00       		.byte	0
+ 1333 0494 0E       		.uleb128 0xe
+ 1334 0495 80000000 		.4byte	.LVL66
+ 1335 0499 A0060000 		.4byte	0x6a0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 29
+
+
+ 1336 049d 0C       		.uleb128 0xc
+ 1337 049e 01       		.uleb128 0x1
+ 1338 049f 50       		.byte	0x50
+ 1339 04a0 02       		.uleb128 0x2
+ 1340 04a1 74       		.byte	0x74
+ 1341 04a2 24       		.sleb128 36
+ 1342 04a3 00       		.byte	0
+ 1343 04a4 00       		.byte	0
+ 1344 04a5 04       		.uleb128 0x4
+ 1345 04a6 04       		.byte	0x4
+ 1346 04a7 94000000 		.4byte	0x94
+ 1347 04ab 14       		.uleb128 0x14
+ 1348 04ac 79020000 		.4byte	.LASF29
+ 1349 04b0 01       		.byte	0x1
+ 1350 04b1 B7       		.byte	0xb7
+ 1351 04b2 25000000 		.4byte	0x25
+ 1352 04b6 00000000 		.4byte	.LFB42
+ 1353 04ba 50000000 		.4byte	.LFE42-.LFB42
+ 1354 04be 01       		.uleb128 0x1
+ 1355 04bf 9C       		.byte	0x9c
+ 1356 04c0 E3040000 		.4byte	0x4e3
+ 1357 04c4 11       		.uleb128 0x11
+ 1358 04c5 13020000 		.4byte	.LASF30
+ 1359 04c9 01       		.byte	0x1
+ 1360 04ca B7       		.byte	0xb7
+ 1361 04cb 25000000 		.4byte	0x25
+ 1362 04cf 9B020000 		.4byte	.LLST13
+ 1363 04d3 13       		.uleb128 0x13
+ 1364 04d4 6A030000 		.4byte	.LASF31
+ 1365 04d8 01       		.byte	0x1
+ 1366 04d9 B9       		.byte	0xb9
+ 1367 04da 2C000000 		.4byte	0x2c
+ 1368 04de C3020000 		.4byte	.LLST14
+ 1369 04e2 00       		.byte	0
+ 1370 04e3 14       		.uleb128 0x14
+ 1371 04e4 70000000 		.4byte	.LASF32
+ 1372 04e8 01       		.byte	0x1
+ 1373 04e9 7F       		.byte	0x7f
+ 1374 04ea FD000000 		.4byte	0xfd
+ 1375 04ee 00000000 		.4byte	.LFB40
+ 1376 04f2 72000000 		.4byte	.LFE40-.LFB40
+ 1377 04f6 01       		.uleb128 0x1
+ 1378 04f7 9C       		.byte	0x9c
+ 1379 04f8 65050000 		.4byte	0x565
+ 1380 04fc 11       		.uleb128 0x11
+ 1381 04fd C2010000 		.4byte	.LASF33
+ 1382 0501 01       		.byte	0x1
+ 1383 0502 7F       		.byte	0x7f
+ 1384 0503 A5040000 		.4byte	0x4a5
+ 1385 0507 E1020000 		.4byte	.LLST15
+ 1386 050b 13       		.uleb128 0x13
+ 1387 050c A7000000 		.4byte	.LASF34
+ 1388 0510 01       		.byte	0x1
+ 1389 0511 82       		.byte	0x82
+ 1390 0512 FD000000 		.4byte	0xfd
+ 1391 0516 0D030000 		.4byte	.LLST16
+ 1392 051a 0B       		.uleb128 0xb
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 30
+
+
+ 1393 051b 0C000000 		.4byte	.LVL84
+ 1394 051f AB060000 		.4byte	0x6ab
+ 1395 0523 2E050000 		.4byte	0x52e
+ 1396 0527 0C       		.uleb128 0xc
+ 1397 0528 01       		.uleb128 0x1
+ 1398 0529 50       		.byte	0x50
+ 1399 052a 02       		.uleb128 0x2
+ 1400 052b 75       		.byte	0x75
+ 1401 052c 00       		.sleb128 0
+ 1402 052d 00       		.byte	0
+ 1403 052e 0D       		.uleb128 0xd
+ 1404 052f 2E000000 		.4byte	.LVL87
+ 1405 0533 AB040000 		.4byte	0x4ab
+ 1406 0537 0B       		.uleb128 0xb
+ 1407 0538 3C000000 		.4byte	.LVL89
+ 1408 053c AB060000 		.4byte	0x6ab
+ 1409 0540 4B050000 		.4byte	0x54b
+ 1410 0544 0C       		.uleb128 0xc
+ 1411 0545 01       		.uleb128 0x1
+ 1412 0546 50       		.byte	0x50
+ 1413 0547 02       		.uleb128 0x2
+ 1414 0548 75       		.byte	0x75
+ 1415 0549 10       		.sleb128 16
+ 1416 054a 00       		.byte	0
+ 1417 054b 0D       		.uleb128 0xd
+ 1418 054c 5E000000 		.4byte	.LVL92
+ 1419 0550 AB040000 		.4byte	0x4ab
+ 1420 0554 0E       		.uleb128 0xe
+ 1421 0555 6C000000 		.4byte	.LVL94
+ 1422 0559 B6060000 		.4byte	0x6b6
+ 1423 055d 0C       		.uleb128 0xc
+ 1424 055e 01       		.uleb128 0x1
+ 1425 055f 50       		.byte	0x50
+ 1426 0560 02       		.uleb128 0x2
+ 1427 0561 75       		.byte	0x75
+ 1428 0562 24       		.sleb128 36
+ 1429 0563 00       		.byte	0
+ 1430 0564 00       		.byte	0
+ 1431 0565 0A       		.uleb128 0xa
+ 1432 0566 01030000 		.4byte	.LASF36
+ 1433 056a 01       		.byte	0x1
+ 1434 056b C1       		.byte	0xc1
+ 1435 056c 00000000 		.4byte	.LFB43
+ 1436 0570 30000000 		.4byte	.LFE43-.LFB43
+ 1437 0574 01       		.uleb128 0x1
+ 1438 0575 9C       		.byte	0x9c
+ 1439 0576 BE050000 		.4byte	0x5be
+ 1440 057a 11       		.uleb128 0x11
+ 1441 057b 56020000 		.4byte	.LASF37
+ 1442 057f 01       		.byte	0x1
+ 1443 0580 C1       		.byte	0xc1
+ 1444 0581 80000000 		.4byte	0x80
+ 1445 0585 39030000 		.4byte	.LLST17
+ 1446 0589 11       		.uleb128 0x11
+ 1447 058a 5B030000 		.4byte	.LASF38
+ 1448 058e 01       		.byte	0x1
+ 1449 058f C1       		.byte	0xc1
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 31
+
+
+ 1450 0590 2C000000 		.4byte	0x2c
+ 1451 0594 65030000 		.4byte	.LLST18
+ 1452 0598 13       		.uleb128 0x13
+ 1453 0599 43030000 		.4byte	.LASF39
+ 1454 059d 01       		.byte	0x1
+ 1455 059e C3       		.byte	0xc3
+ 1456 059f 86000000 		.4byte	0x86
+ 1457 05a3 91030000 		.4byte	.LLST19
+ 1458 05a7 12       		.uleb128 0x12
+ 1459 05a8 6900     		.ascii	"i\000"
+ 1460 05aa 01       		.byte	0x1
+ 1461 05ab C4       		.byte	0xc4
+ 1462 05ac 2C000000 		.4byte	0x2c
+ 1463 05b0 A4030000 		.4byte	.LLST20
+ 1464 05b4 0D       		.uleb128 0xd
+ 1465 05b5 0E000000 		.4byte	.LVL100
+ 1466 05b9 C1060000 		.4byte	0x6c1
+ 1467 05bd 00       		.byte	0
+ 1468 05be 0F       		.uleb128 0xf
+ 1469 05bf 64000000 		.4byte	.LASF40
+ 1470 05c3 01       		.byte	0x1
+ 1471 05c4 9F       		.byte	0x9f
+ 1472 05c5 2C000000 		.4byte	0x2c
+ 1473 05c9 00000000 		.4byte	.LFB41
+ 1474 05cd 2E000000 		.4byte	.LFE41-.LFB41
+ 1475 05d1 01       		.uleb128 0x1
+ 1476 05d2 9C       		.byte	0x9c
+ 1477 05d3 42060000 		.4byte	0x642
+ 1478 05d7 11       		.uleb128 0x11
+ 1479 05d8 A7000000 		.4byte	.LASF34
+ 1480 05dc 01       		.byte	0x1
+ 1481 05dd 9F       		.byte	0x9f
+ 1482 05de A5040000 		.4byte	0x4a5
+ 1483 05e2 C3030000 		.4byte	.LLST21
+ 1484 05e6 13       		.uleb128 0x13
+ 1485 05e7 20000000 		.4byte	.LASF41
+ 1486 05eb 01       		.byte	0x1
+ 1487 05ec A2       		.byte	0xa2
+ 1488 05ed 2C000000 		.4byte	0x2c
+ 1489 05f1 EF030000 		.4byte	.LLST22
+ 1490 05f5 15       		.uleb128 0x15
+ 1491 05f6 D3010000 		.4byte	.LASF42
+ 1492 05fa 01       		.byte	0x1
+ 1493 05fb A3       		.byte	0xa3
+ 1494 05fc 42060000 		.4byte	0x642
+ 1495 0600 03       		.uleb128 0x3
+ 1496 0601 91       		.byte	0x91
+ 1497 0602 F07D     		.sleb128 -272
+ 1498 0604 0B       		.uleb128 0xb
+ 1499 0605 12000000 		.4byte	.LVL109
+ 1500 0609 65050000 		.4byte	0x565
+ 1501 060d 1E060000 		.4byte	0x61e
+ 1502 0611 0C       		.uleb128 0xc
+ 1503 0612 01       		.uleb128 0x1
+ 1504 0613 50       		.byte	0x50
+ 1505 0614 02       		.uleb128 0x2
+ 1506 0615 7D       		.byte	0x7d
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 32
+
+
+ 1507 0616 00       		.sleb128 0
+ 1508 0617 0C       		.uleb128 0xc
+ 1509 0618 01       		.uleb128 0x1
+ 1510 0619 51       		.byte	0x51
+ 1511 061a 02       		.uleb128 0x2
+ 1512 061b 08       		.byte	0x8
+ 1513 061c FF       		.byte	0xff
+ 1514 061d 00       		.byte	0
+ 1515 061e 0B       		.uleb128 0xb
+ 1516 061f 1A000000 		.4byte	.LVL110
+ 1517 0623 0D030000 		.4byte	0x30d
+ 1518 0627 38060000 		.4byte	0x638
+ 1519 062b 0C       		.uleb128 0xc
+ 1520 062c 01       		.uleb128 0x1
+ 1521 062d 50       		.byte	0x50
+ 1522 062e 02       		.uleb128 0x2
+ 1523 062f 7D       		.byte	0x7d
+ 1524 0630 00       		.sleb128 0
+ 1525 0631 0C       		.uleb128 0xc
+ 1526 0632 01       		.uleb128 0x1
+ 1527 0633 51       		.byte	0x51
+ 1528 0634 02       		.uleb128 0x2
+ 1529 0635 75       		.byte	0x75
+ 1530 0636 00       		.sleb128 0
+ 1531 0637 00       		.byte	0
+ 1532 0638 0D       		.uleb128 0xd
+ 1533 0639 24000000 		.4byte	.LVL113
+ 1534 063d CD060000 		.4byte	0x6cd
+ 1535 0641 00       		.byte	0
+ 1536 0642 08       		.uleb128 0x8
+ 1537 0643 86000000 		.4byte	0x86
+ 1538 0647 52060000 		.4byte	0x652
+ 1539 064b 09       		.uleb128 0x9
+ 1540 064c 79000000 		.4byte	0x79
+ 1541 0650 FE       		.byte	0xfe
+ 1542 0651 00       		.byte	0
+ 1543 0652 16       		.uleb128 0x16
+ 1544 0653 29030000 		.4byte	.LASF43
+ 1545 0657 29030000 		.4byte	.LASF43
+ 1546 065b 03       		.byte	0x3
+ 1547 065c 1D       		.byte	0x1d
+ 1548 065d 16       		.uleb128 0x16
+ 1549 065e 98000000 		.4byte	.LASF44
+ 1550 0662 98000000 		.4byte	.LASF44
+ 1551 0666 04       		.byte	0x4
+ 1552 0667 72       		.byte	0x72
+ 1553 0668 17       		.uleb128 0x17
+ 1554 0669 94010000 		.4byte	.LASF45
+ 1555 066d 94010000 		.4byte	.LASF45
+ 1556 0671 05       		.byte	0x5
+ 1557 0672 2A03     		.2byte	0x32a
+ 1558 0674 16       		.uleb128 0x16
+ 1559 0675 3C000000 		.4byte	.LASF46
+ 1560 0679 3C000000 		.4byte	.LASF46
+ 1561 067d 03       		.byte	0x3
+ 1562 067e 29       		.byte	0x29
+ 1563 067f 16       		.uleb128 0x16
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 33
+
+
+ 1564 0680 9F020000 		.4byte	.LASF47
+ 1565 0684 9F020000 		.4byte	.LASF47
+ 1566 0688 06       		.byte	0x6
+ 1567 0689 21       		.byte	0x21
+ 1568 068a 16       		.uleb128 0x16
+ 1569 068b 72020000 		.4byte	.LASF48
+ 1570 068f 72020000 		.4byte	.LASF48
+ 1571 0693 06       		.byte	0x6
+ 1572 0694 28       		.byte	0x28
+ 1573 0695 16       		.uleb128 0x16
+ 1574 0696 91000000 		.4byte	.LASF49
+ 1575 069a 91000000 		.4byte	.LASF49
+ 1576 069e 06       		.byte	0x6
+ 1577 069f 2A       		.byte	0x2a
+ 1578 06a0 16       		.uleb128 0x16
+ 1579 06a1 FA020000 		.4byte	.LASF50
+ 1580 06a5 FA020000 		.4byte	.LASF50
+ 1581 06a9 06       		.byte	0x6
+ 1582 06aa 1E       		.byte	0x1e
+ 1583 06ab 16       		.uleb128 0x16
+ 1584 06ac DA010000 		.4byte	.LASF51
+ 1585 06b0 DA010000 		.4byte	.LASF51
+ 1586 06b4 07       		.byte	0x7
+ 1587 06b5 49       		.byte	0x49
+ 1588 06b6 16       		.uleb128 0x16
+ 1589 06b7 00020000 		.4byte	.LASF52
+ 1590 06bb 00020000 		.4byte	.LASF52
+ 1591 06bf 07       		.byte	0x7
+ 1592 06c0 4D       		.byte	0x4d
+ 1593 06c1 17       		.uleb128 0x17
+ 1594 06c2 EB010000 		.4byte	.LASF53
+ 1595 06c6 EB010000 		.4byte	.LASF53
+ 1596 06ca 05       		.byte	0x5
+ 1597 06cb 1003     		.2byte	0x310
+ 1598 06cd 17       		.uleb128 0x17
+ 1599 06ce 00000000 		.4byte	.LASF54
+ 1600 06d2 00000000 		.4byte	.LASF54
+ 1601 06d6 05       		.byte	0x5
+ 1602 06d7 3E03     		.2byte	0x33e
+ 1603 06d9 00       		.byte	0
+ 1604              		.section	.debug_abbrev,"",%progbits
+ 1605              	.Ldebug_abbrev0:
+ 1606 0000 01       		.uleb128 0x1
+ 1607 0001 11       		.uleb128 0x11
+ 1608 0002 01       		.byte	0x1
+ 1609 0003 25       		.uleb128 0x25
+ 1610 0004 0E       		.uleb128 0xe
+ 1611 0005 13       		.uleb128 0x13
+ 1612 0006 0B       		.uleb128 0xb
+ 1613 0007 03       		.uleb128 0x3
+ 1614 0008 0E       		.uleb128 0xe
+ 1615 0009 1B       		.uleb128 0x1b
+ 1616 000a 0E       		.uleb128 0xe
+ 1617 000b 55       		.uleb128 0x55
+ 1618 000c 17       		.uleb128 0x17
+ 1619 000d 11       		.uleb128 0x11
+ 1620 000e 01       		.uleb128 0x1
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 34
+
+
+ 1621 000f 10       		.uleb128 0x10
+ 1622 0010 17       		.uleb128 0x17
+ 1623 0011 00       		.byte	0
+ 1624 0012 00       		.byte	0
+ 1625 0013 02       		.uleb128 0x2
+ 1626 0014 24       		.uleb128 0x24
+ 1627 0015 00       		.byte	0
+ 1628 0016 0B       		.uleb128 0xb
+ 1629 0017 0B       		.uleb128 0xb
+ 1630 0018 3E       		.uleb128 0x3e
+ 1631 0019 0B       		.uleb128 0xb
+ 1632 001a 03       		.uleb128 0x3
+ 1633 001b 0E       		.uleb128 0xe
+ 1634 001c 00       		.byte	0
+ 1635 001d 00       		.byte	0
+ 1636 001e 03       		.uleb128 0x3
+ 1637 001f 24       		.uleb128 0x24
+ 1638 0020 00       		.byte	0
+ 1639 0021 0B       		.uleb128 0xb
+ 1640 0022 0B       		.uleb128 0xb
+ 1641 0023 3E       		.uleb128 0x3e
+ 1642 0024 0B       		.uleb128 0xb
+ 1643 0025 03       		.uleb128 0x3
+ 1644 0026 08       		.uleb128 0x8
+ 1645 0027 00       		.byte	0
+ 1646 0028 00       		.byte	0
+ 1647 0029 04       		.uleb128 0x4
+ 1648 002a 0F       		.uleb128 0xf
+ 1649 002b 00       		.byte	0
+ 1650 002c 0B       		.uleb128 0xb
+ 1651 002d 0B       		.uleb128 0xb
+ 1652 002e 49       		.uleb128 0x49
+ 1653 002f 13       		.uleb128 0x13
+ 1654 0030 00       		.byte	0
+ 1655 0031 00       		.byte	0
+ 1656 0032 05       		.uleb128 0x5
+ 1657 0033 13       		.uleb128 0x13
+ 1658 0034 01       		.byte	0x1
+ 1659 0035 03       		.uleb128 0x3
+ 1660 0036 0E       		.uleb128 0xe
+ 1661 0037 0B       		.uleb128 0xb
+ 1662 0038 0B       		.uleb128 0xb
+ 1663 0039 3A       		.uleb128 0x3a
+ 1664 003a 0B       		.uleb128 0xb
+ 1665 003b 3B       		.uleb128 0x3b
+ 1666 003c 0B       		.uleb128 0xb
+ 1667 003d 01       		.uleb128 0x1
+ 1668 003e 13       		.uleb128 0x13
+ 1669 003f 00       		.byte	0
+ 1670 0040 00       		.byte	0
+ 1671 0041 06       		.uleb128 0x6
+ 1672 0042 0D       		.uleb128 0xd
+ 1673 0043 00       		.byte	0
+ 1674 0044 03       		.uleb128 0x3
+ 1675 0045 0E       		.uleb128 0xe
+ 1676 0046 3A       		.uleb128 0x3a
+ 1677 0047 0B       		.uleb128 0xb
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 35
+
+
+ 1678 0048 3B       		.uleb128 0x3b
+ 1679 0049 0B       		.uleb128 0xb
+ 1680 004a 49       		.uleb128 0x49
+ 1681 004b 13       		.uleb128 0x13
+ 1682 004c 38       		.uleb128 0x38
+ 1683 004d 0B       		.uleb128 0xb
+ 1684 004e 00       		.byte	0
+ 1685 004f 00       		.byte	0
+ 1686 0050 07       		.uleb128 0x7
+ 1687 0051 0D       		.uleb128 0xd
+ 1688 0052 00       		.byte	0
+ 1689 0053 03       		.uleb128 0x3
+ 1690 0054 08       		.uleb128 0x8
+ 1691 0055 3A       		.uleb128 0x3a
+ 1692 0056 0B       		.uleb128 0xb
+ 1693 0057 3B       		.uleb128 0x3b
+ 1694 0058 0B       		.uleb128 0xb
+ 1695 0059 49       		.uleb128 0x49
+ 1696 005a 13       		.uleb128 0x13
+ 1697 005b 38       		.uleb128 0x38
+ 1698 005c 0B       		.uleb128 0xb
+ 1699 005d 00       		.byte	0
+ 1700 005e 00       		.byte	0
+ 1701 005f 08       		.uleb128 0x8
+ 1702 0060 01       		.uleb128 0x1
+ 1703 0061 01       		.byte	0x1
+ 1704 0062 49       		.uleb128 0x49
+ 1705 0063 13       		.uleb128 0x13
+ 1706 0064 01       		.uleb128 0x1
+ 1707 0065 13       		.uleb128 0x13
+ 1708 0066 00       		.byte	0
+ 1709 0067 00       		.byte	0
+ 1710 0068 09       		.uleb128 0x9
+ 1711 0069 21       		.uleb128 0x21
+ 1712 006a 00       		.byte	0
+ 1713 006b 49       		.uleb128 0x49
+ 1714 006c 13       		.uleb128 0x13
+ 1715 006d 2F       		.uleb128 0x2f
+ 1716 006e 0B       		.uleb128 0xb
+ 1717 006f 00       		.byte	0
+ 1718 0070 00       		.byte	0
+ 1719 0071 0A       		.uleb128 0xa
+ 1720 0072 2E       		.uleb128 0x2e
+ 1721 0073 01       		.byte	0x1
+ 1722 0074 3F       		.uleb128 0x3f
+ 1723 0075 19       		.uleb128 0x19
+ 1724 0076 03       		.uleb128 0x3
+ 1725 0077 0E       		.uleb128 0xe
+ 1726 0078 3A       		.uleb128 0x3a
+ 1727 0079 0B       		.uleb128 0xb
+ 1728 007a 3B       		.uleb128 0x3b
+ 1729 007b 0B       		.uleb128 0xb
+ 1730 007c 27       		.uleb128 0x27
+ 1731 007d 19       		.uleb128 0x19
+ 1732 007e 11       		.uleb128 0x11
+ 1733 007f 01       		.uleb128 0x1
+ 1734 0080 12       		.uleb128 0x12
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 36
+
+
+ 1735 0081 06       		.uleb128 0x6
+ 1736 0082 40       		.uleb128 0x40
+ 1737 0083 18       		.uleb128 0x18
+ 1738 0084 9742     		.uleb128 0x2117
+ 1739 0086 19       		.uleb128 0x19
+ 1740 0087 01       		.uleb128 0x1
+ 1741 0088 13       		.uleb128 0x13
+ 1742 0089 00       		.byte	0
+ 1743 008a 00       		.byte	0
+ 1744 008b 0B       		.uleb128 0xb
+ 1745 008c 898201   		.uleb128 0x4109
+ 1746 008f 01       		.byte	0x1
+ 1747 0090 11       		.uleb128 0x11
+ 1748 0091 01       		.uleb128 0x1
+ 1749 0092 31       		.uleb128 0x31
+ 1750 0093 13       		.uleb128 0x13
+ 1751 0094 01       		.uleb128 0x1
+ 1752 0095 13       		.uleb128 0x13
+ 1753 0096 00       		.byte	0
+ 1754 0097 00       		.byte	0
+ 1755 0098 0C       		.uleb128 0xc
+ 1756 0099 8A8201   		.uleb128 0x410a
+ 1757 009c 00       		.byte	0
+ 1758 009d 02       		.uleb128 0x2
+ 1759 009e 18       		.uleb128 0x18
+ 1760 009f 9142     		.uleb128 0x2111
+ 1761 00a1 18       		.uleb128 0x18
+ 1762 00a2 00       		.byte	0
+ 1763 00a3 00       		.byte	0
+ 1764 00a4 0D       		.uleb128 0xd
+ 1765 00a5 898201   		.uleb128 0x4109
+ 1766 00a8 00       		.byte	0
+ 1767 00a9 11       		.uleb128 0x11
+ 1768 00aa 01       		.uleb128 0x1
+ 1769 00ab 31       		.uleb128 0x31
+ 1770 00ac 13       		.uleb128 0x13
+ 1771 00ad 00       		.byte	0
+ 1772 00ae 00       		.byte	0
+ 1773 00af 0E       		.uleb128 0xe
+ 1774 00b0 898201   		.uleb128 0x4109
+ 1775 00b3 01       		.byte	0x1
+ 1776 00b4 11       		.uleb128 0x11
+ 1777 00b5 01       		.uleb128 0x1
+ 1778 00b6 31       		.uleb128 0x31
+ 1779 00b7 13       		.uleb128 0x13
+ 1780 00b8 00       		.byte	0
+ 1781 00b9 00       		.byte	0
+ 1782 00ba 0F       		.uleb128 0xf
+ 1783 00bb 2E       		.uleb128 0x2e
+ 1784 00bc 01       		.byte	0x1
+ 1785 00bd 3F       		.uleb128 0x3f
+ 1786 00be 19       		.uleb128 0x19
+ 1787 00bf 03       		.uleb128 0x3
+ 1788 00c0 0E       		.uleb128 0xe
+ 1789 00c1 3A       		.uleb128 0x3a
+ 1790 00c2 0B       		.uleb128 0xb
+ 1791 00c3 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 37
+
+
+ 1792 00c4 0B       		.uleb128 0xb
+ 1793 00c5 27       		.uleb128 0x27
+ 1794 00c6 19       		.uleb128 0x19
+ 1795 00c7 49       		.uleb128 0x49
+ 1796 00c8 13       		.uleb128 0x13
+ 1797 00c9 11       		.uleb128 0x11
+ 1798 00ca 01       		.uleb128 0x1
+ 1799 00cb 12       		.uleb128 0x12
+ 1800 00cc 06       		.uleb128 0x6
+ 1801 00cd 40       		.uleb128 0x40
+ 1802 00ce 18       		.uleb128 0x18
+ 1803 00cf 9742     		.uleb128 0x2117
+ 1804 00d1 19       		.uleb128 0x19
+ 1805 00d2 01       		.uleb128 0x1
+ 1806 00d3 13       		.uleb128 0x13
+ 1807 00d4 00       		.byte	0
+ 1808 00d5 00       		.byte	0
+ 1809 00d6 10       		.uleb128 0x10
+ 1810 00d7 05       		.uleb128 0x5
+ 1811 00d8 00       		.byte	0
+ 1812 00d9 03       		.uleb128 0x3
+ 1813 00da 08       		.uleb128 0x8
+ 1814 00db 3A       		.uleb128 0x3a
+ 1815 00dc 0B       		.uleb128 0xb
+ 1816 00dd 3B       		.uleb128 0x3b
+ 1817 00de 0B       		.uleb128 0xb
+ 1818 00df 49       		.uleb128 0x49
+ 1819 00e0 13       		.uleb128 0x13
+ 1820 00e1 02       		.uleb128 0x2
+ 1821 00e2 17       		.uleb128 0x17
+ 1822 00e3 00       		.byte	0
+ 1823 00e4 00       		.byte	0
+ 1824 00e5 11       		.uleb128 0x11
+ 1825 00e6 05       		.uleb128 0x5
+ 1826 00e7 00       		.byte	0
+ 1827 00e8 03       		.uleb128 0x3
+ 1828 00e9 0E       		.uleb128 0xe
+ 1829 00ea 3A       		.uleb128 0x3a
+ 1830 00eb 0B       		.uleb128 0xb
+ 1831 00ec 3B       		.uleb128 0x3b
+ 1832 00ed 0B       		.uleb128 0xb
+ 1833 00ee 49       		.uleb128 0x49
+ 1834 00ef 13       		.uleb128 0x13
+ 1835 00f0 02       		.uleb128 0x2
+ 1836 00f1 17       		.uleb128 0x17
+ 1837 00f2 00       		.byte	0
+ 1838 00f3 00       		.byte	0
+ 1839 00f4 12       		.uleb128 0x12
+ 1840 00f5 34       		.uleb128 0x34
+ 1841 00f6 00       		.byte	0
+ 1842 00f7 03       		.uleb128 0x3
+ 1843 00f8 08       		.uleb128 0x8
+ 1844 00f9 3A       		.uleb128 0x3a
+ 1845 00fa 0B       		.uleb128 0xb
+ 1846 00fb 3B       		.uleb128 0x3b
+ 1847 00fc 0B       		.uleb128 0xb
+ 1848 00fd 49       		.uleb128 0x49
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 38
+
+
+ 1849 00fe 13       		.uleb128 0x13
+ 1850 00ff 02       		.uleb128 0x2
+ 1851 0100 17       		.uleb128 0x17
+ 1852 0101 00       		.byte	0
+ 1853 0102 00       		.byte	0
+ 1854 0103 13       		.uleb128 0x13
+ 1855 0104 34       		.uleb128 0x34
+ 1856 0105 00       		.byte	0
+ 1857 0106 03       		.uleb128 0x3
+ 1858 0107 0E       		.uleb128 0xe
+ 1859 0108 3A       		.uleb128 0x3a
+ 1860 0109 0B       		.uleb128 0xb
+ 1861 010a 3B       		.uleb128 0x3b
+ 1862 010b 0B       		.uleb128 0xb
+ 1863 010c 49       		.uleb128 0x49
+ 1864 010d 13       		.uleb128 0x13
+ 1865 010e 02       		.uleb128 0x2
+ 1866 010f 17       		.uleb128 0x17
+ 1867 0110 00       		.byte	0
+ 1868 0111 00       		.byte	0
+ 1869 0112 14       		.uleb128 0x14
+ 1870 0113 2E       		.uleb128 0x2e
+ 1871 0114 01       		.byte	0x1
+ 1872 0115 3F       		.uleb128 0x3f
+ 1873 0116 19       		.uleb128 0x19
+ 1874 0117 03       		.uleb128 0x3
+ 1875 0118 0E       		.uleb128 0xe
+ 1876 0119 3A       		.uleb128 0x3a
+ 1877 011a 0B       		.uleb128 0xb
+ 1878 011b 3B       		.uleb128 0x3b
+ 1879 011c 0B       		.uleb128 0xb
+ 1880 011d 27       		.uleb128 0x27
+ 1881 011e 19       		.uleb128 0x19
+ 1882 011f 49       		.uleb128 0x49
+ 1883 0120 13       		.uleb128 0x13
+ 1884 0121 11       		.uleb128 0x11
+ 1885 0122 01       		.uleb128 0x1
+ 1886 0123 12       		.uleb128 0x12
+ 1887 0124 06       		.uleb128 0x6
+ 1888 0125 40       		.uleb128 0x40
+ 1889 0126 18       		.uleb128 0x18
+ 1890 0127 9642     		.uleb128 0x2116
+ 1891 0129 19       		.uleb128 0x19
+ 1892 012a 01       		.uleb128 0x1
+ 1893 012b 13       		.uleb128 0x13
+ 1894 012c 00       		.byte	0
+ 1895 012d 00       		.byte	0
+ 1896 012e 15       		.uleb128 0x15
+ 1897 012f 34       		.uleb128 0x34
+ 1898 0130 00       		.byte	0
+ 1899 0131 03       		.uleb128 0x3
+ 1900 0132 0E       		.uleb128 0xe
+ 1901 0133 3A       		.uleb128 0x3a
+ 1902 0134 0B       		.uleb128 0xb
+ 1903 0135 3B       		.uleb128 0x3b
+ 1904 0136 0B       		.uleb128 0xb
+ 1905 0137 49       		.uleb128 0x49
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 39
+
+
+ 1906 0138 13       		.uleb128 0x13
+ 1907 0139 02       		.uleb128 0x2
+ 1908 013a 18       		.uleb128 0x18
+ 1909 013b 00       		.byte	0
+ 1910 013c 00       		.byte	0
+ 1911 013d 16       		.uleb128 0x16
+ 1912 013e 2E       		.uleb128 0x2e
+ 1913 013f 00       		.byte	0
+ 1914 0140 3F       		.uleb128 0x3f
+ 1915 0141 19       		.uleb128 0x19
+ 1916 0142 3C       		.uleb128 0x3c
+ 1917 0143 19       		.uleb128 0x19
+ 1918 0144 6E       		.uleb128 0x6e
+ 1919 0145 0E       		.uleb128 0xe
+ 1920 0146 03       		.uleb128 0x3
+ 1921 0147 0E       		.uleb128 0xe
+ 1922 0148 3A       		.uleb128 0x3a
+ 1923 0149 0B       		.uleb128 0xb
+ 1924 014a 3B       		.uleb128 0x3b
+ 1925 014b 0B       		.uleb128 0xb
+ 1926 014c 00       		.byte	0
+ 1927 014d 00       		.byte	0
+ 1928 014e 17       		.uleb128 0x17
+ 1929 014f 2E       		.uleb128 0x2e
+ 1930 0150 00       		.byte	0
+ 1931 0151 3F       		.uleb128 0x3f
+ 1932 0152 19       		.uleb128 0x19
+ 1933 0153 3C       		.uleb128 0x3c
+ 1934 0154 19       		.uleb128 0x19
+ 1935 0155 6E       		.uleb128 0x6e
+ 1936 0156 0E       		.uleb128 0xe
+ 1937 0157 03       		.uleb128 0x3
+ 1938 0158 0E       		.uleb128 0xe
+ 1939 0159 3A       		.uleb128 0x3a
+ 1940 015a 0B       		.uleb128 0xb
+ 1941 015b 3B       		.uleb128 0x3b
+ 1942 015c 05       		.uleb128 0x5
+ 1943 015d 00       		.byte	0
+ 1944 015e 00       		.byte	0
+ 1945 015f 00       		.byte	0
+ 1946              		.section	.debug_loc,"",%progbits
+ 1947              	.Ldebug_loc0:
+ 1948              	.LLST0:
+ 1949 0000 00000000 		.4byte	.LVL7
+ 1950 0004 0A000000 		.4byte	.LVL8
+ 1951 0008 0100     		.2byte	0x1
+ 1952 000a 50       		.byte	0x50
+ 1953 000b 0A000000 		.4byte	.LVL8
+ 1954 000f 0E000000 		.4byte	.LVL9
+ 1955 0013 0400     		.2byte	0x4
+ 1956 0015 F3       		.byte	0xf3
+ 1957 0016 01       		.uleb128 0x1
+ 1958 0017 50       		.byte	0x50
+ 1959 0018 9F       		.byte	0x9f
+ 1960 0019 0E000000 		.4byte	.LVL9
+ 1961 001d 18000000 		.4byte	.LVL10
+ 1962 0021 0100     		.2byte	0x1
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 40
+
+
+ 1963 0023 50       		.byte	0x50
+ 1964 0024 18000000 		.4byte	.LVL10
+ 1965 0028 1C000000 		.4byte	.LVL11
+ 1966 002c 0400     		.2byte	0x4
+ 1967 002e F3       		.byte	0xf3
+ 1968 002f 01       		.uleb128 0x1
+ 1969 0030 50       		.byte	0x50
+ 1970 0031 9F       		.byte	0x9f
+ 1971 0032 1C000000 		.4byte	.LVL11
+ 1972 0036 1E000000 		.4byte	.LVL12
+ 1973 003a 0100     		.2byte	0x1
+ 1974 003c 50       		.byte	0x50
+ 1975 003d 1E000000 		.4byte	.LVL12
+ 1976 0041 20000000 		.4byte	.LVL13
+ 1977 0045 0400     		.2byte	0x4
+ 1978 0047 F3       		.byte	0xf3
+ 1979 0048 01       		.uleb128 0x1
+ 1980 0049 50       		.byte	0x50
+ 1981 004a 9F       		.byte	0x9f
+ 1982 004b 20000000 		.4byte	.LVL13
+ 1983 004f 22000000 		.4byte	.LVL14
+ 1984 0053 0100     		.2byte	0x1
+ 1985 0055 50       		.byte	0x50
+ 1986 0056 22000000 		.4byte	.LVL14
+ 1987 005a 24000000 		.4byte	.LVL15
+ 1988 005e 0400     		.2byte	0x4
+ 1989 0060 F3       		.byte	0xf3
+ 1990 0061 01       		.uleb128 0x1
+ 1991 0062 50       		.byte	0x50
+ 1992 0063 9F       		.byte	0x9f
+ 1993 0064 24000000 		.4byte	.LVL15
+ 1994 0068 26000000 		.4byte	.LVL16
+ 1995 006c 0100     		.2byte	0x1
+ 1996 006e 50       		.byte	0x50
+ 1997 006f 26000000 		.4byte	.LVL16
+ 1998 0073 28000000 		.4byte	.LFE35
+ 1999 0077 0400     		.2byte	0x4
+ 2000 0079 F3       		.byte	0xf3
+ 2001 007a 01       		.uleb128 0x1
+ 2002 007b 50       		.byte	0x50
+ 2003 007c 9F       		.byte	0x9f
+ 2004 007d 00000000 		.4byte	0
+ 2005 0081 00000000 		.4byte	0
+ 2006              	.LLST1:
+ 2007 0085 00000000 		.4byte	.LVL17
+ 2008 0089 06000000 		.4byte	.LVL19
+ 2009 008d 0100     		.2byte	0x1
+ 2010 008f 50       		.byte	0x50
+ 2011 0090 06000000 		.4byte	.LVL19
+ 2012 0094 18000000 		.4byte	.LVL24
+ 2013 0098 0100     		.2byte	0x1
+ 2014 009a 55       		.byte	0x55
+ 2015 009b 18000000 		.4byte	.LVL24
+ 2016 009f 1A000000 		.4byte	.LFE36
+ 2017 00a3 0400     		.2byte	0x4
+ 2018 00a5 F3       		.byte	0xf3
+ 2019 00a6 01       		.uleb128 0x1
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 41
+
+
+ 2020 00a7 50       		.byte	0x50
+ 2021 00a8 9F       		.byte	0x9f
+ 2022 00a9 00000000 		.4byte	0
+ 2023 00ad 00000000 		.4byte	0
+ 2024              	.LLST2:
+ 2025 00b1 04000000 		.4byte	.LVL18
+ 2026 00b5 0E000000 		.4byte	.LVL21
+ 2027 00b9 0200     		.2byte	0x2
+ 2028 00bb 30       		.byte	0x30
+ 2029 00bc 9F       		.byte	0x9f
+ 2030 00bd 0E000000 		.4byte	.LVL21
+ 2031 00c1 18000000 		.4byte	.LVL23
+ 2032 00c5 0100     		.2byte	0x1
+ 2033 00c7 54       		.byte	0x54
+ 2034 00c8 18000000 		.4byte	.LVL23
+ 2035 00cc 1A000000 		.4byte	.LFE36
+ 2036 00d0 0100     		.2byte	0x1
+ 2037 00d2 50       		.byte	0x50
+ 2038 00d3 00000000 		.4byte	0
+ 2039 00d7 00000000 		.4byte	0
+ 2040              	.LLST3:
+ 2041 00db 00000000 		.4byte	.LVL25
+ 2042 00df 07000000 		.4byte	.LVL27-1
+ 2043 00e3 0100     		.2byte	0x1
+ 2044 00e5 50       		.byte	0x50
+ 2045 00e6 07000000 		.4byte	.LVL27-1
+ 2046 00ea 1E000000 		.4byte	.LVL32
+ 2047 00ee 0100     		.2byte	0x1
+ 2048 00f0 54       		.byte	0x54
+ 2049 00f1 1E000000 		.4byte	.LVL32
+ 2050 00f5 20000000 		.4byte	.LFE37
+ 2051 00f9 0400     		.2byte	0x4
+ 2052 00fb F3       		.byte	0xf3
+ 2053 00fc 01       		.uleb128 0x1
+ 2054 00fd 50       		.byte	0x50
+ 2055 00fe 9F       		.byte	0x9f
+ 2056 00ff 00000000 		.4byte	0
+ 2057 0103 00000000 		.4byte	0
+ 2058              	.LLST4:
+ 2059 0107 08000000 		.4byte	.LVL27
+ 2060 010b 1E000000 		.4byte	.LVL31
+ 2061 010f 0100     		.2byte	0x1
+ 2062 0111 50       		.byte	0x50
+ 2063 0112 1E000000 		.4byte	.LVL31
+ 2064 0116 20000000 		.4byte	.LFE37
+ 2065 011a 0300     		.2byte	0x3
+ 2066 011c 71       		.byte	0x71
+ 2067 011d 04       		.sleb128 4
+ 2068 011e 9F       		.byte	0x9f
+ 2069 011f 00000000 		.4byte	0
+ 2070 0123 00000000 		.4byte	0
+ 2071              	.LLST5:
+ 2072 0127 04000000 		.4byte	.LVL26
+ 2073 012b 0E000000 		.4byte	.LVL28
+ 2074 012f 0200     		.2byte	0x2
+ 2075 0131 30       		.byte	0x30
+ 2076 0132 9F       		.byte	0x9f
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 42
+
+
+ 2077 0133 0E000000 		.4byte	.LVL28
+ 2078 0137 20000000 		.4byte	.LFE37
+ 2079 013b 0100     		.2byte	0x1
+ 2080 013d 52       		.byte	0x52
+ 2081 013e 00000000 		.4byte	0
+ 2082 0142 00000000 		.4byte	0
+ 2083              	.LLST6:
+ 2084 0146 08000000 		.4byte	.LVL27
+ 2085 014a 0E000000 		.4byte	.LVL28
+ 2086 014e 0200     		.2byte	0x2
+ 2087 0150 30       		.byte	0x30
+ 2088 0151 9F       		.byte	0x9f
+ 2089 0152 0E000000 		.4byte	.LVL28
+ 2090 0156 20000000 		.4byte	.LFE37
+ 2091 015a 0100     		.2byte	0x1
+ 2092 015c 53       		.byte	0x53
+ 2093 015d 00000000 		.4byte	0
+ 2094 0161 00000000 		.4byte	0
+ 2095              	.LLST7:
+ 2096 0165 00000000 		.4byte	.LVL33
+ 2097 0169 07000000 		.4byte	.LVL34-1
+ 2098 016d 0100     		.2byte	0x1
+ 2099 016f 50       		.byte	0x50
+ 2100 0170 07000000 		.4byte	.LVL34-1
+ 2101 0174 22000000 		.4byte	.LVL38
+ 2102 0178 0100     		.2byte	0x1
+ 2103 017a 54       		.byte	0x54
+ 2104 017b 22000000 		.4byte	.LVL38
+ 2105 017f 24000000 		.4byte	.LFE38
+ 2106 0183 0400     		.2byte	0x4
+ 2107 0185 F3       		.byte	0xf3
+ 2108 0186 01       		.uleb128 0x1
+ 2109 0187 50       		.byte	0x50
+ 2110 0188 9F       		.byte	0x9f
+ 2111 0189 00000000 		.4byte	0
+ 2112 018d 00000000 		.4byte	0
+ 2113              	.LLST8:
+ 2114 0191 12000000 		.4byte	.LVL36
+ 2115 0195 22000000 		.4byte	.LVL39
+ 2116 0199 0100     		.2byte	0x1
+ 2117 019b 55       		.byte	0x55
+ 2118 019c 00000000 		.4byte	0
+ 2119 01a0 00000000 		.4byte	0
+ 2120              	.LLST9:
+ 2121 01a4 00000000 		.4byte	.LVL40
+ 2122 01a8 09000000 		.4byte	.LVL42-1
+ 2123 01ac 0100     		.2byte	0x1
+ 2124 01ae 50       		.byte	0x50
+ 2125 01af 09000000 		.4byte	.LVL42-1
+ 2126 01b3 90000000 		.4byte	.LFE39
+ 2127 01b7 0400     		.2byte	0x4
+ 2128 01b9 F3       		.byte	0xf3
+ 2129 01ba 01       		.uleb128 0x1
+ 2130 01bb 50       		.byte	0x50
+ 2131 01bc 9F       		.byte	0x9f
+ 2132 01bd 00000000 		.4byte	0
+ 2133 01c1 00000000 		.4byte	0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 43
+
+
+ 2134              	.LLST10:
+ 2135 01c5 00000000 		.4byte	.LVL40
+ 2136 01c9 06000000 		.4byte	.LVL41
+ 2137 01cd 0100     		.2byte	0x1
+ 2138 01cf 51       		.byte	0x51
+ 2139 01d0 06000000 		.4byte	.LVL41
+ 2140 01d4 86000000 		.4byte	.LVL69
+ 2141 01d8 0100     		.2byte	0x1
+ 2142 01da 54       		.byte	0x54
+ 2143 01db 86000000 		.4byte	.LVL69
+ 2144 01df 90000000 		.4byte	.LFE39
+ 2145 01e3 0400     		.2byte	0x4
+ 2146 01e5 F3       		.byte	0xf3
+ 2147 01e6 01       		.uleb128 0x1
+ 2148 01e7 51       		.byte	0x51
+ 2149 01e8 9F       		.byte	0x9f
+ 2150 01e9 00000000 		.4byte	0
+ 2151 01ed 00000000 		.4byte	0
+ 2152              	.LLST11:
+ 2153 01f1 32000000 		.4byte	.LVL48
+ 2154 01f5 34000000 		.4byte	.LVL49
+ 2155 01f9 0100     		.2byte	0x1
+ 2156 01fb 50       		.byte	0x50
+ 2157 01fc 34000000 		.4byte	.LVL49
+ 2158 0200 37000000 		.4byte	.LVL50-1
+ 2159 0204 0100     		.2byte	0x1
+ 2160 0206 51       		.byte	0x51
+ 2161 0207 42000000 		.4byte	.LVL52
+ 2162 020b 44000000 		.4byte	.LVL53
+ 2163 020f 0100     		.2byte	0x1
+ 2164 0211 50       		.byte	0x50
+ 2165 0212 44000000 		.4byte	.LVL53
+ 2166 0216 49000000 		.4byte	.LVL54-1
+ 2167 021a 0100     		.2byte	0x1
+ 2168 021c 51       		.byte	0x51
+ 2169 021d 54000000 		.4byte	.LVL56
+ 2170 0221 56000000 		.4byte	.LVL57
+ 2171 0225 0100     		.2byte	0x1
+ 2172 0227 50       		.byte	0x50
+ 2173 0228 56000000 		.4byte	.LVL57
+ 2174 022c 5B000000 		.4byte	.LVL58-1
+ 2175 0230 0100     		.2byte	0x1
+ 2176 0232 51       		.byte	0x51
+ 2177 0233 66000000 		.4byte	.LVL60
+ 2178 0237 68000000 		.4byte	.LVL61
+ 2179 023b 0100     		.2byte	0x1
+ 2180 023d 50       		.byte	0x50
+ 2181 023e 68000000 		.4byte	.LVL61
+ 2182 0242 6D000000 		.4byte	.LVL62-1
+ 2183 0246 0100     		.2byte	0x1
+ 2184 0248 51       		.byte	0x51
+ 2185 0249 78000000 		.4byte	.LVL64
+ 2186 024d 7A000000 		.4byte	.LVL65
+ 2187 0251 0100     		.2byte	0x1
+ 2188 0253 50       		.byte	0x50
+ 2189 0254 7A000000 		.4byte	.LVL65
+ 2190 0258 7F000000 		.4byte	.LVL66-1
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 44
+
+
+ 2191 025c 0100     		.2byte	0x1
+ 2192 025e 51       		.byte	0x51
+ 2193 025f 00000000 		.4byte	0
+ 2194 0263 00000000 		.4byte	0
+ 2195              	.LLST12:
+ 2196 0267 0C000000 		.4byte	.LVL43
+ 2197 026b 11000000 		.4byte	.LVL44-1
+ 2198 026f 0100     		.2byte	0x1
+ 2199 0271 50       		.byte	0x50
+ 2200 0272 11000000 		.4byte	.LVL44-1
+ 2201 0276 84000000 		.4byte	.LVL67
+ 2202 027a 0100     		.2byte	0x1
+ 2203 027c 55       		.byte	0x55
+ 2204 027d 84000000 		.4byte	.LVL67
+ 2205 0281 86000000 		.4byte	.LVL68
+ 2206 0285 0100     		.2byte	0x1
+ 2207 0287 50       		.byte	0x50
+ 2208 0288 86000000 		.4byte	.LVL68
+ 2209 028c 86000000 		.4byte	.LVL70
+ 2210 0290 0100     		.2byte	0x1
+ 2211 0292 55       		.byte	0x55
+ 2212 0293 00000000 		.4byte	0
+ 2213 0297 00000000 		.4byte	0
+ 2214              	.LLST13:
+ 2215 029b 00000000 		.4byte	.LVL71
+ 2216 029f 0D000000 		.4byte	.LVL72-1
+ 2217 02a3 0600     		.2byte	0x6
+ 2218 02a5 50       		.byte	0x50
+ 2219 02a6 93       		.byte	0x93
+ 2220 02a7 04       		.uleb128 0x4
+ 2221 02a8 51       		.byte	0x51
+ 2222 02a9 93       		.byte	0x93
+ 2223 02aa 04       		.uleb128 0x4
+ 2224 02ab 0D000000 		.4byte	.LVL72-1
+ 2225 02af 50000000 		.4byte	.LFE42
+ 2226 02b3 0600     		.2byte	0x6
+ 2227 02b5 F3       		.byte	0xf3
+ 2228 02b6 03       		.uleb128 0x3
+ 2229 02b7 F5       		.byte	0xf5
+ 2230 02b8 00       		.uleb128 0
+ 2231 02b9 25       		.uleb128 0x25
+ 2232 02ba 9F       		.byte	0x9f
+ 2233 02bb 00000000 		.4byte	0
+ 2234 02bf 00000000 		.4byte	0
+ 2235              	.LLST14:
+ 2236 02c3 14000000 		.4byte	.LVL74
+ 2237 02c7 16000000 		.4byte	.LVL75
+ 2238 02cb 0100     		.2byte	0x1
+ 2239 02cd 50       		.byte	0x50
+ 2240 02ce 16000000 		.4byte	.LVL75
+ 2241 02d2 46000000 		.4byte	.LVL81
+ 2242 02d6 0100     		.2byte	0x1
+ 2243 02d8 56       		.byte	0x56
+ 2244 02d9 00000000 		.4byte	0
+ 2245 02dd 00000000 		.4byte	0
+ 2246              	.LLST15:
+ 2247 02e1 00000000 		.4byte	.LVL82
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 45
+
+
+ 2248 02e5 0B000000 		.4byte	.LVL84-1
+ 2249 02e9 0100     		.2byte	0x1
+ 2250 02eb 51       		.byte	0x51
+ 2251 02ec 0B000000 		.4byte	.LVL84-1
+ 2252 02f0 70000000 		.4byte	.LVL96
+ 2253 02f4 0100     		.2byte	0x1
+ 2254 02f6 55       		.byte	0x55
+ 2255 02f7 70000000 		.4byte	.LVL96
+ 2256 02fb 72000000 		.4byte	.LFE40
+ 2257 02ff 0400     		.2byte	0x4
+ 2258 0301 F3       		.byte	0xf3
+ 2259 0302 01       		.uleb128 0x1
+ 2260 0303 51       		.byte	0x51
+ 2261 0304 9F       		.byte	0x9f
+ 2262 0305 00000000 		.4byte	0
+ 2263 0309 00000000 		.4byte	0
+ 2264              	.LLST16:
+ 2265 030d 00000000 		.4byte	.LVL82
+ 2266 0311 08000000 		.4byte	.LVL83
+ 2267 0315 0200     		.2byte	0x2
+ 2268 0317 70       		.byte	0x70
+ 2269 0318 00       		.sleb128 0
+ 2270 0319 08000000 		.4byte	.LVL83
+ 2271 031d 70000000 		.4byte	.LVL95
+ 2272 0321 0200     		.2byte	0x2
+ 2273 0323 74       		.byte	0x74
+ 2274 0324 00       		.sleb128 0
+ 2275 0325 70000000 		.4byte	.LVL95
+ 2276 0329 72000000 		.4byte	.LFE40
+ 2277 032d 0200     		.2byte	0x2
+ 2278 032f 70       		.byte	0x70
+ 2279 0330 00       		.sleb128 0
+ 2280 0331 00000000 		.4byte	0
+ 2281 0335 00000000 		.4byte	0
+ 2282              	.LLST17:
+ 2283 0339 00000000 		.4byte	.LVL97
+ 2284 033d 0A000000 		.4byte	.LVL99
+ 2285 0341 0100     		.2byte	0x1
+ 2286 0343 50       		.byte	0x50
+ 2287 0344 0A000000 		.4byte	.LVL99
+ 2288 0348 2E000000 		.4byte	.LVL105
+ 2289 034c 0100     		.2byte	0x1
+ 2290 034e 56       		.byte	0x56
+ 2291 034f 2E000000 		.4byte	.LVL105
+ 2292 0353 30000000 		.4byte	.LFE43
+ 2293 0357 0400     		.2byte	0x4
+ 2294 0359 F3       		.byte	0xf3
+ 2295 035a 01       		.uleb128 0x1
+ 2296 035b 50       		.byte	0x50
+ 2297 035c 9F       		.byte	0x9f
+ 2298 035d 00000000 		.4byte	0
+ 2299 0361 00000000 		.4byte	0
+ 2300              	.LLST18:
+ 2301 0365 00000000 		.4byte	.LVL97
+ 2302 0369 0A000000 		.4byte	.LVL99
+ 2303 036d 0100     		.2byte	0x1
+ 2304 036f 51       		.byte	0x51
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 46
+
+
+ 2305 0370 0A000000 		.4byte	.LVL99
+ 2306 0374 2E000000 		.4byte	.LVL104
+ 2307 0378 0100     		.2byte	0x1
+ 2308 037a 55       		.byte	0x55
+ 2309 037b 2E000000 		.4byte	.LVL104
+ 2310 037f 30000000 		.4byte	.LFE43
+ 2311 0383 0400     		.2byte	0x4
+ 2312 0385 F3       		.byte	0xf3
+ 2313 0386 01       		.uleb128 0x1
+ 2314 0387 51       		.byte	0x51
+ 2315 0388 9F       		.byte	0x9f
+ 2316 0389 00000000 		.4byte	0
+ 2317 038d 00000000 		.4byte	0
+ 2318              	.LLST19:
+ 2319 0391 10000000 		.4byte	.LVL101
+ 2320 0395 22000000 		.4byte	.LVL102
+ 2321 0399 0100     		.2byte	0x1
+ 2322 039b 50       		.byte	0x50
+ 2323 039c 00000000 		.4byte	0
+ 2324 03a0 00000000 		.4byte	0
+ 2325              	.LLST20:
+ 2326 03a4 06000000 		.4byte	.LVL98
+ 2327 03a8 0A000000 		.4byte	.LVL99
+ 2328 03ac 0200     		.2byte	0x2
+ 2329 03ae 30       		.byte	0x30
+ 2330 03af 9F       		.byte	0x9f
+ 2331 03b0 0A000000 		.4byte	.LVL99
+ 2332 03b4 2A000000 		.4byte	.LVL103
+ 2333 03b8 0100     		.2byte	0x1
+ 2334 03ba 54       		.byte	0x54
+ 2335 03bb 00000000 		.4byte	0
+ 2336 03bf 00000000 		.4byte	0
+ 2337              	.LLST21:
+ 2338 03c3 00000000 		.4byte	.LVL106
+ 2339 03c7 0A000000 		.4byte	.LVL108
+ 2340 03cb 0100     		.2byte	0x1
+ 2341 03cd 50       		.byte	0x50
+ 2342 03ce 0A000000 		.4byte	.LVL108
+ 2343 03d2 2C000000 		.4byte	.LVL115
+ 2344 03d6 0100     		.2byte	0x1
+ 2345 03d8 55       		.byte	0x55
+ 2346 03d9 2C000000 		.4byte	.LVL115
+ 2347 03dd 2E000000 		.4byte	.LFE41
+ 2348 03e1 0400     		.2byte	0x4
+ 2349 03e3 F3       		.byte	0xf3
+ 2350 03e4 01       		.uleb128 0x1
+ 2351 03e5 50       		.byte	0x50
+ 2352 03e6 9F       		.byte	0x9f
+ 2353 03e7 00000000 		.4byte	0
+ 2354 03eb 00000000 		.4byte	0
+ 2355              	.LLST22:
+ 2356 03ef 06000000 		.4byte	.LVL107
+ 2357 03f3 0A000000 		.4byte	.LVL108
+ 2358 03f7 0200     		.2byte	0x2
+ 2359 03f9 30       		.byte	0x30
+ 2360 03fa 9F       		.byte	0x9f
+ 2361 03fb 0A000000 		.4byte	.LVL108
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 47
+
+
+ 2362 03ff 2C000000 		.4byte	.LVL114
+ 2363 0403 0100     		.2byte	0x1
+ 2364 0405 54       		.byte	0x54
+ 2365 0406 2C000000 		.4byte	.LVL114
+ 2366 040a 2E000000 		.4byte	.LFE41
+ 2367 040e 0100     		.2byte	0x1
+ 2368 0410 50       		.byte	0x50
+ 2369 0411 00000000 		.4byte	0
+ 2370 0415 00000000 		.4byte	0
+ 2371              		.section	.debug_aranges,"",%progbits
+ 2372 0000 64000000 		.4byte	0x64
+ 2373 0004 0200     		.2byte	0x2
+ 2374 0006 00000000 		.4byte	.Ldebug_info0
+ 2375 000a 04       		.byte	0x4
+ 2376 000b 00       		.byte	0
+ 2377 000c 0000     		.2byte	0
+ 2378 000e 0000     		.2byte	0
+ 2379 0010 00000000 		.4byte	.LFB34
+ 2380 0014 40000000 		.4byte	.LFE34-.LFB34
+ 2381 0018 00000000 		.4byte	.LFB35
+ 2382 001c 28000000 		.4byte	.LFE35-.LFB35
+ 2383 0020 00000000 		.4byte	.LFB36
+ 2384 0024 1A000000 		.4byte	.LFE36-.LFB36
+ 2385 0028 00000000 		.4byte	.LFB37
+ 2386 002c 20000000 		.4byte	.LFE37-.LFB37
+ 2387 0030 00000000 		.4byte	.LFB38
+ 2388 0034 24000000 		.4byte	.LFE38-.LFB38
+ 2389 0038 00000000 		.4byte	.LFB39
+ 2390 003c 90000000 		.4byte	.LFE39-.LFB39
+ 2391 0040 00000000 		.4byte	.LFB42
+ 2392 0044 50000000 		.4byte	.LFE42-.LFB42
+ 2393 0048 00000000 		.4byte	.LFB40
+ 2394 004c 72000000 		.4byte	.LFE40-.LFB40
+ 2395 0050 00000000 		.4byte	.LFB43
+ 2396 0054 30000000 		.4byte	.LFE43-.LFB43
+ 2397 0058 00000000 		.4byte	.LFB41
+ 2398 005c 2E000000 		.4byte	.LFE41-.LFB41
+ 2399 0060 00000000 		.4byte	0
+ 2400 0064 00000000 		.4byte	0
+ 2401              		.section	.debug_ranges,"",%progbits
+ 2402              	.Ldebug_ranges0:
+ 2403 0000 00000000 		.4byte	.LFB34
+ 2404 0004 40000000 		.4byte	.LFE34
+ 2405 0008 00000000 		.4byte	.LFB35
+ 2406 000c 28000000 		.4byte	.LFE35
+ 2407 0010 00000000 		.4byte	.LFB36
+ 2408 0014 1A000000 		.4byte	.LFE36
+ 2409 0018 00000000 		.4byte	.LFB37
+ 2410 001c 20000000 		.4byte	.LFE37
+ 2411 0020 00000000 		.4byte	.LFB38
+ 2412 0024 24000000 		.4byte	.LFE38
+ 2413 0028 00000000 		.4byte	.LFB39
+ 2414 002c 90000000 		.4byte	.LFE39
+ 2415 0030 00000000 		.4byte	.LFB42
+ 2416 0034 50000000 		.4byte	.LFE42
+ 2417 0038 00000000 		.4byte	.LFB40
+ 2418 003c 72000000 		.4byte	.LFE40
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 48
+
+
+ 2419 0040 00000000 		.4byte	.LFB43
+ 2420 0044 30000000 		.4byte	.LFE43
+ 2421 0048 00000000 		.4byte	.LFB41
+ 2422 004c 2E000000 		.4byte	.LFE41
+ 2423 0050 00000000 		.4byte	0
+ 2424 0054 00000000 		.4byte	0
+ 2425              		.section	.debug_line,"",%progbits
+ 2426              	.Ldebug_line0:
+ 2427 0000 16020000 		.section	.debug_str,"MS",%progbits,1
+ 2427      02000701 
+ 2427      00000201 
+ 2427      FB0E0D00 
+ 2427      01010101 
+ 2428              	.LASF54:
+ 2429 0000 4750535F 		.ascii	"GPS_UART_SpiUartGetRxBufferSize\000"
+ 2429      55415254 
+ 2429      5F537069 
+ 2429      55617274 
+ 2429      47657452 
+ 2430              	.LASF41:
+ 2431 0020 72657375 		.ascii	"result\000"
+ 2431      6C7400
+ 2432              	.LASF23:
+ 2433 0027 6770735F 		.ascii	"gps_calcNMEAChecksum\000"
+ 2433      63616C63 
+ 2433      4E4D4541 
+ 2433      43686563 
+ 2433      6B73756D 
+ 2434              	.LASF46:
+ 2435 003c 55415254 		.ascii	"UART_CLOCK_SetFractionalDividerRegister\000"
+ 2435      5F434C4F 
+ 2435      434B5F53 
+ 2435      65744672 
+ 2435      61637469 
+ 2436              	.LASF40:
+ 2437 0064 6770735F 		.ascii	"gps_getData\000"
+ 2437      67657444 
+ 2437      61746100 
+ 2438              	.LASF32:
+ 2439 0070 6770735F 		.ascii	"gps_parseData\000"
+ 2439      70617273 
+ 2439      65446174 
+ 2439      6100
+ 2440              	.LASF6:
+ 2441 007e 73686F72 		.ascii	"short int\000"
+ 2441      7420696E 
+ 2441      7400
+ 2442              	.LASF11:
+ 2443 0088 73697A65 		.ascii	"sizetype\000"
+ 2443      74797065 
+ 2443      00
+ 2444              	.LASF49:
+ 2445 0091 73747274 		.ascii	"strtok\000"
+ 2445      6F6B00
+ 2446              	.LASF44:
+ 2447 0098 4750535F 		.ascii	"GPS_UART_Start\000"
+ 2447      55415254 
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 49
+
+
+ 2447      5F537461 
+ 2447      727400
+ 2448              	.LASF34:
+ 2449 00a7 67707344 		.ascii	"gpsData\000"
+ 2449      61746100 
+ 2450              	.LASF55:
+ 2451 00af 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2451      43313120 
+ 2451      352E342E 
+ 2451      31203230 
+ 2451      31363036 
+ 2452 00e2 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 2452      20726576 
+ 2452      6973696F 
+ 2452      6E203233 
+ 2452      37373135 
+ 2453 0115 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2453      66756E63 
+ 2453      74696F6E 
+ 2453      2D736563 
+ 2453      74696F6E 
+ 2454              	.LASF22:
+ 2455 013d 63686563 		.ascii	"checksum\000"
+ 2455      6B73756D 
+ 2455      00
+ 2456              	.LASF56:
+ 2457 0146 4D544B33 		.ascii	"MTK3339-Sensor-Driver\\GPS.c\000"
+ 2457      3333392D 
+ 2457      53656E73 
+ 2457      6F722D44 
+ 2457      72697665 
+ 2458              	.LASF16:
+ 2459 0162 6C617443 		.ascii	"latCardinal\000"
+ 2459      61726469 
+ 2459      6E616C00 
+ 2460              	.LASF21:
+ 2461 016e 6770735F 		.ascii	"gps_parseChecksum\000"
+ 2461      70617273 
+ 2461      65436865 
+ 2461      636B7375 
+ 2461      6D00
+ 2462              	.LASF13:
+ 2463 0180 666C6F61 		.ascii	"float\000"
+ 2463      7400
+ 2464              	.LASF27:
+ 2465 0186 6770735F 		.ascii	"gps_parseNMEA\000"
+ 2465      70617273 
+ 2465      654E4D45 
+ 2465      4100
+ 2466              	.LASF45:
+ 2467 0194 4750535F 		.ascii	"GPS_UART_UartPutString\000"
+ 2467      55415254 
+ 2467      5F556172 
+ 2467      74507574 
+ 2467      53747269 
+ 2468              	.LASF2:
+ 2469 01ab 6C6F6E67 		.ascii	"long long int\000"
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 50
+
+
+ 2469      206C6F6E 
+ 2469      6720696E 
+ 2469      7400
+ 2470              	.LASF35:
+ 2471 01b9 6770735F 		.ascii	"gps_init\000"
+ 2471      696E6974 
+ 2471      00
+ 2472              	.LASF33:
+ 2473 01c2 73747244 		.ascii	"strData\000"
+ 2473      61746100 
+ 2474              	.LASF8:
+ 2475 01ca 6C6F6E67 		.ascii	"long int\000"
+ 2475      20696E74 
+ 2475      00
+ 2476              	.LASF42:
+ 2477 01d3 73747269 		.ascii	"string\000"
+ 2477      6E6700
+ 2478              	.LASF51:
+ 2479 01da 61746F66 		.ascii	"atof\000"
+ 2479      00
+ 2480              	.LASF3:
+ 2481 01df 6C6F6E67 		.ascii	"long double\000"
+ 2481      20646F75 
+ 2481      626C6500 
+ 2482              	.LASF53:
+ 2483 01eb 4750535F 		.ascii	"GPS_UART_UartGetByte\000"
+ 2483      55415254 
+ 2483      5F556172 
+ 2483      74476574 
+ 2483      42797465 
+ 2484              	.LASF52:
+ 2485 0200 61746F69 		.ascii	"atoi\000"
+ 2485      00
+ 2486              	.LASF5:
+ 2487 0205 756E7369 		.ascii	"unsigned char\000"
+ 2487      676E6564 
+ 2487      20636861 
+ 2487      7200
+ 2488              	.LASF30:
+ 2489 0213 636F6F72 		.ascii	"coord\000"
+ 2489      6400
+ 2490              	.LASF4:
+ 2491 0219 7369676E 		.ascii	"signed char\000"
+ 2491      65642063 
+ 2491      68617200 
+ 2492              	.LASF10:
+ 2493 0225 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2493      206C6F6E 
+ 2493      6720756E 
+ 2493      7369676E 
+ 2493      65642069 
+ 2494              	.LASF20:
+ 2495 023c 6770735F 		.ascii	"gps_parseHex\000"
+ 2495      70617273 
+ 2495      65486578 
+ 2495      00
+ 2496              	.LASF1:
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 51
+
+
+ 2497 0249 756E7369 		.ascii	"unsigned int\000"
+ 2497      676E6564 
+ 2497      20696E74 
+ 2497      00
+ 2498              	.LASF37:
+ 2499 0256 6D795374 		.ascii	"myString\000"
+ 2499      72696E67 
+ 2499      00
+ 2500              	.LASF15:
+ 2501 025f 6C6F6E67 		.ascii	"longitude\000"
+ 2501      69747564 
+ 2501      6500
+ 2502              	.LASF14:
+ 2503 0269 6C617469 		.ascii	"latitude\000"
+ 2503      74756465 
+ 2503      00
+ 2504              	.LASF48:
+ 2505 0272 73747273 		.ascii	"strstr\000"
+ 2505      747200
+ 2506              	.LASF29:
+ 2507 0279 6770735F 		.ascii	"gps_minsToDec\000"
+ 2507      6D696E73 
+ 2507      546F4465 
+ 2507      6300
+ 2508              	.LASF7:
+ 2509 0287 73686F72 		.ascii	"short unsigned int\000"
+ 2509      7420756E 
+ 2509      7369676E 
+ 2509      65642069 
+ 2509      6E7400
+ 2510              	.LASF12:
+ 2511 029a 63686172 		.ascii	"char\000"
+ 2511      00
+ 2512              	.LASF47:
+ 2513 029f 7374726C 		.ascii	"strlen\000"
+ 2513      656E00
+ 2514              	.LASF57:
+ 2515 02a6 433A5C55 		.ascii	"C:\\Users\\davis\\Documents\\PSoC Creator\\IMU_Firm"
+ 2515      73657273 
+ 2515      5C646176 
+ 2515      69735C44 
+ 2515      6F63756D 
+ 2516 02d4 77617265 		.ascii	"ware_2020-21\\IMU Board Firmware.cydsn\000"
+ 2516      5F323032 
+ 2516      302D3231 
+ 2516      5C494D55 
+ 2516      20426F61 
+ 2517              	.LASF50:
+ 2518 02fa 73747263 		.ascii	"strcpy\000"
+ 2518      707900
+ 2519              	.LASF36:
+ 2520 0301 4750535F 		.ascii	"GPS_Recv\000"
+ 2520      52656376 
+ 2520      00
+ 2521              	.LASF18:
+ 2522 030a 4750535F 		.ascii	"GPS_Str_Data\000"
+ 2522      5374725F 
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cclYrBJq.s 			page 52
+
+
+ 2522      44617461 
+ 2522      00
+ 2523              	.LASF9:
+ 2524 0317 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2524      20756E73 
+ 2524      69676E65 
+ 2524      6420696E 
+ 2524      7400
+ 2525              	.LASF43:
+ 2526 0329 55415254 		.ascii	"UART_CLOCK_StartEx\000"
+ 2526      5F434C4F 
+ 2526      434B5F53 
+ 2526      74617274 
+ 2526      457800
+ 2527              	.LASF0:
+ 2528 033c 646F7562 		.ascii	"double\000"
+ 2528      6C6500
+ 2529              	.LASF39:
+ 2530 0343 72657370 		.ascii	"response\000"
+ 2530      6F6E7365 
+ 2530      00
+ 2531              	.LASF26:
+ 2532 034c 74617267 		.ascii	"targetChecksum\000"
+ 2532      65744368 
+ 2532      65636B73 
+ 2532      756D00
+ 2533              	.LASF38:
+ 2534 035b 6D61784C 		.ascii	"maxLength\000"
+ 2534      656E6774 
+ 2534      6800
+ 2535              	.LASF25:
+ 2536 0365 6E6D6561 		.ascii	"nmea\000"
+ 2536      00
+ 2537              	.LASF31:
+ 2538 036a 64656772 		.ascii	"degree\000"
+ 2538      656500
+ 2539              	.LASF24:
+ 2540 0371 6770735F 		.ascii	"gps_validateNMEA\000"
+ 2540      76616C69 
+ 2540      64617465 
+ 2540      4E4D4541 
+ 2540      00
+ 2541              	.LASF19:
+ 2542 0382 4750535F 		.ascii	"GPS_Data\000"
+ 2542      44617461 
+ 2542      00
+ 2543              	.LASF17:
+ 2544 038b 6C6F6E43 		.ascii	"lonCardinal\000"
+ 2544      61726469 
+ 2544      6E616C00 
+ 2545              	.LASF28:
+ 2546 0397 6E6D6561 		.ascii	"nmeaStart\000"
+ 2546      53746172 
+ 2546      7400
+ 2547              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

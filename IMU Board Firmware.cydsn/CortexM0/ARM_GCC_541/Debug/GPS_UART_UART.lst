@@ -1,0 +1,3136 @@
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"GPS_UART_UART.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.GPS_UART_UartInit,"ax",%progbits
+  20              		.align	2
+  21              		.global	GPS_UART_UartInit
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	GPS_UART_UartInit, %function
+  25              	GPS_UART_UartInit:
+  26              	.LFB1:
+  27              		.file 1 "Generated_Source\\PSoC4\\GPS_UART_UART.c"
+   1:Generated_Source\PSoC4/GPS_UART_UART.c **** /***************************************************************************//**
+   2:Generated_Source\PSoC4/GPS_UART_UART.c **** * \file GPS_UART_UART.c
+   3:Generated_Source\PSoC4/GPS_UART_UART.c **** * \version 4.0
+   4:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+   5:Generated_Source\PSoC4/GPS_UART_UART.c **** * \brief
+   6:Generated_Source\PSoC4/GPS_UART_UART.c **** *  This file provides the source code to the API for the SCB Component in
+   7:Generated_Source\PSoC4/GPS_UART_UART.c **** *  UART mode.
+   8:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+   9:Generated_Source\PSoC4/GPS_UART_UART.c **** * Note:
+  10:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+  11:Generated_Source\PSoC4/GPS_UART_UART.c **** *******************************************************************************
+  12:Generated_Source\PSoC4/GPS_UART_UART.c **** * \copyright
+  13:Generated_Source\PSoC4/GPS_UART_UART.c **** * Copyright 2013-2017, Cypress Semiconductor Corporation.  All rights reserved.
+  14:Generated_Source\PSoC4/GPS_UART_UART.c **** * You may use this file only in accordance with the license, terms, conditions,
+  15:Generated_Source\PSoC4/GPS_UART_UART.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  16:Generated_Source\PSoC4/GPS_UART_UART.c **** * the software package with which this file was provided.
+  17:Generated_Source\PSoC4/GPS_UART_UART.c **** *******************************************************************************/
+  18:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+  19:Generated_Source\PSoC4/GPS_UART_UART.c **** #include "GPS_UART_PVT.h"
+  20:Generated_Source\PSoC4/GPS_UART_UART.c **** #include "GPS_UART_SPI_UART_PVT.h"
+  21:Generated_Source\PSoC4/GPS_UART_UART.c **** #include "cyapicallbacks.h"
+  22:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+  23:Generated_Source\PSoC4/GPS_UART_UART.c **** #if (GPS_UART_UART_WAKE_ENABLE_CONST && GPS_UART_UART_RX_WAKEUP_IRQ)
+  24:Generated_Source\PSoC4/GPS_UART_UART.c ****     /**
+  25:Generated_Source\PSoC4/GPS_UART_UART.c ****     * \addtogroup group_globals
+  26:Generated_Source\PSoC4/GPS_UART_UART.c ****     * \{
+  27:Generated_Source\PSoC4/GPS_UART_UART.c ****     */
+  28:Generated_Source\PSoC4/GPS_UART_UART.c ****     /** This global variable determines whether to enable Skip Start
+  29:Generated_Source\PSoC4/GPS_UART_UART.c ****     * functionality when GPS_UART_Sleep() function is called:
+  30:Generated_Source\PSoC4/GPS_UART_UART.c ****     * 0 – disable, other values – enable. Default value is 1.
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 2
+
+
+  31:Generated_Source\PSoC4/GPS_UART_UART.c ****     * It is only available when Enable wakeup from Deep Sleep Mode is enabled.
+  32:Generated_Source\PSoC4/GPS_UART_UART.c ****     */
+  33:Generated_Source\PSoC4/GPS_UART_UART.c ****     uint8 GPS_UART_skipStart = 1u;
+  34:Generated_Source\PSoC4/GPS_UART_UART.c ****     /** \} globals */
+  35:Generated_Source\PSoC4/GPS_UART_UART.c **** #endif /* (GPS_UART_UART_WAKE_ENABLE_CONST && GPS_UART_UART_RX_WAKEUP_IRQ) */
+  36:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+  37:Generated_Source\PSoC4/GPS_UART_UART.c **** #if(GPS_UART_SCB_MODE_UNCONFIG_CONST_CFG)
+  38:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+  39:Generated_Source\PSoC4/GPS_UART_UART.c ****     /***************************************
+  40:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  Configuration Structure Initialization
+  41:Generated_Source\PSoC4/GPS_UART_UART.c ****     ***************************************/
+  42:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+  43:Generated_Source\PSoC4/GPS_UART_UART.c ****     const GPS_UART_UART_INIT_STRUCT GPS_UART_configUart =
+  44:Generated_Source\PSoC4/GPS_UART_UART.c ****     {
+  45:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_SUB_MODE,
+  46:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_DIRECTION,
+  47:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_DATA_BITS_NUM,
+  48:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_PARITY_TYPE,
+  49:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_STOP_BITS_NUM,
+  50:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_OVS_FACTOR,
+  51:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_IRDA_LOW_POWER,
+  52:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_MEDIAN_FILTER_ENABLE,
+  53:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_RETRY_ON_NACK,
+  54:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_IRDA_POLARITY,
+  55:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_DROP_ON_PARITY_ERR,
+  56:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_DROP_ON_FRAME_ERR,
+  57:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_WAKE_ENABLE,
+  58:Generated_Source\PSoC4/GPS_UART_UART.c ****         0u,
+  59:Generated_Source\PSoC4/GPS_UART_UART.c ****         NULL,
+  60:Generated_Source\PSoC4/GPS_UART_UART.c ****         0u,
+  61:Generated_Source\PSoC4/GPS_UART_UART.c ****         NULL,
+  62:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_MP_MODE_ENABLE,
+  63:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_MP_ACCEPT_ADDRESS,
+  64:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_MP_RX_ADDRESS,
+  65:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_MP_RX_ADDRESS_MASK,
+  66:Generated_Source\PSoC4/GPS_UART_UART.c ****         (uint32) GPS_UART_SCB_IRQ_INTERNAL,
+  67:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_INTR_RX_MASK,
+  68:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_RX_TRIGGER_LEVEL,
+  69:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_INTR_TX_MASK,
+  70:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_TX_TRIGGER_LEVEL,
+  71:Generated_Source\PSoC4/GPS_UART_UART.c ****         (uint8) GPS_UART_UART_BYTE_MODE_ENABLE,
+  72:Generated_Source\PSoC4/GPS_UART_UART.c ****         (uint8) GPS_UART_UART_CTS_ENABLE,
+  73:Generated_Source\PSoC4/GPS_UART_UART.c ****         (uint8) GPS_UART_UART_CTS_POLARITY,
+  74:Generated_Source\PSoC4/GPS_UART_UART.c ****         (uint8) GPS_UART_UART_RTS_POLARITY,
+  75:Generated_Source\PSoC4/GPS_UART_UART.c ****         (uint8) GPS_UART_UART_RTS_FIFO_LEVEL,
+  76:Generated_Source\PSoC4/GPS_UART_UART.c ****         (uint8) GPS_UART_UART_RX_BREAK_WIDTH
+  77:Generated_Source\PSoC4/GPS_UART_UART.c ****     };
+  78:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+  79:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+  80:Generated_Source\PSoC4/GPS_UART_UART.c ****     /*******************************************************************************
+  81:Generated_Source\PSoC4/GPS_UART_UART.c ****     * Function Name: GPS_UART_UartInit
+  82:Generated_Source\PSoC4/GPS_UART_UART.c ****     ****************************************************************************//**
+  83:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+  84:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  Configures the GPS_UART for UART operation.
+  85:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+  86:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  This function is intended specifically to be used when the GPS_UART
+  87:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  configuration is set to “Unconfigured GPS_UART” in the customizer.
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 3
+
+
+  88:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  After initializing the GPS_UART in UART mode using this function,
+  89:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  the component can be enabled using the GPS_UART_Start() or
+  90:Generated_Source\PSoC4/GPS_UART_UART.c ****     * GPS_UART_Enable() function.
+  91:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  This function uses a pointer to a structure that provides the configuration
+  92:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  settings. This structure contains the same information that would otherwise
+  93:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  be provided by the customizer settings.
+  94:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+  95:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  \param config: pointer to a structure that contains the following list of
+  96:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   fields. These fields match the selections available in the customizer.
+  97:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   Refer to the customizer for further description of the settings.
+  98:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+  99:Generated_Source\PSoC4/GPS_UART_UART.c ****     *******************************************************************************/
+ 100:Generated_Source\PSoC4/GPS_UART_UART.c ****     void GPS_UART_UartInit(const GPS_UART_UART_INIT_STRUCT *config)
+ 101:Generated_Source\PSoC4/GPS_UART_UART.c ****     {
+ 102:Generated_Source\PSoC4/GPS_UART_UART.c ****         uint32 pinsConfig;
+ 103:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 104:Generated_Source\PSoC4/GPS_UART_UART.c ****         if (NULL == config)
+ 105:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 106:Generated_Source\PSoC4/GPS_UART_UART.c ****             CYASSERT(0u != 0u); /* Halt execution due to bad function parameter */
+ 107:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 108:Generated_Source\PSoC4/GPS_UART_UART.c ****         else
+ 109:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 110:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Get direction to configure UART pins: TX, RX or TX+RX */
+ 111:Generated_Source\PSoC4/GPS_UART_UART.c ****             pinsConfig  = config->direction;
+ 112:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 113:Generated_Source\PSoC4/GPS_UART_UART.c ****         #if !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1)
+ 114:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Add RTS and CTS pins to configure */
+ 115:Generated_Source\PSoC4/GPS_UART_UART.c ****             pinsConfig |= (0u != config->rtsRxFifoLevel) ? (GPS_UART_UART_RTS_PIN_ENABLE) : (0u);
+ 116:Generated_Source\PSoC4/GPS_UART_UART.c ****             pinsConfig |= (0u != config->enableCts)      ? (GPS_UART_UART_CTS_PIN_ENABLE) : (0u);
+ 117:Generated_Source\PSoC4/GPS_UART_UART.c ****         #endif /* !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1) */
+ 118:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 119:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Configure pins */
+ 120:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_SetPins(GPS_UART_SCB_MODE_UART, config->mode, pinsConfig);
+ 121:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 122:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Store internal configuration */
+ 123:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_scbMode       = (uint8) GPS_UART_SCB_MODE_UART;
+ 124:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_scbEnableWake = (uint8) config->enableWake;
+ 125:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_scbEnableIntr = (uint8) config->enableInterrupt;
+ 126:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 127:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Set RX direction internal variables */
+ 128:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_rxBuffer      =         config->rxBuffer;
+ 129:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_rxDataBits    = (uint8) config->dataBits;
+ 130:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_rxBufferSize  =         config->rxBufferSize;
+ 131:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 132:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Set TX direction internal variables */
+ 133:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_txBuffer      =         config->txBuffer;
+ 134:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_txDataBits    = (uint8) config->dataBits;
+ 135:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_txBufferSize  =         config->txBufferSize;
+ 136:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 137:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Configure UART interface */
+ 138:Generated_Source\PSoC4/GPS_UART_UART.c ****             if(GPS_UART_UART_MODE_IRDA == config->mode)
+ 139:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ 140:Generated_Source\PSoC4/GPS_UART_UART.c ****                 /* OVS settings: IrDA */
+ 141:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_CTRL_REG  = ((0u != config->enableIrdaLowPower) ?
+ 142:Generated_Source\PSoC4/GPS_UART_UART.c ****                                                 (GPS_UART_UART_GET_CTRL_OVS_IRDA_LP(config->oversam
+ 143:Generated_Source\PSoC4/GPS_UART_UART.c ****                                                 (GPS_UART_CTRL_OVS_IRDA_OVS16));
+ 144:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 4
+
+
+ 145:Generated_Source\PSoC4/GPS_UART_UART.c ****             else
+ 146:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ 147:Generated_Source\PSoC4/GPS_UART_UART.c ****                 /* OVS settings: UART and SmartCard */
+ 148:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_CTRL_REG  = GPS_UART_GET_CTRL_OVS(config->oversample);
+ 149:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ 150:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 151:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_CTRL_REG     |= GPS_UART_GET_CTRL_BYTE_MODE  (config->enableByteMode)      |
+ 152:Generated_Source\PSoC4/GPS_UART_UART.c ****                                              GPS_UART_GET_CTRL_ADDR_ACCEPT(config->multiprocAcceptA
+ 153:Generated_Source\PSoC4/GPS_UART_UART.c ****                                              GPS_UART_CTRL_UART;
+ 154:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 155:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Configure sub-mode: UART, SmartCard or IrDA */
+ 156:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_UART_CTRL_REG = GPS_UART_GET_UART_CTRL_MODE(config->mode);
+ 157:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 158:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Configure RX direction */
+ 159:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_UART_RX_CTRL_REG = GPS_UART_GET_UART_RX_CTRL_MODE(config->stopBits)           
+ 160:Generated_Source\PSoC4/GPS_UART_UART.c ****                                         GPS_UART_GET_UART_RX_CTRL_POLARITY(config->enableInvertedRx
+ 161:Generated_Source\PSoC4/GPS_UART_UART.c ****                                         GPS_UART_GET_UART_RX_CTRL_MP_MODE(config->enableMultiproc) 
+ 162:Generated_Source\PSoC4/GPS_UART_UART.c ****                                         GPS_UART_GET_UART_RX_CTRL_DROP_ON_PARITY_ERR(config->dropOn
+ 163:Generated_Source\PSoC4/GPS_UART_UART.c ****                                         GPS_UART_GET_UART_RX_CTRL_DROP_ON_FRAME_ERR(config->dropOnF
+ 164:Generated_Source\PSoC4/GPS_UART_UART.c ****                                         GPS_UART_GET_UART_RX_CTRL_BREAK_WIDTH(config->breakWidth);
+ 165:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 166:Generated_Source\PSoC4/GPS_UART_UART.c ****             if(GPS_UART_UART_PARITY_NONE != config->parity)
+ 167:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ 168:Generated_Source\PSoC4/GPS_UART_UART.c ****                GPS_UART_UART_RX_CTRL_REG |= GPS_UART_GET_UART_RX_CTRL_PARITY(config->parity) |
+ 169:Generated_Source\PSoC4/GPS_UART_UART.c ****                                                     GPS_UART_UART_RX_CTRL_PARITY_ENABLED;
+ 170:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ 171:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 172:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_RX_CTRL_REG      = GPS_UART_GET_RX_CTRL_DATA_WIDTH(config->dataBits)       |
+ 173:Generated_Source\PSoC4/GPS_UART_UART.c ****                                                 GPS_UART_GET_RX_CTRL_MEDIAN(config->enableMedianFil
+ 174:Generated_Source\PSoC4/GPS_UART_UART.c ****                                                 GPS_UART_GET_UART_RX_CTRL_ENABLED(config->direction
+ 175:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 176:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_RX_FIFO_CTRL_REG = GPS_UART_GET_RX_FIFO_CTRL_TRIGGER_LEVEL(config->rxTriggerLe
+ 177:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 178:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Configure MP address */
+ 179:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_RX_MATCH_REG     = GPS_UART_GET_RX_MATCH_ADDR(config->multiprocAddr) |
+ 180:Generated_Source\PSoC4/GPS_UART_UART.c ****                                                 GPS_UART_GET_RX_MATCH_MASK(config->multiprocAddrMas
+ 181:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 182:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Configure RX direction */
+ 183:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_UART_TX_CTRL_REG = GPS_UART_GET_UART_TX_CTRL_MODE(config->stopBits) |
+ 184:Generated_Source\PSoC4/GPS_UART_UART.c ****                                                 GPS_UART_GET_UART_TX_CTRL_RETRY_NACK(config->enable
+ 185:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 186:Generated_Source\PSoC4/GPS_UART_UART.c ****             if(GPS_UART_UART_PARITY_NONE != config->parity)
+ 187:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ 188:Generated_Source\PSoC4/GPS_UART_UART.c ****                GPS_UART_UART_TX_CTRL_REG |= GPS_UART_GET_UART_TX_CTRL_PARITY(config->parity) |
+ 189:Generated_Source\PSoC4/GPS_UART_UART.c ****                                                     GPS_UART_UART_TX_CTRL_PARITY_ENABLED;
+ 190:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ 191:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 192:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_TX_CTRL_REG      = GPS_UART_GET_TX_CTRL_DATA_WIDTH(config->dataBits)    |
+ 193:Generated_Source\PSoC4/GPS_UART_UART.c ****                                                 GPS_UART_GET_UART_TX_CTRL_ENABLED(config->direction
+ 194:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 195:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_TX_FIFO_CTRL_REG = GPS_UART_GET_TX_FIFO_CTRL_TRIGGER_LEVEL(config->txTriggerLe
+ 196:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 197:Generated_Source\PSoC4/GPS_UART_UART.c ****         #if !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1)
+ 198:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_UART_FLOW_CTRL_REG = GPS_UART_GET_UART_FLOW_CTRL_CTS_ENABLE(config->enableCts)
+ 199:Generated_Source\PSoC4/GPS_UART_UART.c ****                                             GPS_UART_GET_UART_FLOW_CTRL_CTS_POLARITY (config->ctsPo
+ 200:Generated_Source\PSoC4/GPS_UART_UART.c ****                                             GPS_UART_GET_UART_FLOW_CTRL_RTS_POLARITY (config->rtsPo
+ 201:Generated_Source\PSoC4/GPS_UART_UART.c ****                                             GPS_UART_GET_UART_FLOW_CTRL_TRIGGER_LEVEL(config->rtsRx
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 5
+
+
+ 202:Generated_Source\PSoC4/GPS_UART_UART.c ****         #endif /* !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1) */
+ 203:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 204:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Configure interrupt with UART handler but do not enable it */
+ 205:Generated_Source\PSoC4/GPS_UART_UART.c ****             CyIntDisable    (GPS_UART_ISR_NUMBER);
+ 206:Generated_Source\PSoC4/GPS_UART_UART.c ****             CyIntSetPriority(GPS_UART_ISR_NUMBER, GPS_UART_ISR_PRIORITY);
+ 207:Generated_Source\PSoC4/GPS_UART_UART.c ****             (void) CyIntSetVector(GPS_UART_ISR_NUMBER, &GPS_UART_SPI_UART_ISR);
+ 208:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 209:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Configure WAKE interrupt */
+ 210:Generated_Source\PSoC4/GPS_UART_UART.c ****         #if(GPS_UART_UART_RX_WAKEUP_IRQ)
+ 211:Generated_Source\PSoC4/GPS_UART_UART.c ****             CyIntDisable    (GPS_UART_RX_WAKE_ISR_NUMBER);
+ 212:Generated_Source\PSoC4/GPS_UART_UART.c ****             CyIntSetPriority(GPS_UART_RX_WAKE_ISR_NUMBER, GPS_UART_RX_WAKE_ISR_PRIORITY);
+ 213:Generated_Source\PSoC4/GPS_UART_UART.c ****             (void) CyIntSetVector(GPS_UART_RX_WAKE_ISR_NUMBER, &GPS_UART_UART_WAKEUP_ISR);
+ 214:Generated_Source\PSoC4/GPS_UART_UART.c ****         #endif /* (GPS_UART_UART_RX_WAKEUP_IRQ) */
+ 215:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 216:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Configure interrupt sources */
+ 217:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_INTR_I2C_EC_MASK_REG = GPS_UART_NO_INTR_SOURCES;
+ 218:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_INTR_SPI_EC_MASK_REG = GPS_UART_NO_INTR_SOURCES;
+ 219:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_INTR_SLAVE_MASK_REG  = GPS_UART_NO_INTR_SOURCES;
+ 220:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_INTR_MASTER_MASK_REG = GPS_UART_NO_INTR_SOURCES;
+ 221:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_INTR_RX_MASK_REG     = config->rxInterruptMask;
+ 222:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_INTR_TX_MASK_REG     = config->txInterruptMask;
+ 223:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 224:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Configure TX interrupt sources to restore. */
+ 225:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_IntrTxMask = LO16(GPS_UART_INTR_TX_MASK_REG);
+ 226:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 227:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Clear RX buffer indexes */
+ 228:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_rxBufferHead     = 0u;
+ 229:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_rxBufferTail     = 0u;
+ 230:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_rxBufferOverflow = 0u;
+ 231:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 232:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Clear TX buffer indexes */
+ 233:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_txBufferHead = 0u;
+ 234:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_txBufferTail = 0u;
+ 235:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 236:Generated_Source\PSoC4/GPS_UART_UART.c ****     }
+ 237:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 238:Generated_Source\PSoC4/GPS_UART_UART.c **** #else
+ 239:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 240:Generated_Source\PSoC4/GPS_UART_UART.c ****     /*******************************************************************************
+ 241:Generated_Source\PSoC4/GPS_UART_UART.c ****     * Function Name: GPS_UART_UartInit
+ 242:Generated_Source\PSoC4/GPS_UART_UART.c ****     ****************************************************************************//**
+ 243:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 244:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  Configures the SCB for the UART operation.
+ 245:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 246:Generated_Source\PSoC4/GPS_UART_UART.c ****     *******************************************************************************/
+ 247:Generated_Source\PSoC4/GPS_UART_UART.c ****     void GPS_UART_UartInit(void)
+ 248:Generated_Source\PSoC4/GPS_UART_UART.c ****     {
+  28              		.loc 1 248 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+ 249:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Configure UART interface */
+ 250:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_CTRL_REG = GPS_UART_UART_DEFAULT_CTRL;
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 6
+
+
+  36              		.loc 1 250 0
+  37 0002 1B4A     		ldr	r2, .L2
+  38 0004 1B4B     		ldr	r3, .L2+4
+  39 0006 1A60     		str	r2, [r3]
+ 251:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 252:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Configure sub-mode: UART, SmartCard or IrDA */
+ 253:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_CTRL_REG = GPS_UART_UART_DEFAULT_UART_CTRL;
+  40              		.loc 1 253 0
+  41 0008 0024     		movs	r4, #0
+  42 000a 1B4B     		ldr	r3, .L2+8
+  43 000c 1C60     		str	r4, [r3]
+ 254:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 255:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Configure RX direction */
+ 256:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_RX_CTRL_REG = GPS_UART_UART_DEFAULT_UART_RX_CTRL;
+  44              		.loc 1 256 0
+  45 000e 1B4A     		ldr	r2, .L2+12
+  46 0010 1B4B     		ldr	r3, .L2+16
+  47 0012 1A60     		str	r2, [r3]
+ 257:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_RX_CTRL_REG      = GPS_UART_UART_DEFAULT_RX_CTRL;
+  48              		.loc 1 257 0
+  49 0014 1B4B     		ldr	r3, .L2+20
+  50 0016 1C4A     		ldr	r2, .L2+24
+  51 0018 1360     		str	r3, [r2]
+ 258:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_RX_FIFO_CTRL_REG = GPS_UART_UART_DEFAULT_RX_FIFO_CTRL;
+  52              		.loc 1 258 0
+  53 001a 0721     		movs	r1, #7
+  54 001c 1B4A     		ldr	r2, .L2+28
+  55 001e 1160     		str	r1, [r2]
+ 259:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_RX_MATCH_REG     = GPS_UART_UART_DEFAULT_RX_MATCH_REG;
+  56              		.loc 1 259 0
+  57 0020 1B4A     		ldr	r2, .L2+32
+  58 0022 1460     		str	r4, [r2]
+ 260:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 261:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Configure TX direction */
+ 262:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_TX_CTRL_REG = GPS_UART_UART_DEFAULT_UART_TX_CTRL;
+  59              		.loc 1 262 0
+  60 0024 0639     		subs	r1, r1, #6
+  61 0026 1B4A     		ldr	r2, .L2+36
+  62 0028 1160     		str	r1, [r2]
+ 263:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_TX_CTRL_REG      = GPS_UART_UART_DEFAULT_TX_CTRL;
+  63              		.loc 1 263 0
+  64 002a 1B4A     		ldr	r2, .L2+40
+  65 002c 1360     		str	r3, [r2]
+ 264:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_TX_FIFO_CTRL_REG = GPS_UART_UART_DEFAULT_TX_FIFO_CTRL;
+  66              		.loc 1 264 0
+  67 002e 1B4B     		ldr	r3, .L2+44
+  68 0030 1C60     		str	r4, [r3]
+ 265:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 266:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1)
+ 267:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UART_FLOW_CTRL_REG = GPS_UART_UART_DEFAULT_FLOW_CTRL;
+  69              		.loc 1 267 0
+  70 0032 0422     		movs	r2, #4
+  71 0034 1A4B     		ldr	r3, .L2+48
+  72 0036 1A60     		str	r2, [r3]
+ 268:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1) */
+ 269:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 270:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Configure interrupt with UART handler but do not enable it */
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 7
+
+
+ 271:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if(GPS_UART_SCB_IRQ_INTERNAL)
+ 272:Generated_Source\PSoC4/GPS_UART_UART.c ****         CyIntDisable    (GPS_UART_ISR_NUMBER);
+  73              		.loc 1 272 0
+  74 0038 0A20     		movs	r0, #10
+  75 003a FFF7FEFF 		bl	CyIntDisable
+  76              	.LVL0:
+ 273:Generated_Source\PSoC4/GPS_UART_UART.c ****         CyIntSetPriority(GPS_UART_ISR_NUMBER, GPS_UART_ISR_PRIORITY);
+  77              		.loc 1 273 0
+  78 003e 0321     		movs	r1, #3
+  79 0040 0A20     		movs	r0, #10
+  80 0042 FFF7FEFF 		bl	CyIntSetPriority
+  81              	.LVL1:
+ 274:Generated_Source\PSoC4/GPS_UART_UART.c ****         (void) CyIntSetVector(GPS_UART_ISR_NUMBER, &GPS_UART_SPI_UART_ISR);
+  82              		.loc 1 274 0
+  83 0046 1749     		ldr	r1, .L2+52
+  84 0048 0A20     		movs	r0, #10
+  85 004a FFF7FEFF 		bl	CyIntSetVector
+  86              	.LVL2:
+ 275:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* (GPS_UART_SCB_IRQ_INTERNAL) */
+ 276:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 277:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Configure WAKE interrupt */
+ 278:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if(GPS_UART_UART_RX_WAKEUP_IRQ)
+ 279:Generated_Source\PSoC4/GPS_UART_UART.c ****         CyIntDisable    (GPS_UART_RX_WAKE_ISR_NUMBER);
+ 280:Generated_Source\PSoC4/GPS_UART_UART.c ****         CyIntSetPriority(GPS_UART_RX_WAKE_ISR_NUMBER, GPS_UART_RX_WAKE_ISR_PRIORITY);
+ 281:Generated_Source\PSoC4/GPS_UART_UART.c ****         (void) CyIntSetVector(GPS_UART_RX_WAKE_ISR_NUMBER, &GPS_UART_UART_WAKEUP_ISR);
+ 282:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* (GPS_UART_UART_RX_WAKEUP_IRQ) */
+ 283:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 284:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Configure interrupt sources */
+ 285:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_INTR_I2C_EC_MASK_REG = GPS_UART_UART_DEFAULT_INTR_I2C_EC_MASK;
+  87              		.loc 1 285 0
+  88 004e 164B     		ldr	r3, .L2+56
+  89 0050 1C60     		str	r4, [r3]
+ 286:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_INTR_SPI_EC_MASK_REG = GPS_UART_UART_DEFAULT_INTR_SPI_EC_MASK;
+  90              		.loc 1 286 0
+  91 0052 164B     		ldr	r3, .L2+60
+  92 0054 1C60     		str	r4, [r3]
+ 287:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_INTR_SLAVE_MASK_REG  = GPS_UART_UART_DEFAULT_INTR_SLAVE_MASK;
+  93              		.loc 1 287 0
+  94 0056 164B     		ldr	r3, .L2+64
+  95 0058 1C60     		str	r4, [r3]
+ 288:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_INTR_MASTER_MASK_REG = GPS_UART_UART_DEFAULT_INTR_MASTER_MASK;
+  96              		.loc 1 288 0
+  97 005a 164B     		ldr	r3, .L2+68
+  98 005c 1C60     		str	r4, [r3]
+ 289:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_INTR_RX_MASK_REG     = GPS_UART_UART_DEFAULT_INTR_RX_MASK;
+  99              		.loc 1 289 0
+ 100 005e 164B     		ldr	r3, .L2+72
+ 101 0060 1C60     		str	r4, [r3]
+ 290:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_INTR_TX_MASK_REG     = GPS_UART_UART_DEFAULT_INTR_TX_MASK;
+ 102              		.loc 1 290 0
+ 103 0062 164B     		ldr	r3, .L2+76
+ 104 0064 1C60     		str	r4, [r3]
+ 291:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 292:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Configure TX interrupt sources to restore. */
+ 293:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_IntrTxMask = LO16(GPS_UART_INTR_TX_MASK_REG);
+ 105              		.loc 1 293 0
+ 106 0066 1A68     		ldr	r2, [r3]
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 8
+
+
+ 107 0068 154B     		ldr	r3, .L2+80
+ 108 006a 1A80     		strh	r2, [r3]
+ 294:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 295:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if(GPS_UART_INTERNAL_RX_SW_BUFFER_CONST)
+ 296:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_rxBufferHead     = 0u;
+ 297:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_rxBufferTail     = 0u;
+ 298:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_rxBufferOverflow = 0u;
+ 299:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* (GPS_UART_INTERNAL_RX_SW_BUFFER_CONST) */
+ 300:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 301:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if(GPS_UART_INTERNAL_TX_SW_BUFFER_CONST)
+ 302:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_txBufferHead = 0u;
+ 303:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_txBufferTail = 0u;
+ 304:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* (GPS_UART_INTERNAL_TX_SW_BUFFER_CONST) */
+ 305:Generated_Source\PSoC4/GPS_UART_UART.c ****     }
+ 109              		.loc 1 305 0
+ 110              		@ sp needed
+ 111 006c 10BD     		pop	{r4, pc}
+ 112              	.L3:
+ 113 006e C046     		.align	2
+ 114              	.L2:
+ 115 0070 0B000002 		.word	33554443
+ 116 0074 00002540 		.word	1076166656
+ 117 0078 40002540 		.word	1076166720
+ 118 007c 01000A00 		.word	655361
+ 119 0080 48002540 		.word	1076166728
+ 120 0084 07000080 		.word	-2147483641
+ 121 0088 00032540 		.word	1076167424
+ 122 008c 04032540 		.word	1076167428
+ 123 0090 10032540 		.word	1076167440
+ 124 0094 44002540 		.word	1076166724
+ 125 0098 00022540 		.word	1076167168
+ 126 009c 04022540 		.word	1076167172
+ 127 00a0 50002540 		.word	1076166736
+ 128 00a4 00000000 		.word	GPS_UART_SPI_UART_ISR
+ 129 00a8 880E2540 		.word	1076170376
+ 130 00ac C80E2540 		.word	1076170440
+ 131 00b0 480F2540 		.word	1076170568
+ 132 00b4 080F2540 		.word	1076170504
+ 133 00b8 C80F2540 		.word	1076170696
+ 134 00bc 880F2540 		.word	1076170632
+ 135 00c0 00000000 		.word	GPS_UART_IntrTxMask
+ 136              		.cfi_endproc
+ 137              	.LFE1:
+ 138              		.size	GPS_UART_UartInit, .-GPS_UART_UartInit
+ 139              		.section	.text.GPS_UART_UartPostEnable,"ax",%progbits
+ 140              		.align	2
+ 141              		.global	GPS_UART_UartPostEnable
+ 142              		.code	16
+ 143              		.thumb_func
+ 144              		.type	GPS_UART_UartPostEnable, %function
+ 145              	GPS_UART_UartPostEnable:
+ 146              	.LFB2:
+ 306:Generated_Source\PSoC4/GPS_UART_UART.c **** #endif /* (GPS_UART_SCB_MODE_UNCONFIG_CONST_CFG) */
+ 307:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 308:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 309:Generated_Source\PSoC4/GPS_UART_UART.c **** /*******************************************************************************
+ 310:Generated_Source\PSoC4/GPS_UART_UART.c **** * Function Name: GPS_UART_UartPostEnable
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 9
+
+
+ 311:Generated_Source\PSoC4/GPS_UART_UART.c **** ****************************************************************************//**
+ 312:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+ 313:Generated_Source\PSoC4/GPS_UART_UART.c **** *  Restores HSIOM settings for the UART output pins (TX and/or RTS) to be
+ 314:Generated_Source\PSoC4/GPS_UART_UART.c **** *  controlled by the SCB UART.
+ 315:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+ 316:Generated_Source\PSoC4/GPS_UART_UART.c **** *******************************************************************************/
+ 317:Generated_Source\PSoC4/GPS_UART_UART.c **** void GPS_UART_UartPostEnable(void)
+ 318:Generated_Source\PSoC4/GPS_UART_UART.c **** {
+ 147              		.loc 1 318 0
+ 148              		.cfi_startproc
+ 149              		@ args = 0, pretend = 0, frame = 0
+ 150              		@ frame_needed = 0, uses_anonymous_args = 0
+ 151              		@ link register save eliminated.
+ 319:Generated_Source\PSoC4/GPS_UART_UART.c **** #if (GPS_UART_SCB_MODE_UNCONFIG_CONST_CFG)
+ 320:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if (GPS_UART_TX_SDA_MISO_PIN)
+ 321:Generated_Source\PSoC4/GPS_UART_UART.c ****         if (GPS_UART_CHECK_TX_SDA_MISO_PIN_USED)
+ 322:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 323:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Set SCB UART to drive the output pin */
+ 324:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_SET_HSIOM_SEL(GPS_UART_TX_SDA_MISO_HSIOM_REG, GPS_UART_TX_SDA_MISO_HSIOM_MASK,
+ 325:Generated_Source\PSoC4/GPS_UART_UART.c ****                                            GPS_UART_TX_SDA_MISO_HSIOM_POS, GPS_UART_TX_SDA_MISO_HSI
+ 326:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 327:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* (GPS_UART_TX_SDA_MISO_PIN_PIN) */
+ 328:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 329:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1)
+ 330:Generated_Source\PSoC4/GPS_UART_UART.c ****         #if (GPS_UART_RTS_SS0_PIN)
+ 331:Generated_Source\PSoC4/GPS_UART_UART.c ****             if (GPS_UART_CHECK_RTS_SS0_PIN_USED)
+ 332:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ 333:Generated_Source\PSoC4/GPS_UART_UART.c ****                 /* Set SCB UART to drive the output pin */
+ 334:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_SET_HSIOM_SEL(GPS_UART_RTS_SS0_HSIOM_REG, GPS_UART_RTS_SS0_HSIOM_MASK,
+ 335:Generated_Source\PSoC4/GPS_UART_UART.c ****                                                GPS_UART_RTS_SS0_HSIOM_POS, GPS_UART_RTS_SS0_HSIOM_S
+ 336:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ 337:Generated_Source\PSoC4/GPS_UART_UART.c ****         #endif /* (GPS_UART_RTS_SS0_PIN) */
+ 338:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1) */
+ 339:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 340:Generated_Source\PSoC4/GPS_UART_UART.c **** #else
+ 341:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if (GPS_UART_UART_TX_PIN)
+ 342:Generated_Source\PSoC4/GPS_UART_UART.c ****          /* Set SCB UART to drive the output pin */
+ 343:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_SET_HSIOM_SEL(GPS_UART_TX_HSIOM_REG, GPS_UART_TX_HSIOM_MASK,
+ 152              		.loc 1 343 0
+ 153 0000 0549     		ldr	r1, .L5
+ 154 0002 0B68     		ldr	r3, [r1]
+ 155 0004 F022     		movs	r2, #240
+ 156 0006 9343     		bics	r3, r2
+ 157 0008 603A     		subs	r2, r2, #96
+ 158 000a 1343     		orrs	r3, r2
+ 159 000c 0B60     		str	r3, [r1]
+ 344:Generated_Source\PSoC4/GPS_UART_UART.c ****                                        GPS_UART_TX_HSIOM_POS, GPS_UART_TX_HSIOM_SEL_UART);
+ 345:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* (GPS_UART_UART_TX_PIN) */
+ 346:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 347:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if (GPS_UART_UART_RTS_PIN)
+ 348:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Set SCB UART to drive the output pin */
+ 349:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_SET_HSIOM_SEL(GPS_UART_RTS_HSIOM_REG, GPS_UART_RTS_HSIOM_MASK,
+ 350:Generated_Source\PSoC4/GPS_UART_UART.c ****                                        GPS_UART_RTS_HSIOM_POS, GPS_UART_RTS_HSIOM_SEL_UART);
+ 351:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* (GPS_UART_UART_RTS_PIN) */
+ 352:Generated_Source\PSoC4/GPS_UART_UART.c **** #endif /* (GPS_UART_SCB_MODE_UNCONFIG_CONST_CFG) */
+ 353:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 354:Generated_Source\PSoC4/GPS_UART_UART.c ****     /* Restore TX interrupt sources. */
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 10
+
+
+ 355:Generated_Source\PSoC4/GPS_UART_UART.c ****     GPS_UART_SetTxInterruptMode(GPS_UART_IntrTxMask);
+ 160              		.loc 1 355 0
+ 161 000e 034B     		ldr	r3, .L5+4
+ 162 0010 1A88     		ldrh	r2, [r3]
+ 163 0012 034B     		ldr	r3, .L5+8
+ 164 0014 1A60     		str	r2, [r3]
+ 356:Generated_Source\PSoC4/GPS_UART_UART.c **** }
+ 165              		.loc 1 356 0
+ 166              		@ sp needed
+ 167 0016 7047     		bx	lr
+ 168              	.L6:
+ 169              		.align	2
+ 170              	.L5:
+ 171 0018 00020240 		.word	1073873408
+ 172 001c 00000000 		.word	GPS_UART_IntrTxMask
+ 173 0020 880F2540 		.word	1076170632
+ 174              		.cfi_endproc
+ 175              	.LFE2:
+ 176              		.size	GPS_UART_UartPostEnable, .-GPS_UART_UartPostEnable
+ 177              		.section	.text.GPS_UART_UartStop,"ax",%progbits
+ 178              		.align	2
+ 179              		.global	GPS_UART_UartStop
+ 180              		.code	16
+ 181              		.thumb_func
+ 182              		.type	GPS_UART_UartStop, %function
+ 183              	GPS_UART_UartStop:
+ 184              	.LFB3:
+ 357:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 358:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 359:Generated_Source\PSoC4/GPS_UART_UART.c **** /*******************************************************************************
+ 360:Generated_Source\PSoC4/GPS_UART_UART.c **** * Function Name: GPS_UART_UartStop
+ 361:Generated_Source\PSoC4/GPS_UART_UART.c **** ****************************************************************************//**
+ 362:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+ 363:Generated_Source\PSoC4/GPS_UART_UART.c **** *  Changes the HSIOM settings for the UART output pins (TX and/or RTS) to keep
+ 364:Generated_Source\PSoC4/GPS_UART_UART.c **** *  them inactive after the block is disabled. The output pins are controlled by
+ 365:Generated_Source\PSoC4/GPS_UART_UART.c **** *  the GPIO data register. Also, the function disables the skip start feature
+ 366:Generated_Source\PSoC4/GPS_UART_UART.c **** *  to not cause it to trigger after the component is enabled.
+ 367:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+ 368:Generated_Source\PSoC4/GPS_UART_UART.c **** *******************************************************************************/
+ 369:Generated_Source\PSoC4/GPS_UART_UART.c **** void GPS_UART_UartStop(void)
+ 370:Generated_Source\PSoC4/GPS_UART_UART.c **** {
+ 185              		.loc 1 370 0
+ 186              		.cfi_startproc
+ 187              		@ args = 0, pretend = 0, frame = 0
+ 188              		@ frame_needed = 0, uses_anonymous_args = 0
+ 189              		@ link register save eliminated.
+ 371:Generated_Source\PSoC4/GPS_UART_UART.c **** #if(GPS_UART_SCB_MODE_UNCONFIG_CONST_CFG)
+ 372:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if (GPS_UART_TX_SDA_MISO_PIN)
+ 373:Generated_Source\PSoC4/GPS_UART_UART.c ****         if (GPS_UART_CHECK_TX_SDA_MISO_PIN_USED)
+ 374:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 375:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Set GPIO to drive output pin */
+ 376:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_SET_HSIOM_SEL(GPS_UART_TX_SDA_MISO_HSIOM_REG, GPS_UART_TX_SDA_MISO_HSIOM_MASK,
+ 377:Generated_Source\PSoC4/GPS_UART_UART.c ****                                            GPS_UART_TX_SDA_MISO_HSIOM_POS, GPS_UART_TX_SDA_MISO_HSI
+ 378:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 379:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* (GPS_UART_TX_SDA_MISO_PIN_PIN) */
+ 380:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 381:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1)
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 11
+
+
+ 382:Generated_Source\PSoC4/GPS_UART_UART.c ****         #if (GPS_UART_RTS_SS0_PIN)
+ 383:Generated_Source\PSoC4/GPS_UART_UART.c ****             if (GPS_UART_CHECK_RTS_SS0_PIN_USED)
+ 384:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ 385:Generated_Source\PSoC4/GPS_UART_UART.c ****                 /* Set output pin state after block is disabled */
+ 386:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_uart_rts_spi_ss0_Write(GPS_UART_GET_UART_RTS_INACTIVE);
+ 387:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 388:Generated_Source\PSoC4/GPS_UART_UART.c ****                 /* Set GPIO to drive output pin */
+ 389:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_SET_HSIOM_SEL(GPS_UART_RTS_SS0_HSIOM_REG, GPS_UART_RTS_SS0_HSIOM_MASK,
+ 390:Generated_Source\PSoC4/GPS_UART_UART.c ****                                                GPS_UART_RTS_SS0_HSIOM_POS, GPS_UART_RTS_SS0_HSIOM_S
+ 391:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ 392:Generated_Source\PSoC4/GPS_UART_UART.c ****         #endif /* (GPS_UART_RTS_SS0_PIN) */
+ 393:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1) */
+ 394:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 395:Generated_Source\PSoC4/GPS_UART_UART.c **** #else
+ 396:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if (GPS_UART_UART_TX_PIN)
+ 397:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Set GPIO to drive output pin */
+ 398:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_SET_HSIOM_SEL(GPS_UART_TX_HSIOM_REG, GPS_UART_TX_HSIOM_MASK,
+ 190              		.loc 1 398 0
+ 191 0000 064A     		ldr	r2, .L8
+ 192 0002 1368     		ldr	r3, [r2]
+ 193 0004 F021     		movs	r1, #240
+ 194 0006 8B43     		bics	r3, r1
+ 195 0008 1360     		str	r3, [r2]
+ 399:Generated_Source\PSoC4/GPS_UART_UART.c ****                                        GPS_UART_TX_HSIOM_POS, GPS_UART_TX_HSIOM_SEL_GPIO);
+ 400:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* (GPS_UART_UART_TX_PIN) */
+ 401:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 402:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if (GPS_UART_UART_RTS_PIN)
+ 403:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Set output pin state after block is disabled */
+ 404:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_rts_Write(GPS_UART_GET_UART_RTS_INACTIVE);
+ 405:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 406:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Set GPIO to drive output pin */
+ 407:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_SET_HSIOM_SEL(GPS_UART_RTS_HSIOM_REG, GPS_UART_RTS_HSIOM_MASK,
+ 408:Generated_Source\PSoC4/GPS_UART_UART.c ****                                        GPS_UART_RTS_HSIOM_POS, GPS_UART_RTS_HSIOM_SEL_GPIO);
+ 409:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* (GPS_UART_UART_RTS_PIN) */
+ 410:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 411:Generated_Source\PSoC4/GPS_UART_UART.c **** #endif /* (GPS_UART_SCB_MODE_UNCONFIG_CONST_CFG) */
+ 412:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 413:Generated_Source\PSoC4/GPS_UART_UART.c **** #if (GPS_UART_UART_WAKE_ENABLE_CONST)
+ 414:Generated_Source\PSoC4/GPS_UART_UART.c ****     /* Disable skip start feature used for wakeup */
+ 415:Generated_Source\PSoC4/GPS_UART_UART.c ****     GPS_UART_UART_RX_CTRL_REG &= (uint32) ~GPS_UART_UART_RX_CTRL_SKIP_START;
+ 416:Generated_Source\PSoC4/GPS_UART_UART.c **** #endif /* (GPS_UART_UART_WAKE_ENABLE_CONST) */
+ 417:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 418:Generated_Source\PSoC4/GPS_UART_UART.c ****     /* Store TX interrupt sources (exclude level triggered). */
+ 419:Generated_Source\PSoC4/GPS_UART_UART.c ****     GPS_UART_IntrTxMask = LO16(GPS_UART_GetTxInterruptMode() & GPS_UART_INTR_UART_TX_RESTORE);
+ 196              		.loc 1 419 0
+ 197 000a 054B     		ldr	r3, .L8+4
+ 198 000c 1A68     		ldr	r2, [r3]
+ 199 000e E423     		movs	r3, #228
+ 200 0010 DB00     		lsls	r3, r3, #3
+ 201 0012 1340     		ands	r3, r2
+ 202 0014 034A     		ldr	r2, .L8+8
+ 203 0016 1380     		strh	r3, [r2]
+ 420:Generated_Source\PSoC4/GPS_UART_UART.c **** }
+ 204              		.loc 1 420 0
+ 205              		@ sp needed
+ 206 0018 7047     		bx	lr
+ 207              	.L9:
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 12
+
+
+ 208 001a C046     		.align	2
+ 209              	.L8:
+ 210 001c 00020240 		.word	1073873408
+ 211 0020 880F2540 		.word	1076170632
+ 212 0024 00000000 		.word	GPS_UART_IntrTxMask
+ 213              		.cfi_endproc
+ 214              	.LFE3:
+ 215              		.size	GPS_UART_UartStop, .-GPS_UART_UartStop
+ 216              		.section	.text.GPS_UART_UartSetRxAddress,"ax",%progbits
+ 217              		.align	2
+ 218              		.global	GPS_UART_UartSetRxAddress
+ 219              		.code	16
+ 220              		.thumb_func
+ 221              		.type	GPS_UART_UartSetRxAddress, %function
+ 222              	GPS_UART_UartSetRxAddress:
+ 223              	.LFB4:
+ 421:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 422:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 423:Generated_Source\PSoC4/GPS_UART_UART.c **** /*******************************************************************************
+ 424:Generated_Source\PSoC4/GPS_UART_UART.c **** * Function Name: GPS_UART_UartSetRxAddress
+ 425:Generated_Source\PSoC4/GPS_UART_UART.c **** ****************************************************************************//**
+ 426:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+ 427:Generated_Source\PSoC4/GPS_UART_UART.c **** *  Sets the hardware detectable receiver address for the UART in the
+ 428:Generated_Source\PSoC4/GPS_UART_UART.c **** *  Multiprocessor mode.
+ 429:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+ 430:Generated_Source\PSoC4/GPS_UART_UART.c **** *  \param address: Address for hardware address detection.
+ 431:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+ 432:Generated_Source\PSoC4/GPS_UART_UART.c **** *******************************************************************************/
+ 433:Generated_Source\PSoC4/GPS_UART_UART.c **** void GPS_UART_UartSetRxAddress(uint32 address)
+ 434:Generated_Source\PSoC4/GPS_UART_UART.c **** {
+ 224              		.loc 1 434 0
+ 225              		.cfi_startproc
+ 226              		@ args = 0, pretend = 0, frame = 0
+ 227              		@ frame_needed = 0, uses_anonymous_args = 0
+ 228              		@ link register save eliminated.
+ 229              	.LVL3:
+ 435:Generated_Source\PSoC4/GPS_UART_UART.c ****      uint32 matchReg;
+ 436:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 437:Generated_Source\PSoC4/GPS_UART_UART.c ****     matchReg = GPS_UART_RX_MATCH_REG;
+ 230              		.loc 1 437 0
+ 231 0000 034A     		ldr	r2, .L11
+ 232 0002 1368     		ldr	r3, [r2]
+ 233              	.LVL4:
+ 438:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 439:Generated_Source\PSoC4/GPS_UART_UART.c ****     matchReg &= ((uint32) ~GPS_UART_RX_MATCH_ADDR_MASK); /* Clear address bits */
+ 234              		.loc 1 439 0
+ 235 0004 FF21     		movs	r1, #255
+ 236 0006 8B43     		bics	r3, r1
+ 237              	.LVL5:
+ 440:Generated_Source\PSoC4/GPS_UART_UART.c ****     matchReg |= ((uint32)  (address & GPS_UART_RX_MATCH_ADDR_MASK)); /* Set address  */
+ 238              		.loc 1 440 0
+ 239 0008 0840     		ands	r0, r1
+ 240              	.LVL6:
+ 241 000a 1843     		orrs	r0, r3
+ 242              	.LVL7:
+ 441:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 442:Generated_Source\PSoC4/GPS_UART_UART.c ****     GPS_UART_RX_MATCH_REG = matchReg;
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 13
+
+
+ 243              		.loc 1 442 0
+ 244 000c 1060     		str	r0, [r2]
+ 443:Generated_Source\PSoC4/GPS_UART_UART.c **** }
+ 245              		.loc 1 443 0
+ 246              		@ sp needed
+ 247 000e 7047     		bx	lr
+ 248              	.L12:
+ 249              		.align	2
+ 250              	.L11:
+ 251 0010 10032540 		.word	1076167440
+ 252              		.cfi_endproc
+ 253              	.LFE4:
+ 254              		.size	GPS_UART_UartSetRxAddress, .-GPS_UART_UartSetRxAddress
+ 255              		.section	.text.GPS_UART_UartSetRxAddressMask,"ax",%progbits
+ 256              		.align	2
+ 257              		.global	GPS_UART_UartSetRxAddressMask
+ 258              		.code	16
+ 259              		.thumb_func
+ 260              		.type	GPS_UART_UartSetRxAddressMask, %function
+ 261              	GPS_UART_UartSetRxAddressMask:
+ 262              	.LFB5:
+ 444:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 445:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 446:Generated_Source\PSoC4/GPS_UART_UART.c **** /*******************************************************************************
+ 447:Generated_Source\PSoC4/GPS_UART_UART.c **** * Function Name: GPS_UART_UartSetRxAddressMask
+ 448:Generated_Source\PSoC4/GPS_UART_UART.c **** ****************************************************************************//**
+ 449:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+ 450:Generated_Source\PSoC4/GPS_UART_UART.c **** *  Sets the hardware address mask for the UART in the Multiprocessor mode.
+ 451:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+ 452:Generated_Source\PSoC4/GPS_UART_UART.c **** *  \param addressMask: Address mask.
+ 453:Generated_Source\PSoC4/GPS_UART_UART.c **** *   - Bit value 0 – excludes bit from address comparison.
+ 454:Generated_Source\PSoC4/GPS_UART_UART.c **** *   - Bit value 1 – the bit needs to match with the corresponding bit
+ 455:Generated_Source\PSoC4/GPS_UART_UART.c **** *     of the address.
+ 456:Generated_Source\PSoC4/GPS_UART_UART.c **** *
+ 457:Generated_Source\PSoC4/GPS_UART_UART.c **** *******************************************************************************/
+ 458:Generated_Source\PSoC4/GPS_UART_UART.c **** void GPS_UART_UartSetRxAddressMask(uint32 addressMask)
+ 459:Generated_Source\PSoC4/GPS_UART_UART.c **** {
+ 263              		.loc 1 459 0
+ 264              		.cfi_startproc
+ 265              		@ args = 0, pretend = 0, frame = 0
+ 266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 267              		@ link register save eliminated.
+ 268              	.LVL8:
+ 460:Generated_Source\PSoC4/GPS_UART_UART.c ****     uint32 matchReg;
+ 461:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 462:Generated_Source\PSoC4/GPS_UART_UART.c ****     matchReg = GPS_UART_RX_MATCH_REG;
+ 269              		.loc 1 462 0
+ 270 0000 034A     		ldr	r2, .L14
+ 271 0002 1168     		ldr	r1, [r2]
+ 272              	.LVL9:
+ 463:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 464:Generated_Source\PSoC4/GPS_UART_UART.c ****     matchReg &= ((uint32) ~GPS_UART_RX_MATCH_MASK_MASK); /* Clear address mask bits */
+ 273              		.loc 1 464 0
+ 274 0004 034B     		ldr	r3, .L14+4
+ 275 0006 0B40     		ands	r3, r1
+ 276              	.LVL10:
+ 465:Generated_Source\PSoC4/GPS_UART_UART.c ****     matchReg |= ((uint32) (addressMask << GPS_UART_RX_MATCH_MASK_POS));
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 14
+
+
+ 277              		.loc 1 465 0
+ 278 0008 0004     		lsls	r0, r0, #16
+ 279              	.LVL11:
+ 280 000a 1843     		orrs	r0, r3
+ 281              	.LVL12:
+ 466:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 467:Generated_Source\PSoC4/GPS_UART_UART.c ****     GPS_UART_RX_MATCH_REG = matchReg;
+ 282              		.loc 1 467 0
+ 283 000c 1060     		str	r0, [r2]
+ 468:Generated_Source\PSoC4/GPS_UART_UART.c **** }
+ 284              		.loc 1 468 0
+ 285              		@ sp needed
+ 286 000e 7047     		bx	lr
+ 287              	.L15:
+ 288              		.align	2
+ 289              	.L14:
+ 290 0010 10032540 		.word	1076167440
+ 291 0014 FFFF00FF 		.word	-16711681
+ 292              		.cfi_endproc
+ 293              	.LFE5:
+ 294              		.size	GPS_UART_UartSetRxAddressMask, .-GPS_UART_UartSetRxAddressMask
+ 295              		.section	.text.GPS_UART_UartGetChar,"ax",%progbits
+ 296              		.align	2
+ 297              		.global	GPS_UART_UartGetChar
+ 298              		.code	16
+ 299              		.thumb_func
+ 300              		.type	GPS_UART_UartGetChar, %function
+ 301              	GPS_UART_UartGetChar:
+ 302              	.LFB6:
+ 469:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 470:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 471:Generated_Source\PSoC4/GPS_UART_UART.c **** #if(GPS_UART_UART_RX_DIRECTION)
+ 472:Generated_Source\PSoC4/GPS_UART_UART.c ****     /*******************************************************************************
+ 473:Generated_Source\PSoC4/GPS_UART_UART.c ****     * Function Name: GPS_UART_UartGetChar
+ 474:Generated_Source\PSoC4/GPS_UART_UART.c ****     ****************************************************************************//**
+ 475:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 476:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  Retrieves next data element from receive buffer.
+ 477:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  This function is designed for ASCII characters and returns a char where
+ 478:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  1 to 255 are valid characters and 0 indicates an error occurred or no data
+ 479:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  is present.
+ 480:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  - RX software buffer is disabled: Returns data element retrieved from RX
+ 481:Generated_Source\PSoC4/GPS_UART_UART.c ****     *    FIFO.
+ 482:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  - RX software buffer is enabled: Returns data element from the software
+ 483:Generated_Source\PSoC4/GPS_UART_UART.c ****     *    receive buffer.
+ 484:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 485:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  \return
+ 486:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   Next data element from the receive buffer. ASCII character values from
+ 487:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   1 to 255 are valid. A returned zero signifies an error condition or no
+ 488:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   data available.
+ 489:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 490:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  \sideeffect
+ 491:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   The errors bits may not correspond with reading characters due to
+ 492:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   RX FIFO and software buffer usage.
+ 493:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   RX software buffer is enabled: The internal software buffer overflow
+ 494:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   is not treated as an error condition.
+ 495:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   Check GPS_UART_rxBufferOverflow to capture that error condition.
+ 496:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 15
+
+
+ 497:Generated_Source\PSoC4/GPS_UART_UART.c ****     *******************************************************************************/
+ 498:Generated_Source\PSoC4/GPS_UART_UART.c ****     uint32 GPS_UART_UartGetChar(void)
+ 499:Generated_Source\PSoC4/GPS_UART_UART.c ****     {
+ 303              		.loc 1 499 0
+ 304              		.cfi_startproc
+ 305              		@ args = 0, pretend = 0, frame = 0
+ 306              		@ frame_needed = 0, uses_anonymous_args = 0
+ 307 0000 10B5     		push	{r4, lr}
+ 308              		.cfi_def_cfa_offset 8
+ 309              		.cfi_offset 4, -8
+ 310              		.cfi_offset 14, -4
+ 311              	.LVL13:
+ 500:Generated_Source\PSoC4/GPS_UART_UART.c ****         uint32 rxData = 0u;
+ 501:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 502:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Reads data only if there is data to read */
+ 503:Generated_Source\PSoC4/GPS_UART_UART.c ****         if (0u != GPS_UART_SpiUartGetRxBufferSize())
+ 312              		.loc 1 503 0
+ 313 0002 FFF7FEFF 		bl	GPS_UART_SpiUartGetRxBufferSize
+ 314              	.LVL14:
+ 315 0006 0028     		cmp	r0, #0
+ 316 0008 02D0     		beq	.L19
+ 504:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 505:Generated_Source\PSoC4/GPS_UART_UART.c ****             rxData = GPS_UART_SpiUartReadRxData();
+ 317              		.loc 1 505 0
+ 318 000a FFF7FEFF 		bl	GPS_UART_SpiUartReadRxData
+ 319              	.LVL15:
+ 320 000e 00E0     		b	.L17
+ 321              	.LVL16:
+ 322              	.L19:
+ 500:Generated_Source\PSoC4/GPS_UART_UART.c ****         uint32 rxData = 0u;
+ 323              		.loc 1 500 0
+ 324 0010 0020     		movs	r0, #0
+ 325              	.LVL17:
+ 326              	.L17:
+ 506:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 507:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 508:Generated_Source\PSoC4/GPS_UART_UART.c ****         if (GPS_UART_CHECK_INTR_RX(GPS_UART_INTR_RX_ERR))
+ 327              		.loc 1 508 0
+ 328 0012 054B     		ldr	r3, .L20
+ 329 0014 1A68     		ldr	r2, [r3]
+ 330 0016 D823     		movs	r3, #216
+ 331 0018 9B00     		lsls	r3, r3, #2
+ 332 001a 1A42     		tst	r2, r3
+ 333 001c 03D0     		beq	.L18
+ 334              	.LVL18:
+ 509:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 510:Generated_Source\PSoC4/GPS_UART_UART.c ****             rxData = 0u; /* Error occurred: returns zero */
+ 511:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_ClearRxInterruptSource(GPS_UART_INTR_RX_ERR);
+ 335              		.loc 1 511 0
+ 336 001e 1A00     		movs	r2, r3
+ 337 0020 014B     		ldr	r3, .L20
+ 338 0022 1A60     		str	r2, [r3]
+ 510:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_ClearRxInterruptSource(GPS_UART_INTR_RX_ERR);
+ 339              		.loc 1 510 0
+ 340 0024 0020     		movs	r0, #0
+ 341              	.LVL19:
+ 342              	.L18:
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 16
+
+
+ 512:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 513:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 514:Generated_Source\PSoC4/GPS_UART_UART.c ****         return (rxData);
+ 515:Generated_Source\PSoC4/GPS_UART_UART.c ****     }
+ 343              		.loc 1 515 0
+ 344              		@ sp needed
+ 345 0026 10BD     		pop	{r4, pc}
+ 346              	.L21:
+ 347              		.align	2
+ 348              	.L20:
+ 349 0028 C00F2540 		.word	1076170688
+ 350              		.cfi_endproc
+ 351              	.LFE6:
+ 352              		.size	GPS_UART_UartGetChar, .-GPS_UART_UartGetChar
+ 353              		.section	.text.GPS_UART_UartGetByte,"ax",%progbits
+ 354              		.align	2
+ 355              		.global	GPS_UART_UartGetByte
+ 356              		.code	16
+ 357              		.thumb_func
+ 358              		.type	GPS_UART_UartGetByte, %function
+ 359              	GPS_UART_UartGetByte:
+ 360              	.LFB7:
+ 516:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 517:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 518:Generated_Source\PSoC4/GPS_UART_UART.c ****     /*******************************************************************************
+ 519:Generated_Source\PSoC4/GPS_UART_UART.c ****     * Function Name: GPS_UART_UartGetByte
+ 520:Generated_Source\PSoC4/GPS_UART_UART.c ****     ****************************************************************************//**
+ 521:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 522:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  Retrieves the next data element from the receive buffer, returns the
+ 523:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  received byte and error condition.
+ 524:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   - The RX software buffer is disabled: returns the data element retrieved
+ 525:Generated_Source\PSoC4/GPS_UART_UART.c ****     *     from the RX FIFO. Undefined data will be returned if the RX FIFO is
+ 526:Generated_Source\PSoC4/GPS_UART_UART.c ****     *     empty.
+ 527:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   - The RX software buffer is enabled: returns data element from the
+ 528:Generated_Source\PSoC4/GPS_UART_UART.c ****     *     software receive buffer.
+ 529:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 530:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  \return
+ 531:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   Bits 7-0 contain the next data element from the receive buffer and
+ 532:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   other bits contain the error condition.
+ 533:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   - GPS_UART_UART_RX_OVERFLOW - Attempt to write to a full
+ 534:Generated_Source\PSoC4/GPS_UART_UART.c ****     *     receiver FIFO.
+ 535:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   - GPS_UART_UART_RX_UNDERFLOW    Attempt to read from an empty
+ 536:Generated_Source\PSoC4/GPS_UART_UART.c ****     *     receiver FIFO.
+ 537:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   - GPS_UART_UART_RX_FRAME_ERROR - UART framing error detected.
+ 538:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   - GPS_UART_UART_RX_PARITY_ERROR - UART parity error detected.
+ 539:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 540:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  \sideeffect
+ 541:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   The errors bits may not correspond with reading characters due to
+ 542:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   RX FIFO and software buffer usage.
+ 543:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   RX software buffer is enabled: The internal software buffer overflow
+ 544:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   is not treated as an error condition.
+ 545:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   Check GPS_UART_rxBufferOverflow to capture that error condition.
+ 546:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 547:Generated_Source\PSoC4/GPS_UART_UART.c ****     *******************************************************************************/
+ 548:Generated_Source\PSoC4/GPS_UART_UART.c ****     uint32 GPS_UART_UartGetByte(void)
+ 549:Generated_Source\PSoC4/GPS_UART_UART.c ****     {
+ 361              		.loc 1 549 0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 17
+
+
+ 362              		.cfi_startproc
+ 363              		@ args = 0, pretend = 0, frame = 0
+ 364              		@ frame_needed = 0, uses_anonymous_args = 0
+ 365 0000 10B5     		push	{r4, lr}
+ 366              		.cfi_def_cfa_offset 8
+ 367              		.cfi_offset 4, -8
+ 368              		.cfi_offset 14, -4
+ 550:Generated_Source\PSoC4/GPS_UART_UART.c ****         uint32 rxData;
+ 551:Generated_Source\PSoC4/GPS_UART_UART.c ****         uint32 tmpStatus;
+ 552:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 553:Generated_Source\PSoC4/GPS_UART_UART.c ****         #if (GPS_UART_CHECK_RX_SW_BUFFER)
+ 554:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 555:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_DisableInt();
+ 556:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 557:Generated_Source\PSoC4/GPS_UART_UART.c ****         #endif
+ 558:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 559:Generated_Source\PSoC4/GPS_UART_UART.c ****         if (0u != GPS_UART_SpiUartGetRxBufferSize())
+ 369              		.loc 1 559 0
+ 370 0002 FFF7FEFF 		bl	GPS_UART_SpiUartGetRxBufferSize
+ 371              	.LVL20:
+ 372 0006 0028     		cmp	r0, #0
+ 373 0008 02D0     		beq	.L23
+ 560:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 561:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Enables interrupt to receive more bytes: at least one byte is in
+ 562:Generated_Source\PSoC4/GPS_UART_UART.c ****             * buffer.
+ 563:Generated_Source\PSoC4/GPS_UART_UART.c ****             */
+ 564:Generated_Source\PSoC4/GPS_UART_UART.c ****             #if (GPS_UART_CHECK_RX_SW_BUFFER)
+ 565:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ 566:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_EnableInt();
+ 567:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ 568:Generated_Source\PSoC4/GPS_UART_UART.c ****             #endif
+ 569:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 570:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Get received byte */
+ 571:Generated_Source\PSoC4/GPS_UART_UART.c ****             rxData = GPS_UART_SpiUartReadRxData();
+ 374              		.loc 1 571 0
+ 375 000a FFF7FEFF 		bl	GPS_UART_SpiUartReadRxData
+ 376              	.LVL21:
+ 377 000e 01E0     		b	.L24
+ 378              	.LVL22:
+ 379              	.L23:
+ 572:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 573:Generated_Source\PSoC4/GPS_UART_UART.c ****         else
+ 574:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 575:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Reads a byte directly from RX FIFO: underflow is raised in the
+ 576:Generated_Source\PSoC4/GPS_UART_UART.c ****             * case of empty. Otherwise the first received byte will be read.
+ 577:Generated_Source\PSoC4/GPS_UART_UART.c ****             */
+ 578:Generated_Source\PSoC4/GPS_UART_UART.c ****             rxData = GPS_UART_RX_FIFO_RD_REG;
+ 380              		.loc 1 578 0
+ 381 0010 064B     		ldr	r3, .L25
+ 382 0012 1868     		ldr	r0, [r3]
+ 383              	.LVL23:
+ 384              	.L24:
+ 579:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 580:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 581:Generated_Source\PSoC4/GPS_UART_UART.c ****             /* Enables interrupt to receive more bytes. */
+ 582:Generated_Source\PSoC4/GPS_UART_UART.c ****             #if (GPS_UART_CHECK_RX_SW_BUFFER)
+ 583:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 18
+
+
+ 584:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 585:Generated_Source\PSoC4/GPS_UART_UART.c ****                 /* The byte has been read from RX FIFO. Clear RX interrupt to
+ 586:Generated_Source\PSoC4/GPS_UART_UART.c ****                 * not involve interrupt handler when RX FIFO is empty.
+ 587:Generated_Source\PSoC4/GPS_UART_UART.c ****                 */
+ 588:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_ClearRxInterruptSource(GPS_UART_INTR_RX_NOT_EMPTY);
+ 589:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 590:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_EnableInt();
+ 591:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ 592:Generated_Source\PSoC4/GPS_UART_UART.c ****             #endif
+ 593:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 594:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 595:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Get and clear RX error mask */
+ 596:Generated_Source\PSoC4/GPS_UART_UART.c ****         tmpStatus = (GPS_UART_GetRxInterruptSource() & GPS_UART_INTR_RX_ERR);
+ 385              		.loc 1 596 0
+ 386 0014 064A     		ldr	r2, .L25+4
+ 387 0016 1368     		ldr	r3, [r2]
+ 388              	.LVL24:
+ 597:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_ClearRxInterruptSource(GPS_UART_INTR_RX_ERR);
+ 389              		.loc 1 597 0
+ 390 0018 D821     		movs	r1, #216
+ 391 001a 8900     		lsls	r1, r1, #2
+ 392 001c 1160     		str	r1, [r2]
+ 598:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 599:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Puts together data and error status:
+ 600:Generated_Source\PSoC4/GPS_UART_UART.c ****         * MP mode and accept address: 9th bit is set to notify mark.
+ 601:Generated_Source\PSoC4/GPS_UART_UART.c ****         */
+ 602:Generated_Source\PSoC4/GPS_UART_UART.c ****         rxData |= ((uint32) (tmpStatus << 8u));
+ 393              		.loc 1 602 0
+ 394 001e 1B02     		lsls	r3, r3, #8
+ 395              	.LVL25:
+ 396 0020 D822     		movs	r2, #216
+ 397 0022 9202     		lsls	r2, r2, #10
+ 398 0024 1340     		ands	r3, r2
+ 399 0026 1843     		orrs	r0, r3
+ 400              	.LVL26:
+ 603:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 604:Generated_Source\PSoC4/GPS_UART_UART.c ****         return (rxData);
+ 605:Generated_Source\PSoC4/GPS_UART_UART.c ****     }
+ 401              		.loc 1 605 0
+ 402              		@ sp needed
+ 403 0028 10BD     		pop	{r4, pc}
+ 404              	.L26:
+ 405 002a C046     		.align	2
+ 406              	.L25:
+ 407 002c 40032540 		.word	1076167488
+ 408 0030 C00F2540 		.word	1076170688
+ 409              		.cfi_endproc
+ 410              	.LFE7:
+ 411              		.size	GPS_UART_UartGetByte, .-GPS_UART_UartGetByte
+ 412              		.section	.text.GPS_UART_UartSetRtsPolarity,"ax",%progbits
+ 413              		.align	2
+ 414              		.global	GPS_UART_UartSetRtsPolarity
+ 415              		.code	16
+ 416              		.thumb_func
+ 417              		.type	GPS_UART_UartSetRtsPolarity, %function
+ 418              	GPS_UART_UartSetRtsPolarity:
+ 419              	.LFB8:
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 19
+
+
+ 606:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 607:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 608:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1)
+ 609:Generated_Source\PSoC4/GPS_UART_UART.c ****         /*******************************************************************************
+ 610:Generated_Source\PSoC4/GPS_UART_UART.c ****         * Function Name: GPS_UART_UartSetRtsPolarity
+ 611:Generated_Source\PSoC4/GPS_UART_UART.c ****         ****************************************************************************//**
+ 612:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 613:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  Sets active polarity of RTS output signal.
+ 614:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  Only available for PSoC 4100 BLE / PSoC 4200 BLE / PSoC 4100M / PSoC 4200M /
+ 615:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  PSoC 4200L / PSoC 4000S / PSoC 4100S / PSoC Analog Coprocessor devices.
+ 616:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 617:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  \param polarity: Active polarity of RTS output signal.
+ 618:Generated_Source\PSoC4/GPS_UART_UART.c ****         *   - GPS_UART_UART_RTS_ACTIVE_LOW  - RTS signal is active low.
+ 619:Generated_Source\PSoC4/GPS_UART_UART.c ****         *   - GPS_UART_UART_RTS_ACTIVE_HIGH - RTS signal is active high.
+ 620:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 621:Generated_Source\PSoC4/GPS_UART_UART.c ****         *******************************************************************************/
+ 622:Generated_Source\PSoC4/GPS_UART_UART.c ****         void GPS_UART_UartSetRtsPolarity(uint32 polarity)
+ 623:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 420              		.loc 1 623 0
+ 421              		.cfi_startproc
+ 422              		@ args = 0, pretend = 0, frame = 0
+ 423              		@ frame_needed = 0, uses_anonymous_args = 0
+ 424              		@ link register save eliminated.
+ 425              	.LVL27:
+ 624:Generated_Source\PSoC4/GPS_UART_UART.c ****             if(0u != polarity)
+ 426              		.loc 1 624 0
+ 427 0000 0028     		cmp	r0, #0
+ 428 0002 06D0     		beq	.L28
+ 625:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ 626:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_UART_FLOW_CTRL_REG |= (uint32)  GPS_UART_UART_FLOW_CTRL_RTS_POLARITY;
+ 429              		.loc 1 626 0
+ 430 0004 064A     		ldr	r2, .L30
+ 431 0006 1368     		ldr	r3, [r2]
+ 432 0008 8021     		movs	r1, #128
+ 433 000a 4902     		lsls	r1, r1, #9
+ 434 000c 0B43     		orrs	r3, r1
+ 435 000e 1360     		str	r3, [r2]
+ 436 0010 04E0     		b	.L27
+ 437              	.L28:
+ 627:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ 628:Generated_Source\PSoC4/GPS_UART_UART.c ****             else
+ 629:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ 630:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_UART_FLOW_CTRL_REG &= (uint32) ~GPS_UART_UART_FLOW_CTRL_RTS_POLARITY;
+ 438              		.loc 1 630 0
+ 439 0012 034A     		ldr	r2, .L30
+ 440 0014 1168     		ldr	r1, [r2]
+ 441 0016 034B     		ldr	r3, .L30+4
+ 442 0018 0B40     		ands	r3, r1
+ 443 001a 1360     		str	r3, [r2]
+ 444              	.L27:
+ 631:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ 632:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 445              		.loc 1 632 0
+ 446              		@ sp needed
+ 447 001c 7047     		bx	lr
+ 448              	.L31:
+ 449 001e C046     		.align	2
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 20
+
+
+ 450              	.L30:
+ 451 0020 50002540 		.word	1076166736
+ 452 0024 FFFFFEFF 		.word	-65537
+ 453              		.cfi_endproc
+ 454              	.LFE8:
+ 455              		.size	GPS_UART_UartSetRtsPolarity, .-GPS_UART_UartSetRtsPolarity
+ 456              		.section	.text.GPS_UART_UartSetRtsFifoLevel,"ax",%progbits
+ 457              		.align	2
+ 458              		.global	GPS_UART_UartSetRtsFifoLevel
+ 459              		.code	16
+ 460              		.thumb_func
+ 461              		.type	GPS_UART_UartSetRtsFifoLevel, %function
+ 462              	GPS_UART_UartSetRtsFifoLevel:
+ 463              	.LFB9:
+ 633:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 634:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 635:Generated_Source\PSoC4/GPS_UART_UART.c ****         /*******************************************************************************
+ 636:Generated_Source\PSoC4/GPS_UART_UART.c ****         * Function Name: GPS_UART_UartSetRtsFifoLevel
+ 637:Generated_Source\PSoC4/GPS_UART_UART.c ****         ****************************************************************************//**
+ 638:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 639:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  Sets level in the RX FIFO for RTS signal activation.
+ 640:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  While the RX FIFO has fewer entries than the RX FIFO level the RTS signal
+ 641:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  remains active, otherwise the RTS signal becomes inactive.
+ 642:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  Only available for PSoC 4100 BLE / PSoC 4200 BLE / PSoC 4100M / PSoC 4200M /
+ 643:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  PSoC 4200L / PSoC 4000S / PSoC 4100S / PSoC Analog Coprocessor devices.
+ 644:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 645:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  \param level: Level in the RX FIFO for RTS signal activation.
+ 646:Generated_Source\PSoC4/GPS_UART_UART.c ****         *   The range of valid level values is between 0 and RX FIFO depth - 1.
+ 647:Generated_Source\PSoC4/GPS_UART_UART.c ****         *   Setting level value to 0 disables RTS signal activation.
+ 648:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 649:Generated_Source\PSoC4/GPS_UART_UART.c ****         *******************************************************************************/
+ 650:Generated_Source\PSoC4/GPS_UART_UART.c ****         void GPS_UART_UartSetRtsFifoLevel(uint32 level)
+ 651:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 464              		.loc 1 651 0
+ 465              		.cfi_startproc
+ 466              		@ args = 0, pretend = 0, frame = 0
+ 467              		@ frame_needed = 0, uses_anonymous_args = 0
+ 468              		@ link register save eliminated.
+ 469              	.LVL28:
+ 652:Generated_Source\PSoC4/GPS_UART_UART.c ****             uint32 uartFlowCtrl;
+ 653:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 654:Generated_Source\PSoC4/GPS_UART_UART.c ****             uartFlowCtrl = GPS_UART_UART_FLOW_CTRL_REG;
+ 470              		.loc 1 654 0
+ 471 0000 034A     		ldr	r2, .L33
+ 472 0002 1368     		ldr	r3, [r2]
+ 473              	.LVL29:
+ 655:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 656:Generated_Source\PSoC4/GPS_UART_UART.c ****             uartFlowCtrl &= ((uint32) ~GPS_UART_UART_FLOW_CTRL_TRIGGER_LEVEL_MASK); /* Clear level 
+ 474              		.loc 1 656 0
+ 475 0004 0F21     		movs	r1, #15
+ 476 0006 8B43     		bics	r3, r1
+ 477              	.LVL30:
+ 657:Generated_Source\PSoC4/GPS_UART_UART.c ****             uartFlowCtrl |= ((uint32) (GPS_UART_UART_FLOW_CTRL_TRIGGER_LEVEL_MASK & level));
+ 478              		.loc 1 657 0
+ 479 0008 0840     		ands	r0, r1
+ 480              	.LVL31:
+ 481 000a 1843     		orrs	r0, r3
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 21
+
+
+ 482              	.LVL32:
+ 658:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 659:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_UART_FLOW_CTRL_REG = uartFlowCtrl;
+ 483              		.loc 1 659 0
+ 484 000c 1060     		str	r0, [r2]
+ 660:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 485              		.loc 1 660 0
+ 486              		@ sp needed
+ 487 000e 7047     		bx	lr
+ 488              	.L34:
+ 489              		.align	2
+ 490              	.L33:
+ 491 0010 50002540 		.word	1076166736
+ 492              		.cfi_endproc
+ 493              	.LFE9:
+ 494              		.size	GPS_UART_UartSetRtsFifoLevel, .-GPS_UART_UartSetRtsFifoLevel
+ 495              		.section	.text.GPS_UART_UartPutString,"ax",%progbits
+ 496              		.align	2
+ 497              		.global	GPS_UART_UartPutString
+ 498              		.code	16
+ 499              		.thumb_func
+ 500              		.type	GPS_UART_UartPutString, %function
+ 501              	GPS_UART_UartPutString:
+ 502              	.LFB10:
+ 661:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1) */
+ 662:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 663:Generated_Source\PSoC4/GPS_UART_UART.c **** #endif /* (GPS_UART_UART_RX_DIRECTION) */
+ 664:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 665:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 666:Generated_Source\PSoC4/GPS_UART_UART.c **** #if(GPS_UART_UART_TX_DIRECTION)
+ 667:Generated_Source\PSoC4/GPS_UART_UART.c ****     /*******************************************************************************
+ 668:Generated_Source\PSoC4/GPS_UART_UART.c ****     * Function Name: GPS_UART_UartPutString
+ 669:Generated_Source\PSoC4/GPS_UART_UART.c ****     ****************************************************************************//**
+ 670:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 671:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  Places a NULL terminated string in the transmit buffer to be sent at the
+ 672:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  next available bus time.
+ 673:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  This function is blocking and waits until there is a space available to put
+ 674:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  requested data in transmit buffer.
+ 675:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 676:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  \param string: pointer to the null terminated string array to be placed in the
+ 677:Generated_Source\PSoC4/GPS_UART_UART.c ****     *   transmit buffer.
+ 678:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 679:Generated_Source\PSoC4/GPS_UART_UART.c ****     *******************************************************************************/
+ 680:Generated_Source\PSoC4/GPS_UART_UART.c ****     void GPS_UART_UartPutString(const char8 string[])
+ 681:Generated_Source\PSoC4/GPS_UART_UART.c ****     {
+ 503              		.loc 1 681 0
+ 504              		.cfi_startproc
+ 505              		@ args = 0, pretend = 0, frame = 0
+ 506              		@ frame_needed = 0, uses_anonymous_args = 0
+ 507              	.LVL33:
+ 508 0000 70B5     		push	{r4, r5, r6, lr}
+ 509              		.cfi_def_cfa_offset 16
+ 510              		.cfi_offset 4, -16
+ 511              		.cfi_offset 5, -12
+ 512              		.cfi_offset 6, -8
+ 513              		.cfi_offset 14, -4
+ 514 0002 0500     		movs	r5, r0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 22
+
+
+ 515              	.LVL34:
+ 682:Generated_Source\PSoC4/GPS_UART_UART.c ****         uint32 bufIndex;
+ 683:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 684:Generated_Source\PSoC4/GPS_UART_UART.c ****         bufIndex = 0u;
+ 516              		.loc 1 684 0
+ 517 0004 0024     		movs	r4, #0
+ 685:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 686:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Blocks the control flow until all data has been sent */
+ 687:Generated_Source\PSoC4/GPS_UART_UART.c ****         while(string[bufIndex] != ((char8) 0))
+ 518              		.loc 1 687 0
+ 519 0006 02E0     		b	.L36
+ 520              	.LVL35:
+ 521              	.L37:
+ 688:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 689:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_UartPutChar((uint32) string[bufIndex]);
+ 522              		.loc 1 689 0
+ 523 0008 FFF7FEFF 		bl	GPS_UART_SpiUartWriteTxData
+ 524              	.LVL36:
+ 690:Generated_Source\PSoC4/GPS_UART_UART.c ****             bufIndex++;
+ 525              		.loc 1 690 0
+ 526 000c 0134     		adds	r4, r4, #1
+ 527              	.LVL37:
+ 528              	.L36:
+ 687:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 529              		.loc 1 687 0
+ 530 000e 285D     		ldrb	r0, [r5, r4]
+ 531 0010 0028     		cmp	r0, #0
+ 532 0012 F9D1     		bne	.L37
+ 691:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 692:Generated_Source\PSoC4/GPS_UART_UART.c ****     }
+ 533              		.loc 1 692 0
+ 534              		@ sp needed
+ 535              	.LVL38:
+ 536              	.LVL39:
+ 537 0014 70BD     		pop	{r4, r5, r6, pc}
+ 538              		.cfi_endproc
+ 539              	.LFE10:
+ 540              		.size	GPS_UART_UartPutString, .-GPS_UART_UartPutString
+ 541 0016 C046     		.section	.text.GPS_UART_UartPutCRLF,"ax",%progbits
+ 542              		.align	2
+ 543              		.global	GPS_UART_UartPutCRLF
+ 544              		.code	16
+ 545              		.thumb_func
+ 546              		.type	GPS_UART_UartPutCRLF, %function
+ 547              	GPS_UART_UartPutCRLF:
+ 548              	.LFB11:
+ 693:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 694:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 695:Generated_Source\PSoC4/GPS_UART_UART.c ****     /*******************************************************************************
+ 696:Generated_Source\PSoC4/GPS_UART_UART.c ****     * Function Name: GPS_UART_UartPutCRLF
+ 697:Generated_Source\PSoC4/GPS_UART_UART.c ****     ****************************************************************************//**
+ 698:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 699:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  Places byte of data followed by a carriage return (0x0D) and line feed
+ 700:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  (0x0A) in the transmit buffer.
+ 701:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  This function is blocking and waits until there is a space available to put
+ 702:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  all requested data in transmit buffer.
+ 703:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 23
+
+
+ 704:Generated_Source\PSoC4/GPS_UART_UART.c ****     *  \param txDataByte: the data to be transmitted.
+ 705:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 706:Generated_Source\PSoC4/GPS_UART_UART.c ****     *******************************************************************************/
+ 707:Generated_Source\PSoC4/GPS_UART_UART.c ****     void GPS_UART_UartPutCRLF(uint32 txDataByte)
+ 708:Generated_Source\PSoC4/GPS_UART_UART.c ****     {
+ 549              		.loc 1 708 0
+ 550              		.cfi_startproc
+ 551              		@ args = 0, pretend = 0, frame = 0
+ 552              		@ frame_needed = 0, uses_anonymous_args = 0
+ 553              	.LVL40:
+ 554 0000 10B5     		push	{r4, lr}
+ 555              		.cfi_def_cfa_offset 8
+ 556              		.cfi_offset 4, -8
+ 557              		.cfi_offset 14, -4
+ 709:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UartPutChar(txDataByte);  /* Blocks control flow until all data has been sent */
+ 558              		.loc 1 709 0
+ 559 0002 FFF7FEFF 		bl	GPS_UART_SpiUartWriteTxData
+ 560              	.LVL41:
+ 710:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UartPutChar(0x0Du);       /* Blocks control flow until all data has been sent */
+ 561              		.loc 1 710 0
+ 562 0006 0D20     		movs	r0, #13
+ 563 0008 FFF7FEFF 		bl	GPS_UART_SpiUartWriteTxData
+ 564              	.LVL42:
+ 711:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_UartPutChar(0x0Au);       /* Blocks control flow until all data has been sent */
+ 565              		.loc 1 711 0
+ 566 000c 0A20     		movs	r0, #10
+ 567 000e FFF7FEFF 		bl	GPS_UART_SpiUartWriteTxData
+ 568              	.LVL43:
+ 712:Generated_Source\PSoC4/GPS_UART_UART.c ****     }
+ 569              		.loc 1 712 0
+ 570              		@ sp needed
+ 571 0012 10BD     		pop	{r4, pc}
+ 572              		.cfi_endproc
+ 573              	.LFE11:
+ 574              		.size	GPS_UART_UartPutCRLF, .-GPS_UART_UartPutCRLF
+ 575              		.section	.text.GPS_UART_UartEnableCts,"ax",%progbits
+ 576              		.align	2
+ 577              		.global	GPS_UART_UartEnableCts
+ 578              		.code	16
+ 579              		.thumb_func
+ 580              		.type	GPS_UART_UartEnableCts, %function
+ 581              	GPS_UART_UartEnableCts:
+ 582              	.LFB12:
+ 713:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 714:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 715:Generated_Source\PSoC4/GPS_UART_UART.c ****     #if !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1)
+ 716:Generated_Source\PSoC4/GPS_UART_UART.c ****         /*******************************************************************************
+ 717:Generated_Source\PSoC4/GPS_UART_UART.c ****         * Function Name: GPS_UARTSCB_UartEnableCts
+ 718:Generated_Source\PSoC4/GPS_UART_UART.c ****         ****************************************************************************//**
+ 719:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 720:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  Enables usage of CTS input signal by the UART transmitter.
+ 721:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  Only available for PSoC 4100 BLE / PSoC 4200 BLE / PSoC 4100M / PSoC 4200M /
+ 722:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  PSoC 4200L / PSoC 4000S / PSoC 4100S / PSoC Analog Coprocessor devices.
+ 723:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 724:Generated_Source\PSoC4/GPS_UART_UART.c ****         *******************************************************************************/
+ 725:Generated_Source\PSoC4/GPS_UART_UART.c ****         void GPS_UART_UartEnableCts(void)
+ 726:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 24
+
+
+ 583              		.loc 1 726 0
+ 584              		.cfi_startproc
+ 585              		@ args = 0, pretend = 0, frame = 0
+ 586              		@ frame_needed = 0, uses_anonymous_args = 0
+ 587              		@ link register save eliminated.
+ 727:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_UART_FLOW_CTRL_REG |= (uint32)  GPS_UART_UART_FLOW_CTRL_CTS_ENABLE;
+ 588              		.loc 1 727 0
+ 589 0000 034A     		ldr	r2, .L40
+ 590 0002 1368     		ldr	r3, [r2]
+ 591 0004 8021     		movs	r1, #128
+ 592 0006 8904     		lsls	r1, r1, #18
+ 593 0008 0B43     		orrs	r3, r1
+ 594 000a 1360     		str	r3, [r2]
+ 728:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 595              		.loc 1 728 0
+ 596              		@ sp needed
+ 597 000c 7047     		bx	lr
+ 598              	.L41:
+ 599 000e C046     		.align	2
+ 600              	.L40:
+ 601 0010 50002540 		.word	1076166736
+ 602              		.cfi_endproc
+ 603              	.LFE12:
+ 604              		.size	GPS_UART_UartEnableCts, .-GPS_UART_UartEnableCts
+ 605              		.section	.text.GPS_UART_UartDisableCts,"ax",%progbits
+ 606              		.align	2
+ 607              		.global	GPS_UART_UartDisableCts
+ 608              		.code	16
+ 609              		.thumb_func
+ 610              		.type	GPS_UART_UartDisableCts, %function
+ 611              	GPS_UART_UartDisableCts:
+ 612              	.LFB13:
+ 729:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 730:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 731:Generated_Source\PSoC4/GPS_UART_UART.c ****         /*******************************************************************************
+ 732:Generated_Source\PSoC4/GPS_UART_UART.c ****         * Function Name: GPS_UART_UartDisableCts
+ 733:Generated_Source\PSoC4/GPS_UART_UART.c ****         ****************************************************************************//**
+ 734:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 735:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  Disables usage of CTS input signal by the UART transmitter.
+ 736:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  Only available for PSoC 4100 BLE / PSoC 4200 BLE / PSoC 4100M / PSoC 4200M /
+ 737:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  PSoC 4200L / PSoC 4000S / PSoC 4100S / PSoC Analog Coprocessor devices.
+ 738:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 739:Generated_Source\PSoC4/GPS_UART_UART.c ****         *******************************************************************************/
+ 740:Generated_Source\PSoC4/GPS_UART_UART.c ****         void GPS_UART_UartDisableCts(void)
+ 741:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 613              		.loc 1 741 0
+ 614              		.cfi_startproc
+ 615              		@ args = 0, pretend = 0, frame = 0
+ 616              		@ frame_needed = 0, uses_anonymous_args = 0
+ 617              		@ link register save eliminated.
+ 742:Generated_Source\PSoC4/GPS_UART_UART.c ****             GPS_UART_UART_FLOW_CTRL_REG &= (uint32) ~GPS_UART_UART_FLOW_CTRL_CTS_ENABLE;
+ 618              		.loc 1 742 0
+ 619 0000 024A     		ldr	r2, .L43
+ 620 0002 1168     		ldr	r1, [r2]
+ 621 0004 024B     		ldr	r3, .L43+4
+ 622 0006 0B40     		ands	r3, r1
+ 623 0008 1360     		str	r3, [r2]
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 25
+
+
+ 743:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 624              		.loc 1 743 0
+ 625              		@ sp needed
+ 626 000a 7047     		bx	lr
+ 627              	.L44:
+ 628              		.align	2
+ 629              	.L43:
+ 630 000c 50002540 		.word	1076166736
+ 631 0010 FFFFFFFD 		.word	-33554433
+ 632              		.cfi_endproc
+ 633              	.LFE13:
+ 634              		.size	GPS_UART_UartDisableCts, .-GPS_UART_UartDisableCts
+ 635              		.section	.text.GPS_UART_UartSetCtsPolarity,"ax",%progbits
+ 636              		.align	2
+ 637              		.global	GPS_UART_UartSetCtsPolarity
+ 638              		.code	16
+ 639              		.thumb_func
+ 640              		.type	GPS_UART_UartSetCtsPolarity, %function
+ 641              	GPS_UART_UartSetCtsPolarity:
+ 642              	.LFB14:
+ 744:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 745:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 746:Generated_Source\PSoC4/GPS_UART_UART.c ****         /*******************************************************************************
+ 747:Generated_Source\PSoC4/GPS_UART_UART.c ****         * Function Name: GPS_UART_UartSetCtsPolarity
+ 748:Generated_Source\PSoC4/GPS_UART_UART.c ****         ****************************************************************************//**
+ 749:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 750:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  Sets active polarity of CTS input signal.
+ 751:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  Only available for PSoC 4100 BLE / PSoC 4200 BLE / PSoC 4100M / PSoC 4200M /
+ 752:Generated_Source\PSoC4/GPS_UART_UART.c ****         *  PSoC 4200L / PSoC 4000S / PSoC 4100S / PSoC Analog Coprocessor devices.
+ 753:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 754:Generated_Source\PSoC4/GPS_UART_UART.c ****         * \param
+ 755:Generated_Source\PSoC4/GPS_UART_UART.c ****         * polarity: Active polarity of CTS output signal.
+ 756:Generated_Source\PSoC4/GPS_UART_UART.c ****         *   - GPS_UART_UART_CTS_ACTIVE_LOW  - CTS signal is active low.
+ 757:Generated_Source\PSoC4/GPS_UART_UART.c ****         *   - GPS_UART_UART_CTS_ACTIVE_HIGH - CTS signal is active high.
+ 758:Generated_Source\PSoC4/GPS_UART_UART.c ****         *
+ 759:Generated_Source\PSoC4/GPS_UART_UART.c ****         *******************************************************************************/
+ 760:Generated_Source\PSoC4/GPS_UART_UART.c ****         void GPS_UART_UartSetCtsPolarity(uint32 polarity)
+ 761:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 643              		.loc 1 761 0
+ 644              		.cfi_startproc
+ 645              		@ args = 0, pretend = 0, frame = 0
+ 646              		@ frame_needed = 0, uses_anonymous_args = 0
+ 647              		@ link register save eliminated.
+ 648              	.LVL44:
+ 762:Generated_Source\PSoC4/GPS_UART_UART.c ****             if (0u != polarity)
+ 649              		.loc 1 762 0
+ 650 0000 0028     		cmp	r0, #0
+ 651 0002 06D0     		beq	.L46
+ 763:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ 764:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_UART_FLOW_CTRL_REG |= (uint32)  GPS_UART_UART_FLOW_CTRL_CTS_POLARITY;
+ 652              		.loc 1 764 0
+ 653 0004 064A     		ldr	r2, .L48
+ 654 0006 1368     		ldr	r3, [r2]
+ 655 0008 8021     		movs	r1, #128
+ 656 000a 4904     		lsls	r1, r1, #17
+ 657 000c 0B43     		orrs	r3, r1
+ 658 000e 1360     		str	r3, [r2]
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 26
+
+
+ 659 0010 04E0     		b	.L45
+ 660              	.L46:
+ 765:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ 766:Generated_Source\PSoC4/GPS_UART_UART.c ****             else
+ 767:Generated_Source\PSoC4/GPS_UART_UART.c ****             {
+ 768:Generated_Source\PSoC4/GPS_UART_UART.c ****                 GPS_UART_UART_FLOW_CTRL_REG &= (uint32) ~GPS_UART_UART_FLOW_CTRL_CTS_POLARITY;
+ 661              		.loc 1 768 0
+ 662 0012 034A     		ldr	r2, .L48
+ 663 0014 1168     		ldr	r1, [r2]
+ 664 0016 034B     		ldr	r3, .L48+4
+ 665 0018 0B40     		ands	r3, r1
+ 666 001a 1360     		str	r3, [r2]
+ 667              	.L45:
+ 769:Generated_Source\PSoC4/GPS_UART_UART.c ****             }
+ 770:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 668              		.loc 1 770 0
+ 669              		@ sp needed
+ 670 001c 7047     		bx	lr
+ 671              	.L49:
+ 672 001e C046     		.align	2
+ 673              	.L48:
+ 674 0020 50002540 		.word	1076166736
+ 675 0024 FFFFFFFE 		.word	-16777217
+ 676              		.cfi_endproc
+ 677              	.LFE14:
+ 678              		.size	GPS_UART_UartSetCtsPolarity, .-GPS_UART_UartSetCtsPolarity
+ 679              		.section	.text.GPS_UART_UartSendBreakBlocking,"ax",%progbits
+ 680              		.align	2
+ 681              		.global	GPS_UART_UartSendBreakBlocking
+ 682              		.code	16
+ 683              		.thumb_func
+ 684              		.type	GPS_UART_UartSendBreakBlocking, %function
+ 685              	GPS_UART_UartSendBreakBlocking:
+ 686              	.LFB15:
+ 771:Generated_Source\PSoC4/GPS_UART_UART.c ****     #endif /* !(GPS_UART_CY_SCBIP_V0 || GPS_UART_CY_SCBIP_V1) */
+ 772:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 773:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 774:Generated_Source\PSoC4/GPS_UART_UART.c ****     /*******************************************************************************
+ 775:Generated_Source\PSoC4/GPS_UART_UART.c ****     * Function Name: GPS_UART_UartSendBreakBlocking
+ 776:Generated_Source\PSoC4/GPS_UART_UART.c ****     ****************************************************************************//**
+ 777:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 778:Generated_Source\PSoC4/GPS_UART_UART.c ****     * Sends a break condition (logic low) of specified width on UART TX line.
+ 779:Generated_Source\PSoC4/GPS_UART_UART.c ****     * Blocks until break is completed. Only call this function when UART TX FIFO
+ 780:Generated_Source\PSoC4/GPS_UART_UART.c ****     * and shifter are empty.
+ 781:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 782:Generated_Source\PSoC4/GPS_UART_UART.c ****     * \param breakWidth
+ 783:Generated_Source\PSoC4/GPS_UART_UART.c ****     * Width of break condition. Valid range is 4 to 16 bits.
+ 784:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 785:Generated_Source\PSoC4/GPS_UART_UART.c ****     * \note
+ 786:Generated_Source\PSoC4/GPS_UART_UART.c ****     * Before sending break all UART TX interrupt sources are disabled. The state
+ 787:Generated_Source\PSoC4/GPS_UART_UART.c ****     * of UART TX interrupt sources is restored before function returns.
+ 788:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 789:Generated_Source\PSoC4/GPS_UART_UART.c ****     * \sideeffect
+ 790:Generated_Source\PSoC4/GPS_UART_UART.c ****     * If this function is called while there is data in the TX FIFO or shifter that
+ 791:Generated_Source\PSoC4/GPS_UART_UART.c ****     * data will be shifted out in packets the size of breakWidth.
+ 792:Generated_Source\PSoC4/GPS_UART_UART.c ****     *
+ 793:Generated_Source\PSoC4/GPS_UART_UART.c ****     *******************************************************************************/
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 27
+
+
+ 794:Generated_Source\PSoC4/GPS_UART_UART.c ****     void GPS_UART_UartSendBreakBlocking(uint32 breakWidth)
+ 795:Generated_Source\PSoC4/GPS_UART_UART.c ****     {
+ 687              		.loc 1 795 0
+ 688              		.cfi_startproc
+ 689              		@ args = 0, pretend = 0, frame = 0
+ 690              		@ frame_needed = 0, uses_anonymous_args = 0
+ 691              	.LVL45:
+ 692 0000 70B5     		push	{r4, r5, r6, lr}
+ 693              		.cfi_def_cfa_offset 16
+ 694              		.cfi_offset 4, -16
+ 695              		.cfi_offset 5, -12
+ 696              		.cfi_offset 6, -8
+ 697              		.cfi_offset 14, -4
+ 698 0002 0300     		movs	r3, r0
+ 796:Generated_Source\PSoC4/GPS_UART_UART.c ****         uint32 txCtrlReg;
+ 797:Generated_Source\PSoC4/GPS_UART_UART.c ****         uint32 txIntrReg;
+ 798:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 799:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Disable all UART TX interrupt source and clear UART TX Done history */
+ 800:Generated_Source\PSoC4/GPS_UART_UART.c ****         txIntrReg = GPS_UART_GetTxInterruptMode();
+ 699              		.loc 1 800 0
+ 700 0004 0F4A     		ldr	r2, .L52
+ 701 0006 1568     		ldr	r5, [r2]
+ 702              	.LVL46:
+ 801:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_SetTxInterruptMode(0u);
+ 703              		.loc 1 801 0
+ 704 0008 0024     		movs	r4, #0
+ 705 000a 1460     		str	r4, [r2]
+ 802:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_ClearTxInterruptSource(GPS_UART_INTR_TX_UART_DONE);
+ 706              		.loc 1 802 0
+ 707 000c 8021     		movs	r1, #128
+ 708 000e 8900     		lsls	r1, r1, #2
+ 709 0010 0D4A     		ldr	r2, .L52+4
+ 710 0012 1160     		str	r1, [r2]
+ 803:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 804:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Store TX CTRL configuration */
+ 805:Generated_Source\PSoC4/GPS_UART_UART.c ****         txCtrlReg = GPS_UART_TX_CTRL_REG;
+ 711              		.loc 1 805 0
+ 712 0014 0D4A     		ldr	r2, .L52+8
+ 713 0016 1668     		ldr	r6, [r2]
+ 714              	.LVL47:
+ 806:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 807:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Set break width */
+ 808:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_TX_CTRL_REG = (GPS_UART_TX_CTRL_REG & (uint32) ~GPS_UART_TX_CTRL_DATA_WIDTH_MASK) 
+ 715              		.loc 1 808 0
+ 716 0018 1168     		ldr	r1, [r2]
+ 717 001a 0F20     		movs	r0, #15
+ 718              	.LVL48:
+ 719 001c 8143     		bics	r1, r0
+ 809:Generated_Source\PSoC4/GPS_UART_UART.c ****                                         GPS_UART_GET_TX_CTRL_DATA_WIDTH(breakWidth);
+ 720              		.loc 1 809 0
+ 721 001e 013B     		subs	r3, r3, #1
+ 722              	.LVL49:
+ 723 0020 1840     		ands	r0, r3
+ 808:Generated_Source\PSoC4/GPS_UART_UART.c ****                                         GPS_UART_GET_TX_CTRL_DATA_WIDTH(breakWidth);
+ 724              		.loc 1 808 0
+ 725 0022 0843     		orrs	r0, r1
+ 726 0024 1060     		str	r0, [r2]
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 28
+
+
+ 810:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 811:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Generate break */
+ 812:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_TX_FIFO_WR_REG = 0u;
+ 727              		.loc 1 812 0
+ 728 0026 0A4B     		ldr	r3, .L52+12
+ 729              	.LVL50:
+ 730 0028 1C60     		str	r4, [r3]
+ 731              	.L51:
+ 813:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 814:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Wait for break completion */
+ 815:Generated_Source\PSoC4/GPS_UART_UART.c ****         while (0u == (GPS_UART_GetTxInterruptSource() & GPS_UART_INTR_TX_UART_DONE))
+ 732              		.loc 1 815 0 discriminator 1
+ 733 002a 074B     		ldr	r3, .L52+4
+ 734 002c 1B68     		ldr	r3, [r3]
+ 735 002e 9B05     		lsls	r3, r3, #22
+ 736 0030 FBD5     		bpl	.L51
+ 816:Generated_Source\PSoC4/GPS_UART_UART.c ****         {
+ 817:Generated_Source\PSoC4/GPS_UART_UART.c ****         }
+ 818:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 819:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Clear all UART TX interrupt sources to  */
+ 820:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_ClearTxInterruptSource(GPS_UART_INTR_TX_ALL);
+ 737              		.loc 1 820 0
+ 738 0032 084A     		ldr	r2, .L52+16
+ 739 0034 044B     		ldr	r3, .L52+4
+ 740 0036 1A60     		str	r2, [r3]
+ 821:Generated_Source\PSoC4/GPS_UART_UART.c **** 
+ 822:Generated_Source\PSoC4/GPS_UART_UART.c ****         /* Restore TX interrupt sources and data width */
+ 823:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_TX_CTRL_REG = txCtrlReg;
+ 741              		.loc 1 823 0
+ 742 0038 044B     		ldr	r3, .L52+8
+ 743 003a 1E60     		str	r6, [r3]
+ 824:Generated_Source\PSoC4/GPS_UART_UART.c ****         GPS_UART_SetTxInterruptMode(txIntrReg);
+ 744              		.loc 1 824 0
+ 745 003c 014B     		ldr	r3, .L52
+ 746 003e 1D60     		str	r5, [r3]
+ 825:Generated_Source\PSoC4/GPS_UART_UART.c ****     }
+ 747              		.loc 1 825 0
+ 748              		@ sp needed
+ 749              	.LVL51:
+ 750              	.LVL52:
+ 751 0040 70BD     		pop	{r4, r5, r6, pc}
+ 752              	.L53:
+ 753 0042 C046     		.align	2
+ 754              	.L52:
+ 755 0044 880F2540 		.word	1076170632
+ 756 0048 800F2540 		.word	1076170624
+ 757 004c 00022540 		.word	1076167168
+ 758 0050 40022540 		.word	1076167232
+ 759 0054 F3070000 		.word	2035
+ 760              		.cfi_endproc
+ 761              	.LFE15:
+ 762              		.size	GPS_UART_UartSendBreakBlocking, .-GPS_UART_UartSendBreakBlocking
+ 763              		.text
+ 764              	.Letext0:
+ 765              		.file 2 "Generated_Source\\PSoC4/cytypes.h"
+ 766              		.file 3 "Generated_Source\\PSoC4/CyLib.h"
+ 767              		.file 4 "Generated_Source\\PSoC4\\GPS_UART_SPI_UART.h"
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 29
+
+
+ 768              		.file 5 "Generated_Source\\PSoC4\\GPS_UART_PVT.h"
+ 769              		.section	.debug_info,"",%progbits
+ 770              	.Ldebug_info0:
+ 771 0000 1D040000 		.4byte	0x41d
+ 772 0004 0400     		.2byte	0x4
+ 773 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 774 000a 04       		.byte	0x4
+ 775 000b 01       		.uleb128 0x1
+ 776 000c 89020000 		.4byte	.LASF54
+ 777 0010 0C       		.byte	0xc
+ 778 0011 17030000 		.4byte	.LASF55
+ 779 0015 46010000 		.4byte	.LASF56
+ 780 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 781 001d 00000000 		.4byte	0
+ 782 0021 00000000 		.4byte	.Ldebug_line0
+ 783 0025 02       		.uleb128 0x2
+ 784 0026 01       		.byte	0x1
+ 785 0027 06       		.byte	0x6
+ 786 0028 09040000 		.4byte	.LASF0
+ 787 002c 02       		.uleb128 0x2
+ 788 002d 01       		.byte	0x1
+ 789 002e 08       		.byte	0x8
+ 790 002f 9A010000 		.4byte	.LASF1
+ 791 0033 02       		.uleb128 0x2
+ 792 0034 02       		.byte	0x2
+ 793 0035 05       		.byte	0x5
+ 794 0036 B5030000 		.4byte	.LASF2
+ 795 003a 02       		.uleb128 0x2
+ 796 003b 02       		.byte	0x2
+ 797 003c 07       		.byte	0x7
+ 798 003d 4E000000 		.4byte	.LASF3
+ 799 0041 02       		.uleb128 0x2
+ 800 0042 04       		.byte	0x4
+ 801 0043 05       		.byte	0x5
+ 802 0044 E1030000 		.4byte	.LASF4
+ 803 0048 02       		.uleb128 0x2
+ 804 0049 04       		.byte	0x4
+ 805 004a 07       		.byte	0x7
+ 806 004b 0F010000 		.4byte	.LASF5
+ 807 004f 02       		.uleb128 0x2
+ 808 0050 08       		.byte	0x8
+ 809 0051 05       		.byte	0x5
+ 810 0052 00000000 		.4byte	.LASF6
+ 811 0056 02       		.uleb128 0x2
+ 812 0057 08       		.byte	0x8
+ 813 0058 07       		.byte	0x7
+ 814 0059 13020000 		.4byte	.LASF7
+ 815 005d 03       		.uleb128 0x3
+ 816 005e 04       		.byte	0x4
+ 817 005f 05       		.byte	0x5
+ 818 0060 696E7400 		.ascii	"int\000"
+ 819 0064 02       		.uleb128 0x2
+ 820 0065 04       		.byte	0x4
+ 821 0066 07       		.byte	0x7
+ 822 0067 FE010000 		.4byte	.LASF8
+ 823 006b 04       		.uleb128 0x4
+ 824 006c 21010000 		.4byte	.LASF9
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 30
+
+
+ 825 0070 02       		.byte	0x2
+ 826 0071 FB01     		.2byte	0x1fb
+ 827 0073 2C000000 		.4byte	0x2c
+ 828 0077 04       		.uleb128 0x4
+ 829 0078 E1010000 		.4byte	.LASF10
+ 830 007c 02       		.byte	0x2
+ 831 007d FC01     		.2byte	0x1fc
+ 832 007f 3A000000 		.4byte	0x3a
+ 833 0083 04       		.uleb128 0x4
+ 834 0084 E8010000 		.4byte	.LASF11
+ 835 0088 02       		.byte	0x2
+ 836 0089 FD01     		.2byte	0x1fd
+ 837 008b 48000000 		.4byte	0x48
+ 838 008f 02       		.uleb128 0x2
+ 839 0090 04       		.byte	0x4
+ 840 0091 04       		.byte	0x4
+ 841 0092 9F000000 		.4byte	.LASF12
+ 842 0096 02       		.uleb128 0x2
+ 843 0097 08       		.byte	0x8
+ 844 0098 04       		.byte	0x4
+ 845 0099 BC010000 		.4byte	.LASF13
+ 846 009d 04       		.uleb128 0x4
+ 847 009e 09010000 		.4byte	.LASF14
+ 848 00a2 02       		.byte	0x2
+ 849 00a3 0C02     		.2byte	0x20c
+ 850 00a5 A9000000 		.4byte	0xa9
+ 851 00a9 02       		.uleb128 0x2
+ 852 00aa 01       		.byte	0x1
+ 853 00ab 08       		.byte	0x8
+ 854 00ac 83030000 		.4byte	.LASF15
+ 855 00b0 04       		.uleb128 0x4
+ 856 00b1 0E000000 		.4byte	.LASF16
+ 857 00b5 02       		.byte	0x2
+ 858 00b6 A702     		.2byte	0x2a7
+ 859 00b8 BC000000 		.4byte	0xbc
+ 860 00bc 05       		.uleb128 0x5
+ 861 00bd 83000000 		.4byte	0x83
+ 862 00c1 02       		.uleb128 0x2
+ 863 00c2 08       		.byte	0x8
+ 864 00c3 04       		.byte	0x4
+ 865 00c4 FD030000 		.4byte	.LASF17
+ 866 00c8 02       		.uleb128 0x2
+ 867 00c9 04       		.byte	0x4
+ 868 00ca 07       		.byte	0x7
+ 869 00cb 3E030000 		.4byte	.LASF18
+ 870 00cf 06       		.uleb128 0x6
+ 871 00d0 DB000000 		.4byte	.LASF21
+ 872 00d4 01       		.byte	0x1
+ 873 00d5 F7       		.byte	0xf7
+ 874 00d6 00000000 		.4byte	.LFB1
+ 875 00da C4000000 		.4byte	.LFE1-.LFB1
+ 876 00de 01       		.uleb128 0x1
+ 877 00df 9C       		.byte	0x9c
+ 878 00e0 1F010000 		.4byte	0x11f
+ 879 00e4 07       		.uleb128 0x7
+ 880 00e5 3E000000 		.4byte	.LVL0
+ 881 00e9 DB030000 		.4byte	0x3db
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 31
+
+
+ 882 00ed F7000000 		.4byte	0xf7
+ 883 00f1 08       		.uleb128 0x8
+ 884 00f2 01       		.uleb128 0x1
+ 885 00f3 50       		.byte	0x50
+ 886 00f4 01       		.uleb128 0x1
+ 887 00f5 3A       		.byte	0x3a
+ 888 00f6 00       		.byte	0
+ 889 00f7 07       		.uleb128 0x7
+ 890 00f8 46000000 		.4byte	.LVL1
+ 891 00fc E6030000 		.4byte	0x3e6
+ 892 0100 0F010000 		.4byte	0x10f
+ 893 0104 08       		.uleb128 0x8
+ 894 0105 01       		.uleb128 0x1
+ 895 0106 50       		.byte	0x50
+ 896 0107 01       		.uleb128 0x1
+ 897 0108 3A       		.byte	0x3a
+ 898 0109 08       		.uleb128 0x8
+ 899 010a 01       		.uleb128 0x1
+ 900 010b 51       		.byte	0x51
+ 901 010c 01       		.uleb128 0x1
+ 902 010d 33       		.byte	0x33
+ 903 010e 00       		.byte	0
+ 904 010f 09       		.uleb128 0x9
+ 905 0110 4E000000 		.4byte	.LVL2
+ 906 0114 F1030000 		.4byte	0x3f1
+ 907 0118 08       		.uleb128 0x8
+ 908 0119 01       		.uleb128 0x1
+ 909 011a 50       		.byte	0x50
+ 910 011b 01       		.uleb128 0x1
+ 911 011c 3A       		.byte	0x3a
+ 912 011d 00       		.byte	0
+ 913 011e 00       		.byte	0
+ 914 011f 0A       		.uleb128 0xa
+ 915 0120 3B020000 		.4byte	.LASF19
+ 916 0124 01       		.byte	0x1
+ 917 0125 3D01     		.2byte	0x13d
+ 918 0127 00000000 		.4byte	.LFB2
+ 919 012b 24000000 		.4byte	.LFE2-.LFB2
+ 920 012f 01       		.uleb128 0x1
+ 921 0130 9C       		.byte	0x9c
+ 922 0131 0A       		.uleb128 0xa
+ 923 0132 6E020000 		.4byte	.LASF20
+ 924 0136 01       		.byte	0x1
+ 925 0137 7101     		.2byte	0x171
+ 926 0139 00000000 		.4byte	.LFB3
+ 927 013d 28000000 		.4byte	.LFE3-.LFB3
+ 928 0141 01       		.uleb128 0x1
+ 929 0142 9C       		.byte	0x9c
+ 930 0143 0B       		.uleb128 0xb
+ 931 0144 5E030000 		.4byte	.LASF22
+ 932 0148 01       		.byte	0x1
+ 933 0149 B101     		.2byte	0x1b1
+ 934 014b 00000000 		.4byte	.LFB4
+ 935 014f 14000000 		.4byte	.LFE4-.LFB4
+ 936 0153 01       		.uleb128 0x1
+ 937 0154 9C       		.byte	0x9c
+ 938 0155 7A010000 		.4byte	0x17a
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 32
+
+
+ 939 0159 0C       		.uleb128 0xc
+ 940 015a 0B020000 		.4byte	.LASF24
+ 941 015e 01       		.byte	0x1
+ 942 015f B101     		.2byte	0x1b1
+ 943 0161 83000000 		.4byte	0x83
+ 944 0165 00000000 		.4byte	.LLST0
+ 945 0169 0D       		.uleb128 0xd
+ 946 016a F4030000 		.4byte	.LASF26
+ 947 016e 01       		.byte	0x1
+ 948 016f B301     		.2byte	0x1b3
+ 949 0171 83000000 		.4byte	0x83
+ 950 0175 21000000 		.4byte	.LLST1
+ 951 0179 00       		.byte	0
+ 952 017a 0B       		.uleb128 0xb
+ 953 017b 14000000 		.4byte	.LASF23
+ 954 017f 01       		.byte	0x1
+ 955 0180 CA01     		.2byte	0x1ca
+ 956 0182 00000000 		.4byte	.LFB5
+ 957 0186 18000000 		.4byte	.LFE5-.LFB5
+ 958 018a 01       		.uleb128 0x1
+ 959 018b 9C       		.byte	0x9c
+ 960 018c B1010000 		.4byte	0x1b1
+ 961 0190 0C       		.uleb128 0xc
+ 962 0191 51040000 		.4byte	.LASF25
+ 963 0195 01       		.byte	0x1
+ 964 0196 CA01     		.2byte	0x1ca
+ 965 0198 83000000 		.4byte	0x83
+ 966 019c 3F000000 		.4byte	.LLST2
+ 967 01a0 0D       		.uleb128 0xd
+ 968 01a1 F4030000 		.4byte	.LASF26
+ 969 01a5 01       		.byte	0x1
+ 970 01a6 CC01     		.2byte	0x1cc
+ 971 01a8 83000000 		.4byte	0x83
+ 972 01ac 60000000 		.4byte	.LLST3
+ 973 01b0 00       		.byte	0
+ 974 01b1 0E       		.uleb128 0xe
+ 975 01b2 7F000000 		.4byte	.LASF28
+ 976 01b6 01       		.byte	0x1
+ 977 01b7 F201     		.2byte	0x1f2
+ 978 01b9 83000000 		.4byte	0x83
+ 979 01bd 00000000 		.4byte	.LFB6
+ 980 01c1 2C000000 		.4byte	.LFE6-.LFB6
+ 981 01c5 01       		.uleb128 0x1
+ 982 01c6 9C       		.byte	0x9c
+ 983 01c7 EE010000 		.4byte	0x1ee
+ 984 01cb 0D       		.uleb128 0xd
+ 985 01cc 3F010000 		.4byte	.LASF27
+ 986 01d0 01       		.byte	0x1
+ 987 01d1 F401     		.2byte	0x1f4
+ 988 01d3 83000000 		.4byte	0x83
+ 989 01d7 89000000 		.4byte	.LLST4
+ 990 01db 0F       		.uleb128 0xf
+ 991 01dc 06000000 		.4byte	.LVL14
+ 992 01e0 FC030000 		.4byte	0x3fc
+ 993 01e4 0F       		.uleb128 0xf
+ 994 01e5 0E000000 		.4byte	.LVL15
+ 995 01e9 08040000 		.4byte	0x408
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 33
+
+
+ 996 01ed 00       		.byte	0
+ 997 01ee 0E       		.uleb128 0xe
+ 998 01ef C3010000 		.4byte	.LASF29
+ 999 01f3 01       		.byte	0x1
+ 1000 01f4 2402     		.2byte	0x224
+ 1001 01f6 83000000 		.4byte	0x83
+ 1002 01fa 00000000 		.4byte	.LFB7
+ 1003 01fe 34000000 		.4byte	.LFE7-.LFB7
+ 1004 0202 01       		.uleb128 0x1
+ 1005 0203 9C       		.byte	0x9c
+ 1006 0204 3B020000 		.4byte	0x23b
+ 1007 0208 0D       		.uleb128 0xd
+ 1008 0209 3F010000 		.4byte	.LASF27
+ 1009 020d 01       		.byte	0x1
+ 1010 020e 2602     		.2byte	0x226
+ 1011 0210 83000000 		.4byte	0x83
+ 1012 0214 D6000000 		.4byte	.LLST5
+ 1013 0218 0D       		.uleb128 0xd
+ 1014 0219 EA030000 		.4byte	.LASF30
+ 1015 021d 01       		.byte	0x1
+ 1016 021e 2702     		.2byte	0x227
+ 1017 0220 83000000 		.4byte	0x83
+ 1018 0224 F4000000 		.4byte	.LLST6
+ 1019 0228 0F       		.uleb128 0xf
+ 1020 0229 06000000 		.4byte	.LVL20
+ 1021 022d FC030000 		.4byte	0x3fc
+ 1022 0231 0F       		.uleb128 0xf
+ 1023 0232 0E000000 		.4byte	.LVL21
+ 1024 0236 08040000 		.4byte	0x408
+ 1025 023a 00       		.byte	0
+ 1026 023b 0B       		.uleb128 0xb
+ 1027 023c ED000000 		.4byte	.LASF31
+ 1028 0240 01       		.byte	0x1
+ 1029 0241 6E02     		.2byte	0x26e
+ 1030 0243 00000000 		.4byte	.LFB8
+ 1031 0247 28000000 		.4byte	.LFE8-.LFB8
+ 1032 024b 01       		.uleb128 0x1
+ 1033 024c 9C       		.byte	0x9c
+ 1034 024d 60020000 		.4byte	0x260
+ 1035 0251 10       		.uleb128 0x10
+ 1036 0252 D8010000 		.4byte	.LASF32
+ 1037 0256 01       		.byte	0x1
+ 1038 0257 6E02     		.2byte	0x26e
+ 1039 0259 83000000 		.4byte	0x83
+ 1040 025d 01       		.uleb128 0x1
+ 1041 025e 50       		.byte	0x50
+ 1042 025f 00       		.byte	0
+ 1043 0260 0B       		.uleb128 0xb
+ 1044 0261 15040000 		.4byte	.LASF33
+ 1045 0265 01       		.byte	0x1
+ 1046 0266 8A02     		.2byte	0x28a
+ 1047 0268 00000000 		.4byte	.LFB9
+ 1048 026c 14000000 		.4byte	.LFE9-.LFB9
+ 1049 0270 01       		.uleb128 0x1
+ 1050 0271 9C       		.byte	0x9c
+ 1051 0272 97020000 		.4byte	0x297
+ 1052 0276 0C       		.uleb128 0xc
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 34
+
+
+ 1053 0277 BF030000 		.4byte	.LASF34
+ 1054 027b 01       		.byte	0x1
+ 1055 027c 8A02     		.2byte	0x28a
+ 1056 027e 83000000 		.4byte	0x83
+ 1057 0282 0D010000 		.4byte	.LLST7
+ 1058 0286 0D       		.uleb128 0xd
+ 1059 0287 AF000000 		.4byte	.LASF35
+ 1060 028b 01       		.byte	0x1
+ 1061 028c 8C02     		.2byte	0x28c
+ 1062 028e 83000000 		.4byte	0x83
+ 1063 0292 2E010000 		.4byte	.LLST8
+ 1064 0296 00       		.byte	0
+ 1065 0297 0B       		.uleb128 0xb
+ 1066 0298 61000000 		.4byte	.LASF36
+ 1067 029c 01       		.byte	0x1
+ 1068 029d A802     		.2byte	0x2a8
+ 1069 029f 00000000 		.4byte	.LFB10
+ 1070 02a3 16000000 		.4byte	.LFE10-.LFB10
+ 1071 02a7 01       		.uleb128 0x1
+ 1072 02a8 9C       		.byte	0x9c
+ 1073 02a9 D7020000 		.4byte	0x2d7
+ 1074 02ad 0C       		.uleb128 0xc
+ 1075 02ae 78000000 		.4byte	.LASF37
+ 1076 02b2 01       		.byte	0x1
+ 1077 02b3 A802     		.2byte	0x2a8
+ 1078 02b5 D7020000 		.4byte	0x2d7
+ 1079 02b9 4C010000 		.4byte	.LLST9
+ 1080 02bd 0D       		.uleb128 0xd
+ 1081 02be 80020000 		.4byte	.LASF38
+ 1082 02c2 01       		.byte	0x1
+ 1083 02c3 AA02     		.2byte	0x2aa
+ 1084 02c5 83000000 		.4byte	0x83
+ 1085 02c9 78010000 		.4byte	.LLST10
+ 1086 02cd 0F       		.uleb128 0xf
+ 1087 02ce 0C000000 		.4byte	.LVL36
+ 1088 02d2 14040000 		.4byte	0x414
+ 1089 02d6 00       		.byte	0
+ 1090 02d7 11       		.uleb128 0x11
+ 1091 02d8 04       		.byte	0x4
+ 1092 02d9 DD020000 		.4byte	0x2dd
+ 1093 02dd 12       		.uleb128 0x12
+ 1094 02de 9D000000 		.4byte	0x9d
+ 1095 02e2 0B       		.uleb128 0xb
+ 1096 02e3 3C040000 		.4byte	.LASF39
+ 1097 02e7 01       		.byte	0x1
+ 1098 02e8 C302     		.2byte	0x2c3
+ 1099 02ea 00000000 		.4byte	.LFB11
+ 1100 02ee 14000000 		.4byte	.LFE11-.LFB11
+ 1101 02f2 01       		.uleb128 0x1
+ 1102 02f3 9C       		.byte	0x9c
+ 1103 02f4 40030000 		.4byte	0x340
+ 1104 02f8 0C       		.uleb128 0xc
+ 1105 02f9 78030000 		.4byte	.LASF40
+ 1106 02fd 01       		.byte	0x1
+ 1107 02fe C302     		.2byte	0x2c3
+ 1108 0300 83000000 		.4byte	0x83
+ 1109 0304 97010000 		.4byte	.LLST11
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 35
+
+
+ 1110 0308 07       		.uleb128 0x7
+ 1111 0309 06000000 		.4byte	.LVL41
+ 1112 030d 14040000 		.4byte	0x414
+ 1113 0311 1D030000 		.4byte	0x31d
+ 1114 0315 08       		.uleb128 0x8
+ 1115 0316 01       		.uleb128 0x1
+ 1116 0317 50       		.byte	0x50
+ 1117 0318 03       		.uleb128 0x3
+ 1118 0319 F3       		.byte	0xf3
+ 1119 031a 01       		.uleb128 0x1
+ 1120 031b 50       		.byte	0x50
+ 1121 031c 00       		.byte	0
+ 1122 031d 07       		.uleb128 0x7
+ 1123 031e 0C000000 		.4byte	.LVL42
+ 1124 0322 14040000 		.4byte	0x414
+ 1125 0326 30030000 		.4byte	0x330
+ 1126 032a 08       		.uleb128 0x8
+ 1127 032b 01       		.uleb128 0x1
+ 1128 032c 50       		.byte	0x50
+ 1129 032d 01       		.uleb128 0x1
+ 1130 032e 3D       		.byte	0x3d
+ 1131 032f 00       		.byte	0
+ 1132 0330 09       		.uleb128 0x9
+ 1133 0331 12000000 		.4byte	.LVL43
+ 1134 0335 14040000 		.4byte	0x414
+ 1135 0339 08       		.uleb128 0x8
+ 1136 033a 01       		.uleb128 0x1
+ 1137 033b 50       		.byte	0x50
+ 1138 033c 01       		.uleb128 0x1
+ 1139 033d 3A       		.byte	0x3a
+ 1140 033e 00       		.byte	0
+ 1141 033f 00       		.byte	0
+ 1142 0340 0A       		.uleb128 0xa
+ 1143 0341 47030000 		.4byte	.LASF41
+ 1144 0345 01       		.byte	0x1
+ 1145 0346 D502     		.2byte	0x2d5
+ 1146 0348 00000000 		.4byte	.LFB12
+ 1147 034c 14000000 		.4byte	.LFE12-.LFB12
+ 1148 0350 01       		.uleb128 0x1
+ 1149 0351 9C       		.byte	0x9c
+ 1150 0352 0A       		.uleb128 0xa
+ 1151 0353 27010000 		.4byte	.LASF42
+ 1152 0357 01       		.byte	0x1
+ 1153 0358 E402     		.2byte	0x2e4
+ 1154 035a 00000000 		.4byte	.LFB13
+ 1155 035e 14000000 		.4byte	.LFE13-.LFB13
+ 1156 0362 01       		.uleb128 0x1
+ 1157 0363 9C       		.byte	0x9c
+ 1158 0364 0B       		.uleb128 0xb
+ 1159 0365 C5030000 		.4byte	.LASF43
+ 1160 0369 01       		.byte	0x1
+ 1161 036a F802     		.2byte	0x2f8
+ 1162 036c 00000000 		.4byte	.LFB14
+ 1163 0370 28000000 		.4byte	.LFE14-.LFB14
+ 1164 0374 01       		.uleb128 0x1
+ 1165 0375 9C       		.byte	0x9c
+ 1166 0376 89030000 		.4byte	0x389
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 36
+
+
+ 1167 037a 10       		.uleb128 0x10
+ 1168 037b D8010000 		.4byte	.LASF32
+ 1169 037f 01       		.byte	0x1
+ 1170 0380 F802     		.2byte	0x2f8
+ 1171 0382 83000000 		.4byte	0x83
+ 1172 0386 01       		.uleb128 0x1
+ 1173 0387 50       		.byte	0x50
+ 1174 0388 00       		.byte	0
+ 1175 0389 0B       		.uleb128 0xb
+ 1176 038a BC000000 		.4byte	.LASF44
+ 1177 038e 01       		.byte	0x1
+ 1178 038f 1A03     		.2byte	0x31a
+ 1179 0391 00000000 		.4byte	.LFB15
+ 1180 0395 58000000 		.4byte	.LFE15-.LFB15
+ 1181 0399 01       		.uleb128 0x1
+ 1182 039a 9C       		.byte	0x9c
+ 1183 039b D0030000 		.4byte	0x3d0
+ 1184 039f 0C       		.uleb128 0xc
+ 1185 03a0 94000000 		.4byte	.LASF45
+ 1186 03a4 01       		.byte	0x1
+ 1187 03a5 1A03     		.2byte	0x31a
+ 1188 03a7 83000000 		.4byte	0x83
+ 1189 03ab B8010000 		.4byte	.LLST12
+ 1190 03af 0D       		.uleb128 0xd
+ 1191 03b0 32040000 		.4byte	.LASF46
+ 1192 03b4 01       		.byte	0x1
+ 1193 03b5 1C03     		.2byte	0x31c
+ 1194 03b7 83000000 		.4byte	0x83
+ 1195 03bb F1010000 		.4byte	.LLST13
+ 1196 03bf 0D       		.uleb128 0xd
+ 1197 03c0 A5000000 		.4byte	.LASF47
+ 1198 03c4 01       		.byte	0x1
+ 1199 03c5 1D03     		.2byte	0x31d
+ 1200 03c7 83000000 		.4byte	0x83
+ 1201 03cb 04020000 		.4byte	.LLST14
+ 1202 03cf 00       		.byte	0
+ 1203 03d0 13       		.uleb128 0x13
+ 1204 03d1 A8010000 		.4byte	.LASF57
+ 1205 03d5 05       		.byte	0x5
+ 1206 03d6 5B       		.byte	0x5b
+ 1207 03d7 77000000 		.4byte	0x77
+ 1208 03db 14       		.uleb128 0x14
+ 1209 03dc A8030000 		.4byte	.LASF48
+ 1210 03e0 A8030000 		.4byte	.LASF48
+ 1211 03e4 03       		.byte	0x3
+ 1212 03e5 D8       		.byte	0xd8
+ 1213 03e6 14       		.uleb128 0x14
+ 1214 03e7 2A020000 		.4byte	.LASF49
+ 1215 03eb 2A020000 		.4byte	.LASF49
+ 1216 03ef 03       		.byte	0x3
+ 1217 03f0 D3       		.byte	0xd3
+ 1218 03f1 14       		.uleb128 0x14
+ 1219 03f2 EF010000 		.4byte	.LASF50
+ 1220 03f6 EF010000 		.4byte	.LASF50
+ 1221 03fa 03       		.byte	0x3
+ 1222 03fb D0       		.byte	0xd0
+ 1223 03fc 15       		.uleb128 0x15
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 37
+
+
+ 1224 03fd 88030000 		.4byte	.LASF51
+ 1225 0401 88030000 		.4byte	.LASF51
+ 1226 0405 04       		.byte	0x4
+ 1227 0406 3E03     		.2byte	0x33e
+ 1228 0408 15       		.uleb128 0x15
+ 1229 0409 53020000 		.4byte	.LASF52
+ 1230 040d 53020000 		.4byte	.LASF52
+ 1231 0411 04       		.byte	0x4
+ 1232 0412 3D03     		.2byte	0x33d
+ 1233 0414 15       		.uleb128 0x15
+ 1234 0415 32000000 		.4byte	.LASF53
+ 1235 0419 32000000 		.4byte	.LASF53
+ 1236 041d 04       		.byte	0x4
+ 1237 041e 4403     		.2byte	0x344
+ 1238 0420 00       		.byte	0
+ 1239              		.section	.debug_abbrev,"",%progbits
+ 1240              	.Ldebug_abbrev0:
+ 1241 0000 01       		.uleb128 0x1
+ 1242 0001 11       		.uleb128 0x11
+ 1243 0002 01       		.byte	0x1
+ 1244 0003 25       		.uleb128 0x25
+ 1245 0004 0E       		.uleb128 0xe
+ 1246 0005 13       		.uleb128 0x13
+ 1247 0006 0B       		.uleb128 0xb
+ 1248 0007 03       		.uleb128 0x3
+ 1249 0008 0E       		.uleb128 0xe
+ 1250 0009 1B       		.uleb128 0x1b
+ 1251 000a 0E       		.uleb128 0xe
+ 1252 000b 55       		.uleb128 0x55
+ 1253 000c 17       		.uleb128 0x17
+ 1254 000d 11       		.uleb128 0x11
+ 1255 000e 01       		.uleb128 0x1
+ 1256 000f 10       		.uleb128 0x10
+ 1257 0010 17       		.uleb128 0x17
+ 1258 0011 00       		.byte	0
+ 1259 0012 00       		.byte	0
+ 1260 0013 02       		.uleb128 0x2
+ 1261 0014 24       		.uleb128 0x24
+ 1262 0015 00       		.byte	0
+ 1263 0016 0B       		.uleb128 0xb
+ 1264 0017 0B       		.uleb128 0xb
+ 1265 0018 3E       		.uleb128 0x3e
+ 1266 0019 0B       		.uleb128 0xb
+ 1267 001a 03       		.uleb128 0x3
+ 1268 001b 0E       		.uleb128 0xe
+ 1269 001c 00       		.byte	0
+ 1270 001d 00       		.byte	0
+ 1271 001e 03       		.uleb128 0x3
+ 1272 001f 24       		.uleb128 0x24
+ 1273 0020 00       		.byte	0
+ 1274 0021 0B       		.uleb128 0xb
+ 1275 0022 0B       		.uleb128 0xb
+ 1276 0023 3E       		.uleb128 0x3e
+ 1277 0024 0B       		.uleb128 0xb
+ 1278 0025 03       		.uleb128 0x3
+ 1279 0026 08       		.uleb128 0x8
+ 1280 0027 00       		.byte	0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 38
+
+
+ 1281 0028 00       		.byte	0
+ 1282 0029 04       		.uleb128 0x4
+ 1283 002a 16       		.uleb128 0x16
+ 1284 002b 00       		.byte	0
+ 1285 002c 03       		.uleb128 0x3
+ 1286 002d 0E       		.uleb128 0xe
+ 1287 002e 3A       		.uleb128 0x3a
+ 1288 002f 0B       		.uleb128 0xb
+ 1289 0030 3B       		.uleb128 0x3b
+ 1290 0031 05       		.uleb128 0x5
+ 1291 0032 49       		.uleb128 0x49
+ 1292 0033 13       		.uleb128 0x13
+ 1293 0034 00       		.byte	0
+ 1294 0035 00       		.byte	0
+ 1295 0036 05       		.uleb128 0x5
+ 1296 0037 35       		.uleb128 0x35
+ 1297 0038 00       		.byte	0
+ 1298 0039 49       		.uleb128 0x49
+ 1299 003a 13       		.uleb128 0x13
+ 1300 003b 00       		.byte	0
+ 1301 003c 00       		.byte	0
+ 1302 003d 06       		.uleb128 0x6
+ 1303 003e 2E       		.uleb128 0x2e
+ 1304 003f 01       		.byte	0x1
+ 1305 0040 3F       		.uleb128 0x3f
+ 1306 0041 19       		.uleb128 0x19
+ 1307 0042 03       		.uleb128 0x3
+ 1308 0043 0E       		.uleb128 0xe
+ 1309 0044 3A       		.uleb128 0x3a
+ 1310 0045 0B       		.uleb128 0xb
+ 1311 0046 3B       		.uleb128 0x3b
+ 1312 0047 0B       		.uleb128 0xb
+ 1313 0048 27       		.uleb128 0x27
+ 1314 0049 19       		.uleb128 0x19
+ 1315 004a 11       		.uleb128 0x11
+ 1316 004b 01       		.uleb128 0x1
+ 1317 004c 12       		.uleb128 0x12
+ 1318 004d 06       		.uleb128 0x6
+ 1319 004e 40       		.uleb128 0x40
+ 1320 004f 18       		.uleb128 0x18
+ 1321 0050 9742     		.uleb128 0x2117
+ 1322 0052 19       		.uleb128 0x19
+ 1323 0053 01       		.uleb128 0x1
+ 1324 0054 13       		.uleb128 0x13
+ 1325 0055 00       		.byte	0
+ 1326 0056 00       		.byte	0
+ 1327 0057 07       		.uleb128 0x7
+ 1328 0058 898201   		.uleb128 0x4109
+ 1329 005b 01       		.byte	0x1
+ 1330 005c 11       		.uleb128 0x11
+ 1331 005d 01       		.uleb128 0x1
+ 1332 005e 31       		.uleb128 0x31
+ 1333 005f 13       		.uleb128 0x13
+ 1334 0060 01       		.uleb128 0x1
+ 1335 0061 13       		.uleb128 0x13
+ 1336 0062 00       		.byte	0
+ 1337 0063 00       		.byte	0
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 39
+
+
+ 1338 0064 08       		.uleb128 0x8
+ 1339 0065 8A8201   		.uleb128 0x410a
+ 1340 0068 00       		.byte	0
+ 1341 0069 02       		.uleb128 0x2
+ 1342 006a 18       		.uleb128 0x18
+ 1343 006b 9142     		.uleb128 0x2111
+ 1344 006d 18       		.uleb128 0x18
+ 1345 006e 00       		.byte	0
+ 1346 006f 00       		.byte	0
+ 1347 0070 09       		.uleb128 0x9
+ 1348 0071 898201   		.uleb128 0x4109
+ 1349 0074 01       		.byte	0x1
+ 1350 0075 11       		.uleb128 0x11
+ 1351 0076 01       		.uleb128 0x1
+ 1352 0077 31       		.uleb128 0x31
+ 1353 0078 13       		.uleb128 0x13
+ 1354 0079 00       		.byte	0
+ 1355 007a 00       		.byte	0
+ 1356 007b 0A       		.uleb128 0xa
+ 1357 007c 2E       		.uleb128 0x2e
+ 1358 007d 00       		.byte	0
+ 1359 007e 3F       		.uleb128 0x3f
+ 1360 007f 19       		.uleb128 0x19
+ 1361 0080 03       		.uleb128 0x3
+ 1362 0081 0E       		.uleb128 0xe
+ 1363 0082 3A       		.uleb128 0x3a
+ 1364 0083 0B       		.uleb128 0xb
+ 1365 0084 3B       		.uleb128 0x3b
+ 1366 0085 05       		.uleb128 0x5
+ 1367 0086 27       		.uleb128 0x27
+ 1368 0087 19       		.uleb128 0x19
+ 1369 0088 11       		.uleb128 0x11
+ 1370 0089 01       		.uleb128 0x1
+ 1371 008a 12       		.uleb128 0x12
+ 1372 008b 06       		.uleb128 0x6
+ 1373 008c 40       		.uleb128 0x40
+ 1374 008d 18       		.uleb128 0x18
+ 1375 008e 9742     		.uleb128 0x2117
+ 1376 0090 19       		.uleb128 0x19
+ 1377 0091 00       		.byte	0
+ 1378 0092 00       		.byte	0
+ 1379 0093 0B       		.uleb128 0xb
+ 1380 0094 2E       		.uleb128 0x2e
+ 1381 0095 01       		.byte	0x1
+ 1382 0096 3F       		.uleb128 0x3f
+ 1383 0097 19       		.uleb128 0x19
+ 1384 0098 03       		.uleb128 0x3
+ 1385 0099 0E       		.uleb128 0xe
+ 1386 009a 3A       		.uleb128 0x3a
+ 1387 009b 0B       		.uleb128 0xb
+ 1388 009c 3B       		.uleb128 0x3b
+ 1389 009d 05       		.uleb128 0x5
+ 1390 009e 27       		.uleb128 0x27
+ 1391 009f 19       		.uleb128 0x19
+ 1392 00a0 11       		.uleb128 0x11
+ 1393 00a1 01       		.uleb128 0x1
+ 1394 00a2 12       		.uleb128 0x12
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 40
+
+
+ 1395 00a3 06       		.uleb128 0x6
+ 1396 00a4 40       		.uleb128 0x40
+ 1397 00a5 18       		.uleb128 0x18
+ 1398 00a6 9742     		.uleb128 0x2117
+ 1399 00a8 19       		.uleb128 0x19
+ 1400 00a9 01       		.uleb128 0x1
+ 1401 00aa 13       		.uleb128 0x13
+ 1402 00ab 00       		.byte	0
+ 1403 00ac 00       		.byte	0
+ 1404 00ad 0C       		.uleb128 0xc
+ 1405 00ae 05       		.uleb128 0x5
+ 1406 00af 00       		.byte	0
+ 1407 00b0 03       		.uleb128 0x3
+ 1408 00b1 0E       		.uleb128 0xe
+ 1409 00b2 3A       		.uleb128 0x3a
+ 1410 00b3 0B       		.uleb128 0xb
+ 1411 00b4 3B       		.uleb128 0x3b
+ 1412 00b5 05       		.uleb128 0x5
+ 1413 00b6 49       		.uleb128 0x49
+ 1414 00b7 13       		.uleb128 0x13
+ 1415 00b8 02       		.uleb128 0x2
+ 1416 00b9 17       		.uleb128 0x17
+ 1417 00ba 00       		.byte	0
+ 1418 00bb 00       		.byte	0
+ 1419 00bc 0D       		.uleb128 0xd
+ 1420 00bd 34       		.uleb128 0x34
+ 1421 00be 00       		.byte	0
+ 1422 00bf 03       		.uleb128 0x3
+ 1423 00c0 0E       		.uleb128 0xe
+ 1424 00c1 3A       		.uleb128 0x3a
+ 1425 00c2 0B       		.uleb128 0xb
+ 1426 00c3 3B       		.uleb128 0x3b
+ 1427 00c4 05       		.uleb128 0x5
+ 1428 00c5 49       		.uleb128 0x49
+ 1429 00c6 13       		.uleb128 0x13
+ 1430 00c7 02       		.uleb128 0x2
+ 1431 00c8 17       		.uleb128 0x17
+ 1432 00c9 00       		.byte	0
+ 1433 00ca 00       		.byte	0
+ 1434 00cb 0E       		.uleb128 0xe
+ 1435 00cc 2E       		.uleb128 0x2e
+ 1436 00cd 01       		.byte	0x1
+ 1437 00ce 3F       		.uleb128 0x3f
+ 1438 00cf 19       		.uleb128 0x19
+ 1439 00d0 03       		.uleb128 0x3
+ 1440 00d1 0E       		.uleb128 0xe
+ 1441 00d2 3A       		.uleb128 0x3a
+ 1442 00d3 0B       		.uleb128 0xb
+ 1443 00d4 3B       		.uleb128 0x3b
+ 1444 00d5 05       		.uleb128 0x5
+ 1445 00d6 27       		.uleb128 0x27
+ 1446 00d7 19       		.uleb128 0x19
+ 1447 00d8 49       		.uleb128 0x49
+ 1448 00d9 13       		.uleb128 0x13
+ 1449 00da 11       		.uleb128 0x11
+ 1450 00db 01       		.uleb128 0x1
+ 1451 00dc 12       		.uleb128 0x12
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 41
+
+
+ 1452 00dd 06       		.uleb128 0x6
+ 1453 00de 40       		.uleb128 0x40
+ 1454 00df 18       		.uleb128 0x18
+ 1455 00e0 9742     		.uleb128 0x2117
+ 1456 00e2 19       		.uleb128 0x19
+ 1457 00e3 01       		.uleb128 0x1
+ 1458 00e4 13       		.uleb128 0x13
+ 1459 00e5 00       		.byte	0
+ 1460 00e6 00       		.byte	0
+ 1461 00e7 0F       		.uleb128 0xf
+ 1462 00e8 898201   		.uleb128 0x4109
+ 1463 00eb 00       		.byte	0
+ 1464 00ec 11       		.uleb128 0x11
+ 1465 00ed 01       		.uleb128 0x1
+ 1466 00ee 31       		.uleb128 0x31
+ 1467 00ef 13       		.uleb128 0x13
+ 1468 00f0 00       		.byte	0
+ 1469 00f1 00       		.byte	0
+ 1470 00f2 10       		.uleb128 0x10
+ 1471 00f3 05       		.uleb128 0x5
+ 1472 00f4 00       		.byte	0
+ 1473 00f5 03       		.uleb128 0x3
+ 1474 00f6 0E       		.uleb128 0xe
+ 1475 00f7 3A       		.uleb128 0x3a
+ 1476 00f8 0B       		.uleb128 0xb
+ 1477 00f9 3B       		.uleb128 0x3b
+ 1478 00fa 05       		.uleb128 0x5
+ 1479 00fb 49       		.uleb128 0x49
+ 1480 00fc 13       		.uleb128 0x13
+ 1481 00fd 02       		.uleb128 0x2
+ 1482 00fe 18       		.uleb128 0x18
+ 1483 00ff 00       		.byte	0
+ 1484 0100 00       		.byte	0
+ 1485 0101 11       		.uleb128 0x11
+ 1486 0102 0F       		.uleb128 0xf
+ 1487 0103 00       		.byte	0
+ 1488 0104 0B       		.uleb128 0xb
+ 1489 0105 0B       		.uleb128 0xb
+ 1490 0106 49       		.uleb128 0x49
+ 1491 0107 13       		.uleb128 0x13
+ 1492 0108 00       		.byte	0
+ 1493 0109 00       		.byte	0
+ 1494 010a 12       		.uleb128 0x12
+ 1495 010b 26       		.uleb128 0x26
+ 1496 010c 00       		.byte	0
+ 1497 010d 49       		.uleb128 0x49
+ 1498 010e 13       		.uleb128 0x13
+ 1499 010f 00       		.byte	0
+ 1500 0110 00       		.byte	0
+ 1501 0111 13       		.uleb128 0x13
+ 1502 0112 34       		.uleb128 0x34
+ 1503 0113 00       		.byte	0
+ 1504 0114 03       		.uleb128 0x3
+ 1505 0115 0E       		.uleb128 0xe
+ 1506 0116 3A       		.uleb128 0x3a
+ 1507 0117 0B       		.uleb128 0xb
+ 1508 0118 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 42
+
+
+ 1509 0119 0B       		.uleb128 0xb
+ 1510 011a 49       		.uleb128 0x49
+ 1511 011b 13       		.uleb128 0x13
+ 1512 011c 3F       		.uleb128 0x3f
+ 1513 011d 19       		.uleb128 0x19
+ 1514 011e 3C       		.uleb128 0x3c
+ 1515 011f 19       		.uleb128 0x19
+ 1516 0120 00       		.byte	0
+ 1517 0121 00       		.byte	0
+ 1518 0122 14       		.uleb128 0x14
+ 1519 0123 2E       		.uleb128 0x2e
+ 1520 0124 00       		.byte	0
+ 1521 0125 3F       		.uleb128 0x3f
+ 1522 0126 19       		.uleb128 0x19
+ 1523 0127 3C       		.uleb128 0x3c
+ 1524 0128 19       		.uleb128 0x19
+ 1525 0129 6E       		.uleb128 0x6e
+ 1526 012a 0E       		.uleb128 0xe
+ 1527 012b 03       		.uleb128 0x3
+ 1528 012c 0E       		.uleb128 0xe
+ 1529 012d 3A       		.uleb128 0x3a
+ 1530 012e 0B       		.uleb128 0xb
+ 1531 012f 3B       		.uleb128 0x3b
+ 1532 0130 0B       		.uleb128 0xb
+ 1533 0131 00       		.byte	0
+ 1534 0132 00       		.byte	0
+ 1535 0133 15       		.uleb128 0x15
+ 1536 0134 2E       		.uleb128 0x2e
+ 1537 0135 00       		.byte	0
+ 1538 0136 3F       		.uleb128 0x3f
+ 1539 0137 19       		.uleb128 0x19
+ 1540 0138 3C       		.uleb128 0x3c
+ 1541 0139 19       		.uleb128 0x19
+ 1542 013a 6E       		.uleb128 0x6e
+ 1543 013b 0E       		.uleb128 0xe
+ 1544 013c 03       		.uleb128 0x3
+ 1545 013d 0E       		.uleb128 0xe
+ 1546 013e 3A       		.uleb128 0x3a
+ 1547 013f 0B       		.uleb128 0xb
+ 1548 0140 3B       		.uleb128 0x3b
+ 1549 0141 05       		.uleb128 0x5
+ 1550 0142 00       		.byte	0
+ 1551 0143 00       		.byte	0
+ 1552 0144 00       		.byte	0
+ 1553              		.section	.debug_loc,"",%progbits
+ 1554              	.Ldebug_loc0:
+ 1555              	.LLST0:
+ 1556 0000 00000000 		.4byte	.LVL3
+ 1557 0004 0A000000 		.4byte	.LVL6
+ 1558 0008 0100     		.2byte	0x1
+ 1559 000a 50       		.byte	0x50
+ 1560 000b 0A000000 		.4byte	.LVL6
+ 1561 000f 14000000 		.4byte	.LFE4
+ 1562 0013 0400     		.2byte	0x4
+ 1563 0015 F3       		.byte	0xf3
+ 1564 0016 01       		.uleb128 0x1
+ 1565 0017 50       		.byte	0x50
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 43
+
+
+ 1566 0018 9F       		.byte	0x9f
+ 1567 0019 00000000 		.4byte	0
+ 1568 001d 00000000 		.4byte	0
+ 1569              	.LLST1:
+ 1570 0021 04000000 		.4byte	.LVL4
+ 1571 0025 0C000000 		.4byte	.LVL7
+ 1572 0029 0100     		.2byte	0x1
+ 1573 002b 53       		.byte	0x53
+ 1574 002c 0C000000 		.4byte	.LVL7
+ 1575 0030 14000000 		.4byte	.LFE4
+ 1576 0034 0100     		.2byte	0x1
+ 1577 0036 50       		.byte	0x50
+ 1578 0037 00000000 		.4byte	0
+ 1579 003b 00000000 		.4byte	0
+ 1580              	.LLST2:
+ 1581 003f 00000000 		.4byte	.LVL8
+ 1582 0043 0A000000 		.4byte	.LVL11
+ 1583 0047 0100     		.2byte	0x1
+ 1584 0049 50       		.byte	0x50
+ 1585 004a 0A000000 		.4byte	.LVL11
+ 1586 004e 18000000 		.4byte	.LFE5
+ 1587 0052 0400     		.2byte	0x4
+ 1588 0054 F3       		.byte	0xf3
+ 1589 0055 01       		.uleb128 0x1
+ 1590 0056 50       		.byte	0x50
+ 1591 0057 9F       		.byte	0x9f
+ 1592 0058 00000000 		.4byte	0
+ 1593 005c 00000000 		.4byte	0
+ 1594              	.LLST3:
+ 1595 0060 04000000 		.4byte	.LVL9
+ 1596 0064 08000000 		.4byte	.LVL10
+ 1597 0068 0100     		.2byte	0x1
+ 1598 006a 51       		.byte	0x51
+ 1599 006b 08000000 		.4byte	.LVL10
+ 1600 006f 0C000000 		.4byte	.LVL12
+ 1601 0073 0100     		.2byte	0x1
+ 1602 0075 53       		.byte	0x53
+ 1603 0076 0C000000 		.4byte	.LVL12
+ 1604 007a 18000000 		.4byte	.LFE5
+ 1605 007e 0100     		.2byte	0x1
+ 1606 0080 50       		.byte	0x50
+ 1607 0081 00000000 		.4byte	0
+ 1608 0085 00000000 		.4byte	0
+ 1609              	.LLST4:
+ 1610 0089 02000000 		.4byte	.LVL13
+ 1611 008d 0E000000 		.4byte	.LVL15
+ 1612 0091 0200     		.2byte	0x2
+ 1613 0093 30       		.byte	0x30
+ 1614 0094 9F       		.byte	0x9f
+ 1615 0095 0E000000 		.4byte	.LVL15
+ 1616 0099 10000000 		.4byte	.LVL16
+ 1617 009d 0100     		.2byte	0x1
+ 1618 009f 50       		.byte	0x50
+ 1619 00a0 10000000 		.4byte	.LVL16
+ 1620 00a4 12000000 		.4byte	.LVL17
+ 1621 00a8 0200     		.2byte	0x2
+ 1622 00aa 30       		.byte	0x30
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 44
+
+
+ 1623 00ab 9F       		.byte	0x9f
+ 1624 00ac 12000000 		.4byte	.LVL17
+ 1625 00b0 1E000000 		.4byte	.LVL18
+ 1626 00b4 0100     		.2byte	0x1
+ 1627 00b6 50       		.byte	0x50
+ 1628 00b7 1E000000 		.4byte	.LVL18
+ 1629 00bb 26000000 		.4byte	.LVL19
+ 1630 00bf 0200     		.2byte	0x2
+ 1631 00c1 30       		.byte	0x30
+ 1632 00c2 9F       		.byte	0x9f
+ 1633 00c3 26000000 		.4byte	.LVL19
+ 1634 00c7 2C000000 		.4byte	.LFE6
+ 1635 00cb 0100     		.2byte	0x1
+ 1636 00cd 50       		.byte	0x50
+ 1637 00ce 00000000 		.4byte	0
+ 1638 00d2 00000000 		.4byte	0
+ 1639              	.LLST5:
+ 1640 00d6 0E000000 		.4byte	.LVL21
+ 1641 00da 10000000 		.4byte	.LVL22
+ 1642 00de 0100     		.2byte	0x1
+ 1643 00e0 50       		.byte	0x50
+ 1644 00e1 14000000 		.4byte	.LVL23
+ 1645 00e5 34000000 		.4byte	.LFE7
+ 1646 00e9 0100     		.2byte	0x1
+ 1647 00eb 50       		.byte	0x50
+ 1648 00ec 00000000 		.4byte	0
+ 1649 00f0 00000000 		.4byte	0
+ 1650              	.LLST6:
+ 1651 00f4 18000000 		.4byte	.LVL24
+ 1652 00f8 20000000 		.4byte	.LVL25
+ 1653 00fc 0700     		.2byte	0x7
+ 1654 00fe 73       		.byte	0x73
+ 1655 00ff 00       		.sleb128 0
+ 1656 0100 0A       		.byte	0xa
+ 1657 0101 6003     		.2byte	0x360
+ 1658 0103 1A       		.byte	0x1a
+ 1659 0104 9F       		.byte	0x9f
+ 1660 0105 00000000 		.4byte	0
+ 1661 0109 00000000 		.4byte	0
+ 1662              	.LLST7:
+ 1663 010d 00000000 		.4byte	.LVL28
+ 1664 0111 0A000000 		.4byte	.LVL31
+ 1665 0115 0100     		.2byte	0x1
+ 1666 0117 50       		.byte	0x50
+ 1667 0118 0A000000 		.4byte	.LVL31
+ 1668 011c 14000000 		.4byte	.LFE9
+ 1669 0120 0400     		.2byte	0x4
+ 1670 0122 F3       		.byte	0xf3
+ 1671 0123 01       		.uleb128 0x1
+ 1672 0124 50       		.byte	0x50
+ 1673 0125 9F       		.byte	0x9f
+ 1674 0126 00000000 		.4byte	0
+ 1675 012a 00000000 		.4byte	0
+ 1676              	.LLST8:
+ 1677 012e 04000000 		.4byte	.LVL29
+ 1678 0132 0C000000 		.4byte	.LVL32
+ 1679 0136 0100     		.2byte	0x1
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 45
+
+
+ 1680 0138 53       		.byte	0x53
+ 1681 0139 0C000000 		.4byte	.LVL32
+ 1682 013d 14000000 		.4byte	.LFE9
+ 1683 0141 0100     		.2byte	0x1
+ 1684 0143 50       		.byte	0x50
+ 1685 0144 00000000 		.4byte	0
+ 1686 0148 00000000 		.4byte	0
+ 1687              	.LLST9:
+ 1688 014c 00000000 		.4byte	.LVL33
+ 1689 0150 08000000 		.4byte	.LVL35
+ 1690 0154 0100     		.2byte	0x1
+ 1691 0156 50       		.byte	0x50
+ 1692 0157 08000000 		.4byte	.LVL35
+ 1693 015b 14000000 		.4byte	.LVL39
+ 1694 015f 0100     		.2byte	0x1
+ 1695 0161 55       		.byte	0x55
+ 1696 0162 14000000 		.4byte	.LVL39
+ 1697 0166 16000000 		.4byte	.LFE10
+ 1698 016a 0400     		.2byte	0x4
+ 1699 016c F3       		.byte	0xf3
+ 1700 016d 01       		.uleb128 0x1
+ 1701 016e 50       		.byte	0x50
+ 1702 016f 9F       		.byte	0x9f
+ 1703 0170 00000000 		.4byte	0
+ 1704 0174 00000000 		.4byte	0
+ 1705              	.LLST10:
+ 1706 0178 04000000 		.4byte	.LVL34
+ 1707 017c 08000000 		.4byte	.LVL35
+ 1708 0180 0200     		.2byte	0x2
+ 1709 0182 30       		.byte	0x30
+ 1710 0183 9F       		.byte	0x9f
+ 1711 0184 08000000 		.4byte	.LVL35
+ 1712 0188 14000000 		.4byte	.LVL38
+ 1713 018c 0100     		.2byte	0x1
+ 1714 018e 54       		.byte	0x54
+ 1715 018f 00000000 		.4byte	0
+ 1716 0193 00000000 		.4byte	0
+ 1717              	.LLST11:
+ 1718 0197 00000000 		.4byte	.LVL40
+ 1719 019b 05000000 		.4byte	.LVL41-1
+ 1720 019f 0100     		.2byte	0x1
+ 1721 01a1 50       		.byte	0x50
+ 1722 01a2 05000000 		.4byte	.LVL41-1
+ 1723 01a6 14000000 		.4byte	.LFE11
+ 1724 01aa 0400     		.2byte	0x4
+ 1725 01ac F3       		.byte	0xf3
+ 1726 01ad 01       		.uleb128 0x1
+ 1727 01ae 50       		.byte	0x50
+ 1728 01af 9F       		.byte	0x9f
+ 1729 01b0 00000000 		.4byte	0
+ 1730 01b4 00000000 		.4byte	0
+ 1731              	.LLST12:
+ 1732 01b8 00000000 		.4byte	.LVL45
+ 1733 01bc 1C000000 		.4byte	.LVL48
+ 1734 01c0 0100     		.2byte	0x1
+ 1735 01c2 50       		.byte	0x50
+ 1736 01c3 1C000000 		.4byte	.LVL48
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 46
+
+
+ 1737 01c7 20000000 		.4byte	.LVL49
+ 1738 01cb 0100     		.2byte	0x1
+ 1739 01cd 53       		.byte	0x53
+ 1740 01ce 20000000 		.4byte	.LVL49
+ 1741 01d2 28000000 		.4byte	.LVL50
+ 1742 01d6 0300     		.2byte	0x3
+ 1743 01d8 73       		.byte	0x73
+ 1744 01d9 01       		.sleb128 1
+ 1745 01da 9F       		.byte	0x9f
+ 1746 01db 28000000 		.4byte	.LVL50
+ 1747 01df 58000000 		.4byte	.LFE15
+ 1748 01e3 0400     		.2byte	0x4
+ 1749 01e5 F3       		.byte	0xf3
+ 1750 01e6 01       		.uleb128 0x1
+ 1751 01e7 50       		.byte	0x50
+ 1752 01e8 9F       		.byte	0x9f
+ 1753 01e9 00000000 		.4byte	0
+ 1754 01ed 00000000 		.4byte	0
+ 1755              	.LLST13:
+ 1756 01f1 18000000 		.4byte	.LVL47
+ 1757 01f5 40000000 		.4byte	.LVL52
+ 1758 01f9 0100     		.2byte	0x1
+ 1759 01fb 56       		.byte	0x56
+ 1760 01fc 00000000 		.4byte	0
+ 1761 0200 00000000 		.4byte	0
+ 1762              	.LLST14:
+ 1763 0204 08000000 		.4byte	.LVL46
+ 1764 0208 40000000 		.4byte	.LVL51
+ 1765 020c 0100     		.2byte	0x1
+ 1766 020e 55       		.byte	0x55
+ 1767 020f 40000000 		.4byte	.LVL51
+ 1768 0213 58000000 		.4byte	.LFE15
+ 1769 0217 0200     		.2byte	0x2
+ 1770 0219 73       		.byte	0x73
+ 1771 021a 00       		.sleb128 0
+ 1772 021b 00000000 		.4byte	0
+ 1773 021f 00000000 		.4byte	0
+ 1774              		.section	.debug_aranges,"",%progbits
+ 1775 0000 8C000000 		.4byte	0x8c
+ 1776 0004 0200     		.2byte	0x2
+ 1777 0006 00000000 		.4byte	.Ldebug_info0
+ 1778 000a 04       		.byte	0x4
+ 1779 000b 00       		.byte	0
+ 1780 000c 0000     		.2byte	0
+ 1781 000e 0000     		.2byte	0
+ 1782 0010 00000000 		.4byte	.LFB1
+ 1783 0014 C4000000 		.4byte	.LFE1-.LFB1
+ 1784 0018 00000000 		.4byte	.LFB2
+ 1785 001c 24000000 		.4byte	.LFE2-.LFB2
+ 1786 0020 00000000 		.4byte	.LFB3
+ 1787 0024 28000000 		.4byte	.LFE3-.LFB3
+ 1788 0028 00000000 		.4byte	.LFB4
+ 1789 002c 14000000 		.4byte	.LFE4-.LFB4
+ 1790 0030 00000000 		.4byte	.LFB5
+ 1791 0034 18000000 		.4byte	.LFE5-.LFB5
+ 1792 0038 00000000 		.4byte	.LFB6
+ 1793 003c 2C000000 		.4byte	.LFE6-.LFB6
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 47
+
+
+ 1794 0040 00000000 		.4byte	.LFB7
+ 1795 0044 34000000 		.4byte	.LFE7-.LFB7
+ 1796 0048 00000000 		.4byte	.LFB8
+ 1797 004c 28000000 		.4byte	.LFE8-.LFB8
+ 1798 0050 00000000 		.4byte	.LFB9
+ 1799 0054 14000000 		.4byte	.LFE9-.LFB9
+ 1800 0058 00000000 		.4byte	.LFB10
+ 1801 005c 16000000 		.4byte	.LFE10-.LFB10
+ 1802 0060 00000000 		.4byte	.LFB11
+ 1803 0064 14000000 		.4byte	.LFE11-.LFB11
+ 1804 0068 00000000 		.4byte	.LFB12
+ 1805 006c 14000000 		.4byte	.LFE12-.LFB12
+ 1806 0070 00000000 		.4byte	.LFB13
+ 1807 0074 14000000 		.4byte	.LFE13-.LFB13
+ 1808 0078 00000000 		.4byte	.LFB14
+ 1809 007c 28000000 		.4byte	.LFE14-.LFB14
+ 1810 0080 00000000 		.4byte	.LFB15
+ 1811 0084 58000000 		.4byte	.LFE15-.LFB15
+ 1812 0088 00000000 		.4byte	0
+ 1813 008c 00000000 		.4byte	0
+ 1814              		.section	.debug_ranges,"",%progbits
+ 1815              	.Ldebug_ranges0:
+ 1816 0000 00000000 		.4byte	.LFB1
+ 1817 0004 C4000000 		.4byte	.LFE1
+ 1818 0008 00000000 		.4byte	.LFB2
+ 1819 000c 24000000 		.4byte	.LFE2
+ 1820 0010 00000000 		.4byte	.LFB3
+ 1821 0014 28000000 		.4byte	.LFE3
+ 1822 0018 00000000 		.4byte	.LFB4
+ 1823 001c 14000000 		.4byte	.LFE4
+ 1824 0020 00000000 		.4byte	.LFB5
+ 1825 0024 18000000 		.4byte	.LFE5
+ 1826 0028 00000000 		.4byte	.LFB6
+ 1827 002c 2C000000 		.4byte	.LFE6
+ 1828 0030 00000000 		.4byte	.LFB7
+ 1829 0034 34000000 		.4byte	.LFE7
+ 1830 0038 00000000 		.4byte	.LFB8
+ 1831 003c 28000000 		.4byte	.LFE8
+ 1832 0040 00000000 		.4byte	.LFB9
+ 1833 0044 14000000 		.4byte	.LFE9
+ 1834 0048 00000000 		.4byte	.LFB10
+ 1835 004c 16000000 		.4byte	.LFE10
+ 1836 0050 00000000 		.4byte	.LFB11
+ 1837 0054 14000000 		.4byte	.LFE11
+ 1838 0058 00000000 		.4byte	.LFB12
+ 1839 005c 14000000 		.4byte	.LFE12
+ 1840 0060 00000000 		.4byte	.LFB13
+ 1841 0064 14000000 		.4byte	.LFE13
+ 1842 0068 00000000 		.4byte	.LFB14
+ 1843 006c 28000000 		.4byte	.LFE14
+ 1844 0070 00000000 		.4byte	.LFB15
+ 1845 0074 58000000 		.4byte	.LFE15
+ 1846 0078 00000000 		.4byte	0
+ 1847 007c 00000000 		.4byte	0
+ 1848              		.section	.debug_line,"",%progbits
+ 1849              	.Ldebug_line0:
+ 1850 0000 E5010000 		.section	.debug_str,"MS",%progbits,1
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 48
+
+
+ 1850      02007E00 
+ 1850      00000201 
+ 1850      FB0E0D00 
+ 1850      01010101 
+ 1851              	.LASF6:
+ 1852 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1852      206C6F6E 
+ 1852      6720696E 
+ 1852      7400
+ 1853              	.LASF16:
+ 1854 000e 72656733 		.ascii	"reg32\000"
+ 1854      3200
+ 1855              	.LASF23:
+ 1856 0014 4750535F 		.ascii	"GPS_UART_UartSetRxAddressMask\000"
+ 1856      55415254 
+ 1856      5F556172 
+ 1856      74536574 
+ 1856      52784164 
+ 1857              	.LASF53:
+ 1858 0032 4750535F 		.ascii	"GPS_UART_SpiUartWriteTxData\000"
+ 1858      55415254 
+ 1858      5F537069 
+ 1858      55617274 
+ 1858      57726974 
+ 1859              	.LASF3:
+ 1860 004e 73686F72 		.ascii	"short unsigned int\000"
+ 1860      7420756E 
+ 1860      7369676E 
+ 1860      65642069 
+ 1860      6E7400
+ 1861              	.LASF36:
+ 1862 0061 4750535F 		.ascii	"GPS_UART_UartPutString\000"
+ 1862      55415254 
+ 1862      5F556172 
+ 1862      74507574 
+ 1862      53747269 
+ 1863              	.LASF37:
+ 1864 0078 73747269 		.ascii	"string\000"
+ 1864      6E6700
+ 1865              	.LASF28:
+ 1866 007f 4750535F 		.ascii	"GPS_UART_UartGetChar\000"
+ 1866      55415254 
+ 1866      5F556172 
+ 1866      74476574 
+ 1866      43686172 
+ 1867              	.LASF45:
+ 1868 0094 62726561 		.ascii	"breakWidth\000"
+ 1868      6B576964 
+ 1868      746800
+ 1869              	.LASF12:
+ 1870 009f 666C6F61 		.ascii	"float\000"
+ 1870      7400
+ 1871              	.LASF47:
+ 1872 00a5 7478496E 		.ascii	"txIntrReg\000"
+ 1872      74725265 
+ 1872      6700
+ 1873              	.LASF35:
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 49
+
+
+ 1874 00af 75617274 		.ascii	"uartFlowCtrl\000"
+ 1874      466C6F77 
+ 1874      4374726C 
+ 1874      00
+ 1875              	.LASF44:
+ 1876 00bc 4750535F 		.ascii	"GPS_UART_UartSendBreakBlocking\000"
+ 1876      55415254 
+ 1876      5F556172 
+ 1876      7453656E 
+ 1876      64427265 
+ 1877              	.LASF21:
+ 1878 00db 4750535F 		.ascii	"GPS_UART_UartInit\000"
+ 1878      55415254 
+ 1878      5F556172 
+ 1878      74496E69 
+ 1878      7400
+ 1879              	.LASF31:
+ 1880 00ed 4750535F 		.ascii	"GPS_UART_UartSetRtsPolarity\000"
+ 1880      55415254 
+ 1880      5F556172 
+ 1880      74536574 
+ 1880      52747350 
+ 1881              	.LASF14:
+ 1882 0109 63686172 		.ascii	"char8\000"
+ 1882      3800
+ 1883              	.LASF5:
+ 1884 010f 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1884      20756E73 
+ 1884      69676E65 
+ 1884      6420696E 
+ 1884      7400
+ 1885              	.LASF9:
+ 1886 0121 75696E74 		.ascii	"uint8\000"
+ 1886      3800
+ 1887              	.LASF42:
+ 1888 0127 4750535F 		.ascii	"GPS_UART_UartDisableCts\000"
+ 1888      55415254 
+ 1888      5F556172 
+ 1888      74446973 
+ 1888      61626C65 
+ 1889              	.LASF27:
+ 1890 013f 72784461 		.ascii	"rxData\000"
+ 1890      746100
+ 1891              	.LASF56:
+ 1892 0146 433A5C55 		.ascii	"C:\\Users\\davis\\Documents\\PSoC Creator\\IMU_Firm"
+ 1892      73657273 
+ 1892      5C646176 
+ 1892      69735C44 
+ 1892      6F63756D 
+ 1893 0174 77617265 		.ascii	"ware_2020-21\\IMU Board Firmware.cydsn\000"
+ 1893      5F323032 
+ 1893      302D3231 
+ 1893      5C494D55 
+ 1893      20426F61 
+ 1894              	.LASF1:
+ 1895 019a 756E7369 		.ascii	"unsigned char\000"
+ 1895      676E6564 
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 50
+
+
+ 1895      20636861 
+ 1895      7200
+ 1896              	.LASF57:
+ 1897 01a8 4750535F 		.ascii	"GPS_UART_IntrTxMask\000"
+ 1897      55415254 
+ 1897      5F496E74 
+ 1897      7254784D 
+ 1897      61736B00 
+ 1898              	.LASF13:
+ 1899 01bc 646F7562 		.ascii	"double\000"
+ 1899      6C6500
+ 1900              	.LASF29:
+ 1901 01c3 4750535F 		.ascii	"GPS_UART_UartGetByte\000"
+ 1901      55415254 
+ 1901      5F556172 
+ 1901      74476574 
+ 1901      42797465 
+ 1902              	.LASF32:
+ 1903 01d8 706F6C61 		.ascii	"polarity\000"
+ 1903      72697479 
+ 1903      00
+ 1904              	.LASF10:
+ 1905 01e1 75696E74 		.ascii	"uint16\000"
+ 1905      313600
+ 1906              	.LASF11:
+ 1907 01e8 75696E74 		.ascii	"uint32\000"
+ 1907      333200
+ 1908              	.LASF50:
+ 1909 01ef 4379496E 		.ascii	"CyIntSetVector\000"
+ 1909      74536574 
+ 1909      56656374 
+ 1909      6F7200
+ 1910              	.LASF8:
+ 1911 01fe 756E7369 		.ascii	"unsigned int\000"
+ 1911      676E6564 
+ 1911      20696E74 
+ 1911      00
+ 1912              	.LASF24:
+ 1913 020b 61646472 		.ascii	"address\000"
+ 1913      65737300 
+ 1914              	.LASF7:
+ 1915 0213 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1915      206C6F6E 
+ 1915      6720756E 
+ 1915      7369676E 
+ 1915      65642069 
+ 1916              	.LASF49:
+ 1917 022a 4379496E 		.ascii	"CyIntSetPriority\000"
+ 1917      74536574 
+ 1917      5072696F 
+ 1917      72697479 
+ 1917      00
+ 1918              	.LASF19:
+ 1919 023b 4750535F 		.ascii	"GPS_UART_UartPostEnable\000"
+ 1919      55415254 
+ 1919      5F556172 
+ 1919      74506F73 
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 51
+
+
+ 1919      74456E61 
+ 1920              	.LASF52:
+ 1921 0253 4750535F 		.ascii	"GPS_UART_SpiUartReadRxData\000"
+ 1921      55415254 
+ 1921      5F537069 
+ 1921      55617274 
+ 1921      52656164 
+ 1922              	.LASF20:
+ 1923 026e 4750535F 		.ascii	"GPS_UART_UartStop\000"
+ 1923      55415254 
+ 1923      5F556172 
+ 1923      7453746F 
+ 1923      7000
+ 1924              	.LASF38:
+ 1925 0280 62756649 		.ascii	"bufIndex\000"
+ 1925      6E646578 
+ 1925      00
+ 1926              	.LASF54:
+ 1927 0289 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1927      43313120 
+ 1927      352E342E 
+ 1927      31203230 
+ 1927      31363036 
+ 1928 02bc 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 1928      20726576 
+ 1928      6973696F 
+ 1928      6E203233 
+ 1928      37373135 
+ 1929 02ef 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1929      66756E63 
+ 1929      74696F6E 
+ 1929      2D736563 
+ 1929      74696F6E 
+ 1930              	.LASF55:
+ 1931 0317 47656E65 		.ascii	"Generated_Source\\PSoC4\\GPS_UART_UART.c\000"
+ 1931      72617465 
+ 1931      645F536F 
+ 1931      75726365 
+ 1931      5C50536F 
+ 1932              	.LASF18:
+ 1933 033e 73697A65 		.ascii	"sizetype\000"
+ 1933      74797065 
+ 1933      00
+ 1934              	.LASF41:
+ 1935 0347 4750535F 		.ascii	"GPS_UART_UartEnableCts\000"
+ 1935      55415254 
+ 1935      5F556172 
+ 1935      74456E61 
+ 1935      626C6543 
+ 1936              	.LASF22:
+ 1937 035e 4750535F 		.ascii	"GPS_UART_UartSetRxAddress\000"
+ 1937      55415254 
+ 1937      5F556172 
+ 1937      74536574 
+ 1937      52784164 
+ 1938              	.LASF40:
+ 1939 0378 74784461 		.ascii	"txDataByte\000"
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 52
+
+
+ 1939      74614279 
+ 1939      746500
+ 1940              	.LASF15:
+ 1941 0383 63686172 		.ascii	"char\000"
+ 1941      00
+ 1942              	.LASF51:
+ 1943 0388 4750535F 		.ascii	"GPS_UART_SpiUartGetRxBufferSize\000"
+ 1943      55415254 
+ 1943      5F537069 
+ 1943      55617274 
+ 1943      47657452 
+ 1944              	.LASF48:
+ 1945 03a8 4379496E 		.ascii	"CyIntDisable\000"
+ 1945      74446973 
+ 1945      61626C65 
+ 1945      00
+ 1946              	.LASF2:
+ 1947 03b5 73686F72 		.ascii	"short int\000"
+ 1947      7420696E 
+ 1947      7400
+ 1948              	.LASF34:
+ 1949 03bf 6C657665 		.ascii	"level\000"
+ 1949      6C00
+ 1950              	.LASF43:
+ 1951 03c5 4750535F 		.ascii	"GPS_UART_UartSetCtsPolarity\000"
+ 1951      55415254 
+ 1951      5F556172 
+ 1951      74536574 
+ 1951      43747350 
+ 1952              	.LASF4:
+ 1953 03e1 6C6F6E67 		.ascii	"long int\000"
+ 1953      20696E74 
+ 1953      00
+ 1954              	.LASF30:
+ 1955 03ea 746D7053 		.ascii	"tmpStatus\000"
+ 1955      74617475 
+ 1955      7300
+ 1956              	.LASF26:
+ 1957 03f4 6D617463 		.ascii	"matchReg\000"
+ 1957      68526567 
+ 1957      00
+ 1958              	.LASF17:
+ 1959 03fd 6C6F6E67 		.ascii	"long double\000"
+ 1959      20646F75 
+ 1959      626C6500 
+ 1960              	.LASF0:
+ 1961 0409 7369676E 		.ascii	"signed char\000"
+ 1961      65642063 
+ 1961      68617200 
+ 1962              	.LASF33:
+ 1963 0415 4750535F 		.ascii	"GPS_UART_UartSetRtsFifoLevel\000"
+ 1963      55415254 
+ 1963      5F556172 
+ 1963      74536574 
+ 1963      52747346 
+ 1964              	.LASF46:
+ 1965 0432 74784374 		.ascii	"txCtrlReg\000"
+ARM GAS  C:\Users\davis\AppData\Local\Temp\cc18uNMw.s 			page 53
+
+
+ 1965      726C5265 
+ 1965      6700
+ 1966              	.LASF39:
+ 1967 043c 4750535F 		.ascii	"GPS_UART_UartPutCRLF\000"
+ 1967      55415254 
+ 1967      5F556172 
+ 1967      74507574 
+ 1967      43524C46 
+ 1968              	.LASF25:
+ 1969 0451 61646472 		.ascii	"addressMask\000"
+ 1969      6573734D 
+ 1969      61736B00 
+ 1970              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

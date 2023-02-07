@@ -1,0 +1,37 @@
+net ClockBlock_HFClk
+	term   ":m0s8clockblockcell.hfclk"
+	switch ":m0s8clockblockcell.hfclk==>:interrupt_28.clock"
+	term   ":interrupt_28.clock"
+end ClockBlock_HFClk
+net Net_1
+	term   ":cancell_1.interrupt"
+	switch ":cancell_1.interrupt==>:interrupt_idmux_28.in_0"
+	switch ":interrupt_idmux_28.interrupt_idmux_28__out==>:interrupt_28.interrupt"
+	term   ":interrupt_28.interrupt"
+end Net_1
+net Net_11
+	term   ":ioport4:pin5.fb"
+	switch ":ioport4:pin5.fb==>:ioport4:hsiom_in5.hsiom5_in"
+	switch ":ioport4:hsiom_in5.fixed_ACT_2==>:cancell_1__can_rx__hsiom_permute.ioport4__fixed_out_p5_ACT_2"
+	switch ":cancell_1__can_rx__hsiom_permute.cancell_1__can_rx==>:cancell_1.can_rx"
+	term   ":cancell_1.can_rx"
+end Net_11
+net Net_12
+	term   ":cancell_1.can_tx"
+	switch ":cancell_1.can_tx==>:ioport4:hsiom_out6.fixed_ACT_2"
+	switch ":ioport4:hsiom_out6.hsiom6_out==>:ioport4:pin6.pin_input"
+	term   ":ioport4:pin6.pin_input"
+end Net_12
+net \DEBUG:rx_wire\
+	term   ":ioport7:pin0.fb"
+	switch ":ioport7:pin0.fb==>:ioport7:hsiom_in0.hsiom0_in"
+	switch ":ioport7:hsiom_in0.fixed_ACT_1==>:m0s8scbcell_3__uart_rx__hsiom_permute.ioport7__fixed_out_p0_ACT_1"
+	switch ":m0s8scbcell_3__uart_rx__hsiom_permute.m0s8scbcell_3__uart_rx==>:m0s8scbcell_3.uart_rx"
+	term   ":m0s8scbcell_3.uart_rx"
+end \DEBUG:rx_wire\
+net \DEBUG:tx_wire\
+	term   ":m0s8scbcell_3.uart_tx"
+	switch ":m0s8scbcell_3.uart_tx==>:ioport7:hsiom_out1.fixed_ACT_1"
+	switch ":ioport7:hsiom_out1.hsiom1_out==>:ioport7:pin1.pin_input"
+	term   ":ioport7:pin1.pin_input"
+end \DEBUG:tx_wire\

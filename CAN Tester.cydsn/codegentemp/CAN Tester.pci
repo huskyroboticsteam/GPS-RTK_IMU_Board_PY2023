@@ -1,0 +1,18 @@
+# CAN Tester
+# 2021-05-26 21:54:27Z
+
+# IO_4@[IOP=(0)][IoId=(4)] is reserved: KhzXtalEnabled
+dont_use_io iocell 0 4
+# IO_5@[IOP=(0)][IoId=(5)] is reserved: KhzXtalEnabled
+dont_use_io iocell 0 5
+# IO_6@[IOP=(0)][IoId=(6)] is reserved: ExtClkEnabled
+dont_use_io iocell 0 6
+# IO_2@[IOP=(3)][IoId=(2)] is reserved: SWDDebugEnabled
+dont_use_io iocell 3 2
+# IO_3@[IOP=(3)][IoId=(3)] is reserved: SWDDebugEnabled
+dont_use_io iocell 3 3
+set_location "ClockGenBlock" m0s8clockgenblockcell -1 -1 0
+set_io "RX(0)" iocell 4 5
+set_io "TX(0)" iocell 4 6
+set_io "\DEBUG:tx(0)\" iocell 7 1
+set_io "\DEBUG:rx(0)\" iocell 7 0

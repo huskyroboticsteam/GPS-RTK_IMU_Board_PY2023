@@ -1,0 +1,9 @@
+C:\Users\Davis Sauer\Documents\PSoC Creator\Husky Robotics\Tutorial Example.cydsn\Tutorial Example.cyprj|37d0efc0-04b6-4ce4-86f4-19d729092d78
+X:\Programs\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|c2c53624-7c47-4698-9475-659574d51902
+C:\Users\Davis Sauer\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|56a70718-b30d-4ebd-a2cb-cb7faceca422
+X:\Programs\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|ca196f41-9714-404f-8577-048dee07819e
+X:\Programs\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|43aba0bb-3483-45c9-9a0f-60beafbb7368
+X:\Programs\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|d7b19dea-d6cf-4d34-ac4b-c5e889d0abbb
+C:\Users\Davis Sauer\Documents\PSoC Creator\Husky Robotics\GPS Driver.cydsn\GPS Driver.cyprj|66859a11-6bde-46ee-8b43-b34a707b8092
+C:\Users\Davis Sauer\Documents\PSoC Creator\Husky Robotics\IMU Board Firmware.cydsn\IMU Board Firmware.cyprj|19222b18-df8a-4470-bcfc-44fb39ec716c
+C:\Users\Davis Sauer\Documents\PSoC Creator\Husky Robotics\CAN Tester.cydsn\CAN Tester.cyprj|def132eb-0a4c-453c-9a79-b4f0771c9330

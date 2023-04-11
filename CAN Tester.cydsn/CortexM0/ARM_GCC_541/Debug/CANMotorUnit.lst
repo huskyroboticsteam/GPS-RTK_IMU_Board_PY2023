@@ -1,0 +1,4731 @@
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"CANMotorUnit.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.AssembleModeSetPacket,"ax",%progbits
+  20              		.align	2
+  21              		.global	AssembleModeSetPacket
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	AssembleModeSetPacket, %function
+  25              	AssembleModeSetPacket:
+  26              	.LFB0:
+  27              		.file 1 "HindsightCAN\\CANMotorUnit.c"
+   1:HindsightCAN/CANMotorUnit.c **** /* File:         CANMotorUnit.c
+   2:HindsightCAN/CANMotorUnit.c ****  * Authors:      Jaden Bottemiller, Benton Kwong, Dylan Tomberlin, Austin Chan.
+   3:HindsightCAN/CANMotorUnit.c ****  * Organization: Husky Robotics Team
+   4:HindsightCAN/CANMotorUnit.c ****  * 
+   5:HindsightCAN/CANMotorUnit.c ****  * This file includes function definitions for CAN Packet manipulation
+   6:HindsightCAN/CANMotorUnit.c ****  * using the Hindsight CAN Communication standard. Specific files
+   7:HindsightCAN/CANMotorUnit.c ****  * for the motor unit boards.
+   8:HindsightCAN/CANMotorUnit.c ****  * Documentation: https://huskyroboticsteam.slite.com/app/channels/iU0BryG7M9/collections/aXvWTcIR6
+   9:HindsightCAN/CANMotorUnit.c ****  */
+  10:HindsightCAN/CANMotorUnit.c **** 
+  11:HindsightCAN/CANMotorUnit.c **** #include "CANPacket.h"
+  12:HindsightCAN/CANMotorUnit.c **** #include "CANMotorUnit.h"
+  13:HindsightCAN/CANMotorUnit.c **** #include "Port.h"
+  14:HindsightCAN/CANMotorUnit.c **** 
+  15:HindsightCAN/CANMotorUnit.c **** void AssembleModeSetPacket(CANPacket *packetToAssemble,
+  16:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceGroup,
+  17:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceSerial,
+  18:HindsightCAN/CANMotorUnit.c ****     uint8_t mode)
+  19:HindsightCAN/CANMotorUnit.c **** {
+  28              		.loc 1 19 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 70B5     		push	{r4, r5, r6, lr}
+  34              		.cfi_def_cfa_offset 16
+  35              		.cfi_offset 4, -16
+  36              		.cfi_offset 5, -12
+  37              		.cfi_offset 6, -8
+  38              		.cfi_offset 14, -4
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 2
+
+
+  39 0002 0400     		movs	r4, r0
+  40 0004 1D00     		movs	r5, r3
+  20:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->id = ConstructCANID(PRIO_MOTOR_UNIT_MODE_SEL, targetDeviceGroup, targetDevice
+  41              		.loc 1 20 0
+  42 0006 0120     		movs	r0, #1
+  43              	.LVL1:
+  44 0008 FFF7FEFF 		bl	ConstructCANID
+  45              	.LVL2:
+  46 000c 2080     		strh	r0, [r4]
+  21:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->dlc = DLC_MOTOR_UNIT_MODE_SEL;
+  47              		.loc 1 21 0
+  48 000e 0223     		movs	r3, #2
+  49 0010 A370     		strb	r3, [r4, #2]
+  22:HindsightCAN/CANMotorUnit.c ****     int nextByte = WritePacketIDOnly(packetToAssemble->data, ID_MOTOR_UNIT_MODE_SEL);
+  50              		.loc 1 22 0
+  51 0012 E01C     		adds	r0, r4, #3
+  52 0014 0021     		movs	r1, #0
+  53 0016 FFF7FEFF 		bl	WritePacketIDOnly
+  54              	.LVL3:
+  23:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->data[nextByte] = mode;
+  55              		.loc 1 23 0
+  56 001a 2418     		adds	r4, r4, r0
+  57              	.LVL4:
+  58 001c E570     		strb	r5, [r4, #3]
+  24:HindsightCAN/CANMotorUnit.c **** }
+  59              		.loc 1 24 0
+  60              		@ sp needed
+  61 001e 70BD     		pop	{r4, r5, r6, pc}
+  62              		.cfi_endproc
+  63              	.LFE0:
+  64              		.size	AssembleModeSetPacket, .-AssembleModeSetPacket
+  65              		.section	.text.GetModeFromPacket,"ax",%progbits
+  66              		.align	2
+  67              		.global	GetModeFromPacket
+  68              		.code	16
+  69              		.thumb_func
+  70              		.type	GetModeFromPacket, %function
+  71              	GetModeFromPacket:
+  72              	.LFB1:
+  25:HindsightCAN/CANMotorUnit.c **** 
+  26:HindsightCAN/CANMotorUnit.c **** uint8_t GetModeFromPacket(CANPacket *packet)
+  27:HindsightCAN/CANMotorUnit.c **** {
+  73              		.loc 1 27 0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77              		@ link register save eliminated.
+  78              	.LVL5:
+  28:HindsightCAN/CANMotorUnit.c ****     return packet->data[1];
+  79              		.loc 1 28 0
+  80 0000 0079     		ldrb	r0, [r0, #4]
+  81              	.LVL6:
+  29:HindsightCAN/CANMotorUnit.c **** }
+  82              		.loc 1 29 0
+  83              		@ sp needed
+  84 0002 7047     		bx	lr
+  85              		.cfi_endproc
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 3
+
+
+  86              	.LFE1:
+  87              		.size	GetModeFromPacket, .-GetModeFromPacket
+  88              		.section	.text.AssemblePWMDirSetPacket,"ax",%progbits
+  89              		.align	2
+  90              		.global	AssemblePWMDirSetPacket
+  91              		.code	16
+  92              		.thumb_func
+  93              		.type	AssemblePWMDirSetPacket, %function
+  94              	AssemblePWMDirSetPacket:
+  95              	.LFB2:
+  30:HindsightCAN/CANMotorUnit.c **** 
+  31:HindsightCAN/CANMotorUnit.c **** 
+  32:HindsightCAN/CANMotorUnit.c **** void AssemblePWMDirSetPacket(CANPacket *packetToAssemble, 
+  33:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceGroup,
+  34:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceSerial,
+  35:HindsightCAN/CANMotorUnit.c ****     int16_t PWMSet)
+  36:HindsightCAN/CANMotorUnit.c **** {
+  96              		.loc 1 36 0
+  97              		.cfi_startproc
+  98              		@ args = 0, pretend = 0, frame = 0
+  99              		@ frame_needed = 0, uses_anonymous_args = 0
+ 100              	.LVL7:
+ 101 0000 70B5     		push	{r4, r5, r6, lr}
+ 102              		.cfi_def_cfa_offset 16
+ 103              		.cfi_offset 4, -16
+ 104              		.cfi_offset 5, -12
+ 105              		.cfi_offset 6, -8
+ 106              		.cfi_offset 14, -4
+ 107 0002 0400     		movs	r4, r0
+ 108 0004 1D00     		movs	r5, r3
+  37:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->id = ConstructCANID(PRIO_MOTOR_UNIT_PWM_DIR_SET, targetDeviceGroup, targetDev
+ 109              		.loc 1 37 0
+ 110 0006 0120     		movs	r0, #1
+ 111              	.LVL8:
+ 112 0008 FFF7FEFF 		bl	ConstructCANID
+ 113              	.LVL9:
+ 114 000c 2080     		strh	r0, [r4]
+  38:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->dlc = DLC_MOTOR_UNIT_PWM_DIR_SET;
+ 115              		.loc 1 38 0
+ 116 000e 0323     		movs	r3, #3
+ 117 0010 A370     		strb	r3, [r4, #2]
+  39:HindsightCAN/CANMotorUnit.c ****     int nextByte = WritePacketIDOnly(packetToAssemble->data, DLC_MOTOR_UNIT_PWM_DIR_SET);
+ 118              		.loc 1 39 0
+ 119 0012 0334     		adds	r4, r4, #3
+ 120              	.LVL10:
+ 121 0014 0321     		movs	r1, #3
+ 122 0016 2000     		movs	r0, r4
+ 123 0018 FFF7FEFF 		bl	WritePacketIDOnly
+ 124              	.LVL11:
+ 125 001c 0200     		movs	r2, r0
+ 126              	.LVL12:
+  40:HindsightCAN/CANMotorUnit.c ****     PackShortIntoDataMSBFirst(packetToAssemble->data, PWMSet, nextByte);
+ 127              		.loc 1 40 0
+ 128 001e 2900     		movs	r1, r5
+ 129 0020 2000     		movs	r0, r4
+ 130              	.LVL13:
+ 131 0022 FFF7FEFF 		bl	PackShortIntoDataMSBFirst
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 4
+
+
+ 132              	.LVL14:
+  41:HindsightCAN/CANMotorUnit.c **** }
+ 133              		.loc 1 41 0
+ 134              		@ sp needed
+ 135              	.LVL15:
+ 136 0026 70BD     		pop	{r4, r5, r6, pc}
+ 137              		.cfi_endproc
+ 138              	.LFE2:
+ 139              		.size	AssemblePWMDirSetPacket, .-AssemblePWMDirSetPacket
+ 140              		.section	.text.GetPWMFromPacket,"ax",%progbits
+ 141              		.align	2
+ 142              		.global	GetPWMFromPacket
+ 143              		.code	16
+ 144              		.thumb_func
+ 145              		.type	GetPWMFromPacket, %function
+ 146              	GetPWMFromPacket:
+ 147              	.LFB3:
+  42:HindsightCAN/CANMotorUnit.c **** 
+  43:HindsightCAN/CANMotorUnit.c **** int32_t GetPWMFromPacket(CANPacket *packet)
+  44:HindsightCAN/CANMotorUnit.c **** {
+ 148              		.loc 1 44 0
+ 149              		.cfi_startproc
+ 150              		@ args = 0, pretend = 0, frame = 0
+ 151              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152              	.LVL16:
+ 153 0000 10B5     		push	{r4, lr}
+ 154              		.cfi_def_cfa_offset 8
+ 155              		.cfi_offset 4, -8
+ 156              		.cfi_offset 14, -4
+  45:HindsightCAN/CANMotorUnit.c ****     return DecodeBytesToIntMSBFirst(packet->data, 1, 2);
+ 157              		.loc 1 45 0
+ 158 0002 0330     		adds	r0, r0, #3
+ 159              	.LVL17:
+ 160 0004 0222     		movs	r2, #2
+ 161 0006 0121     		movs	r1, #1
+ 162 0008 FFF7FEFF 		bl	DecodeBytesToIntMSBFirst
+ 163              	.LVL18:
+  46:HindsightCAN/CANMotorUnit.c **** }
+ 164              		.loc 1 46 0
+ 165              		@ sp needed
+ 166 000c 10BD     		pop	{r4, pc}
+ 167              		.cfi_endproc
+ 168              	.LFE3:
+ 169              		.size	GetPWMFromPacket, .-GetPWMFromPacket
+ 170 000e C046     		.section	.text.GetDirectionFromPacket,"ax",%progbits
+ 171              		.align	2
+ 172              		.global	GetDirectionFromPacket
+ 173              		.code	16
+ 174              		.thumb_func
+ 175              		.type	GetDirectionFromPacket, %function
+ 176              	GetDirectionFromPacket:
+ 177              	.LFB4:
+  47:HindsightCAN/CANMotorUnit.c **** 
+  48:HindsightCAN/CANMotorUnit.c **** //Returns 2's compliment MSB (0 for stopped or forward, 1 for reverse)
+  49:HindsightCAN/CANMotorUnit.c **** int32_t GetDirectionFromPacket(CANPacket *packet)
+  50:HindsightCAN/CANMotorUnit.c **** {
+ 178              		.loc 1 50 0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 5
+
+
+ 179              		.cfi_startproc
+ 180              		@ args = 0, pretend = 0, frame = 0
+ 181              		@ frame_needed = 0, uses_anonymous_args = 0
+ 182              		@ link register save eliminated.
+ 183              	.LVL19:
+  51:HindsightCAN/CANMotorUnit.c ****     return ((packet->data[1]) >> 7) & 0x1;
+ 184              		.loc 1 51 0
+ 185 0000 0079     		ldrb	r0, [r0, #4]
+ 186              	.LVL20:
+ 187 0002 C009     		lsrs	r0, r0, #7
+  52:HindsightCAN/CANMotorUnit.c **** }
+ 188              		.loc 1 52 0
+ 189              		@ sp needed
+ 190 0004 7047     		bx	lr
+ 191              		.cfi_endproc
+ 192              	.LFE4:
+ 193              		.size	GetDirectionFromPacket, .-GetDirectionFromPacket
+ 194 0006 C046     		.section	.text.AssemblePIDTargetSetPacket,"ax",%progbits
+ 195              		.align	2
+ 196              		.global	AssemblePIDTargetSetPacket
+ 197              		.code	16
+ 198              		.thumb_func
+ 199              		.type	AssemblePIDTargetSetPacket, %function
+ 200              	AssemblePIDTargetSetPacket:
+ 201              	.LFB5:
+  53:HindsightCAN/CANMotorUnit.c **** 
+  54:HindsightCAN/CANMotorUnit.c **** void AssemblePIDTargetSetPacket(CANPacket *packetToAssemble,
+  55:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceGroup,
+  56:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceSerial,
+  57:HindsightCAN/CANMotorUnit.c ****     int32_t target)
+  58:HindsightCAN/CANMotorUnit.c **** {
+ 202              		.loc 1 58 0
+ 203              		.cfi_startproc
+ 204              		@ args = 0, pretend = 0, frame = 0
+ 205              		@ frame_needed = 0, uses_anonymous_args = 0
+ 206              	.LVL21:
+ 207 0000 70B5     		push	{r4, r5, r6, lr}
+ 208              		.cfi_def_cfa_offset 16
+ 209              		.cfi_offset 4, -16
+ 210              		.cfi_offset 5, -12
+ 211              		.cfi_offset 6, -8
+ 212              		.cfi_offset 14, -4
+ 213 0002 0400     		movs	r4, r0
+ 214 0004 1D00     		movs	r5, r3
+  59:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->id = ConstructCANID(PACKET_PRIORITY_NORMAL, targetDeviceGroup, targetDeviceSe
+ 215              		.loc 1 59 0
+ 216 0006 0120     		movs	r0, #1
+ 217              	.LVL22:
+ 218 0008 FFF7FEFF 		bl	ConstructCANID
+ 219              	.LVL23:
+ 220 000c 2080     		strh	r0, [r4]
+  60:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->dlc = DLC_MOTOR_UNIT_PID_POS_TGT_SET;
+ 221              		.loc 1 60 0
+ 222 000e 0523     		movs	r3, #5
+ 223 0010 A370     		strb	r3, [r4, #2]
+  61:HindsightCAN/CANMotorUnit.c ****     int nextByte = WritePacketIDOnly(packetToAssemble->data, ID_MOTOR_UNIT_PID_POS_TGT_SET);
+ 224              		.loc 1 61 0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 6
+
+
+ 225 0012 0334     		adds	r4, r4, #3
+ 226              	.LVL24:
+ 227 0014 0421     		movs	r1, #4
+ 228 0016 2000     		movs	r0, r4
+ 229 0018 FFF7FEFF 		bl	WritePacketIDOnly
+ 230              	.LVL25:
+ 231 001c 0200     		movs	r2, r0
+ 232              	.LVL26:
+  62:HindsightCAN/CANMotorUnit.c ****     PackIntIntoDataMSBFirst(packetToAssemble->data, target, nextByte);
+ 233              		.loc 1 62 0
+ 234 001e 2900     		movs	r1, r5
+ 235 0020 2000     		movs	r0, r4
+ 236              	.LVL27:
+ 237 0022 FFF7FEFF 		bl	PackIntIntoDataMSBFirst
+ 238              	.LVL28:
+  63:HindsightCAN/CANMotorUnit.c **** }
+ 239              		.loc 1 63 0
+ 240              		@ sp needed
+ 241              	.LVL29:
+ 242              	.LVL30:
+ 243 0026 70BD     		pop	{r4, r5, r6, pc}
+ 244              		.cfi_endproc
+ 245              	.LFE5:
+ 246              		.size	AssemblePIDTargetSetPacket, .-AssemblePIDTargetSetPacket
+ 247              		.section	.text.GetPIDTargetFromPacket,"ax",%progbits
+ 248              		.align	2
+ 249              		.global	GetPIDTargetFromPacket
+ 250              		.code	16
+ 251              		.thumb_func
+ 252              		.type	GetPIDTargetFromPacket, %function
+ 253              	GetPIDTargetFromPacket:
+ 254              	.LFB6:
+  64:HindsightCAN/CANMotorUnit.c **** 
+  65:HindsightCAN/CANMotorUnit.c **** uint8_t GetPIDTargetFromPacket(CANPacket *packet)
+  66:HindsightCAN/CANMotorUnit.c **** {
+ 255              		.loc 1 66 0
+ 256              		.cfi_startproc
+ 257              		@ args = 0, pretend = 0, frame = 0
+ 258              		@ frame_needed = 0, uses_anonymous_args = 0
+ 259              	.LVL31:
+ 260 0000 10B5     		push	{r4, lr}
+ 261              		.cfi_def_cfa_offset 8
+ 262              		.cfi_offset 4, -8
+ 263              		.cfi_offset 14, -4
+  67:HindsightCAN/CANMotorUnit.c ****     return DecodeBytesToIntMSBFirst(packet->data, DLC_MOTOR_UNIT_PID_POS_TGT_SET - 4, DLC_MOTOR_UNI
+ 264              		.loc 1 67 0
+ 265 0002 0330     		adds	r0, r0, #3
+ 266              	.LVL32:
+ 267 0004 0522     		movs	r2, #5
+ 268 0006 0121     		movs	r1, #1
+ 269 0008 FFF7FEFF 		bl	DecodeBytesToIntMSBFirst
+ 270              	.LVL33:
+ 271 000c C0B2     		uxtb	r0, r0
+  68:HindsightCAN/CANMotorUnit.c **** }
+ 272              		.loc 1 68 0
+ 273              		@ sp needed
+ 274 000e 10BD     		pop	{r4, pc}
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 7
+
+
+ 275              		.cfi_endproc
+ 276              	.LFE6:
+ 277              		.size	GetPIDTargetFromPacket, .-GetPIDTargetFromPacket
+ 278              		.section	.text.AssemblePSetPacket,"ax",%progbits
+ 279              		.align	2
+ 280              		.global	AssemblePSetPacket
+ 281              		.code	16
+ 282              		.thumb_func
+ 283              		.type	AssemblePSetPacket, %function
+ 284              	AssemblePSetPacket:
+ 285              	.LFB7:
+  69:HindsightCAN/CANMotorUnit.c **** 
+  70:HindsightCAN/CANMotorUnit.c **** void AssemblePSetPacket(CANPacket *packetToAssemble,
+  71:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceGroup,
+  72:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceSerial,
+  73:HindsightCAN/CANMotorUnit.c ****     int32_t pCoef)
+  74:HindsightCAN/CANMotorUnit.c **** {
+ 286              		.loc 1 74 0
+ 287              		.cfi_startproc
+ 288              		@ args = 0, pretend = 0, frame = 0
+ 289              		@ frame_needed = 0, uses_anonymous_args = 0
+ 290              	.LVL34:
+ 291 0000 70B5     		push	{r4, r5, r6, lr}
+ 292              		.cfi_def_cfa_offset 16
+ 293              		.cfi_offset 4, -16
+ 294              		.cfi_offset 5, -12
+ 295              		.cfi_offset 6, -8
+ 296              		.cfi_offset 14, -4
+ 297 0002 0400     		movs	r4, r0
+ 298 0004 1D00     		movs	r5, r3
+  75:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->id = ConstructCANID(PACKET_PRIORITY_NORMAL, targetDeviceGroup, targetDeviceSe
+ 299              		.loc 1 75 0
+ 300 0006 0120     		movs	r0, #1
+ 301              	.LVL35:
+ 302 0008 FFF7FEFF 		bl	ConstructCANID
+ 303              	.LVL36:
+ 304 000c 2080     		strh	r0, [r4]
+  76:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->dlc = DLC_MOTOR_UNIT_PID_P_SET;
+ 305              		.loc 1 76 0
+ 306 000e 0523     		movs	r3, #5
+ 307 0010 A370     		strb	r3, [r4, #2]
+  77:HindsightCAN/CANMotorUnit.c ****     int nextByte = WritePacketIDOnly(packetToAssemble->data, ID_MOTOR_UNIT_PID_P_SET);
+ 308              		.loc 1 77 0
+ 309 0012 0334     		adds	r4, r4, #3
+ 310              	.LVL37:
+ 311 0014 0521     		movs	r1, #5
+ 312 0016 2000     		movs	r0, r4
+ 313 0018 FFF7FEFF 		bl	WritePacketIDOnly
+ 314              	.LVL38:
+ 315 001c 0200     		movs	r2, r0
+ 316              	.LVL39:
+  78:HindsightCAN/CANMotorUnit.c ****     PackIntIntoDataMSBFirst(packetToAssemble->data, pCoef, nextByte);
+ 317              		.loc 1 78 0
+ 318 001e 2900     		movs	r1, r5
+ 319 0020 2000     		movs	r0, r4
+ 320              	.LVL40:
+ 321 0022 FFF7FEFF 		bl	PackIntIntoDataMSBFirst
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 8
+
+
+ 322              	.LVL41:
+  79:HindsightCAN/CANMotorUnit.c **** }
+ 323              		.loc 1 79 0
+ 324              		@ sp needed
+ 325              	.LVL42:
+ 326              	.LVL43:
+ 327 0026 70BD     		pop	{r4, r5, r6, pc}
+ 328              		.cfi_endproc
+ 329              	.LFE7:
+ 330              		.size	AssemblePSetPacket, .-AssemblePSetPacket
+ 331              		.section	.text.GetPFromPacket,"ax",%progbits
+ 332              		.align	2
+ 333              		.global	GetPFromPacket
+ 334              		.code	16
+ 335              		.thumb_func
+ 336              		.type	GetPFromPacket, %function
+ 337              	GetPFromPacket:
+ 338              	.LFB8:
+  80:HindsightCAN/CANMotorUnit.c **** 
+  81:HindsightCAN/CANMotorUnit.c **** int32_t GetPFromPacket(CANPacket *packet)
+  82:HindsightCAN/CANMotorUnit.c **** {
+ 339              		.loc 1 82 0
+ 340              		.cfi_startproc
+ 341              		@ args = 0, pretend = 0, frame = 0
+ 342              		@ frame_needed = 0, uses_anonymous_args = 0
+ 343              	.LVL44:
+ 344 0000 10B5     		push	{r4, lr}
+ 345              		.cfi_def_cfa_offset 8
+ 346              		.cfi_offset 4, -8
+ 347              		.cfi_offset 14, -4
+  83:HindsightCAN/CANMotorUnit.c ****     return DecodeBytesToIntMSBFirst(packet->data, DLC_MOTOR_UNIT_PID_P_SET - 4, DLC_MOTOR_UNIT_PID_
+ 348              		.loc 1 83 0
+ 349 0002 0330     		adds	r0, r0, #3
+ 350              	.LVL45:
+ 351 0004 0522     		movs	r2, #5
+ 352 0006 0121     		movs	r1, #1
+ 353 0008 FFF7FEFF 		bl	DecodeBytesToIntMSBFirst
+ 354              	.LVL46:
+  84:HindsightCAN/CANMotorUnit.c **** }
+ 355              		.loc 1 84 0
+ 356              		@ sp needed
+ 357 000c 10BD     		pop	{r4, pc}
+ 358              		.cfi_endproc
+ 359              	.LFE8:
+ 360              		.size	GetPFromPacket, .-GetPFromPacket
+ 361 000e C046     		.section	.text.AssembleISetPacket,"ax",%progbits
+ 362              		.align	2
+ 363              		.global	AssembleISetPacket
+ 364              		.code	16
+ 365              		.thumb_func
+ 366              		.type	AssembleISetPacket, %function
+ 367              	AssembleISetPacket:
+ 368              	.LFB9:
+  85:HindsightCAN/CANMotorUnit.c **** 
+  86:HindsightCAN/CANMotorUnit.c **** void AssembleISetPacket(CANPacket *packetToAssemble,
+  87:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceGroup,
+  88:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceSerial,
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 9
+
+
+  89:HindsightCAN/CANMotorUnit.c ****     int32_t iCoef)
+  90:HindsightCAN/CANMotorUnit.c **** {
+ 369              		.loc 1 90 0
+ 370              		.cfi_startproc
+ 371              		@ args = 0, pretend = 0, frame = 0
+ 372              		@ frame_needed = 0, uses_anonymous_args = 0
+ 373              	.LVL47:
+ 374 0000 70B5     		push	{r4, r5, r6, lr}
+ 375              		.cfi_def_cfa_offset 16
+ 376              		.cfi_offset 4, -16
+ 377              		.cfi_offset 5, -12
+ 378              		.cfi_offset 6, -8
+ 379              		.cfi_offset 14, -4
+ 380 0002 0400     		movs	r4, r0
+ 381 0004 1D00     		movs	r5, r3
+  91:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->id = ConstructCANID(PACKET_PRIORITY_NORMAL, targetDeviceGroup, targetDeviceSe
+ 382              		.loc 1 91 0
+ 383 0006 0120     		movs	r0, #1
+ 384              	.LVL48:
+ 385 0008 FFF7FEFF 		bl	ConstructCANID
+ 386              	.LVL49:
+ 387 000c 2080     		strh	r0, [r4]
+  92:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->dlc = DLC_MOTOR_UNIT_PID_I_SET;
+ 388              		.loc 1 92 0
+ 389 000e 0523     		movs	r3, #5
+ 390 0010 A370     		strb	r3, [r4, #2]
+  93:HindsightCAN/CANMotorUnit.c ****     int nextByte = WritePacketIDOnly(packetToAssemble->data, ID_MOTOR_UNIT_PID_I_SET);
+ 391              		.loc 1 93 0
+ 392 0012 0334     		adds	r4, r4, #3
+ 393              	.LVL50:
+ 394 0014 0621     		movs	r1, #6
+ 395 0016 2000     		movs	r0, r4
+ 396 0018 FFF7FEFF 		bl	WritePacketIDOnly
+ 397              	.LVL51:
+ 398 001c 0200     		movs	r2, r0
+ 399              	.LVL52:
+  94:HindsightCAN/CANMotorUnit.c ****     PackIntIntoDataMSBFirst(packetToAssemble->data, iCoef, nextByte);
+ 400              		.loc 1 94 0
+ 401 001e 2900     		movs	r1, r5
+ 402 0020 2000     		movs	r0, r4
+ 403              	.LVL53:
+ 404 0022 FFF7FEFF 		bl	PackIntIntoDataMSBFirst
+ 405              	.LVL54:
+  95:HindsightCAN/CANMotorUnit.c **** }
+ 406              		.loc 1 95 0
+ 407              		@ sp needed
+ 408              	.LVL55:
+ 409              	.LVL56:
+ 410 0026 70BD     		pop	{r4, r5, r6, pc}
+ 411              		.cfi_endproc
+ 412              	.LFE9:
+ 413              		.size	AssembleISetPacket, .-AssembleISetPacket
+ 414              		.section	.text.GetIFromPacket,"ax",%progbits
+ 415              		.align	2
+ 416              		.global	GetIFromPacket
+ 417              		.code	16
+ 418              		.thumb_func
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 10
+
+
+ 419              		.type	GetIFromPacket, %function
+ 420              	GetIFromPacket:
+ 421              	.LFB10:
+  96:HindsightCAN/CANMotorUnit.c **** 
+  97:HindsightCAN/CANMotorUnit.c **** int32_t GetIFromPacket(CANPacket *packet)
+  98:HindsightCAN/CANMotorUnit.c **** {
+ 422              		.loc 1 98 0
+ 423              		.cfi_startproc
+ 424              		@ args = 0, pretend = 0, frame = 0
+ 425              		@ frame_needed = 0, uses_anonymous_args = 0
+ 426              	.LVL57:
+ 427 0000 10B5     		push	{r4, lr}
+ 428              		.cfi_def_cfa_offset 8
+ 429              		.cfi_offset 4, -8
+ 430              		.cfi_offset 14, -4
+  99:HindsightCAN/CANMotorUnit.c ****     return DecodeBytesToIntMSBFirst(packet->data, DLC_MOTOR_UNIT_PID_I_SET - 4, DLC_MOTOR_UNIT_PID_
+ 431              		.loc 1 99 0
+ 432 0002 0330     		adds	r0, r0, #3
+ 433              	.LVL58:
+ 434 0004 0522     		movs	r2, #5
+ 435 0006 0121     		movs	r1, #1
+ 436 0008 FFF7FEFF 		bl	DecodeBytesToIntMSBFirst
+ 437              	.LVL59:
+ 100:HindsightCAN/CANMotorUnit.c **** }
+ 438              		.loc 1 100 0
+ 439              		@ sp needed
+ 440 000c 10BD     		pop	{r4, pc}
+ 441              		.cfi_endproc
+ 442              	.LFE10:
+ 443              		.size	GetIFromPacket, .-GetIFromPacket
+ 444 000e C046     		.section	.text.AssembleDSetPacket,"ax",%progbits
+ 445              		.align	2
+ 446              		.global	AssembleDSetPacket
+ 447              		.code	16
+ 448              		.thumb_func
+ 449              		.type	AssembleDSetPacket, %function
+ 450              	AssembleDSetPacket:
+ 451              	.LFB11:
+ 101:HindsightCAN/CANMotorUnit.c **** 
+ 102:HindsightCAN/CANMotorUnit.c **** void AssembleDSetPacket(CANPacket *packetToAssemble,
+ 103:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceGroup,
+ 104:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceSerial,
+ 105:HindsightCAN/CANMotorUnit.c ****     int32_t dCoef)
+ 106:HindsightCAN/CANMotorUnit.c **** {
+ 452              		.loc 1 106 0
+ 453              		.cfi_startproc
+ 454              		@ args = 0, pretend = 0, frame = 0
+ 455              		@ frame_needed = 0, uses_anonymous_args = 0
+ 456              	.LVL60:
+ 457 0000 70B5     		push	{r4, r5, r6, lr}
+ 458              		.cfi_def_cfa_offset 16
+ 459              		.cfi_offset 4, -16
+ 460              		.cfi_offset 5, -12
+ 461              		.cfi_offset 6, -8
+ 462              		.cfi_offset 14, -4
+ 463 0002 0400     		movs	r4, r0
+ 464 0004 1D00     		movs	r5, r3
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 11
+
+
+ 107:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->id = ConstructCANID(PACKET_PRIORITY_NORMAL, targetDeviceGroup, targetDeviceSe
+ 465              		.loc 1 107 0
+ 466 0006 0120     		movs	r0, #1
+ 467              	.LVL61:
+ 468 0008 FFF7FEFF 		bl	ConstructCANID
+ 469              	.LVL62:
+ 470 000c 2080     		strh	r0, [r4]
+ 108:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->dlc = DLC_MOTOR_UNIT_PID_D_SET;
+ 471              		.loc 1 108 0
+ 472 000e 0523     		movs	r3, #5
+ 473 0010 A370     		strb	r3, [r4, #2]
+ 109:HindsightCAN/CANMotorUnit.c ****     int nextByte = WritePacketIDOnly(packetToAssemble->data, ID_MOTOR_UNIT_PID_D_SET);
+ 474              		.loc 1 109 0
+ 475 0012 0334     		adds	r4, r4, #3
+ 476              	.LVL63:
+ 477 0014 0721     		movs	r1, #7
+ 478 0016 2000     		movs	r0, r4
+ 479 0018 FFF7FEFF 		bl	WritePacketIDOnly
+ 480              	.LVL64:
+ 481 001c 0200     		movs	r2, r0
+ 482              	.LVL65:
+ 110:HindsightCAN/CANMotorUnit.c ****     PackIntIntoDataMSBFirst(packetToAssemble->data, dCoef, nextByte);
+ 483              		.loc 1 110 0
+ 484 001e 2900     		movs	r1, r5
+ 485 0020 2000     		movs	r0, r4
+ 486              	.LVL66:
+ 487 0022 FFF7FEFF 		bl	PackIntIntoDataMSBFirst
+ 488              	.LVL67:
+ 111:HindsightCAN/CANMotorUnit.c **** }
+ 489              		.loc 1 111 0
+ 490              		@ sp needed
+ 491              	.LVL68:
+ 492              	.LVL69:
+ 493 0026 70BD     		pop	{r4, r5, r6, pc}
+ 494              		.cfi_endproc
+ 495              	.LFE11:
+ 496              		.size	AssembleDSetPacket, .-AssembleDSetPacket
+ 497              		.section	.text.GetDFromPacket,"ax",%progbits
+ 498              		.align	2
+ 499              		.global	GetDFromPacket
+ 500              		.code	16
+ 501              		.thumb_func
+ 502              		.type	GetDFromPacket, %function
+ 503              	GetDFromPacket:
+ 504              	.LFB12:
+ 112:HindsightCAN/CANMotorUnit.c **** 
+ 113:HindsightCAN/CANMotorUnit.c **** int32_t GetDFromPacket(CANPacket *packet)
+ 114:HindsightCAN/CANMotorUnit.c **** {
+ 505              		.loc 1 114 0
+ 506              		.cfi_startproc
+ 507              		@ args = 0, pretend = 0, frame = 0
+ 508              		@ frame_needed = 0, uses_anonymous_args = 0
+ 509              	.LVL70:
+ 510 0000 10B5     		push	{r4, lr}
+ 511              		.cfi_def_cfa_offset 8
+ 512              		.cfi_offset 4, -8
+ 513              		.cfi_offset 14, -4
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 12
+
+
+ 115:HindsightCAN/CANMotorUnit.c ****     return DecodeBytesToIntMSBFirst(packet->data, DLC_MOTOR_UNIT_PID_D_SET - 4, DLC_MOTOR_UNIT_PID_
+ 514              		.loc 1 115 0
+ 515 0002 0330     		adds	r0, r0, #3
+ 516              	.LVL71:
+ 517 0004 0522     		movs	r2, #5
+ 518 0006 0121     		movs	r1, #1
+ 519 0008 FFF7FEFF 		bl	DecodeBytesToIntMSBFirst
+ 520              	.LVL72:
+ 116:HindsightCAN/CANMotorUnit.c **** }
+ 521              		.loc 1 116 0
+ 522              		@ sp needed
+ 523 000c 10BD     		pop	{r4, pc}
+ 524              		.cfi_endproc
+ 525              	.LFE12:
+ 526              		.size	GetDFromPacket, .-GetDFromPacket
+ 527 000e C046     		.section	.text.AssembleInitializePacket,"ax",%progbits
+ 528              		.align	2
+ 529              		.global	AssembleInitializePacket
+ 530              		.code	16
+ 531              		.thumb_func
+ 532              		.type	AssembleInitializePacket, %function
+ 533              	AssembleInitializePacket:
+ 534              	.LFB13:
+ 117:HindsightCAN/CANMotorUnit.c **** 
+ 118:HindsightCAN/CANMotorUnit.c **** void AssembleInitializePacket(CANPacket *packetToAssemble,
+ 119:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceGroup,
+ 120:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceSerial,
+ 121:HindsightCAN/CANMotorUnit.c ****     uint8_t initMode)
+ 122:HindsightCAN/CANMotorUnit.c **** {
+ 535              		.loc 1 122 0
+ 536              		.cfi_startproc
+ 537              		@ args = 0, pretend = 0, frame = 0
+ 538              		@ frame_needed = 0, uses_anonymous_args = 0
+ 539              	.LVL73:
+ 540 0000 70B5     		push	{r4, r5, r6, lr}
+ 541              		.cfi_def_cfa_offset 16
+ 542              		.cfi_offset 4, -16
+ 543              		.cfi_offset 5, -12
+ 544              		.cfi_offset 6, -8
+ 545              		.cfi_offset 14, -4
+ 546 0002 0400     		movs	r4, r0
+ 547 0004 1D00     		movs	r5, r3
+ 123:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->id = ConstructCANID(PRIO_MOTOR_UNIT_INIT, targetDeviceGroup, targetDeviceSeri
+ 548              		.loc 1 123 0
+ 549 0006 0120     		movs	r0, #1
+ 550              	.LVL74:
+ 551 0008 FFF7FEFF 		bl	ConstructCANID
+ 552              	.LVL75:
+ 553 000c 2080     		strh	r0, [r4]
+ 124:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->dlc = DLC_MOTOR_UNIT_INIT;
+ 554              		.loc 1 124 0
+ 555 000e 0223     		movs	r3, #2
+ 556 0010 A370     		strb	r3, [r4, #2]
+ 125:HindsightCAN/CANMotorUnit.c ****     int nextByte = WritePacketIDOnly(packetToAssemble->data, ID_MOTOR_UNIT_INIT);
+ 557              		.loc 1 125 0
+ 558 0012 E01C     		adds	r0, r4, #3
+ 559 0014 0821     		movs	r1, #8
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 13
+
+
+ 560 0016 FFF7FEFF 		bl	WritePacketIDOnly
+ 561              	.LVL76:
+ 126:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->data[nextByte] = initMode;
+ 562              		.loc 1 126 0
+ 563 001a 2418     		adds	r4, r4, r0
+ 564              	.LVL77:
+ 565 001c E570     		strb	r5, [r4, #3]
+ 127:HindsightCAN/CANMotorUnit.c **** }
+ 566              		.loc 1 127 0
+ 567              		@ sp needed
+ 568 001e 70BD     		pop	{r4, r5, r6, pc}
+ 569              		.cfi_endproc
+ 570              	.LFE13:
+ 571              		.size	AssembleInitializePacket, .-AssembleInitializePacket
+ 572              		.section	.text.GetInitModeFromPacket,"ax",%progbits
+ 573              		.align	2
+ 574              		.global	GetInitModeFromPacket
+ 575              		.code	16
+ 576              		.thumb_func
+ 577              		.type	GetInitModeFromPacket, %function
+ 578              	GetInitModeFromPacket:
+ 579              	.LFB14:
+ 128:HindsightCAN/CANMotorUnit.c **** uint8_t GetInitModeFromPacket(CANPacket *packet)
+ 129:HindsightCAN/CANMotorUnit.c **** {
+ 580              		.loc 1 129 0
+ 581              		.cfi_startproc
+ 582              		@ args = 0, pretend = 0, frame = 0
+ 583              		@ frame_needed = 0, uses_anonymous_args = 0
+ 584              		@ link register save eliminated.
+ 585              	.LVL78:
+ 130:HindsightCAN/CANMotorUnit.c ****     return packet->data[1];
+ 586              		.loc 1 130 0
+ 587 0000 0079     		ldrb	r0, [r0, #4]
+ 588              	.LVL79:
+ 131:HindsightCAN/CANMotorUnit.c **** }
+ 589              		.loc 1 131 0
+ 590              		@ sp needed
+ 591 0002 7047     		bx	lr
+ 592              		.cfi_endproc
+ 593              	.LFE14:
+ 594              		.size	GetInitModeFromPacket, .-GetInitModeFromPacket
+ 595              		.section	.text.AssembleLimitSwitchAlertPacket,"ax",%progbits
+ 596              		.align	2
+ 597              		.global	AssembleLimitSwitchAlertPacket
+ 598              		.code	16
+ 599              		.thumb_func
+ 600              		.type	AssembleLimitSwitchAlertPacket, %function
+ 601              	AssembleLimitSwitchAlertPacket:
+ 602              	.LFB15:
+ 132:HindsightCAN/CANMotorUnit.c **** 
+ 133:HindsightCAN/CANMotorUnit.c **** void AssembleLimitSwitchAlertPacket(CANPacket *packetToAssemble,
+ 134:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceGroup,
+ 135:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceSerial,
+ 136:HindsightCAN/CANMotorUnit.c ****     uint8_t switches)
+ 137:HindsightCAN/CANMotorUnit.c **** {
+ 603              		.loc 1 137 0
+ 604              		.cfi_startproc
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 14
+
+
+ 605              		@ args = 0, pretend = 0, frame = 0
+ 606              		@ frame_needed = 0, uses_anonymous_args = 0
+ 607              	.LVL80:
+ 608 0000 70B5     		push	{r4, r5, r6, lr}
+ 609              		.cfi_def_cfa_offset 16
+ 610              		.cfi_offset 4, -16
+ 611              		.cfi_offset 5, -12
+ 612              		.cfi_offset 6, -8
+ 613              		.cfi_offset 14, -4
+ 614 0002 0400     		movs	r4, r0
+ 615 0004 1D00     		movs	r5, r3
+ 138:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->id = ConstructCANID(PRIO_MOTOR_UNIT_LIM_ALERT, targetDeviceGroup, targetDevic
+ 616              		.loc 1 138 0
+ 617 0006 0020     		movs	r0, #0
+ 618              	.LVL81:
+ 619 0008 FFF7FEFF 		bl	ConstructCANID
+ 620              	.LVL82:
+ 621 000c 2080     		strh	r0, [r4]
+ 139:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->dlc = DLC_MOTOR_UNIT_LIM_ALERT;
+ 622              		.loc 1 139 0
+ 623 000e 0423     		movs	r3, #4
+ 624 0010 A370     		strb	r3, [r4, #2]
+ 140:HindsightCAN/CANMotorUnit.c ****     int nextByte = WriteSenderSerialAndPacketID(packetToAssemble->data, ID_MOTOR_UNIT_LIM_ALERT);
+ 625              		.loc 1 140 0
+ 626 0012 E01C     		adds	r0, r4, #3
+ 627 0014 0921     		movs	r1, #9
+ 628 0016 FFF7FEFF 		bl	WriteSenderSerialAndPacketID
+ 629              	.LVL83:
+ 141:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->data[nextByte] = switches; 
+ 630              		.loc 1 141 0
+ 631 001a 2418     		adds	r4, r4, r0
+ 632              	.LVL84:
+ 633 001c E570     		strb	r5, [r4, #3]
+ 142:HindsightCAN/CANMotorUnit.c **** }
+ 634              		.loc 1 142 0
+ 635              		@ sp needed
+ 636 001e 70BD     		pop	{r4, r5, r6, pc}
+ 637              		.cfi_endproc
+ 638              	.LFE15:
+ 639              		.size	AssembleLimitSwitchAlertPacket, .-AssembleLimitSwitchAlertPacket
+ 640              		.section	.text.GetLimStatusFromPacket,"ax",%progbits
+ 641              		.align	2
+ 642              		.global	GetLimStatusFromPacket
+ 643              		.code	16
+ 644              		.thumb_func
+ 645              		.type	GetLimStatusFromPacket, %function
+ 646              	GetLimStatusFromPacket:
+ 647              	.LFB16:
+ 143:HindsightCAN/CANMotorUnit.c **** uint8_t GetLimStatusFromPacket(CANPacket *packet)
+ 144:HindsightCAN/CANMotorUnit.c **** {
+ 648              		.loc 1 144 0
+ 649              		.cfi_startproc
+ 650              		@ args = 0, pretend = 0, frame = 0
+ 651              		@ frame_needed = 0, uses_anonymous_args = 0
+ 652              		@ link register save eliminated.
+ 653              	.LVL85:
+ 145:HindsightCAN/CANMotorUnit.c ****     return packet->data[1];
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 15
+
+
+ 654              		.loc 1 145 0
+ 655 0000 0079     		ldrb	r0, [r0, #4]
+ 656              	.LVL86:
+ 146:HindsightCAN/CANMotorUnit.c **** }
+ 657              		.loc 1 146 0
+ 658              		@ sp needed
+ 659 0002 7047     		bx	lr
+ 660              		.cfi_endproc
+ 661              	.LFE16:
+ 662              		.size	GetLimStatusFromPacket, .-GetLimStatusFromPacket
+ 663              		.section	.text.AssembleEncoderPPJRSetPacket,"ax",%progbits
+ 664              		.align	2
+ 665              		.global	AssembleEncoderPPJRSetPacket
+ 666              		.code	16
+ 667              		.thumb_func
+ 668              		.type	AssembleEncoderPPJRSetPacket, %function
+ 669              	AssembleEncoderPPJRSetPacket:
+ 670              	.LFB17:
+ 147:HindsightCAN/CANMotorUnit.c **** 
+ 148:HindsightCAN/CANMotorUnit.c **** void AssembleEncoderPPJRSetPacket(CANPacket *packetToAssemble,
+ 149:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceGroup,
+ 150:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceSerial,
+ 151:HindsightCAN/CANMotorUnit.c ****     uint32_t pulses)
+ 152:HindsightCAN/CANMotorUnit.c **** {
+ 671              		.loc 1 152 0
+ 672              		.cfi_startproc
+ 673              		@ args = 0, pretend = 0, frame = 0
+ 674              		@ frame_needed = 0, uses_anonymous_args = 0
+ 675              	.LVL87:
+ 676 0000 70B5     		push	{r4, r5, r6, lr}
+ 677              		.cfi_def_cfa_offset 16
+ 678              		.cfi_offset 4, -16
+ 679              		.cfi_offset 5, -12
+ 680              		.cfi_offset 6, -8
+ 681              		.cfi_offset 14, -4
+ 682 0002 0400     		movs	r4, r0
+ 683 0004 1D00     		movs	r5, r3
+ 153:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->id = ConstructCANID(PRIO_MOTOR_UNIT_ENC_PPJR_SET, targetDeviceGroup, targetDe
+ 684              		.loc 1 153 0
+ 685 0006 0120     		movs	r0, #1
+ 686              	.LVL88:
+ 687 0008 FFF7FEFF 		bl	ConstructCANID
+ 688              	.LVL89:
+ 689 000c 2080     		strh	r0, [r4]
+ 154:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->dlc = DLC_MOTOR_UNIT_ENC_PPJR_SET;
+ 690              		.loc 1 154 0
+ 691 000e 0523     		movs	r3, #5
+ 692 0010 A370     		strb	r3, [r4, #2]
+ 155:HindsightCAN/CANMotorUnit.c ****     int nextByte = WritePacketIDOnly(packetToAssemble->data, ID_MOTOR_UNIT_ENC_PPJR_SET);
+ 693              		.loc 1 155 0
+ 694 0012 0334     		adds	r4, r4, #3
+ 695              	.LVL90:
+ 696 0014 0A21     		movs	r1, #10
+ 697 0016 2000     		movs	r0, r4
+ 698 0018 FFF7FEFF 		bl	WritePacketIDOnly
+ 699              	.LVL91:
+ 700 001c 0200     		movs	r2, r0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 16
+
+
+ 701              	.LVL92:
+ 156:HindsightCAN/CANMotorUnit.c ****     PackIntIntoDataMSBFirst(packetToAssemble->data, pulses, nextByte);
+ 702              		.loc 1 156 0
+ 703 001e 2900     		movs	r1, r5
+ 704 0020 2000     		movs	r0, r4
+ 705              	.LVL93:
+ 706 0022 FFF7FEFF 		bl	PackIntIntoDataMSBFirst
+ 707              	.LVL94:
+ 157:HindsightCAN/CANMotorUnit.c **** }
+ 708              		.loc 1 157 0
+ 709              		@ sp needed
+ 710              	.LVL95:
+ 711              	.LVL96:
+ 712 0026 70BD     		pop	{r4, r5, r6, pc}
+ 713              		.cfi_endproc
+ 714              	.LFE17:
+ 715              		.size	AssembleEncoderPPJRSetPacket, .-AssembleEncoderPPJRSetPacket
+ 716              		.section	.text.GetEncoderPPJRFromPacket,"ax",%progbits
+ 717              		.align	2
+ 718              		.global	GetEncoderPPJRFromPacket
+ 719              		.code	16
+ 720              		.thumb_func
+ 721              		.type	GetEncoderPPJRFromPacket, %function
+ 722              	GetEncoderPPJRFromPacket:
+ 723              	.LFB18:
+ 158:HindsightCAN/CANMotorUnit.c **** 
+ 159:HindsightCAN/CANMotorUnit.c **** uint32_t GetEncoderPPJRFromPacket(CANPacket *packet)
+ 160:HindsightCAN/CANMotorUnit.c **** {
+ 724              		.loc 1 160 0
+ 725              		.cfi_startproc
+ 726              		@ args = 0, pretend = 0, frame = 0
+ 727              		@ frame_needed = 0, uses_anonymous_args = 0
+ 728              	.LVL97:
+ 729 0000 10B5     		push	{r4, lr}
+ 730              		.cfi_def_cfa_offset 8
+ 731              		.cfi_offset 4, -8
+ 732              		.cfi_offset 14, -4
+ 161:HindsightCAN/CANMotorUnit.c ****     return DecodeBytesToIntMSBFirst(packet->data, 1, 4);
+ 733              		.loc 1 161 0
+ 734 0002 0330     		adds	r0, r0, #3
+ 735              	.LVL98:
+ 736 0004 0422     		movs	r2, #4
+ 737 0006 0121     		movs	r1, #1
+ 738 0008 FFF7FEFF 		bl	DecodeBytesToIntMSBFirst
+ 739              	.LVL99:
+ 162:HindsightCAN/CANMotorUnit.c **** }
+ 740              		.loc 1 162 0
+ 741              		@ sp needed
+ 742 000c 10BD     		pop	{r4, pc}
+ 743              		.cfi_endproc
+ 744              	.LFE18:
+ 745              		.size	GetEncoderPPJRFromPacket, .-GetEncoderPPJRFromPacket
+ 746 000e C046     		.section	.text.AssembleMaxJointRevolutionPacket,"ax",%progbits
+ 747              		.align	2
+ 748              		.global	AssembleMaxJointRevolutionPacket
+ 749              		.code	16
+ 750              		.thumb_func
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 17
+
+
+ 751              		.type	AssembleMaxJointRevolutionPacket, %function
+ 752              	AssembleMaxJointRevolutionPacket:
+ 753              	.LFB19:
+ 163:HindsightCAN/CANMotorUnit.c **** 
+ 164:HindsightCAN/CANMotorUnit.c **** void AssembleMaxJointRevolutionPacket(CANPacket *packetToAssemble,
+ 165:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceGroup,
+ 166:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceSerial,
+ 167:HindsightCAN/CANMotorUnit.c ****     uint32_t revolutions)
+ 168:HindsightCAN/CANMotorUnit.c **** {
+ 754              		.loc 1 168 0
+ 755              		.cfi_startproc
+ 756              		@ args = 0, pretend = 0, frame = 0
+ 757              		@ frame_needed = 0, uses_anonymous_args = 0
+ 758              	.LVL100:
+ 759 0000 70B5     		push	{r4, r5, r6, lr}
+ 760              		.cfi_def_cfa_offset 16
+ 761              		.cfi_offset 4, -16
+ 762              		.cfi_offset 5, -12
+ 763              		.cfi_offset 6, -8
+ 764              		.cfi_offset 14, -4
+ 765 0002 0400     		movs	r4, r0
+ 766 0004 1D00     		movs	r5, r3
+ 169:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->id = ConstructCANID(PRIO_MOTOR_UNIT_MAX_JNT_REV_SET, targetDeviceGroup, targe
+ 767              		.loc 1 169 0
+ 768 0006 0120     		movs	r0, #1
+ 769              	.LVL101:
+ 770 0008 FFF7FEFF 		bl	ConstructCANID
+ 771              	.LVL102:
+ 772 000c 2080     		strh	r0, [r4]
+ 170:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->dlc = DLC_MOTOR_UNIT_MAX_JNT_REV_SET;
+ 773              		.loc 1 170 0
+ 774 000e 0223     		movs	r3, #2
+ 775 0010 A370     		strb	r3, [r4, #2]
+ 171:HindsightCAN/CANMotorUnit.c ****     int nextByte = WritePacketIDOnly(packetToAssemble->data, ID_MOTOR_UNIT_MAX_JNT_REV_SET);
+ 776              		.loc 1 171 0
+ 777 0012 0334     		adds	r4, r4, #3
+ 778              	.LVL103:
+ 779 0014 0B21     		movs	r1, #11
+ 780 0016 2000     		movs	r0, r4
+ 781 0018 FFF7FEFF 		bl	WritePacketIDOnly
+ 782              	.LVL104:
+ 783 001c 0200     		movs	r2, r0
+ 784              	.LVL105:
+ 172:HindsightCAN/CANMotorUnit.c ****     PackIntIntoDataMSBFirst(packetToAssemble->data, revolutions, nextByte);
+ 785              		.loc 1 172 0
+ 786 001e 2900     		movs	r1, r5
+ 787 0020 2000     		movs	r0, r4
+ 788              	.LVL106:
+ 789 0022 FFF7FEFF 		bl	PackIntIntoDataMSBFirst
+ 790              	.LVL107:
+ 173:HindsightCAN/CANMotorUnit.c ****     
+ 174:HindsightCAN/CANMotorUnit.c **** }
+ 791              		.loc 1 174 0
+ 792              		@ sp needed
+ 793              	.LVL108:
+ 794              	.LVL109:
+ 795 0026 70BD     		pop	{r4, r5, r6, pc}
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 18
+
+
+ 796              		.cfi_endproc
+ 797              	.LFE19:
+ 798              		.size	AssembleMaxJointRevolutionPacket, .-AssembleMaxJointRevolutionPacket
+ 799              		.section	.text.GetMaxJointRevolutionsFromPacket,"ax",%progbits
+ 800              		.align	2
+ 801              		.global	GetMaxJointRevolutionsFromPacket
+ 802              		.code	16
+ 803              		.thumb_func
+ 804              		.type	GetMaxJointRevolutionsFromPacket, %function
+ 805              	GetMaxJointRevolutionsFromPacket:
+ 806              	.LFB20:
+ 175:HindsightCAN/CANMotorUnit.c **** uint32_t GetMaxJointRevolutionsFromPacket(CANPacket *packet)
+ 176:HindsightCAN/CANMotorUnit.c **** {
+ 807              		.loc 1 176 0
+ 808              		.cfi_startproc
+ 809              		@ args = 0, pretend = 0, frame = 0
+ 810              		@ frame_needed = 0, uses_anonymous_args = 0
+ 811              	.LVL110:
+ 812 0000 10B5     		push	{r4, lr}
+ 813              		.cfi_def_cfa_offset 8
+ 814              		.cfi_offset 4, -8
+ 815              		.cfi_offset 14, -4
+ 177:HindsightCAN/CANMotorUnit.c ****     return DecodeBytesToIntMSBFirst(packet->data, 1, 4);
+ 816              		.loc 1 177 0
+ 817 0002 0330     		adds	r0, r0, #3
+ 818              	.LVL111:
+ 819 0004 0422     		movs	r2, #4
+ 820 0006 0121     		movs	r1, #1
+ 821 0008 FFF7FEFF 		bl	DecodeBytesToIntMSBFirst
+ 822              	.LVL112:
+ 178:HindsightCAN/CANMotorUnit.c **** }
+ 823              		.loc 1 178 0
+ 824              		@ sp needed
+ 825 000c 10BD     		pop	{r4, pc}
+ 826              		.cfi_endproc
+ 827              	.LFE20:
+ 828              		.size	GetMaxJointRevolutionsFromPacket, .-GetMaxJointRevolutionsFromPacket
+ 829 000e C046     		.section	.text.AssembleEncoderInitializePacket,"ax",%progbits
+ 830              		.align	2
+ 831              		.global	AssembleEncoderInitializePacket
+ 832              		.code	16
+ 833              		.thumb_func
+ 834              		.type	AssembleEncoderInitializePacket, %function
+ 835              	AssembleEncoderInitializePacket:
+ 836              	.LFB21:
+ 179:HindsightCAN/CANMotorUnit.c **** 
+ 180:HindsightCAN/CANMotorUnit.c **** void AssembleEncoderInitializePacket(CANPacket *packetToAssemble,
+ 181:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceGroup,
+ 182:HindsightCAN/CANMotorUnit.c ****     uint8_t targetDeviceSerial,
+ 183:HindsightCAN/CANMotorUnit.c ****     uint8_t encoderType,
+ 184:HindsightCAN/CANMotorUnit.c ****     uint8_t angleDirection,
+ 185:HindsightCAN/CANMotorUnit.c ****     uint8_t zeroAngle)
+ 186:HindsightCAN/CANMotorUnit.c **** {
+ 837              		.loc 1 186 0
+ 838              		.cfi_startproc
+ 839              		@ args = 8, pretend = 0, frame = 0
+ 840              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 19
+
+
+ 841              	.LVL113:
+ 842 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 843              		.cfi_def_cfa_offset 24
+ 844              		.cfi_offset 3, -24
+ 845              		.cfi_offset 4, -20
+ 846              		.cfi_offset 5, -16
+ 847              		.cfi_offset 6, -12
+ 848              		.cfi_offset 7, -8
+ 849              		.cfi_offset 14, -4
+ 850 0002 0400     		movs	r4, r0
+ 851 0004 1F00     		movs	r7, r3
+ 852 0006 06AB     		add	r3, sp, #24
+ 853              	.LVL114:
+ 854 0008 1E78     		ldrb	r6, [r3]
+ 855 000a 07AB     		add	r3, sp, #28
+ 856              	.LVL115:
+ 857 000c 1D78     		ldrb	r5, [r3]
+ 187:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->id = ConstructCANID(PRIO_MOTOR_UNIT_ENC_INIT, targetDeviceGroup, targetDevice
+ 858              		.loc 1 187 0
+ 859 000e 0120     		movs	r0, #1
+ 860              	.LVL116:
+ 861 0010 FFF7FEFF 		bl	ConstructCANID
+ 862              	.LVL117:
+ 863 0014 2080     		strh	r0, [r4]
+ 188:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->dlc = DLC_MOTOR_UNIT_ENC_INIT;
+ 864              		.loc 1 188 0
+ 865 0016 0223     		movs	r3, #2
+ 866 0018 A370     		strb	r3, [r4, #2]
+ 189:HindsightCAN/CANMotorUnit.c ****     int nextByte = WritePacketIDOnly(packetToAssemble->data, ID_MOTOR_UNIT_ENC_INIT);
+ 867              		.loc 1 189 0
+ 868 001a E01C     		adds	r0, r4, #3
+ 869 001c 0C21     		movs	r1, #12
+ 870 001e FFF7FEFF 		bl	WritePacketIDOnly
+ 871              	.LVL118:
+ 190:HindsightCAN/CANMotorUnit.c ****     packetToAssemble->data[nextByte] = 0;
+ 872              		.loc 1 190 0
+ 873 0022 2318     		adds	r3, r4, r0
+ 874 0024 0022     		movs	r2, #0
+ 875 0026 DA70     		strb	r2, [r3, #3]
+ 191:HindsightCAN/CANMotorUnit.c ****     if(encoderType)
+ 876              		.loc 1 191 0
+ 877 0028 002F     		cmp	r7, #0
+ 878 002a 01D0     		beq	.L23
+ 192:HindsightCAN/CANMotorUnit.c ****     {
+ 193:HindsightCAN/CANMotorUnit.c ****         packetToAssemble->data[nextByte] |= 0b100;
+ 879              		.loc 1 193 0
+ 880 002c 0432     		adds	r2, r2, #4
+ 881 002e DA70     		strb	r2, [r3, #3]
+ 882              	.L23:
+ 194:HindsightCAN/CANMotorUnit.c ****     }
+ 195:HindsightCAN/CANMotorUnit.c ****     if(angleDirection)
+ 883              		.loc 1 195 0
+ 884 0030 002E     		cmp	r6, #0
+ 885 0032 04D0     		beq	.L24
+ 196:HindsightCAN/CANMotorUnit.c ****     {
+ 197:HindsightCAN/CANMotorUnit.c ****         packetToAssemble->data[nextByte] |= 0b010;
+ 886              		.loc 1 197 0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 20
+
+
+ 887 0034 2218     		adds	r2, r4, r0
+ 888 0036 D178     		ldrb	r1, [r2, #3]
+ 889 0038 0223     		movs	r3, #2
+ 890 003a 0B43     		orrs	r3, r1
+ 891 003c D370     		strb	r3, [r2, #3]
+ 892              	.L24:
+ 198:HindsightCAN/CANMotorUnit.c ****     }
+ 199:HindsightCAN/CANMotorUnit.c ****     if(zeroAngle)
+ 893              		.loc 1 199 0
+ 894 003e 002D     		cmp	r5, #0
+ 895 0040 04D0     		beq	.L22
+ 200:HindsightCAN/CANMotorUnit.c ****     {
+ 201:HindsightCAN/CANMotorUnit.c ****         packetToAssemble->data[nextByte] |= 0b001;
+ 896              		.loc 1 201 0
+ 897 0042 2018     		adds	r0, r4, r0
+ 898              	.LVL119:
+ 899 0044 C278     		ldrb	r2, [r0, #3]
+ 900 0046 0123     		movs	r3, #1
+ 901 0048 1343     		orrs	r3, r2
+ 902 004a C370     		strb	r3, [r0, #3]
+ 903              	.L22:
+ 202:HindsightCAN/CANMotorUnit.c ****     }
+ 203:HindsightCAN/CANMotorUnit.c **** }
+ 904              		.loc 1 203 0
+ 905              		@ sp needed
+ 906              	.LVL120:
+ 907 004c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 908              		.cfi_endproc
+ 909              	.LFE21:
+ 910              		.size	AssembleEncoderInitializePacket, .-AssembleEncoderInitializePacket
+ 911 004e C046     		.section	.text.GetEncoderTypeFromPacket,"ax",%progbits
+ 912              		.align	2
+ 913              		.global	GetEncoderTypeFromPacket
+ 914              		.code	16
+ 915              		.thumb_func
+ 916              		.type	GetEncoderTypeFromPacket, %function
+ 917              	GetEncoderTypeFromPacket:
+ 918              	.LFB22:
+ 204:HindsightCAN/CANMotorUnit.c **** 
+ 205:HindsightCAN/CANMotorUnit.c **** uint8_t GetEncoderTypeFromPacket(CANPacket *packet)
+ 206:HindsightCAN/CANMotorUnit.c **** {
+ 919              		.loc 1 206 0
+ 920              		.cfi_startproc
+ 921              		@ args = 0, pretend = 0, frame = 0
+ 922              		@ frame_needed = 0, uses_anonymous_args = 0
+ 923              		@ link register save eliminated.
+ 924              	.LVL121:
+ 207:HindsightCAN/CANMotorUnit.c ****     return(packet->data[1] & 0b100);
+ 925              		.loc 1 207 0
+ 926 0000 0379     		ldrb	r3, [r0, #4]
+ 927 0002 0420     		movs	r0, #4
+ 928              	.LVL122:
+ 929 0004 1840     		ands	r0, r3
+ 208:HindsightCAN/CANMotorUnit.c **** }
+ 930              		.loc 1 208 0
+ 931              		@ sp needed
+ 932 0006 7047     		bx	lr
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 21
+
+
+ 933              		.cfi_endproc
+ 934              	.LFE22:
+ 935              		.size	GetEncoderTypeFromPacket, .-GetEncoderTypeFromPacket
+ 936              		.section	.text.GetEncoderDirectionFromPacket,"ax",%progbits
+ 937              		.align	2
+ 938              		.global	GetEncoderDirectionFromPacket
+ 939              		.code	16
+ 940              		.thumb_func
+ 941              		.type	GetEncoderDirectionFromPacket, %function
+ 942              	GetEncoderDirectionFromPacket:
+ 943              	.LFB23:
+ 209:HindsightCAN/CANMotorUnit.c **** uint8_t GetEncoderDirectionFromPacket(CANPacket *packet)
+ 210:HindsightCAN/CANMotorUnit.c **** {
+ 944              		.loc 1 210 0
+ 945              		.cfi_startproc
+ 946              		@ args = 0, pretend = 0, frame = 0
+ 947              		@ frame_needed = 0, uses_anonymous_args = 0
+ 948              		@ link register save eliminated.
+ 949              	.LVL123:
+ 211:HindsightCAN/CANMotorUnit.c ****     return(packet->data[1] & 0b010);
+ 950              		.loc 1 211 0
+ 951 0000 0379     		ldrb	r3, [r0, #4]
+ 952 0002 0220     		movs	r0, #2
+ 953              	.LVL124:
+ 954 0004 1840     		ands	r0, r3
+ 212:HindsightCAN/CANMotorUnit.c **** }
+ 955              		.loc 1 212 0
+ 956              		@ sp needed
+ 957 0006 7047     		bx	lr
+ 958              		.cfi_endproc
+ 959              	.LFE23:
+ 960              		.size	GetEncoderDirectionFromPacket, .-GetEncoderDirectionFromPacket
+ 961              		.section	.text.GetEncoderZeroFromPacket,"ax",%progbits
+ 962              		.align	2
+ 963              		.global	GetEncoderZeroFromPacket
+ 964              		.code	16
+ 965              		.thumb_func
+ 966              		.type	GetEncoderZeroFromPacket, %function
+ 967              	GetEncoderZeroFromPacket:
+ 968              	.LFB24:
+ 213:HindsightCAN/CANMotorUnit.c **** uint8_t GetEncoderZeroFromPacket(CANPacket *packet)
+ 214:HindsightCAN/CANMotorUnit.c **** {
+ 969              		.loc 1 214 0
+ 970              		.cfi_startproc
+ 971              		@ args = 0, pretend = 0, frame = 0
+ 972              		@ frame_needed = 0, uses_anonymous_args = 0
+ 973              		@ link register save eliminated.
+ 974              	.LVL125:
+ 215:HindsightCAN/CANMotorUnit.c ****     return(packet->data[1] & 0b001);
+ 975              		.loc 1 215 0
+ 976 0000 0379     		ldrb	r3, [r0, #4]
+ 977 0002 0120     		movs	r0, #1
+ 978              	.LVL126:
+ 979 0004 1840     		ands	r0, r3
+ 216:HindsightCAN/CANMotorUnit.c **** }
+ 980              		.loc 1 216 0
+ 981              		@ sp needed
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 22
+
+
+ 982 0006 7047     		bx	lr
+ 983              		.cfi_endproc
+ 984              	.LFE24:
+ 985              		.size	GetEncoderZeroFromPacket, .-GetEncoderZeroFromPacket
+ 986              		.text
+ 987              	.Letext0:
+ 988              		.file 2 "x:\\programs\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none
+ 989              		.file 3 "x:\\programs\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none
+ 990              		.file 4 "HindsightCAN\\CANPacket.h"
+ 991              		.section	.debug_info,"",%progbits
+ 992              	.Ldebug_info0:
+ 993 0000 260B0000 		.4byte	0xb26
+ 994 0004 0400     		.2byte	0x4
+ 995 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 996 000a 04       		.byte	0x4
+ 997 000b 01       		.uleb128 0x1
+ 998 000c 07010000 		.4byte	.LASF71
+ 999 0010 0C       		.byte	0xc
+ 1000 0011 17000000 		.4byte	.LASF72
+ 1001 0015 ED030000 		.4byte	.LASF73
+ 1002 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1003 001d 00000000 		.4byte	0
+ 1004 0021 00000000 		.4byte	.Ldebug_line0
+ 1005 0025 02       		.uleb128 0x2
+ 1006 0026 01       		.byte	0x1
+ 1007 0027 06       		.byte	0x6
+ 1008 0028 F2020000 		.4byte	.LASF0
+ 1009 002c 03       		.uleb128 0x3
+ 1010 002d 5C020000 		.4byte	.LASF2
+ 1011 0031 02       		.byte	0x2
+ 1012 0032 1D       		.byte	0x1d
+ 1013 0033 37000000 		.4byte	0x37
+ 1014 0037 02       		.uleb128 0x2
+ 1015 0038 01       		.byte	0x1
+ 1016 0039 08       		.byte	0x8
+ 1017 003a C7020000 		.4byte	.LASF1
+ 1018 003e 03       		.uleb128 0x3
+ 1019 003f 92040000 		.4byte	.LASF3
+ 1020 0043 02       		.byte	0x2
+ 1021 0044 29       		.byte	0x29
+ 1022 0045 49000000 		.4byte	0x49
+ 1023 0049 02       		.uleb128 0x2
+ 1024 004a 02       		.byte	0x2
+ 1025 004b 05       		.byte	0x5
+ 1026 004c 73000000 		.4byte	.LASF4
+ 1027 0050 03       		.uleb128 0x3
+ 1028 0051 D0000000 		.4byte	.LASF5
+ 1029 0055 02       		.byte	0x2
+ 1030 0056 2B       		.byte	0x2b
+ 1031 0057 5B000000 		.4byte	0x5b
+ 1032 005b 02       		.uleb128 0x2
+ 1033 005c 02       		.byte	0x2
+ 1034 005d 07       		.byte	0x7
+ 1035 005e 46030000 		.4byte	.LASF6
+ 1036 0062 03       		.uleb128 0x3
+ 1037 0063 88040000 		.4byte	.LASF7
+ 1038 0067 02       		.byte	0x2
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 23
+
+
+ 1039 0068 3F       		.byte	0x3f
+ 1040 0069 6D000000 		.4byte	0x6d
+ 1041 006d 02       		.uleb128 0x2
+ 1042 006e 04       		.byte	0x4
+ 1043 006f 05       		.byte	0x5
+ 1044 0070 21020000 		.4byte	.LASF8
+ 1045 0074 03       		.uleb128 0x3
+ 1046 0075 C0000000 		.4byte	.LASF9
+ 1047 0079 02       		.byte	0x2
+ 1048 007a 41       		.byte	0x41
+ 1049 007b 7F000000 		.4byte	0x7f
+ 1050 007f 02       		.uleb128 0x2
+ 1051 0080 04       		.byte	0x4
+ 1052 0081 07       		.byte	0x7
+ 1053 0082 D5030000 		.4byte	.LASF10
+ 1054 0086 02       		.uleb128 0x2
+ 1055 0087 08       		.byte	0x8
+ 1056 0088 05       		.byte	0x5
+ 1057 0089 E8010000 		.4byte	.LASF11
+ 1058 008d 02       		.uleb128 0x2
+ 1059 008e 08       		.byte	0x8
+ 1060 008f 07       		.byte	0x7
+ 1061 0090 FE020000 		.4byte	.LASF12
+ 1062 0094 04       		.uleb128 0x4
+ 1063 0095 04       		.byte	0x4
+ 1064 0096 05       		.byte	0x5
+ 1065 0097 696E7400 		.ascii	"int\000"
+ 1066 009b 02       		.uleb128 0x2
+ 1067 009c 04       		.byte	0x4
+ 1068 009d 07       		.byte	0x7
+ 1069 009e 1E030000 		.4byte	.LASF13
+ 1070 00a2 03       		.uleb128 0x3
+ 1071 00a3 AD010000 		.4byte	.LASF14
+ 1072 00a7 03       		.byte	0x3
+ 1073 00a8 18       		.byte	0x18
+ 1074 00a9 2C000000 		.4byte	0x2c
+ 1075 00ad 03       		.uleb128 0x3
+ 1076 00ae 86030000 		.4byte	.LASF15
+ 1077 00b2 03       		.byte	0x3
+ 1078 00b3 20       		.byte	0x20
+ 1079 00b4 3E000000 		.4byte	0x3e
+ 1080 00b8 03       		.uleb128 0x3
+ 1081 00b9 2B030000 		.4byte	.LASF16
+ 1082 00bd 03       		.byte	0x3
+ 1083 00be 24       		.byte	0x24
+ 1084 00bf 50000000 		.4byte	0x50
+ 1085 00c3 03       		.uleb128 0x3
+ 1086 00c4 7E030000 		.4byte	.LASF17
+ 1087 00c8 03       		.byte	0x3
+ 1088 00c9 2C       		.byte	0x2c
+ 1089 00ca 62000000 		.4byte	0x62
+ 1090 00ce 03       		.uleb128 0x3
+ 1091 00cf 15030000 		.4byte	.LASF18
+ 1092 00d3 03       		.byte	0x3
+ 1093 00d4 30       		.byte	0x30
+ 1094 00d5 74000000 		.4byte	0x74
+ 1095 00d9 05       		.uleb128 0x5
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 24
+
+
+ 1096 00da 0C       		.byte	0xc
+ 1097 00db 04       		.byte	0x4
+ 1098 00dc 0F       		.byte	0xf
+ 1099 00dd 05010000 		.4byte	0x105
+ 1100 00e1 06       		.uleb128 0x6
+ 1101 00e2 696400   		.ascii	"id\000"
+ 1102 00e5 04       		.byte	0x4
+ 1103 00e6 11       		.byte	0x11
+ 1104 00e7 B8000000 		.4byte	0xb8
+ 1105 00eb 00       		.byte	0
+ 1106 00ec 06       		.uleb128 0x6
+ 1107 00ed 646C6300 		.ascii	"dlc\000"
+ 1108 00f1 04       		.byte	0x4
+ 1109 00f2 12       		.byte	0x12
+ 1110 00f3 A2000000 		.4byte	0xa2
+ 1111 00f7 02       		.byte	0x2
+ 1112 00f8 07       		.uleb128 0x7
+ 1113 00f9 95030000 		.4byte	.LASF19
+ 1114 00fd 04       		.byte	0x4
+ 1115 00fe 13       		.byte	0x13
+ 1116 00ff 05010000 		.4byte	0x105
+ 1117 0103 03       		.byte	0x3
+ 1118 0104 00       		.byte	0
+ 1119 0105 08       		.uleb128 0x8
+ 1120 0106 A2000000 		.4byte	0xa2
+ 1121 010a 15010000 		.4byte	0x115
+ 1122 010e 09       		.uleb128 0x9
+ 1123 010f 15010000 		.4byte	0x115
+ 1124 0113 07       		.byte	0x7
+ 1125 0114 00       		.byte	0
+ 1126 0115 02       		.uleb128 0x2
+ 1127 0116 04       		.byte	0x4
+ 1128 0117 07       		.byte	0x7
+ 1129 0118 8C000000 		.4byte	.LASF20
+ 1130 011c 03       		.uleb128 0x3
+ 1131 011d 17020000 		.4byte	.LASF21
+ 1132 0121 04       		.byte	0x4
+ 1133 0122 14       		.byte	0x14
+ 1134 0123 D9000000 		.4byte	0xd9
+ 1135 0127 0A       		.uleb128 0xa
+ 1136 0128 46020000 		.4byte	.LASF27
+ 1137 012c 01       		.byte	0x1
+ 1138 012d 0F       		.byte	0xf
+ 1139 012e 00000000 		.4byte	.LFB0
+ 1140 0132 20000000 		.4byte	.LFE0-.LFB0
+ 1141 0136 01       		.uleb128 0x1
+ 1142 0137 9C       		.byte	0x9c
+ 1143 0138 AE010000 		.4byte	0x1ae
+ 1144 013c 0B       		.uleb128 0xb
+ 1145 013d 06000000 		.4byte	.LASF22
+ 1146 0141 01       		.byte	0x1
+ 1147 0142 0F       		.byte	0xf
+ 1148 0143 AE010000 		.4byte	0x1ae
+ 1149 0147 00000000 		.4byte	.LLST0
+ 1150 014b 0B       		.uleb128 0xb
+ 1151 014c 34030000 		.4byte	.LASF23
+ 1152 0150 01       		.byte	0x1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 25
+
+
+ 1153 0151 10       		.byte	0x10
+ 1154 0152 A2000000 		.4byte	0xa2
+ 1155 0156 2C000000 		.4byte	.LLST1
+ 1156 015a 0B       		.uleb128 0xb
+ 1157 015b 59030000 		.4byte	.LASF24
+ 1158 015f 01       		.byte	0x1
+ 1159 0160 11       		.byte	0x11
+ 1160 0161 A2000000 		.4byte	0xa2
+ 1161 0165 4D000000 		.4byte	.LLST2
+ 1162 0169 0B       		.uleb128 0xb
+ 1163 016a CB000000 		.4byte	.LASF25
+ 1164 016e 01       		.byte	0x1
+ 1165 016f 12       		.byte	0x12
+ 1166 0170 A2000000 		.4byte	0xa2
+ 1167 0174 6E000000 		.4byte	.LLST3
+ 1168 0178 0C       		.uleb128 0xc
+ 1169 0179 9E000000 		.4byte	.LASF30
+ 1170 017d 01       		.byte	0x1
+ 1171 017e 16       		.byte	0x16
+ 1172 017f 94000000 		.4byte	0x94
+ 1173 0183 01       		.uleb128 0x1
+ 1174 0184 50       		.byte	0x50
+ 1175 0185 0D       		.uleb128 0xd
+ 1176 0186 0C000000 		.4byte	.LVL2
+ 1177 018a E70A0000 		.4byte	0xae7
+ 1178 018e 98010000 		.4byte	0x198
+ 1179 0192 0E       		.uleb128 0xe
+ 1180 0193 01       		.uleb128 0x1
+ 1181 0194 50       		.byte	0x50
+ 1182 0195 01       		.uleb128 0x1
+ 1183 0196 31       		.byte	0x31
+ 1184 0197 00       		.byte	0
+ 1185 0198 0F       		.uleb128 0xf
+ 1186 0199 1A000000 		.4byte	.LVL3
+ 1187 019d F20A0000 		.4byte	0xaf2
+ 1188 01a1 0E       		.uleb128 0xe
+ 1189 01a2 01       		.uleb128 0x1
+ 1190 01a3 50       		.byte	0x50
+ 1191 01a4 02       		.uleb128 0x2
+ 1192 01a5 74       		.byte	0x74
+ 1193 01a6 03       		.sleb128 3
+ 1194 01a7 0E       		.uleb128 0xe
+ 1195 01a8 01       		.uleb128 0x1
+ 1196 01a9 51       		.byte	0x51
+ 1197 01aa 01       		.uleb128 0x1
+ 1198 01ab 30       		.byte	0x30
+ 1199 01ac 00       		.byte	0
+ 1200 01ad 00       		.byte	0
+ 1201 01ae 10       		.uleb128 0x10
+ 1202 01af 04       		.byte	0x4
+ 1203 01b0 1C010000 		.4byte	0x11c
+ 1204 01b4 11       		.uleb128 0x11
+ 1205 01b5 6C030000 		.4byte	.LASF31
+ 1206 01b9 01       		.byte	0x1
+ 1207 01ba 1A       		.byte	0x1a
+ 1208 01bb A2000000 		.4byte	0xa2
+ 1209 01bf 00000000 		.4byte	.LFB1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 26
+
+
+ 1210 01c3 04000000 		.4byte	.LFE1-.LFB1
+ 1211 01c7 01       		.uleb128 0x1
+ 1212 01c8 9C       		.byte	0x9c
+ 1213 01c9 DD010000 		.4byte	0x1dd
+ 1214 01cd 0B       		.uleb128 0xb
+ 1215 01ce C4010000 		.4byte	.LASF26
+ 1216 01d2 01       		.byte	0x1
+ 1217 01d3 1A       		.byte	0x1a
+ 1218 01d4 AE010000 		.4byte	0x1ae
+ 1219 01d8 8F000000 		.4byte	.LLST4
+ 1220 01dc 00       		.byte	0
+ 1221 01dd 0A       		.uleb128 0xa
+ 1222 01de 95010000 		.4byte	.LASF28
+ 1223 01e2 01       		.byte	0x1
+ 1224 01e3 20       		.byte	0x20
+ 1225 01e4 00000000 		.4byte	.LFB2
+ 1226 01e8 28000000 		.4byte	.LFE2-.LFB2
+ 1227 01ec 01       		.uleb128 0x1
+ 1228 01ed 9C       		.byte	0x9c
+ 1229 01ee 80020000 		.4byte	0x280
+ 1230 01f2 0B       		.uleb128 0xb
+ 1231 01f3 06000000 		.4byte	.LASF22
+ 1232 01f7 01       		.byte	0x1
+ 1233 01f8 20       		.byte	0x20
+ 1234 01f9 AE010000 		.4byte	0x1ae
+ 1235 01fd B0000000 		.4byte	.LLST5
+ 1236 0201 0B       		.uleb128 0xb
+ 1237 0202 34030000 		.4byte	.LASF23
+ 1238 0206 01       		.byte	0x1
+ 1239 0207 21       		.byte	0x21
+ 1240 0208 A2000000 		.4byte	0xa2
+ 1241 020c E9000000 		.4byte	.LLST6
+ 1242 0210 0B       		.uleb128 0xb
+ 1243 0211 59030000 		.4byte	.LASF24
+ 1244 0215 01       		.byte	0x1
+ 1245 0216 22       		.byte	0x22
+ 1246 0217 A2000000 		.4byte	0xa2
+ 1247 021b 0A010000 		.4byte	.LLST7
+ 1248 021f 0B       		.uleb128 0xb
+ 1249 0220 33000000 		.4byte	.LASF29
+ 1250 0224 01       		.byte	0x1
+ 1251 0225 23       		.byte	0x23
+ 1252 0226 AD000000 		.4byte	0xad
+ 1253 022a 2B010000 		.4byte	.LLST8
+ 1254 022e 12       		.uleb128 0x12
+ 1255 022f 9E000000 		.4byte	.LASF30
+ 1256 0233 01       		.byte	0x1
+ 1257 0234 27       		.byte	0x27
+ 1258 0235 94000000 		.4byte	0x94
+ 1259 0239 4C010000 		.4byte	.LLST9
+ 1260 023d 0D       		.uleb128 0xd
+ 1261 023e 0C000000 		.4byte	.LVL9
+ 1262 0242 E70A0000 		.4byte	0xae7
+ 1263 0246 50020000 		.4byte	0x250
+ 1264 024a 0E       		.uleb128 0xe
+ 1265 024b 01       		.uleb128 0x1
+ 1266 024c 50       		.byte	0x50
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 27
+
+
+ 1267 024d 01       		.uleb128 0x1
+ 1268 024e 31       		.byte	0x31
+ 1269 024f 00       		.byte	0
+ 1270 0250 0D       		.uleb128 0xd
+ 1271 0251 1C000000 		.4byte	.LVL11
+ 1272 0255 F20A0000 		.4byte	0xaf2
+ 1273 0259 69020000 		.4byte	0x269
+ 1274 025d 0E       		.uleb128 0xe
+ 1275 025e 01       		.uleb128 0x1
+ 1276 025f 50       		.byte	0x50
+ 1277 0260 02       		.uleb128 0x2
+ 1278 0261 74       		.byte	0x74
+ 1279 0262 00       		.sleb128 0
+ 1280 0263 0E       		.uleb128 0xe
+ 1281 0264 01       		.uleb128 0x1
+ 1282 0265 51       		.byte	0x51
+ 1283 0266 01       		.uleb128 0x1
+ 1284 0267 33       		.byte	0x33
+ 1285 0268 00       		.byte	0
+ 1286 0269 0F       		.uleb128 0xf
+ 1287 026a 26000000 		.4byte	.LVL14
+ 1288 026e FD0A0000 		.4byte	0xafd
+ 1289 0272 0E       		.uleb128 0xe
+ 1290 0273 01       		.uleb128 0x1
+ 1291 0274 50       		.byte	0x50
+ 1292 0275 02       		.uleb128 0x2
+ 1293 0276 74       		.byte	0x74
+ 1294 0277 00       		.sleb128 0
+ 1295 0278 0E       		.uleb128 0xe
+ 1296 0279 01       		.uleb128 0x1
+ 1297 027a 51       		.byte	0x51
+ 1298 027b 02       		.uleb128 0x2
+ 1299 027c 75       		.byte	0x75
+ 1300 027d 00       		.sleb128 0
+ 1301 027e 00       		.byte	0
+ 1302 027f 00       		.byte	0
+ 1303 0280 11       		.uleb128 0x11
+ 1304 0281 70020000 		.4byte	.LASF32
+ 1305 0285 01       		.byte	0x1
+ 1306 0286 2B       		.byte	0x2b
+ 1307 0287 C3000000 		.4byte	0xc3
+ 1308 028b 00000000 		.4byte	.LFB3
+ 1309 028f 0E000000 		.4byte	.LFE3-.LFB3
+ 1310 0293 01       		.uleb128 0x1
+ 1311 0294 9C       		.byte	0x9c
+ 1312 0295 C6020000 		.4byte	0x2c6
+ 1313 0299 0B       		.uleb128 0xb
+ 1314 029a C4010000 		.4byte	.LASF26
+ 1315 029e 01       		.byte	0x1
+ 1316 029f 2B       		.byte	0x2b
+ 1317 02a0 AE010000 		.4byte	0x1ae
+ 1318 02a4 6A010000 		.4byte	.LLST10
+ 1319 02a8 0F       		.uleb128 0xf
+ 1320 02a9 0C000000 		.4byte	.LVL18
+ 1321 02ad 080B0000 		.4byte	0xb08
+ 1322 02b1 0E       		.uleb128 0xe
+ 1323 02b2 01       		.uleb128 0x1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 28
+
+
+ 1324 02b3 50       		.byte	0x50
+ 1325 02b4 05       		.uleb128 0x5
+ 1326 02b5 F3       		.byte	0xf3
+ 1327 02b6 01       		.uleb128 0x1
+ 1328 02b7 50       		.byte	0x50
+ 1329 02b8 23       		.byte	0x23
+ 1330 02b9 03       		.uleb128 0x3
+ 1331 02ba 0E       		.uleb128 0xe
+ 1332 02bb 01       		.uleb128 0x1
+ 1333 02bc 51       		.byte	0x51
+ 1334 02bd 01       		.uleb128 0x1
+ 1335 02be 31       		.byte	0x31
+ 1336 02bf 0E       		.uleb128 0xe
+ 1337 02c0 01       		.uleb128 0x1
+ 1338 02c1 52       		.byte	0x52
+ 1339 02c2 01       		.uleb128 0x1
+ 1340 02c3 32       		.byte	0x32
+ 1341 02c4 00       		.byte	0
+ 1342 02c5 00       		.byte	0
+ 1343 02c6 11       		.uleb128 0x11
+ 1344 02c7 EA000000 		.4byte	.LASF33
+ 1345 02cb 01       		.byte	0x1
+ 1346 02cc 31       		.byte	0x31
+ 1347 02cd C3000000 		.4byte	0xc3
+ 1348 02d1 00000000 		.4byte	.LFB4
+ 1349 02d5 06000000 		.4byte	.LFE4-.LFB4
+ 1350 02d9 01       		.uleb128 0x1
+ 1351 02da 9C       		.byte	0x9c
+ 1352 02db EF020000 		.4byte	0x2ef
+ 1353 02df 0B       		.uleb128 0xb
+ 1354 02e0 C4010000 		.4byte	.LASF26
+ 1355 02e4 01       		.byte	0x1
+ 1356 02e5 31       		.byte	0x31
+ 1357 02e6 AE010000 		.4byte	0x1ae
+ 1358 02ea 98010000 		.4byte	.LLST11
+ 1359 02ee 00       		.byte	0
+ 1360 02ef 0A       		.uleb128 0xa
+ 1361 02f0 9A030000 		.4byte	.LASF34
+ 1362 02f4 01       		.byte	0x1
+ 1363 02f5 36       		.byte	0x36
+ 1364 02f6 00000000 		.4byte	.LFB5
+ 1365 02fa 28000000 		.4byte	.LFE5-.LFB5
+ 1366 02fe 01       		.uleb128 0x1
+ 1367 02ff 9C       		.byte	0x9c
+ 1368 0300 92030000 		.4byte	0x392
+ 1369 0304 0B       		.uleb128 0xb
+ 1370 0305 06000000 		.4byte	.LASF22
+ 1371 0309 01       		.byte	0x1
+ 1372 030a 36       		.byte	0x36
+ 1373 030b AE010000 		.4byte	0x1ae
+ 1374 030f B9010000 		.4byte	.LLST12
+ 1375 0313 0B       		.uleb128 0xb
+ 1376 0314 34030000 		.4byte	.LASF23
+ 1377 0318 01       		.byte	0x1
+ 1378 0319 37       		.byte	0x37
+ 1379 031a A2000000 		.4byte	0xa2
+ 1380 031e F2010000 		.4byte	.LLST13
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 29
+
+
+ 1381 0322 0B       		.uleb128 0xb
+ 1382 0323 59030000 		.4byte	.LASF24
+ 1383 0327 01       		.byte	0x1
+ 1384 0328 38       		.byte	0x38
+ 1385 0329 A2000000 		.4byte	0xa2
+ 1386 032d 13020000 		.4byte	.LLST14
+ 1387 0331 0B       		.uleb128 0xb
+ 1388 0332 53000000 		.4byte	.LASF35
+ 1389 0336 01       		.byte	0x1
+ 1390 0337 39       		.byte	0x39
+ 1391 0338 C3000000 		.4byte	0xc3
+ 1392 033c 34020000 		.4byte	.LLST15
+ 1393 0340 12       		.uleb128 0x12
+ 1394 0341 9E000000 		.4byte	.LASF30
+ 1395 0345 01       		.byte	0x1
+ 1396 0346 3D       		.byte	0x3d
+ 1397 0347 94000000 		.4byte	0x94
+ 1398 034b 60020000 		.4byte	.LLST16
+ 1399 034f 0D       		.uleb128 0xd
+ 1400 0350 0C000000 		.4byte	.LVL23
+ 1401 0354 E70A0000 		.4byte	0xae7
+ 1402 0358 62030000 		.4byte	0x362
+ 1403 035c 0E       		.uleb128 0xe
+ 1404 035d 01       		.uleb128 0x1
+ 1405 035e 50       		.byte	0x50
+ 1406 035f 01       		.uleb128 0x1
+ 1407 0360 31       		.byte	0x31
+ 1408 0361 00       		.byte	0
+ 1409 0362 0D       		.uleb128 0xd
+ 1410 0363 1C000000 		.4byte	.LVL25
+ 1411 0367 F20A0000 		.4byte	0xaf2
+ 1412 036b 7B030000 		.4byte	0x37b
+ 1413 036f 0E       		.uleb128 0xe
+ 1414 0370 01       		.uleb128 0x1
+ 1415 0371 50       		.byte	0x50
+ 1416 0372 02       		.uleb128 0x2
+ 1417 0373 74       		.byte	0x74
+ 1418 0374 00       		.sleb128 0
+ 1419 0375 0E       		.uleb128 0xe
+ 1420 0376 01       		.uleb128 0x1
+ 1421 0377 51       		.byte	0x51
+ 1422 0378 01       		.uleb128 0x1
+ 1423 0379 34       		.byte	0x34
+ 1424 037a 00       		.byte	0
+ 1425 037b 0F       		.uleb128 0xf
+ 1426 037c 26000000 		.4byte	.LVL28
+ 1427 0380 130B0000 		.4byte	0xb13
+ 1428 0384 0E       		.uleb128 0xe
+ 1429 0385 01       		.uleb128 0x1
+ 1430 0386 50       		.byte	0x50
+ 1431 0387 02       		.uleb128 0x2
+ 1432 0388 74       		.byte	0x74
+ 1433 0389 00       		.sleb128 0
+ 1434 038a 0E       		.uleb128 0xe
+ 1435 038b 01       		.uleb128 0x1
+ 1436 038c 51       		.byte	0x51
+ 1437 038d 02       		.uleb128 0x2
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 30
+
+
+ 1438 038e 75       		.byte	0x75
+ 1439 038f 00       		.sleb128 0
+ 1440 0390 00       		.byte	0
+ 1441 0391 00       		.byte	0
+ 1442 0392 11       		.uleb128 0x11
+ 1443 0393 03050000 		.4byte	.LASF36
+ 1444 0397 01       		.byte	0x1
+ 1445 0398 41       		.byte	0x41
+ 1446 0399 A2000000 		.4byte	0xa2
+ 1447 039d 00000000 		.4byte	.LFB6
+ 1448 03a1 10000000 		.4byte	.LFE6-.LFB6
+ 1449 03a5 01       		.uleb128 0x1
+ 1450 03a6 9C       		.byte	0x9c
+ 1451 03a7 D8030000 		.4byte	0x3d8
+ 1452 03ab 0B       		.uleb128 0xb
+ 1453 03ac C4010000 		.4byte	.LASF26
+ 1454 03b0 01       		.byte	0x1
+ 1455 03b1 41       		.byte	0x41
+ 1456 03b2 AE010000 		.4byte	0x1ae
+ 1457 03b6 7E020000 		.4byte	.LLST17
+ 1458 03ba 0F       		.uleb128 0xf
+ 1459 03bb 0C000000 		.4byte	.LVL33
+ 1460 03bf 080B0000 		.4byte	0xb08
+ 1461 03c3 0E       		.uleb128 0xe
+ 1462 03c4 01       		.uleb128 0x1
+ 1463 03c5 50       		.byte	0x50
+ 1464 03c6 05       		.uleb128 0x5
+ 1465 03c7 F3       		.byte	0xf3
+ 1466 03c8 01       		.uleb128 0x1
+ 1467 03c9 50       		.byte	0x50
+ 1468 03ca 23       		.byte	0x23
+ 1469 03cb 03       		.uleb128 0x3
+ 1470 03cc 0E       		.uleb128 0xe
+ 1471 03cd 01       		.uleb128 0x1
+ 1472 03ce 51       		.byte	0x51
+ 1473 03cf 01       		.uleb128 0x1
+ 1474 03d0 31       		.byte	0x31
+ 1475 03d1 0E       		.uleb128 0xe
+ 1476 03d2 01       		.uleb128 0x1
+ 1477 03d3 52       		.byte	0x52
+ 1478 03d4 01       		.uleb128 0x1
+ 1479 03d5 35       		.byte	0x35
+ 1480 03d6 00       		.byte	0
+ 1481 03d7 00       		.byte	0
+ 1482 03d8 0A       		.uleb128 0xa
+ 1483 03d9 2A020000 		.4byte	.LASF37
+ 1484 03dd 01       		.byte	0x1
+ 1485 03de 46       		.byte	0x46
+ 1486 03df 00000000 		.4byte	.LFB7
+ 1487 03e3 28000000 		.4byte	.LFE7-.LFB7
+ 1488 03e7 01       		.uleb128 0x1
+ 1489 03e8 9C       		.byte	0x9c
+ 1490 03e9 7B040000 		.4byte	0x47b
+ 1491 03ed 0B       		.uleb128 0xb
+ 1492 03ee 06000000 		.4byte	.LASF22
+ 1493 03f2 01       		.byte	0x1
+ 1494 03f3 46       		.byte	0x46
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 31
+
+
+ 1495 03f4 AE010000 		.4byte	0x1ae
+ 1496 03f8 AC020000 		.4byte	.LLST18
+ 1497 03fc 0B       		.uleb128 0xb
+ 1498 03fd 34030000 		.4byte	.LASF23
+ 1499 0401 01       		.byte	0x1
+ 1500 0402 47       		.byte	0x47
+ 1501 0403 A2000000 		.4byte	0xa2
+ 1502 0407 E5020000 		.4byte	.LLST19
+ 1503 040b 0B       		.uleb128 0xb
+ 1504 040c 59030000 		.4byte	.LASF24
+ 1505 0410 01       		.byte	0x1
+ 1506 0411 48       		.byte	0x48
+ 1507 0412 A2000000 		.4byte	0xa2
+ 1508 0416 06030000 		.4byte	.LLST20
+ 1509 041a 0B       		.uleb128 0xb
+ 1510 041b 01010000 		.4byte	.LASF38
+ 1511 041f 01       		.byte	0x1
+ 1512 0420 49       		.byte	0x49
+ 1513 0421 C3000000 		.4byte	0xc3
+ 1514 0425 27030000 		.4byte	.LLST21
+ 1515 0429 12       		.uleb128 0x12
+ 1516 042a 9E000000 		.4byte	.LASF30
+ 1517 042e 01       		.byte	0x1
+ 1518 042f 4D       		.byte	0x4d
+ 1519 0430 94000000 		.4byte	0x94
+ 1520 0434 53030000 		.4byte	.LLST22
+ 1521 0438 0D       		.uleb128 0xd
+ 1522 0439 0C000000 		.4byte	.LVL36
+ 1523 043d E70A0000 		.4byte	0xae7
+ 1524 0441 4B040000 		.4byte	0x44b
+ 1525 0445 0E       		.uleb128 0xe
+ 1526 0446 01       		.uleb128 0x1
+ 1527 0447 50       		.byte	0x50
+ 1528 0448 01       		.uleb128 0x1
+ 1529 0449 31       		.byte	0x31
+ 1530 044a 00       		.byte	0
+ 1531 044b 0D       		.uleb128 0xd
+ 1532 044c 1C000000 		.4byte	.LVL38
+ 1533 0450 F20A0000 		.4byte	0xaf2
+ 1534 0454 64040000 		.4byte	0x464
+ 1535 0458 0E       		.uleb128 0xe
+ 1536 0459 01       		.uleb128 0x1
+ 1537 045a 50       		.byte	0x50
+ 1538 045b 02       		.uleb128 0x2
+ 1539 045c 74       		.byte	0x74
+ 1540 045d 00       		.sleb128 0
+ 1541 045e 0E       		.uleb128 0xe
+ 1542 045f 01       		.uleb128 0x1
+ 1543 0460 51       		.byte	0x51
+ 1544 0461 01       		.uleb128 0x1
+ 1545 0462 35       		.byte	0x35
+ 1546 0463 00       		.byte	0
+ 1547 0464 0F       		.uleb128 0xf
+ 1548 0465 26000000 		.4byte	.LVL41
+ 1549 0469 130B0000 		.4byte	0xb13
+ 1550 046d 0E       		.uleb128 0xe
+ 1551 046e 01       		.uleb128 0x1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 32
+
+
+ 1552 046f 50       		.byte	0x50
+ 1553 0470 02       		.uleb128 0x2
+ 1554 0471 74       		.byte	0x74
+ 1555 0472 00       		.sleb128 0
+ 1556 0473 0E       		.uleb128 0xe
+ 1557 0474 01       		.uleb128 0x1
+ 1558 0475 51       		.byte	0x51
+ 1559 0476 02       		.uleb128 0x2
+ 1560 0477 75       		.byte	0x75
+ 1561 0478 00       		.sleb128 0
+ 1562 0479 00       		.byte	0
+ 1563 047a 00       		.byte	0
+ 1564 047b 11       		.uleb128 0x11
+ 1565 047c 7D000000 		.4byte	.LASF39
+ 1566 0480 01       		.byte	0x1
+ 1567 0481 51       		.byte	0x51
+ 1568 0482 C3000000 		.4byte	0xc3
+ 1569 0486 00000000 		.4byte	.LFB8
+ 1570 048a 0E000000 		.4byte	.LFE8-.LFB8
+ 1571 048e 01       		.uleb128 0x1
+ 1572 048f 9C       		.byte	0x9c
+ 1573 0490 C1040000 		.4byte	0x4c1
+ 1574 0494 0B       		.uleb128 0xb
+ 1575 0495 C4010000 		.4byte	.LASF26
+ 1576 0499 01       		.byte	0x1
+ 1577 049a 51       		.byte	0x51
+ 1578 049b AE010000 		.4byte	0x1ae
+ 1579 049f 71030000 		.4byte	.LLST23
+ 1580 04a3 0F       		.uleb128 0xf
+ 1581 04a4 0C000000 		.4byte	.LVL46
+ 1582 04a8 080B0000 		.4byte	0xb08
+ 1583 04ac 0E       		.uleb128 0xe
+ 1584 04ad 01       		.uleb128 0x1
+ 1585 04ae 50       		.byte	0x50
+ 1586 04af 05       		.uleb128 0x5
+ 1587 04b0 F3       		.byte	0xf3
+ 1588 04b1 01       		.uleb128 0x1
+ 1589 04b2 50       		.byte	0x50
+ 1590 04b3 23       		.byte	0x23
+ 1591 04b4 03       		.uleb128 0x3
+ 1592 04b5 0E       		.uleb128 0xe
+ 1593 04b6 01       		.uleb128 0x1
+ 1594 04b7 51       		.byte	0x51
+ 1595 04b8 01       		.uleb128 0x1
+ 1596 04b9 31       		.byte	0x31
+ 1597 04ba 0E       		.uleb128 0xe
+ 1598 04bb 01       		.uleb128 0x1
+ 1599 04bc 52       		.byte	0x52
+ 1600 04bd 01       		.uleb128 0x1
+ 1601 04be 35       		.byte	0x35
+ 1602 04bf 00       		.byte	0
+ 1603 04c0 00       		.byte	0
+ 1604 04c1 0A       		.uleb128 0xa
+ 1605 04c2 32050000 		.4byte	.LASF40
+ 1606 04c6 01       		.byte	0x1
+ 1607 04c7 56       		.byte	0x56
+ 1608 04c8 00000000 		.4byte	.LFB9
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 33
+
+
+ 1609 04cc 28000000 		.4byte	.LFE9-.LFB9
+ 1610 04d0 01       		.uleb128 0x1
+ 1611 04d1 9C       		.byte	0x9c
+ 1612 04d2 64050000 		.4byte	0x564
+ 1613 04d6 0B       		.uleb128 0xb
+ 1614 04d7 06000000 		.4byte	.LASF22
+ 1615 04db 01       		.byte	0x1
+ 1616 04dc 56       		.byte	0x56
+ 1617 04dd AE010000 		.4byte	0x1ae
+ 1618 04e1 9F030000 		.4byte	.LLST24
+ 1619 04e5 0B       		.uleb128 0xb
+ 1620 04e6 34030000 		.4byte	.LASF23
+ 1621 04ea 01       		.byte	0x1
+ 1622 04eb 57       		.byte	0x57
+ 1623 04ec A2000000 		.4byte	0xa2
+ 1624 04f0 D8030000 		.4byte	.LLST25
+ 1625 04f4 0B       		.uleb128 0xb
+ 1626 04f5 59030000 		.4byte	.LASF24
+ 1627 04f9 01       		.byte	0x1
+ 1628 04fa 58       		.byte	0x58
+ 1629 04fb A2000000 		.4byte	0xa2
+ 1630 04ff F9030000 		.4byte	.LLST26
+ 1631 0503 0B       		.uleb128 0xb
+ 1632 0504 E7030000 		.4byte	.LASF41
+ 1633 0508 01       		.byte	0x1
+ 1634 0509 59       		.byte	0x59
+ 1635 050a C3000000 		.4byte	0xc3
+ 1636 050e 1A040000 		.4byte	.LLST27
+ 1637 0512 12       		.uleb128 0x12
+ 1638 0513 9E000000 		.4byte	.LASF30
+ 1639 0517 01       		.byte	0x1
+ 1640 0518 5D       		.byte	0x5d
+ 1641 0519 94000000 		.4byte	0x94
+ 1642 051d 46040000 		.4byte	.LLST28
+ 1643 0521 0D       		.uleb128 0xd
+ 1644 0522 0C000000 		.4byte	.LVL49
+ 1645 0526 E70A0000 		.4byte	0xae7
+ 1646 052a 34050000 		.4byte	0x534
+ 1647 052e 0E       		.uleb128 0xe
+ 1648 052f 01       		.uleb128 0x1
+ 1649 0530 50       		.byte	0x50
+ 1650 0531 01       		.uleb128 0x1
+ 1651 0532 31       		.byte	0x31
+ 1652 0533 00       		.byte	0
+ 1653 0534 0D       		.uleb128 0xd
+ 1654 0535 1C000000 		.4byte	.LVL51
+ 1655 0539 F20A0000 		.4byte	0xaf2
+ 1656 053d 4D050000 		.4byte	0x54d
+ 1657 0541 0E       		.uleb128 0xe
+ 1658 0542 01       		.uleb128 0x1
+ 1659 0543 50       		.byte	0x50
+ 1660 0544 02       		.uleb128 0x2
+ 1661 0545 74       		.byte	0x74
+ 1662 0546 00       		.sleb128 0
+ 1663 0547 0E       		.uleb128 0xe
+ 1664 0548 01       		.uleb128 0x1
+ 1665 0549 51       		.byte	0x51
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 34
+
+
+ 1666 054a 01       		.uleb128 0x1
+ 1667 054b 36       		.byte	0x36
+ 1668 054c 00       		.byte	0
+ 1669 054d 0F       		.uleb128 0xf
+ 1670 054e 26000000 		.4byte	.LVL54
+ 1671 0552 130B0000 		.4byte	0xb13
+ 1672 0556 0E       		.uleb128 0xe
+ 1673 0557 01       		.uleb128 0x1
+ 1674 0558 50       		.byte	0x50
+ 1675 0559 02       		.uleb128 0x2
+ 1676 055a 74       		.byte	0x74
+ 1677 055b 00       		.sleb128 0
+ 1678 055c 0E       		.uleb128 0xe
+ 1679 055d 01       		.uleb128 0x1
+ 1680 055e 51       		.byte	0x51
+ 1681 055f 02       		.uleb128 0x2
+ 1682 0560 75       		.byte	0x75
+ 1683 0561 00       		.sleb128 0
+ 1684 0562 00       		.byte	0
+ 1685 0563 00       		.byte	0
+ 1686 0564 11       		.uleb128 0x11
+ 1687 0565 DB000000 		.4byte	.LASF42
+ 1688 0569 01       		.byte	0x1
+ 1689 056a 61       		.byte	0x61
+ 1690 056b C3000000 		.4byte	0xc3
+ 1691 056f 00000000 		.4byte	.LFB10
+ 1692 0573 0E000000 		.4byte	.LFE10-.LFB10
+ 1693 0577 01       		.uleb128 0x1
+ 1694 0578 9C       		.byte	0x9c
+ 1695 0579 AA050000 		.4byte	0x5aa
+ 1696 057d 0B       		.uleb128 0xb
+ 1697 057e C4010000 		.4byte	.LASF26
+ 1698 0582 01       		.byte	0x1
+ 1699 0583 61       		.byte	0x61
+ 1700 0584 AE010000 		.4byte	0x1ae
+ 1701 0588 64040000 		.4byte	.LLST29
+ 1702 058c 0F       		.uleb128 0xf
+ 1703 058d 0C000000 		.4byte	.LVL59
+ 1704 0591 080B0000 		.4byte	0xb08
+ 1705 0595 0E       		.uleb128 0xe
+ 1706 0596 01       		.uleb128 0x1
+ 1707 0597 50       		.byte	0x50
+ 1708 0598 05       		.uleb128 0x5
+ 1709 0599 F3       		.byte	0xf3
+ 1710 059a 01       		.uleb128 0x1
+ 1711 059b 50       		.byte	0x50
+ 1712 059c 23       		.byte	0x23
+ 1713 059d 03       		.uleb128 0x3
+ 1714 059e 0E       		.uleb128 0xe
+ 1715 059f 01       		.uleb128 0x1
+ 1716 05a0 51       		.byte	0x51
+ 1717 05a1 01       		.uleb128 0x1
+ 1718 05a2 31       		.byte	0x31
+ 1719 05a3 0E       		.uleb128 0xe
+ 1720 05a4 01       		.uleb128 0x1
+ 1721 05a5 52       		.byte	0x52
+ 1722 05a6 01       		.uleb128 0x1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 35
+
+
+ 1723 05a7 35       		.byte	0x35
+ 1724 05a8 00       		.byte	0
+ 1725 05a9 00       		.byte	0
+ 1726 05aa 0A       		.uleb128 0xa
+ 1727 05ab 45050000 		.4byte	.LASF43
+ 1728 05af 01       		.byte	0x1
+ 1729 05b0 66       		.byte	0x66
+ 1730 05b1 00000000 		.4byte	.LFB11
+ 1731 05b5 28000000 		.4byte	.LFE11-.LFB11
+ 1732 05b9 01       		.uleb128 0x1
+ 1733 05ba 9C       		.byte	0x9c
+ 1734 05bb 4D060000 		.4byte	0x64d
+ 1735 05bf 0B       		.uleb128 0xb
+ 1736 05c0 06000000 		.4byte	.LASF22
+ 1737 05c4 01       		.byte	0x1
+ 1738 05c5 66       		.byte	0x66
+ 1739 05c6 AE010000 		.4byte	0x1ae
+ 1740 05ca 92040000 		.4byte	.LLST30
+ 1741 05ce 0B       		.uleb128 0xb
+ 1742 05cf 34030000 		.4byte	.LASF23
+ 1743 05d3 01       		.byte	0x1
+ 1744 05d4 67       		.byte	0x67
+ 1745 05d5 A2000000 		.4byte	0xa2
+ 1746 05d9 CB040000 		.4byte	.LLST31
+ 1747 05dd 0B       		.uleb128 0xb
+ 1748 05de 59030000 		.4byte	.LASF24
+ 1749 05e2 01       		.byte	0x1
+ 1750 05e3 68       		.byte	0x68
+ 1751 05e4 A2000000 		.4byte	0xa2
+ 1752 05e8 EC040000 		.4byte	.LLST32
+ 1753 05ec 0B       		.uleb128 0xb
+ 1754 05ed 00000000 		.4byte	.LASF44
+ 1755 05f1 01       		.byte	0x1
+ 1756 05f2 69       		.byte	0x69
+ 1757 05f3 C3000000 		.4byte	0xc3
+ 1758 05f7 0D050000 		.4byte	.LLST33
+ 1759 05fb 12       		.uleb128 0x12
+ 1760 05fc 9E000000 		.4byte	.LASF30
+ 1761 0600 01       		.byte	0x1
+ 1762 0601 6D       		.byte	0x6d
+ 1763 0602 94000000 		.4byte	0x94
+ 1764 0606 39050000 		.4byte	.LLST34
+ 1765 060a 0D       		.uleb128 0xd
+ 1766 060b 0C000000 		.4byte	.LVL62
+ 1767 060f E70A0000 		.4byte	0xae7
+ 1768 0613 1D060000 		.4byte	0x61d
+ 1769 0617 0E       		.uleb128 0xe
+ 1770 0618 01       		.uleb128 0x1
+ 1771 0619 50       		.byte	0x50
+ 1772 061a 01       		.uleb128 0x1
+ 1773 061b 31       		.byte	0x31
+ 1774 061c 00       		.byte	0
+ 1775 061d 0D       		.uleb128 0xd
+ 1776 061e 1C000000 		.4byte	.LVL64
+ 1777 0622 F20A0000 		.4byte	0xaf2
+ 1778 0626 36060000 		.4byte	0x636
+ 1779 062a 0E       		.uleb128 0xe
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 36
+
+
+ 1780 062b 01       		.uleb128 0x1
+ 1781 062c 50       		.byte	0x50
+ 1782 062d 02       		.uleb128 0x2
+ 1783 062e 74       		.byte	0x74
+ 1784 062f 00       		.sleb128 0
+ 1785 0630 0E       		.uleb128 0xe
+ 1786 0631 01       		.uleb128 0x1
+ 1787 0632 51       		.byte	0x51
+ 1788 0633 01       		.uleb128 0x1
+ 1789 0634 37       		.byte	0x37
+ 1790 0635 00       		.byte	0
+ 1791 0636 0F       		.uleb128 0xf
+ 1792 0637 26000000 		.4byte	.LVL67
+ 1793 063b 130B0000 		.4byte	0xb13
+ 1794 063f 0E       		.uleb128 0xe
+ 1795 0640 01       		.uleb128 0x1
+ 1796 0641 50       		.byte	0x50
+ 1797 0642 02       		.uleb128 0x2
+ 1798 0643 74       		.byte	0x74
+ 1799 0644 00       		.sleb128 0
+ 1800 0645 0E       		.uleb128 0xe
+ 1801 0646 01       		.uleb128 0x1
+ 1802 0647 51       		.byte	0x51
+ 1803 0648 02       		.uleb128 0x2
+ 1804 0649 75       		.byte	0x75
+ 1805 064a 00       		.sleb128 0
+ 1806 064b 00       		.byte	0
+ 1807 064c 00       		.byte	0
+ 1808 064d 11       		.uleb128 0x11
+ 1809 064e B5010000 		.4byte	.LASF45
+ 1810 0652 01       		.byte	0x1
+ 1811 0653 71       		.byte	0x71
+ 1812 0654 C3000000 		.4byte	0xc3
+ 1813 0658 00000000 		.4byte	.LFB12
+ 1814 065c 0E000000 		.4byte	.LFE12-.LFB12
+ 1815 0660 01       		.uleb128 0x1
+ 1816 0661 9C       		.byte	0x9c
+ 1817 0662 93060000 		.4byte	0x693
+ 1818 0666 0B       		.uleb128 0xb
+ 1819 0667 C4010000 		.4byte	.LASF26
+ 1820 066b 01       		.byte	0x1
+ 1821 066c 71       		.byte	0x71
+ 1822 066d AE010000 		.4byte	0x1ae
+ 1823 0671 57050000 		.4byte	.LLST35
+ 1824 0675 0F       		.uleb128 0xf
+ 1825 0676 0C000000 		.4byte	.LVL72
+ 1826 067a 080B0000 		.4byte	0xb08
+ 1827 067e 0E       		.uleb128 0xe
+ 1828 067f 01       		.uleb128 0x1
+ 1829 0680 50       		.byte	0x50
+ 1830 0681 05       		.uleb128 0x5
+ 1831 0682 F3       		.byte	0xf3
+ 1832 0683 01       		.uleb128 0x1
+ 1833 0684 50       		.byte	0x50
+ 1834 0685 23       		.byte	0x23
+ 1835 0686 03       		.uleb128 0x3
+ 1836 0687 0E       		.uleb128 0xe
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 37
+
+
+ 1837 0688 01       		.uleb128 0x1
+ 1838 0689 51       		.byte	0x51
+ 1839 068a 01       		.uleb128 0x1
+ 1840 068b 31       		.byte	0x31
+ 1841 068c 0E       		.uleb128 0xe
+ 1842 068d 01       		.uleb128 0x1
+ 1843 068e 52       		.byte	0x52
+ 1844 068f 01       		.uleb128 0x1
+ 1845 0690 35       		.byte	0x35
+ 1846 0691 00       		.byte	0
+ 1847 0692 00       		.byte	0
+ 1848 0693 0A       		.uleb128 0xa
+ 1849 0694 B7040000 		.4byte	.LASF46
+ 1850 0698 01       		.byte	0x1
+ 1851 0699 76       		.byte	0x76
+ 1852 069a 00000000 		.4byte	.LFB13
+ 1853 069e 20000000 		.4byte	.LFE13-.LFB13
+ 1854 06a2 01       		.uleb128 0x1
+ 1855 06a3 9C       		.byte	0x9c
+ 1856 06a4 1A070000 		.4byte	0x71a
+ 1857 06a8 0B       		.uleb128 0xb
+ 1858 06a9 06000000 		.4byte	.LASF22
+ 1859 06ad 01       		.byte	0x1
+ 1860 06ae 76       		.byte	0x76
+ 1861 06af AE010000 		.4byte	0x1ae
+ 1862 06b3 85050000 		.4byte	.LLST36
+ 1863 06b7 0B       		.uleb128 0xb
+ 1864 06b8 34030000 		.4byte	.LASF23
+ 1865 06bc 01       		.byte	0x1
+ 1866 06bd 77       		.byte	0x77
+ 1867 06be A2000000 		.4byte	0xa2
+ 1868 06c2 B1050000 		.4byte	.LLST37
+ 1869 06c6 0B       		.uleb128 0xb
+ 1870 06c7 59030000 		.4byte	.LASF24
+ 1871 06cb 01       		.byte	0x1
+ 1872 06cc 78       		.byte	0x78
+ 1873 06cd A2000000 		.4byte	0xa2
+ 1874 06d1 D2050000 		.4byte	.LLST38
+ 1875 06d5 0B       		.uleb128 0xb
+ 1876 06d6 95000000 		.4byte	.LASF47
+ 1877 06da 01       		.byte	0x1
+ 1878 06db 79       		.byte	0x79
+ 1879 06dc A2000000 		.4byte	0xa2
+ 1880 06e0 F3050000 		.4byte	.LLST39
+ 1881 06e4 0C       		.uleb128 0xc
+ 1882 06e5 9E000000 		.4byte	.LASF30
+ 1883 06e9 01       		.byte	0x1
+ 1884 06ea 7D       		.byte	0x7d
+ 1885 06eb 94000000 		.4byte	0x94
+ 1886 06ef 01       		.uleb128 0x1
+ 1887 06f0 50       		.byte	0x50
+ 1888 06f1 0D       		.uleb128 0xd
+ 1889 06f2 0C000000 		.4byte	.LVL75
+ 1890 06f6 E70A0000 		.4byte	0xae7
+ 1891 06fa 04070000 		.4byte	0x704
+ 1892 06fe 0E       		.uleb128 0xe
+ 1893 06ff 01       		.uleb128 0x1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 38
+
+
+ 1894 0700 50       		.byte	0x50
+ 1895 0701 01       		.uleb128 0x1
+ 1896 0702 31       		.byte	0x31
+ 1897 0703 00       		.byte	0
+ 1898 0704 0F       		.uleb128 0xf
+ 1899 0705 1A000000 		.4byte	.LVL76
+ 1900 0709 F20A0000 		.4byte	0xaf2
+ 1901 070d 0E       		.uleb128 0xe
+ 1902 070e 01       		.uleb128 0x1
+ 1903 070f 50       		.byte	0x50
+ 1904 0710 02       		.uleb128 0x2
+ 1905 0711 74       		.byte	0x74
+ 1906 0712 03       		.sleb128 3
+ 1907 0713 0E       		.uleb128 0xe
+ 1908 0714 01       		.uleb128 0x1
+ 1909 0715 51       		.byte	0x51
+ 1910 0716 01       		.uleb128 0x1
+ 1911 0717 38       		.byte	0x38
+ 1912 0718 00       		.byte	0
+ 1913 0719 00       		.byte	0
+ 1914 071a 11       		.uleb128 0x11
+ 1915 071b 72040000 		.4byte	.LASF48
+ 1916 071f 01       		.byte	0x1
+ 1917 0720 80       		.byte	0x80
+ 1918 0721 A2000000 		.4byte	0xa2
+ 1919 0725 00000000 		.4byte	.LFB14
+ 1920 0729 04000000 		.4byte	.LFE14-.LFB14
+ 1921 072d 01       		.uleb128 0x1
+ 1922 072e 9C       		.byte	0x9c
+ 1923 072f 43070000 		.4byte	0x743
+ 1924 0733 0B       		.uleb128 0xb
+ 1925 0734 C4010000 		.4byte	.LASF26
+ 1926 0738 01       		.byte	0x1
+ 1927 0739 80       		.byte	0x80
+ 1928 073a AE010000 		.4byte	0x1ae
+ 1929 073e 14060000 		.4byte	.LLST40
+ 1930 0742 00       		.byte	0
+ 1931 0743 0A       		.uleb128 0xa
+ 1932 0744 39040000 		.4byte	.LASF49
+ 1933 0748 01       		.byte	0x1
+ 1934 0749 85       		.byte	0x85
+ 1935 074a 00000000 		.4byte	.LFB15
+ 1936 074e 20000000 		.4byte	.LFE15-.LFB15
+ 1937 0752 01       		.uleb128 0x1
+ 1938 0753 9C       		.byte	0x9c
+ 1939 0754 CA070000 		.4byte	0x7ca
+ 1940 0758 0B       		.uleb128 0xb
+ 1941 0759 06000000 		.4byte	.LASF22
+ 1942 075d 01       		.byte	0x1
+ 1943 075e 85       		.byte	0x85
+ 1944 075f AE010000 		.4byte	0x1ae
+ 1945 0763 35060000 		.4byte	.LLST41
+ 1946 0767 0B       		.uleb128 0xb
+ 1947 0768 34030000 		.4byte	.LASF23
+ 1948 076c 01       		.byte	0x1
+ 1949 076d 86       		.byte	0x86
+ 1950 076e A2000000 		.4byte	0xa2
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 39
+
+
+ 1951 0772 61060000 		.4byte	.LLST42
+ 1952 0776 0B       		.uleb128 0xb
+ 1953 0777 59030000 		.4byte	.LASF24
+ 1954 077b 01       		.byte	0x1
+ 1955 077c 87       		.byte	0x87
+ 1956 077d A2000000 		.4byte	0xa2
+ 1957 0781 82060000 		.4byte	.LLST43
+ 1958 0785 0B       		.uleb128 0xb
+ 1959 0786 3D020000 		.4byte	.LASF50
+ 1960 078a 01       		.byte	0x1
+ 1961 078b 88       		.byte	0x88
+ 1962 078c A2000000 		.4byte	0xa2
+ 1963 0790 A3060000 		.4byte	.LLST44
+ 1964 0794 0C       		.uleb128 0xc
+ 1965 0795 9E000000 		.4byte	.LASF30
+ 1966 0799 01       		.byte	0x1
+ 1967 079a 8C       		.byte	0x8c
+ 1968 079b 94000000 		.4byte	0x94
+ 1969 079f 01       		.uleb128 0x1
+ 1970 07a0 50       		.byte	0x50
+ 1971 07a1 0D       		.uleb128 0xd
+ 1972 07a2 0C000000 		.4byte	.LVL82
+ 1973 07a6 E70A0000 		.4byte	0xae7
+ 1974 07aa B4070000 		.4byte	0x7b4
+ 1975 07ae 0E       		.uleb128 0xe
+ 1976 07af 01       		.uleb128 0x1
+ 1977 07b0 50       		.byte	0x50
+ 1978 07b1 01       		.uleb128 0x1
+ 1979 07b2 30       		.byte	0x30
+ 1980 07b3 00       		.byte	0
+ 1981 07b4 0F       		.uleb128 0xf
+ 1982 07b5 1A000000 		.4byte	.LVL83
+ 1983 07b9 1E0B0000 		.4byte	0xb1e
+ 1984 07bd 0E       		.uleb128 0xe
+ 1985 07be 01       		.uleb128 0x1
+ 1986 07bf 50       		.byte	0x50
+ 1987 07c0 02       		.uleb128 0x2
+ 1988 07c1 74       		.byte	0x74
+ 1989 07c2 03       		.sleb128 3
+ 1990 07c3 0E       		.uleb128 0xe
+ 1991 07c4 01       		.uleb128 0x1
+ 1992 07c5 51       		.byte	0x51
+ 1993 07c6 01       		.uleb128 0x1
+ 1994 07c7 39       		.byte	0x39
+ 1995 07c8 00       		.byte	0
+ 1996 07c9 00       		.byte	0
+ 1997 07ca 11       		.uleb128 0x11
+ 1998 07cb 64050000 		.4byte	.LASF51
+ 1999 07cf 01       		.byte	0x1
+ 2000 07d0 8F       		.byte	0x8f
+ 2001 07d1 A2000000 		.4byte	0xa2
+ 2002 07d5 00000000 		.4byte	.LFB16
+ 2003 07d9 04000000 		.4byte	.LFE16-.LFB16
+ 2004 07dd 01       		.uleb128 0x1
+ 2005 07de 9C       		.byte	0x9c
+ 2006 07df F3070000 		.4byte	0x7f3
+ 2007 07e3 0B       		.uleb128 0xb
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 40
+
+
+ 2008 07e4 C4010000 		.4byte	.LASF26
+ 2009 07e8 01       		.byte	0x1
+ 2010 07e9 8F       		.byte	0x8f
+ 2011 07ea AE010000 		.4byte	0x1ae
+ 2012 07ee C4060000 		.4byte	.LLST45
+ 2013 07f2 00       		.byte	0
+ 2014 07f3 0A       		.uleb128 0xa
+ 2015 07f4 CB010000 		.4byte	.LASF52
+ 2016 07f8 01       		.byte	0x1
+ 2017 07f9 94       		.byte	0x94
+ 2018 07fa 00000000 		.4byte	.LFB17
+ 2019 07fe 28000000 		.4byte	.LFE17-.LFB17
+ 2020 0802 01       		.uleb128 0x1
+ 2021 0803 9C       		.byte	0x9c
+ 2022 0804 96080000 		.4byte	0x896
+ 2023 0808 0B       		.uleb128 0xb
+ 2024 0809 06000000 		.4byte	.LASF22
+ 2025 080d 01       		.byte	0x1
+ 2026 080e 94       		.byte	0x94
+ 2027 080f AE010000 		.4byte	0x1ae
+ 2028 0813 E5060000 		.4byte	.LLST46
+ 2029 0817 0B       		.uleb128 0xb
+ 2030 0818 34030000 		.4byte	.LASF23
+ 2031 081c 01       		.byte	0x1
+ 2032 081d 95       		.byte	0x95
+ 2033 081e A2000000 		.4byte	0xa2
+ 2034 0822 1E070000 		.4byte	.LLST47
+ 2035 0826 0B       		.uleb128 0xb
+ 2036 0827 59030000 		.4byte	.LASF24
+ 2037 082b 01       		.byte	0x1
+ 2038 082c 96       		.byte	0x96
+ 2039 082d A2000000 		.4byte	0xa2
+ 2040 0831 3F070000 		.4byte	.LLST48
+ 2041 0835 0B       		.uleb128 0xb
+ 2042 0836 8E030000 		.4byte	.LASF53
+ 2043 083a 01       		.byte	0x1
+ 2044 083b 97       		.byte	0x97
+ 2045 083c CE000000 		.4byte	0xce
+ 2046 0840 60070000 		.4byte	.LLST49
+ 2047 0844 12       		.uleb128 0x12
+ 2048 0845 9E000000 		.4byte	.LASF30
+ 2049 0849 01       		.byte	0x1
+ 2050 084a 9B       		.byte	0x9b
+ 2051 084b 94000000 		.4byte	0x94
+ 2052 084f 8C070000 		.4byte	.LLST50
+ 2053 0853 0D       		.uleb128 0xd
+ 2054 0854 0C000000 		.4byte	.LVL89
+ 2055 0858 E70A0000 		.4byte	0xae7
+ 2056 085c 66080000 		.4byte	0x866
+ 2057 0860 0E       		.uleb128 0xe
+ 2058 0861 01       		.uleb128 0x1
+ 2059 0862 50       		.byte	0x50
+ 2060 0863 01       		.uleb128 0x1
+ 2061 0864 31       		.byte	0x31
+ 2062 0865 00       		.byte	0
+ 2063 0866 0D       		.uleb128 0xd
+ 2064 0867 1C000000 		.4byte	.LVL91
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 41
+
+
+ 2065 086b F20A0000 		.4byte	0xaf2
+ 2066 086f 7F080000 		.4byte	0x87f
+ 2067 0873 0E       		.uleb128 0xe
+ 2068 0874 01       		.uleb128 0x1
+ 2069 0875 50       		.byte	0x50
+ 2070 0876 02       		.uleb128 0x2
+ 2071 0877 74       		.byte	0x74
+ 2072 0878 00       		.sleb128 0
+ 2073 0879 0E       		.uleb128 0xe
+ 2074 087a 01       		.uleb128 0x1
+ 2075 087b 51       		.byte	0x51
+ 2076 087c 01       		.uleb128 0x1
+ 2077 087d 3A       		.byte	0x3a
+ 2078 087e 00       		.byte	0
+ 2079 087f 0F       		.uleb128 0xf
+ 2080 0880 26000000 		.4byte	.LVL94
+ 2081 0884 130B0000 		.4byte	0xb13
+ 2082 0888 0E       		.uleb128 0xe
+ 2083 0889 01       		.uleb128 0x1
+ 2084 088a 50       		.byte	0x50
+ 2085 088b 02       		.uleb128 0x2
+ 2086 088c 74       		.byte	0x74
+ 2087 088d 00       		.sleb128 0
+ 2088 088e 0E       		.uleb128 0xe
+ 2089 088f 01       		.uleb128 0x1
+ 2090 0890 51       		.byte	0x51
+ 2091 0891 02       		.uleb128 0x2
+ 2092 0892 75       		.byte	0x75
+ 2093 0893 00       		.sleb128 0
+ 2094 0894 00       		.byte	0
+ 2095 0895 00       		.byte	0
+ 2096 0896 11       		.uleb128 0x11
+ 2097 0897 9F020000 		.4byte	.LASF54
+ 2098 089b 01       		.byte	0x1
+ 2099 089c 9F       		.byte	0x9f
+ 2100 089d CE000000 		.4byte	0xce
+ 2101 08a1 00000000 		.4byte	.LFB18
+ 2102 08a5 0E000000 		.4byte	.LFE18-.LFB18
+ 2103 08a9 01       		.uleb128 0x1
+ 2104 08aa 9C       		.byte	0x9c
+ 2105 08ab DC080000 		.4byte	0x8dc
+ 2106 08af 0B       		.uleb128 0xb
+ 2107 08b0 C4010000 		.4byte	.LASF26
+ 2108 08b4 01       		.byte	0x1
+ 2109 08b5 9F       		.byte	0x9f
+ 2110 08b6 AE010000 		.4byte	0x1ae
+ 2111 08ba AA070000 		.4byte	.LLST51
+ 2112 08be 0F       		.uleb128 0xf
+ 2113 08bf 0C000000 		.4byte	.LVL99
+ 2114 08c3 080B0000 		.4byte	0xb08
+ 2115 08c7 0E       		.uleb128 0xe
+ 2116 08c8 01       		.uleb128 0x1
+ 2117 08c9 50       		.byte	0x50
+ 2118 08ca 05       		.uleb128 0x5
+ 2119 08cb F3       		.byte	0xf3
+ 2120 08cc 01       		.uleb128 0x1
+ 2121 08cd 50       		.byte	0x50
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 42
+
+
+ 2122 08ce 23       		.byte	0x23
+ 2123 08cf 03       		.uleb128 0x3
+ 2124 08d0 0E       		.uleb128 0xe
+ 2125 08d1 01       		.uleb128 0x1
+ 2126 08d2 51       		.byte	0x51
+ 2127 08d3 01       		.uleb128 0x1
+ 2128 08d4 31       		.byte	0x31
+ 2129 08d5 0E       		.uleb128 0xe
+ 2130 08d6 01       		.uleb128 0x1
+ 2131 08d7 52       		.byte	0x52
+ 2132 08d8 01       		.uleb128 0x1
+ 2133 08d9 34       		.byte	0x34
+ 2134 08da 00       		.byte	0
+ 2135 08db 00       		.byte	0
+ 2136 08dc 0A       		.uleb128 0xa
+ 2137 08dd D0040000 		.4byte	.LASF55
+ 2138 08e1 01       		.byte	0x1
+ 2139 08e2 A4       		.byte	0xa4
+ 2140 08e3 00000000 		.4byte	.LFB19
+ 2141 08e7 28000000 		.4byte	.LFE19-.LFB19
+ 2142 08eb 01       		.uleb128 0x1
+ 2143 08ec 9C       		.byte	0x9c
+ 2144 08ed 7F090000 		.4byte	0x97f
+ 2145 08f1 0B       		.uleb128 0xb
+ 2146 08f2 06000000 		.4byte	.LASF22
+ 2147 08f6 01       		.byte	0x1
+ 2148 08f7 A4       		.byte	0xa4
+ 2149 08f8 AE010000 		.4byte	0x1ae
+ 2150 08fc D8070000 		.4byte	.LLST52
+ 2151 0900 0B       		.uleb128 0xb
+ 2152 0901 34030000 		.4byte	.LASF23
+ 2153 0905 01       		.byte	0x1
+ 2154 0906 A5       		.byte	0xa5
+ 2155 0907 A2000000 		.4byte	0xa2
+ 2156 090b 11080000 		.4byte	.LLST53
+ 2157 090f 0B       		.uleb128 0xb
+ 2158 0910 59030000 		.4byte	.LASF24
+ 2159 0914 01       		.byte	0x1
+ 2160 0915 A6       		.byte	0xa6
+ 2161 0916 A2000000 		.4byte	0xa2
+ 2162 091a 32080000 		.4byte	.LLST54
+ 2163 091e 0B       		.uleb128 0xb
+ 2164 091f 58050000 		.4byte	.LASF56
+ 2165 0923 01       		.byte	0x1
+ 2166 0924 A7       		.byte	0xa7
+ 2167 0925 CE000000 		.4byte	0xce
+ 2168 0929 53080000 		.4byte	.LLST55
+ 2169 092d 12       		.uleb128 0x12
+ 2170 092e 9E000000 		.4byte	.LASF30
+ 2171 0932 01       		.byte	0x1
+ 2172 0933 AB       		.byte	0xab
+ 2173 0934 94000000 		.4byte	0x94
+ 2174 0938 7F080000 		.4byte	.LLST56
+ 2175 093c 0D       		.uleb128 0xd
+ 2176 093d 0C000000 		.4byte	.LVL102
+ 2177 0941 E70A0000 		.4byte	0xae7
+ 2178 0945 4F090000 		.4byte	0x94f
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 43
+
+
+ 2179 0949 0E       		.uleb128 0xe
+ 2180 094a 01       		.uleb128 0x1
+ 2181 094b 50       		.byte	0x50
+ 2182 094c 01       		.uleb128 0x1
+ 2183 094d 31       		.byte	0x31
+ 2184 094e 00       		.byte	0
+ 2185 094f 0D       		.uleb128 0xd
+ 2186 0950 1C000000 		.4byte	.LVL104
+ 2187 0954 F20A0000 		.4byte	0xaf2
+ 2188 0958 68090000 		.4byte	0x968
+ 2189 095c 0E       		.uleb128 0xe
+ 2190 095d 01       		.uleb128 0x1
+ 2191 095e 50       		.byte	0x50
+ 2192 095f 02       		.uleb128 0x2
+ 2193 0960 74       		.byte	0x74
+ 2194 0961 00       		.sleb128 0
+ 2195 0962 0E       		.uleb128 0xe
+ 2196 0963 01       		.uleb128 0x1
+ 2197 0964 51       		.byte	0x51
+ 2198 0965 01       		.uleb128 0x1
+ 2199 0966 3B       		.byte	0x3b
+ 2200 0967 00       		.byte	0
+ 2201 0968 0F       		.uleb128 0xf
+ 2202 0969 26000000 		.4byte	.LVL107
+ 2203 096d 130B0000 		.4byte	0xb13
+ 2204 0971 0E       		.uleb128 0xe
+ 2205 0972 01       		.uleb128 0x1
+ 2206 0973 50       		.byte	0x50
+ 2207 0974 02       		.uleb128 0x2
+ 2208 0975 74       		.byte	0x74
+ 2209 0976 00       		.sleb128 0
+ 2210 0977 0E       		.uleb128 0xe
+ 2211 0978 01       		.uleb128 0x1
+ 2212 0979 51       		.byte	0x51
+ 2213 097a 02       		.uleb128 0x2
+ 2214 097b 75       		.byte	0x75
+ 2215 097c 00       		.sleb128 0
+ 2216 097d 00       		.byte	0
+ 2217 097e 00       		.byte	0
+ 2218 097f 11       		.uleb128 0x11
+ 2219 0980 F6010000 		.4byte	.LASF57
+ 2220 0984 01       		.byte	0x1
+ 2221 0985 AF       		.byte	0xaf
+ 2222 0986 CE000000 		.4byte	0xce
+ 2223 098a 00000000 		.4byte	.LFB20
+ 2224 098e 0E000000 		.4byte	.LFE20-.LFB20
+ 2225 0992 01       		.uleb128 0x1
+ 2226 0993 9C       		.byte	0x9c
+ 2227 0994 C5090000 		.4byte	0x9c5
+ 2228 0998 0B       		.uleb128 0xb
+ 2229 0999 C4010000 		.4byte	.LASF26
+ 2230 099d 01       		.byte	0x1
+ 2231 099e AF       		.byte	0xaf
+ 2232 099f AE010000 		.4byte	0x1ae
+ 2233 09a3 9D080000 		.4byte	.LLST57
+ 2234 09a7 0F       		.uleb128 0xf
+ 2235 09a8 0C000000 		.4byte	.LVL112
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 44
+
+
+ 2236 09ac 080B0000 		.4byte	0xb08
+ 2237 09b0 0E       		.uleb128 0xe
+ 2238 09b1 01       		.uleb128 0x1
+ 2239 09b2 50       		.byte	0x50
+ 2240 09b3 05       		.uleb128 0x5
+ 2241 09b4 F3       		.byte	0xf3
+ 2242 09b5 01       		.uleb128 0x1
+ 2243 09b6 50       		.byte	0x50
+ 2244 09b7 23       		.byte	0x23
+ 2245 09b8 03       		.uleb128 0x3
+ 2246 09b9 0E       		.uleb128 0xe
+ 2247 09ba 01       		.uleb128 0x1
+ 2248 09bb 51       		.byte	0x51
+ 2249 09bc 01       		.uleb128 0x1
+ 2250 09bd 31       		.byte	0x31
+ 2251 09be 0E       		.uleb128 0xe
+ 2252 09bf 01       		.uleb128 0x1
+ 2253 09c0 52       		.byte	0x52
+ 2254 09c1 01       		.uleb128 0x1
+ 2255 09c2 34       		.byte	0x34
+ 2256 09c3 00       		.byte	0
+ 2257 09c4 00       		.byte	0
+ 2258 09c5 0A       		.uleb128 0xa
+ 2259 09c6 B5030000 		.4byte	.LASF58
+ 2260 09ca 01       		.byte	0x1
+ 2261 09cb B4       		.byte	0xb4
+ 2262 09cc 00000000 		.4byte	.LFB21
+ 2263 09d0 4E000000 		.4byte	.LFE21-.LFB21
+ 2264 09d4 01       		.uleb128 0x1
+ 2265 09d5 9C       		.byte	0x9c
+ 2266 09d6 6C0A0000 		.4byte	0xa6c
+ 2267 09da 0B       		.uleb128 0xb
+ 2268 09db 06000000 		.4byte	.LASF22
+ 2269 09df 01       		.byte	0x1
+ 2270 09e0 B4       		.byte	0xb4
+ 2271 09e1 AE010000 		.4byte	0x1ae
+ 2272 09e5 CB080000 		.4byte	.LLST58
+ 2273 09e9 0B       		.uleb128 0xb
+ 2274 09ea 34030000 		.4byte	.LASF23
+ 2275 09ee 01       		.byte	0x1
+ 2276 09ef B5       		.byte	0xb5
+ 2277 09f0 A2000000 		.4byte	0xa2
+ 2278 09f4 F7080000 		.4byte	.LLST59
+ 2279 09f8 0B       		.uleb128 0xb
+ 2280 09f9 59030000 		.4byte	.LASF24
+ 2281 09fd 01       		.byte	0x1
+ 2282 09fe B6       		.byte	0xb6
+ 2283 09ff A2000000 		.4byte	0xa2
+ 2284 0a03 18090000 		.4byte	.LLST60
+ 2285 0a07 0B       		.uleb128 0xb
+ 2286 0a08 AB040000 		.4byte	.LASF59
+ 2287 0a0c 01       		.byte	0x1
+ 2288 0a0d B7       		.byte	0xb7
+ 2289 0a0e A2000000 		.4byte	0xa2
+ 2290 0a12 39090000 		.4byte	.LLST61
+ 2291 0a16 0B       		.uleb128 0xb
+ 2292 0a17 9C040000 		.4byte	.LASF60
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 45
+
+
+ 2293 0a1b 01       		.byte	0x1
+ 2294 0a1c B8       		.byte	0xb8
+ 2295 0a1d A2000000 		.4byte	0xa2
+ 2296 0a21 5A090000 		.4byte	.LLST62
+ 2297 0a25 0B       		.uleb128 0xb
+ 2298 0a26 66020000 		.4byte	.LASF61
+ 2299 0a2a 01       		.byte	0x1
+ 2300 0a2b B9       		.byte	0xb9
+ 2301 0a2c A2000000 		.4byte	0xa2
+ 2302 0a30 86090000 		.4byte	.LLST63
+ 2303 0a34 12       		.uleb128 0x12
+ 2304 0a35 9E000000 		.4byte	.LASF30
+ 2305 0a39 01       		.byte	0x1
+ 2306 0a3a BD       		.byte	0xbd
+ 2307 0a3b 94000000 		.4byte	0x94
+ 2308 0a3f BE090000 		.4byte	.LLST64
+ 2309 0a43 0D       		.uleb128 0xd
+ 2310 0a44 14000000 		.4byte	.LVL117
+ 2311 0a48 E70A0000 		.4byte	0xae7
+ 2312 0a4c 560A0000 		.4byte	0xa56
+ 2313 0a50 0E       		.uleb128 0xe
+ 2314 0a51 01       		.uleb128 0x1
+ 2315 0a52 50       		.byte	0x50
+ 2316 0a53 01       		.uleb128 0x1
+ 2317 0a54 31       		.byte	0x31
+ 2318 0a55 00       		.byte	0
+ 2319 0a56 0F       		.uleb128 0xf
+ 2320 0a57 22000000 		.4byte	.LVL118
+ 2321 0a5b F20A0000 		.4byte	0xaf2
+ 2322 0a5f 0E       		.uleb128 0xe
+ 2323 0a60 01       		.uleb128 0x1
+ 2324 0a61 50       		.byte	0x50
+ 2325 0a62 02       		.uleb128 0x2
+ 2326 0a63 74       		.byte	0x74
+ 2327 0a64 03       		.sleb128 3
+ 2328 0a65 0E       		.uleb128 0xe
+ 2329 0a66 01       		.uleb128 0x1
+ 2330 0a67 51       		.byte	0x51
+ 2331 0a68 01       		.uleb128 0x1
+ 2332 0a69 3C       		.byte	0x3c
+ 2333 0a6a 00       		.byte	0
+ 2334 0a6b 00       		.byte	0
+ 2335 0a6c 11       		.uleb128 0x11
+ 2336 0a6d 3A000000 		.4byte	.LASF62
+ 2337 0a71 01       		.byte	0x1
+ 2338 0a72 CD       		.byte	0xcd
+ 2339 0a73 A2000000 		.4byte	0xa2
+ 2340 0a77 00000000 		.4byte	.LFB22
+ 2341 0a7b 08000000 		.4byte	.LFE22-.LFB22
+ 2342 0a7f 01       		.uleb128 0x1
+ 2343 0a80 9C       		.byte	0x9c
+ 2344 0a81 950A0000 		.4byte	0xa95
+ 2345 0a85 0B       		.uleb128 0xb
+ 2346 0a86 C4010000 		.4byte	.LASF26
+ 2347 0a8a 01       		.byte	0x1
+ 2348 0a8b CD       		.byte	0xcd
+ 2349 0a8c AE010000 		.4byte	0x1ae
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 46
+
+
+ 2350 0a90 D1090000 		.4byte	.LLST65
+ 2351 0a94 00       		.byte	0
+ 2352 0a95 11       		.uleb128 0x11
+ 2353 0a96 81020000 		.4byte	.LASF63
+ 2354 0a9a 01       		.byte	0x1
+ 2355 0a9b D1       		.byte	0xd1
+ 2356 0a9c A2000000 		.4byte	0xa2
+ 2357 0aa0 00000000 		.4byte	.LFB23
+ 2358 0aa4 08000000 		.4byte	.LFE23-.LFB23
+ 2359 0aa8 01       		.uleb128 0x1
+ 2360 0aa9 9C       		.byte	0x9c
+ 2361 0aaa BE0A0000 		.4byte	0xabe
+ 2362 0aae 0B       		.uleb128 0xb
+ 2363 0aaf C4010000 		.4byte	.LASF26
+ 2364 0ab3 01       		.byte	0x1
+ 2365 0ab4 D1       		.byte	0xd1
+ 2366 0ab5 AE010000 		.4byte	0x1ae
+ 2367 0ab9 F2090000 		.4byte	.LLST66
+ 2368 0abd 00       		.byte	0
+ 2369 0abe 11       		.uleb128 0x11
+ 2370 0abf A7000000 		.4byte	.LASF64
+ 2371 0ac3 01       		.byte	0x1
+ 2372 0ac4 D5       		.byte	0xd5
+ 2373 0ac5 A2000000 		.4byte	0xa2
+ 2374 0ac9 00000000 		.4byte	.LFB24
+ 2375 0acd 08000000 		.4byte	.LFE24-.LFB24
+ 2376 0ad1 01       		.uleb128 0x1
+ 2377 0ad2 9C       		.byte	0x9c
+ 2378 0ad3 E70A0000 		.4byte	0xae7
+ 2379 0ad7 0B       		.uleb128 0xb
+ 2380 0ad8 C4010000 		.4byte	.LASF26
+ 2381 0adc 01       		.byte	0x1
+ 2382 0add D5       		.byte	0xd5
+ 2383 0ade AE010000 		.4byte	0x1ae
+ 2384 0ae2 130A0000 		.4byte	.LLST67
+ 2385 0ae6 00       		.byte	0
+ 2386 0ae7 13       		.uleb128 0x13
+ 2387 0ae8 B8020000 		.4byte	.LASF65
+ 2388 0aec B8020000 		.4byte	.LASF65
+ 2389 0af0 04       		.byte	0x4
+ 2390 0af1 17       		.byte	0x17
+ 2391 0af2 13       		.uleb128 0x13
+ 2392 0af3 F1040000 		.4byte	.LASF66
+ 2393 0af7 F1040000 		.4byte	.LASF66
+ 2394 0afb 04       		.byte	0x4
+ 2395 0afc 1B       		.byte	0x1b
+ 2396 0afd 13       		.uleb128 0x13
+ 2397 0afe 58040000 		.4byte	.LASF67
+ 2398 0b02 58040000 		.4byte	.LASF67
+ 2399 0b06 04       		.byte	0x4
+ 2400 0b07 2D       		.byte	0x2d
+ 2401 0b08 13       		.uleb128 0x13
+ 2402 0b09 5A000000 		.4byte	.LASF68
+ 2403 0b0d 5A000000 		.4byte	.LASF68
+ 2404 0b11 04       		.byte	0x4
+ 2405 0b12 2E       		.byte	0x2e
+ 2406 0b13 13       		.uleb128 0x13
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 47
+
+
+ 2407 0b14 1A050000 		.4byte	.LASF69
+ 2408 0b18 1A050000 		.4byte	.LASF69
+ 2409 0b1c 04       		.byte	0x4
+ 2410 0b1d 2C       		.byte	0x2c
+ 2411 0b1e 13       		.uleb128 0x13
+ 2412 0b1f D5020000 		.4byte	.LASF70
+ 2413 0b23 D5020000 		.4byte	.LASF70
+ 2414 0b27 04       		.byte	0x4
+ 2415 0b28 1A       		.byte	0x1a
+ 2416 0b29 00       		.byte	0
+ 2417              		.section	.debug_abbrev,"",%progbits
+ 2418              	.Ldebug_abbrev0:
+ 2419 0000 01       		.uleb128 0x1
+ 2420 0001 11       		.uleb128 0x11
+ 2421 0002 01       		.byte	0x1
+ 2422 0003 25       		.uleb128 0x25
+ 2423 0004 0E       		.uleb128 0xe
+ 2424 0005 13       		.uleb128 0x13
+ 2425 0006 0B       		.uleb128 0xb
+ 2426 0007 03       		.uleb128 0x3
+ 2427 0008 0E       		.uleb128 0xe
+ 2428 0009 1B       		.uleb128 0x1b
+ 2429 000a 0E       		.uleb128 0xe
+ 2430 000b 55       		.uleb128 0x55
+ 2431 000c 17       		.uleb128 0x17
+ 2432 000d 11       		.uleb128 0x11
+ 2433 000e 01       		.uleb128 0x1
+ 2434 000f 10       		.uleb128 0x10
+ 2435 0010 17       		.uleb128 0x17
+ 2436 0011 00       		.byte	0
+ 2437 0012 00       		.byte	0
+ 2438 0013 02       		.uleb128 0x2
+ 2439 0014 24       		.uleb128 0x24
+ 2440 0015 00       		.byte	0
+ 2441 0016 0B       		.uleb128 0xb
+ 2442 0017 0B       		.uleb128 0xb
+ 2443 0018 3E       		.uleb128 0x3e
+ 2444 0019 0B       		.uleb128 0xb
+ 2445 001a 03       		.uleb128 0x3
+ 2446 001b 0E       		.uleb128 0xe
+ 2447 001c 00       		.byte	0
+ 2448 001d 00       		.byte	0
+ 2449 001e 03       		.uleb128 0x3
+ 2450 001f 16       		.uleb128 0x16
+ 2451 0020 00       		.byte	0
+ 2452 0021 03       		.uleb128 0x3
+ 2453 0022 0E       		.uleb128 0xe
+ 2454 0023 3A       		.uleb128 0x3a
+ 2455 0024 0B       		.uleb128 0xb
+ 2456 0025 3B       		.uleb128 0x3b
+ 2457 0026 0B       		.uleb128 0xb
+ 2458 0027 49       		.uleb128 0x49
+ 2459 0028 13       		.uleb128 0x13
+ 2460 0029 00       		.byte	0
+ 2461 002a 00       		.byte	0
+ 2462 002b 04       		.uleb128 0x4
+ 2463 002c 24       		.uleb128 0x24
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 48
+
+
+ 2464 002d 00       		.byte	0
+ 2465 002e 0B       		.uleb128 0xb
+ 2466 002f 0B       		.uleb128 0xb
+ 2467 0030 3E       		.uleb128 0x3e
+ 2468 0031 0B       		.uleb128 0xb
+ 2469 0032 03       		.uleb128 0x3
+ 2470 0033 08       		.uleb128 0x8
+ 2471 0034 00       		.byte	0
+ 2472 0035 00       		.byte	0
+ 2473 0036 05       		.uleb128 0x5
+ 2474 0037 13       		.uleb128 0x13
+ 2475 0038 01       		.byte	0x1
+ 2476 0039 0B       		.uleb128 0xb
+ 2477 003a 0B       		.uleb128 0xb
+ 2478 003b 3A       		.uleb128 0x3a
+ 2479 003c 0B       		.uleb128 0xb
+ 2480 003d 3B       		.uleb128 0x3b
+ 2481 003e 0B       		.uleb128 0xb
+ 2482 003f 01       		.uleb128 0x1
+ 2483 0040 13       		.uleb128 0x13
+ 2484 0041 00       		.byte	0
+ 2485 0042 00       		.byte	0
+ 2486 0043 06       		.uleb128 0x6
+ 2487 0044 0D       		.uleb128 0xd
+ 2488 0045 00       		.byte	0
+ 2489 0046 03       		.uleb128 0x3
+ 2490 0047 08       		.uleb128 0x8
+ 2491 0048 3A       		.uleb128 0x3a
+ 2492 0049 0B       		.uleb128 0xb
+ 2493 004a 3B       		.uleb128 0x3b
+ 2494 004b 0B       		.uleb128 0xb
+ 2495 004c 49       		.uleb128 0x49
+ 2496 004d 13       		.uleb128 0x13
+ 2497 004e 38       		.uleb128 0x38
+ 2498 004f 0B       		.uleb128 0xb
+ 2499 0050 00       		.byte	0
+ 2500 0051 00       		.byte	0
+ 2501 0052 07       		.uleb128 0x7
+ 2502 0053 0D       		.uleb128 0xd
+ 2503 0054 00       		.byte	0
+ 2504 0055 03       		.uleb128 0x3
+ 2505 0056 0E       		.uleb128 0xe
+ 2506 0057 3A       		.uleb128 0x3a
+ 2507 0058 0B       		.uleb128 0xb
+ 2508 0059 3B       		.uleb128 0x3b
+ 2509 005a 0B       		.uleb128 0xb
+ 2510 005b 49       		.uleb128 0x49
+ 2511 005c 13       		.uleb128 0x13
+ 2512 005d 38       		.uleb128 0x38
+ 2513 005e 0B       		.uleb128 0xb
+ 2514 005f 00       		.byte	0
+ 2515 0060 00       		.byte	0
+ 2516 0061 08       		.uleb128 0x8
+ 2517 0062 01       		.uleb128 0x1
+ 2518 0063 01       		.byte	0x1
+ 2519 0064 49       		.uleb128 0x49
+ 2520 0065 13       		.uleb128 0x13
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 49
+
+
+ 2521 0066 01       		.uleb128 0x1
+ 2522 0067 13       		.uleb128 0x13
+ 2523 0068 00       		.byte	0
+ 2524 0069 00       		.byte	0
+ 2525 006a 09       		.uleb128 0x9
+ 2526 006b 21       		.uleb128 0x21
+ 2527 006c 00       		.byte	0
+ 2528 006d 49       		.uleb128 0x49
+ 2529 006e 13       		.uleb128 0x13
+ 2530 006f 2F       		.uleb128 0x2f
+ 2531 0070 0B       		.uleb128 0xb
+ 2532 0071 00       		.byte	0
+ 2533 0072 00       		.byte	0
+ 2534 0073 0A       		.uleb128 0xa
+ 2535 0074 2E       		.uleb128 0x2e
+ 2536 0075 01       		.byte	0x1
+ 2537 0076 3F       		.uleb128 0x3f
+ 2538 0077 19       		.uleb128 0x19
+ 2539 0078 03       		.uleb128 0x3
+ 2540 0079 0E       		.uleb128 0xe
+ 2541 007a 3A       		.uleb128 0x3a
+ 2542 007b 0B       		.uleb128 0xb
+ 2543 007c 3B       		.uleb128 0x3b
+ 2544 007d 0B       		.uleb128 0xb
+ 2545 007e 27       		.uleb128 0x27
+ 2546 007f 19       		.uleb128 0x19
+ 2547 0080 11       		.uleb128 0x11
+ 2548 0081 01       		.uleb128 0x1
+ 2549 0082 12       		.uleb128 0x12
+ 2550 0083 06       		.uleb128 0x6
+ 2551 0084 40       		.uleb128 0x40
+ 2552 0085 18       		.uleb128 0x18
+ 2553 0086 9742     		.uleb128 0x2117
+ 2554 0088 19       		.uleb128 0x19
+ 2555 0089 01       		.uleb128 0x1
+ 2556 008a 13       		.uleb128 0x13
+ 2557 008b 00       		.byte	0
+ 2558 008c 00       		.byte	0
+ 2559 008d 0B       		.uleb128 0xb
+ 2560 008e 05       		.uleb128 0x5
+ 2561 008f 00       		.byte	0
+ 2562 0090 03       		.uleb128 0x3
+ 2563 0091 0E       		.uleb128 0xe
+ 2564 0092 3A       		.uleb128 0x3a
+ 2565 0093 0B       		.uleb128 0xb
+ 2566 0094 3B       		.uleb128 0x3b
+ 2567 0095 0B       		.uleb128 0xb
+ 2568 0096 49       		.uleb128 0x49
+ 2569 0097 13       		.uleb128 0x13
+ 2570 0098 02       		.uleb128 0x2
+ 2571 0099 17       		.uleb128 0x17
+ 2572 009a 00       		.byte	0
+ 2573 009b 00       		.byte	0
+ 2574 009c 0C       		.uleb128 0xc
+ 2575 009d 34       		.uleb128 0x34
+ 2576 009e 00       		.byte	0
+ 2577 009f 03       		.uleb128 0x3
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 50
+
+
+ 2578 00a0 0E       		.uleb128 0xe
+ 2579 00a1 3A       		.uleb128 0x3a
+ 2580 00a2 0B       		.uleb128 0xb
+ 2581 00a3 3B       		.uleb128 0x3b
+ 2582 00a4 0B       		.uleb128 0xb
+ 2583 00a5 49       		.uleb128 0x49
+ 2584 00a6 13       		.uleb128 0x13
+ 2585 00a7 02       		.uleb128 0x2
+ 2586 00a8 18       		.uleb128 0x18
+ 2587 00a9 00       		.byte	0
+ 2588 00aa 00       		.byte	0
+ 2589 00ab 0D       		.uleb128 0xd
+ 2590 00ac 898201   		.uleb128 0x4109
+ 2591 00af 01       		.byte	0x1
+ 2592 00b0 11       		.uleb128 0x11
+ 2593 00b1 01       		.uleb128 0x1
+ 2594 00b2 31       		.uleb128 0x31
+ 2595 00b3 13       		.uleb128 0x13
+ 2596 00b4 01       		.uleb128 0x1
+ 2597 00b5 13       		.uleb128 0x13
+ 2598 00b6 00       		.byte	0
+ 2599 00b7 00       		.byte	0
+ 2600 00b8 0E       		.uleb128 0xe
+ 2601 00b9 8A8201   		.uleb128 0x410a
+ 2602 00bc 00       		.byte	0
+ 2603 00bd 02       		.uleb128 0x2
+ 2604 00be 18       		.uleb128 0x18
+ 2605 00bf 9142     		.uleb128 0x2111
+ 2606 00c1 18       		.uleb128 0x18
+ 2607 00c2 00       		.byte	0
+ 2608 00c3 00       		.byte	0
+ 2609 00c4 0F       		.uleb128 0xf
+ 2610 00c5 898201   		.uleb128 0x4109
+ 2611 00c8 01       		.byte	0x1
+ 2612 00c9 11       		.uleb128 0x11
+ 2613 00ca 01       		.uleb128 0x1
+ 2614 00cb 31       		.uleb128 0x31
+ 2615 00cc 13       		.uleb128 0x13
+ 2616 00cd 00       		.byte	0
+ 2617 00ce 00       		.byte	0
+ 2618 00cf 10       		.uleb128 0x10
+ 2619 00d0 0F       		.uleb128 0xf
+ 2620 00d1 00       		.byte	0
+ 2621 00d2 0B       		.uleb128 0xb
+ 2622 00d3 0B       		.uleb128 0xb
+ 2623 00d4 49       		.uleb128 0x49
+ 2624 00d5 13       		.uleb128 0x13
+ 2625 00d6 00       		.byte	0
+ 2626 00d7 00       		.byte	0
+ 2627 00d8 11       		.uleb128 0x11
+ 2628 00d9 2E       		.uleb128 0x2e
+ 2629 00da 01       		.byte	0x1
+ 2630 00db 3F       		.uleb128 0x3f
+ 2631 00dc 19       		.uleb128 0x19
+ 2632 00dd 03       		.uleb128 0x3
+ 2633 00de 0E       		.uleb128 0xe
+ 2634 00df 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 51
+
+
+ 2635 00e0 0B       		.uleb128 0xb
+ 2636 00e1 3B       		.uleb128 0x3b
+ 2637 00e2 0B       		.uleb128 0xb
+ 2638 00e3 27       		.uleb128 0x27
+ 2639 00e4 19       		.uleb128 0x19
+ 2640 00e5 49       		.uleb128 0x49
+ 2641 00e6 13       		.uleb128 0x13
+ 2642 00e7 11       		.uleb128 0x11
+ 2643 00e8 01       		.uleb128 0x1
+ 2644 00e9 12       		.uleb128 0x12
+ 2645 00ea 06       		.uleb128 0x6
+ 2646 00eb 40       		.uleb128 0x40
+ 2647 00ec 18       		.uleb128 0x18
+ 2648 00ed 9742     		.uleb128 0x2117
+ 2649 00ef 19       		.uleb128 0x19
+ 2650 00f0 01       		.uleb128 0x1
+ 2651 00f1 13       		.uleb128 0x13
+ 2652 00f2 00       		.byte	0
+ 2653 00f3 00       		.byte	0
+ 2654 00f4 12       		.uleb128 0x12
+ 2655 00f5 34       		.uleb128 0x34
+ 2656 00f6 00       		.byte	0
+ 2657 00f7 03       		.uleb128 0x3
+ 2658 00f8 0E       		.uleb128 0xe
+ 2659 00f9 3A       		.uleb128 0x3a
+ 2660 00fa 0B       		.uleb128 0xb
+ 2661 00fb 3B       		.uleb128 0x3b
+ 2662 00fc 0B       		.uleb128 0xb
+ 2663 00fd 49       		.uleb128 0x49
+ 2664 00fe 13       		.uleb128 0x13
+ 2665 00ff 02       		.uleb128 0x2
+ 2666 0100 17       		.uleb128 0x17
+ 2667 0101 00       		.byte	0
+ 2668 0102 00       		.byte	0
+ 2669 0103 13       		.uleb128 0x13
+ 2670 0104 2E       		.uleb128 0x2e
+ 2671 0105 00       		.byte	0
+ 2672 0106 3F       		.uleb128 0x3f
+ 2673 0107 19       		.uleb128 0x19
+ 2674 0108 3C       		.uleb128 0x3c
+ 2675 0109 19       		.uleb128 0x19
+ 2676 010a 6E       		.uleb128 0x6e
+ 2677 010b 0E       		.uleb128 0xe
+ 2678 010c 03       		.uleb128 0x3
+ 2679 010d 0E       		.uleb128 0xe
+ 2680 010e 3A       		.uleb128 0x3a
+ 2681 010f 0B       		.uleb128 0xb
+ 2682 0110 3B       		.uleb128 0x3b
+ 2683 0111 0B       		.uleb128 0xb
+ 2684 0112 00       		.byte	0
+ 2685 0113 00       		.byte	0
+ 2686 0114 00       		.byte	0
+ 2687              		.section	.debug_loc,"",%progbits
+ 2688              	.Ldebug_loc0:
+ 2689              	.LLST0:
+ 2690 0000 00000000 		.4byte	.LVL0
+ 2691 0004 08000000 		.4byte	.LVL1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 52
+
+
+ 2692 0008 0100     		.2byte	0x1
+ 2693 000a 50       		.byte	0x50
+ 2694 000b 08000000 		.4byte	.LVL1
+ 2695 000f 1C000000 		.4byte	.LVL4
+ 2696 0013 0100     		.2byte	0x1
+ 2697 0015 54       		.byte	0x54
+ 2698 0016 1C000000 		.4byte	.LVL4
+ 2699 001a 20000000 		.4byte	.LFE0
+ 2700 001e 0400     		.2byte	0x4
+ 2701 0020 F3       		.byte	0xf3
+ 2702 0021 01       		.uleb128 0x1
+ 2703 0022 50       		.byte	0x50
+ 2704 0023 9F       		.byte	0x9f
+ 2705 0024 00000000 		.4byte	0
+ 2706 0028 00000000 		.4byte	0
+ 2707              	.LLST1:
+ 2708 002c 00000000 		.4byte	.LVL0
+ 2709 0030 0B000000 		.4byte	.LVL2-1
+ 2710 0034 0100     		.2byte	0x1
+ 2711 0036 51       		.byte	0x51
+ 2712 0037 0B000000 		.4byte	.LVL2-1
+ 2713 003b 20000000 		.4byte	.LFE0
+ 2714 003f 0400     		.2byte	0x4
+ 2715 0041 F3       		.byte	0xf3
+ 2716 0042 01       		.uleb128 0x1
+ 2717 0043 51       		.byte	0x51
+ 2718 0044 9F       		.byte	0x9f
+ 2719 0045 00000000 		.4byte	0
+ 2720 0049 00000000 		.4byte	0
+ 2721              	.LLST2:
+ 2722 004d 00000000 		.4byte	.LVL0
+ 2723 0051 0B000000 		.4byte	.LVL2-1
+ 2724 0055 0100     		.2byte	0x1
+ 2725 0057 52       		.byte	0x52
+ 2726 0058 0B000000 		.4byte	.LVL2-1
+ 2727 005c 20000000 		.4byte	.LFE0
+ 2728 0060 0400     		.2byte	0x4
+ 2729 0062 F3       		.byte	0xf3
+ 2730 0063 01       		.uleb128 0x1
+ 2731 0064 52       		.byte	0x52
+ 2732 0065 9F       		.byte	0x9f
+ 2733 0066 00000000 		.4byte	0
+ 2734 006a 00000000 		.4byte	0
+ 2735              	.LLST3:
+ 2736 006e 00000000 		.4byte	.LVL0
+ 2737 0072 0B000000 		.4byte	.LVL2-1
+ 2738 0076 0100     		.2byte	0x1
+ 2739 0078 53       		.byte	0x53
+ 2740 0079 0B000000 		.4byte	.LVL2-1
+ 2741 007d 20000000 		.4byte	.LFE0
+ 2742 0081 0400     		.2byte	0x4
+ 2743 0083 F3       		.byte	0xf3
+ 2744 0084 01       		.uleb128 0x1
+ 2745 0085 53       		.byte	0x53
+ 2746 0086 9F       		.byte	0x9f
+ 2747 0087 00000000 		.4byte	0
+ 2748 008b 00000000 		.4byte	0
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 53
+
+
+ 2749              	.LLST4:
+ 2750 008f 00000000 		.4byte	.LVL5
+ 2751 0093 02000000 		.4byte	.LVL6
+ 2752 0097 0100     		.2byte	0x1
+ 2753 0099 50       		.byte	0x50
+ 2754 009a 02000000 		.4byte	.LVL6
+ 2755 009e 04000000 		.4byte	.LFE1
+ 2756 00a2 0400     		.2byte	0x4
+ 2757 00a4 F3       		.byte	0xf3
+ 2758 00a5 01       		.uleb128 0x1
+ 2759 00a6 50       		.byte	0x50
+ 2760 00a7 9F       		.byte	0x9f
+ 2761 00a8 00000000 		.4byte	0
+ 2762 00ac 00000000 		.4byte	0
+ 2763              	.LLST5:
+ 2764 00b0 00000000 		.4byte	.LVL7
+ 2765 00b4 08000000 		.4byte	.LVL8
+ 2766 00b8 0100     		.2byte	0x1
+ 2767 00ba 50       		.byte	0x50
+ 2768 00bb 08000000 		.4byte	.LVL8
+ 2769 00bf 14000000 		.4byte	.LVL10
+ 2770 00c3 0100     		.2byte	0x1
+ 2771 00c5 54       		.byte	0x54
+ 2772 00c6 14000000 		.4byte	.LVL10
+ 2773 00ca 26000000 		.4byte	.LVL15
+ 2774 00ce 0300     		.2byte	0x3
+ 2775 00d0 74       		.byte	0x74
+ 2776 00d1 7D       		.sleb128 -3
+ 2777 00d2 9F       		.byte	0x9f
+ 2778 00d3 26000000 		.4byte	.LVL15
+ 2779 00d7 28000000 		.4byte	.LFE2
+ 2780 00db 0400     		.2byte	0x4
+ 2781 00dd F3       		.byte	0xf3
+ 2782 00de 01       		.uleb128 0x1
+ 2783 00df 50       		.byte	0x50
+ 2784 00e0 9F       		.byte	0x9f
+ 2785 00e1 00000000 		.4byte	0
+ 2786 00e5 00000000 		.4byte	0
+ 2787              	.LLST6:
+ 2788 00e9 00000000 		.4byte	.LVL7
+ 2789 00ed 0B000000 		.4byte	.LVL9-1
+ 2790 00f1 0100     		.2byte	0x1
+ 2791 00f3 51       		.byte	0x51
+ 2792 00f4 0B000000 		.4byte	.LVL9-1
+ 2793 00f8 28000000 		.4byte	.LFE2
+ 2794 00fc 0400     		.2byte	0x4
+ 2795 00fe F3       		.byte	0xf3
+ 2796 00ff 01       		.uleb128 0x1
+ 2797 0100 51       		.byte	0x51
+ 2798 0101 9F       		.byte	0x9f
+ 2799 0102 00000000 		.4byte	0
+ 2800 0106 00000000 		.4byte	0
+ 2801              	.LLST7:
+ 2802 010a 00000000 		.4byte	.LVL7
+ 2803 010e 0B000000 		.4byte	.LVL9-1
+ 2804 0112 0100     		.2byte	0x1
+ 2805 0114 52       		.byte	0x52
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 54
+
+
+ 2806 0115 0B000000 		.4byte	.LVL9-1
+ 2807 0119 28000000 		.4byte	.LFE2
+ 2808 011d 0400     		.2byte	0x4
+ 2809 011f F3       		.byte	0xf3
+ 2810 0120 01       		.uleb128 0x1
+ 2811 0121 52       		.byte	0x52
+ 2812 0122 9F       		.byte	0x9f
+ 2813 0123 00000000 		.4byte	0
+ 2814 0127 00000000 		.4byte	0
+ 2815              	.LLST8:
+ 2816 012b 00000000 		.4byte	.LVL7
+ 2817 012f 0B000000 		.4byte	.LVL9-1
+ 2818 0133 0100     		.2byte	0x1
+ 2819 0135 53       		.byte	0x53
+ 2820 0136 0B000000 		.4byte	.LVL9-1
+ 2821 013a 28000000 		.4byte	.LFE2
+ 2822 013e 0400     		.2byte	0x4
+ 2823 0140 F3       		.byte	0xf3
+ 2824 0141 01       		.uleb128 0x1
+ 2825 0142 53       		.byte	0x53
+ 2826 0143 9F       		.byte	0x9f
+ 2827 0144 00000000 		.4byte	0
+ 2828 0148 00000000 		.4byte	0
+ 2829              	.LLST9:
+ 2830 014c 1E000000 		.4byte	.LVL12
+ 2831 0150 22000000 		.4byte	.LVL13
+ 2832 0154 0100     		.2byte	0x1
+ 2833 0156 50       		.byte	0x50
+ 2834 0157 22000000 		.4byte	.LVL13
+ 2835 015b 25000000 		.4byte	.LVL14-1
+ 2836 015f 0100     		.2byte	0x1
+ 2837 0161 52       		.byte	0x52
+ 2838 0162 00000000 		.4byte	0
+ 2839 0166 00000000 		.4byte	0
+ 2840              	.LLST10:
+ 2841 016a 00000000 		.4byte	.LVL16
+ 2842 016e 04000000 		.4byte	.LVL17
+ 2843 0172 0100     		.2byte	0x1
+ 2844 0174 50       		.byte	0x50
+ 2845 0175 04000000 		.4byte	.LVL17
+ 2846 0179 0B000000 		.4byte	.LVL18-1
+ 2847 017d 0300     		.2byte	0x3
+ 2848 017f 70       		.byte	0x70
+ 2849 0180 7D       		.sleb128 -3
+ 2850 0181 9F       		.byte	0x9f
+ 2851 0182 0B000000 		.4byte	.LVL18-1
+ 2852 0186 0E000000 		.4byte	.LFE3
+ 2853 018a 0400     		.2byte	0x4
+ 2854 018c F3       		.byte	0xf3
+ 2855 018d 01       		.uleb128 0x1
+ 2856 018e 50       		.byte	0x50
+ 2857 018f 9F       		.byte	0x9f
+ 2858 0190 00000000 		.4byte	0
+ 2859 0194 00000000 		.4byte	0
+ 2860              	.LLST11:
+ 2861 0198 00000000 		.4byte	.LVL19
+ 2862 019c 02000000 		.4byte	.LVL20
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 55
+
+
+ 2863 01a0 0100     		.2byte	0x1
+ 2864 01a2 50       		.byte	0x50
+ 2865 01a3 02000000 		.4byte	.LVL20
+ 2866 01a7 06000000 		.4byte	.LFE4
+ 2867 01ab 0400     		.2byte	0x4
+ 2868 01ad F3       		.byte	0xf3
+ 2869 01ae 01       		.uleb128 0x1
+ 2870 01af 50       		.byte	0x50
+ 2871 01b0 9F       		.byte	0x9f
+ 2872 01b1 00000000 		.4byte	0
+ 2873 01b5 00000000 		.4byte	0
+ 2874              	.LLST12:
+ 2875 01b9 00000000 		.4byte	.LVL21
+ 2876 01bd 08000000 		.4byte	.LVL22
+ 2877 01c1 0100     		.2byte	0x1
+ 2878 01c3 50       		.byte	0x50
+ 2879 01c4 08000000 		.4byte	.LVL22
+ 2880 01c8 14000000 		.4byte	.LVL24
+ 2881 01cc 0100     		.2byte	0x1
+ 2882 01ce 54       		.byte	0x54
+ 2883 01cf 14000000 		.4byte	.LVL24
+ 2884 01d3 26000000 		.4byte	.LVL29
+ 2885 01d7 0300     		.2byte	0x3
+ 2886 01d9 74       		.byte	0x74
+ 2887 01da 7D       		.sleb128 -3
+ 2888 01db 9F       		.byte	0x9f
+ 2889 01dc 26000000 		.4byte	.LVL29
+ 2890 01e0 28000000 		.4byte	.LFE5
+ 2891 01e4 0400     		.2byte	0x4
+ 2892 01e6 F3       		.byte	0xf3
+ 2893 01e7 01       		.uleb128 0x1
+ 2894 01e8 50       		.byte	0x50
+ 2895 01e9 9F       		.byte	0x9f
+ 2896 01ea 00000000 		.4byte	0
+ 2897 01ee 00000000 		.4byte	0
+ 2898              	.LLST13:
+ 2899 01f2 00000000 		.4byte	.LVL21
+ 2900 01f6 0B000000 		.4byte	.LVL23-1
+ 2901 01fa 0100     		.2byte	0x1
+ 2902 01fc 51       		.byte	0x51
+ 2903 01fd 0B000000 		.4byte	.LVL23-1
+ 2904 0201 28000000 		.4byte	.LFE5
+ 2905 0205 0400     		.2byte	0x4
+ 2906 0207 F3       		.byte	0xf3
+ 2907 0208 01       		.uleb128 0x1
+ 2908 0209 51       		.byte	0x51
+ 2909 020a 9F       		.byte	0x9f
+ 2910 020b 00000000 		.4byte	0
+ 2911 020f 00000000 		.4byte	0
+ 2912              	.LLST14:
+ 2913 0213 00000000 		.4byte	.LVL21
+ 2914 0217 0B000000 		.4byte	.LVL23-1
+ 2915 021b 0100     		.2byte	0x1
+ 2916 021d 52       		.byte	0x52
+ 2917 021e 0B000000 		.4byte	.LVL23-1
+ 2918 0222 28000000 		.4byte	.LFE5
+ 2919 0226 0400     		.2byte	0x4
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 56
+
+
+ 2920 0228 F3       		.byte	0xf3
+ 2921 0229 01       		.uleb128 0x1
+ 2922 022a 52       		.byte	0x52
+ 2923 022b 9F       		.byte	0x9f
+ 2924 022c 00000000 		.4byte	0
+ 2925 0230 00000000 		.4byte	0
+ 2926              	.LLST15:
+ 2927 0234 00000000 		.4byte	.LVL21
+ 2928 0238 0B000000 		.4byte	.LVL23-1
+ 2929 023c 0100     		.2byte	0x1
+ 2930 023e 53       		.byte	0x53
+ 2931 023f 0B000000 		.4byte	.LVL23-1
+ 2932 0243 26000000 		.4byte	.LVL30
+ 2933 0247 0100     		.2byte	0x1
+ 2934 0249 55       		.byte	0x55
+ 2935 024a 26000000 		.4byte	.LVL30
+ 2936 024e 28000000 		.4byte	.LFE5
+ 2937 0252 0400     		.2byte	0x4
+ 2938 0254 F3       		.byte	0xf3
+ 2939 0255 01       		.uleb128 0x1
+ 2940 0256 53       		.byte	0x53
+ 2941 0257 9F       		.byte	0x9f
+ 2942 0258 00000000 		.4byte	0
+ 2943 025c 00000000 		.4byte	0
+ 2944              	.LLST16:
+ 2945 0260 1E000000 		.4byte	.LVL26
+ 2946 0264 22000000 		.4byte	.LVL27
+ 2947 0268 0100     		.2byte	0x1
+ 2948 026a 50       		.byte	0x50
+ 2949 026b 22000000 		.4byte	.LVL27
+ 2950 026f 25000000 		.4byte	.LVL28-1
+ 2951 0273 0100     		.2byte	0x1
+ 2952 0275 52       		.byte	0x52
+ 2953 0276 00000000 		.4byte	0
+ 2954 027a 00000000 		.4byte	0
+ 2955              	.LLST17:
+ 2956 027e 00000000 		.4byte	.LVL31
+ 2957 0282 04000000 		.4byte	.LVL32
+ 2958 0286 0100     		.2byte	0x1
+ 2959 0288 50       		.byte	0x50
+ 2960 0289 04000000 		.4byte	.LVL32
+ 2961 028d 0B000000 		.4byte	.LVL33-1
+ 2962 0291 0300     		.2byte	0x3
+ 2963 0293 70       		.byte	0x70
+ 2964 0294 7D       		.sleb128 -3
+ 2965 0295 9F       		.byte	0x9f
+ 2966 0296 0B000000 		.4byte	.LVL33-1
+ 2967 029a 10000000 		.4byte	.LFE6
+ 2968 029e 0400     		.2byte	0x4
+ 2969 02a0 F3       		.byte	0xf3
+ 2970 02a1 01       		.uleb128 0x1
+ 2971 02a2 50       		.byte	0x50
+ 2972 02a3 9F       		.byte	0x9f
+ 2973 02a4 00000000 		.4byte	0
+ 2974 02a8 00000000 		.4byte	0
+ 2975              	.LLST18:
+ 2976 02ac 00000000 		.4byte	.LVL34
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 57
+
+
+ 2977 02b0 08000000 		.4byte	.LVL35
+ 2978 02b4 0100     		.2byte	0x1
+ 2979 02b6 50       		.byte	0x50
+ 2980 02b7 08000000 		.4byte	.LVL35
+ 2981 02bb 14000000 		.4byte	.LVL37
+ 2982 02bf 0100     		.2byte	0x1
+ 2983 02c1 54       		.byte	0x54
+ 2984 02c2 14000000 		.4byte	.LVL37
+ 2985 02c6 26000000 		.4byte	.LVL42
+ 2986 02ca 0300     		.2byte	0x3
+ 2987 02cc 74       		.byte	0x74
+ 2988 02cd 7D       		.sleb128 -3
+ 2989 02ce 9F       		.byte	0x9f
+ 2990 02cf 26000000 		.4byte	.LVL42
+ 2991 02d3 28000000 		.4byte	.LFE7
+ 2992 02d7 0400     		.2byte	0x4
+ 2993 02d9 F3       		.byte	0xf3
+ 2994 02da 01       		.uleb128 0x1
+ 2995 02db 50       		.byte	0x50
+ 2996 02dc 9F       		.byte	0x9f
+ 2997 02dd 00000000 		.4byte	0
+ 2998 02e1 00000000 		.4byte	0
+ 2999              	.LLST19:
+ 3000 02e5 00000000 		.4byte	.LVL34
+ 3001 02e9 0B000000 		.4byte	.LVL36-1
+ 3002 02ed 0100     		.2byte	0x1
+ 3003 02ef 51       		.byte	0x51
+ 3004 02f0 0B000000 		.4byte	.LVL36-1
+ 3005 02f4 28000000 		.4byte	.LFE7
+ 3006 02f8 0400     		.2byte	0x4
+ 3007 02fa F3       		.byte	0xf3
+ 3008 02fb 01       		.uleb128 0x1
+ 3009 02fc 51       		.byte	0x51
+ 3010 02fd 9F       		.byte	0x9f
+ 3011 02fe 00000000 		.4byte	0
+ 3012 0302 00000000 		.4byte	0
+ 3013              	.LLST20:
+ 3014 0306 00000000 		.4byte	.LVL34
+ 3015 030a 0B000000 		.4byte	.LVL36-1
+ 3016 030e 0100     		.2byte	0x1
+ 3017 0310 52       		.byte	0x52
+ 3018 0311 0B000000 		.4byte	.LVL36-1
+ 3019 0315 28000000 		.4byte	.LFE7
+ 3020 0319 0400     		.2byte	0x4
+ 3021 031b F3       		.byte	0xf3
+ 3022 031c 01       		.uleb128 0x1
+ 3023 031d 52       		.byte	0x52
+ 3024 031e 9F       		.byte	0x9f
+ 3025 031f 00000000 		.4byte	0
+ 3026 0323 00000000 		.4byte	0
+ 3027              	.LLST21:
+ 3028 0327 00000000 		.4byte	.LVL34
+ 3029 032b 0B000000 		.4byte	.LVL36-1
+ 3030 032f 0100     		.2byte	0x1
+ 3031 0331 53       		.byte	0x53
+ 3032 0332 0B000000 		.4byte	.LVL36-1
+ 3033 0336 26000000 		.4byte	.LVL43
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 58
+
+
+ 3034 033a 0100     		.2byte	0x1
+ 3035 033c 55       		.byte	0x55
+ 3036 033d 26000000 		.4byte	.LVL43
+ 3037 0341 28000000 		.4byte	.LFE7
+ 3038 0345 0400     		.2byte	0x4
+ 3039 0347 F3       		.byte	0xf3
+ 3040 0348 01       		.uleb128 0x1
+ 3041 0349 53       		.byte	0x53
+ 3042 034a 9F       		.byte	0x9f
+ 3043 034b 00000000 		.4byte	0
+ 3044 034f 00000000 		.4byte	0
+ 3045              	.LLST22:
+ 3046 0353 1E000000 		.4byte	.LVL39
+ 3047 0357 22000000 		.4byte	.LVL40
+ 3048 035b 0100     		.2byte	0x1
+ 3049 035d 50       		.byte	0x50
+ 3050 035e 22000000 		.4byte	.LVL40
+ 3051 0362 25000000 		.4byte	.LVL41-1
+ 3052 0366 0100     		.2byte	0x1
+ 3053 0368 52       		.byte	0x52
+ 3054 0369 00000000 		.4byte	0
+ 3055 036d 00000000 		.4byte	0
+ 3056              	.LLST23:
+ 3057 0371 00000000 		.4byte	.LVL44
+ 3058 0375 04000000 		.4byte	.LVL45
+ 3059 0379 0100     		.2byte	0x1
+ 3060 037b 50       		.byte	0x50
+ 3061 037c 04000000 		.4byte	.LVL45
+ 3062 0380 0B000000 		.4byte	.LVL46-1
+ 3063 0384 0300     		.2byte	0x3
+ 3064 0386 70       		.byte	0x70
+ 3065 0387 7D       		.sleb128 -3
+ 3066 0388 9F       		.byte	0x9f
+ 3067 0389 0B000000 		.4byte	.LVL46-1
+ 3068 038d 0E000000 		.4byte	.LFE8
+ 3069 0391 0400     		.2byte	0x4
+ 3070 0393 F3       		.byte	0xf3
+ 3071 0394 01       		.uleb128 0x1
+ 3072 0395 50       		.byte	0x50
+ 3073 0396 9F       		.byte	0x9f
+ 3074 0397 00000000 		.4byte	0
+ 3075 039b 00000000 		.4byte	0
+ 3076              	.LLST24:
+ 3077 039f 00000000 		.4byte	.LVL47
+ 3078 03a3 08000000 		.4byte	.LVL48
+ 3079 03a7 0100     		.2byte	0x1
+ 3080 03a9 50       		.byte	0x50
+ 3081 03aa 08000000 		.4byte	.LVL48
+ 3082 03ae 14000000 		.4byte	.LVL50
+ 3083 03b2 0100     		.2byte	0x1
+ 3084 03b4 54       		.byte	0x54
+ 3085 03b5 14000000 		.4byte	.LVL50
+ 3086 03b9 26000000 		.4byte	.LVL55
+ 3087 03bd 0300     		.2byte	0x3
+ 3088 03bf 74       		.byte	0x74
+ 3089 03c0 7D       		.sleb128 -3
+ 3090 03c1 9F       		.byte	0x9f
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 59
+
+
+ 3091 03c2 26000000 		.4byte	.LVL55
+ 3092 03c6 28000000 		.4byte	.LFE9
+ 3093 03ca 0400     		.2byte	0x4
+ 3094 03cc F3       		.byte	0xf3
+ 3095 03cd 01       		.uleb128 0x1
+ 3096 03ce 50       		.byte	0x50
+ 3097 03cf 9F       		.byte	0x9f
+ 3098 03d0 00000000 		.4byte	0
+ 3099 03d4 00000000 		.4byte	0
+ 3100              	.LLST25:
+ 3101 03d8 00000000 		.4byte	.LVL47
+ 3102 03dc 0B000000 		.4byte	.LVL49-1
+ 3103 03e0 0100     		.2byte	0x1
+ 3104 03e2 51       		.byte	0x51
+ 3105 03e3 0B000000 		.4byte	.LVL49-1
+ 3106 03e7 28000000 		.4byte	.LFE9
+ 3107 03eb 0400     		.2byte	0x4
+ 3108 03ed F3       		.byte	0xf3
+ 3109 03ee 01       		.uleb128 0x1
+ 3110 03ef 51       		.byte	0x51
+ 3111 03f0 9F       		.byte	0x9f
+ 3112 03f1 00000000 		.4byte	0
+ 3113 03f5 00000000 		.4byte	0
+ 3114              	.LLST26:
+ 3115 03f9 00000000 		.4byte	.LVL47
+ 3116 03fd 0B000000 		.4byte	.LVL49-1
+ 3117 0401 0100     		.2byte	0x1
+ 3118 0403 52       		.byte	0x52
+ 3119 0404 0B000000 		.4byte	.LVL49-1
+ 3120 0408 28000000 		.4byte	.LFE9
+ 3121 040c 0400     		.2byte	0x4
+ 3122 040e F3       		.byte	0xf3
+ 3123 040f 01       		.uleb128 0x1
+ 3124 0410 52       		.byte	0x52
+ 3125 0411 9F       		.byte	0x9f
+ 3126 0412 00000000 		.4byte	0
+ 3127 0416 00000000 		.4byte	0
+ 3128              	.LLST27:
+ 3129 041a 00000000 		.4byte	.LVL47
+ 3130 041e 0B000000 		.4byte	.LVL49-1
+ 3131 0422 0100     		.2byte	0x1
+ 3132 0424 53       		.byte	0x53
+ 3133 0425 0B000000 		.4byte	.LVL49-1
+ 3134 0429 26000000 		.4byte	.LVL56
+ 3135 042d 0100     		.2byte	0x1
+ 3136 042f 55       		.byte	0x55
+ 3137 0430 26000000 		.4byte	.LVL56
+ 3138 0434 28000000 		.4byte	.LFE9
+ 3139 0438 0400     		.2byte	0x4
+ 3140 043a F3       		.byte	0xf3
+ 3141 043b 01       		.uleb128 0x1
+ 3142 043c 53       		.byte	0x53
+ 3143 043d 9F       		.byte	0x9f
+ 3144 043e 00000000 		.4byte	0
+ 3145 0442 00000000 		.4byte	0
+ 3146              	.LLST28:
+ 3147 0446 1E000000 		.4byte	.LVL52
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 60
+
+
+ 3148 044a 22000000 		.4byte	.LVL53
+ 3149 044e 0100     		.2byte	0x1
+ 3150 0450 50       		.byte	0x50
+ 3151 0451 22000000 		.4byte	.LVL53
+ 3152 0455 25000000 		.4byte	.LVL54-1
+ 3153 0459 0100     		.2byte	0x1
+ 3154 045b 52       		.byte	0x52
+ 3155 045c 00000000 		.4byte	0
+ 3156 0460 00000000 		.4byte	0
+ 3157              	.LLST29:
+ 3158 0464 00000000 		.4byte	.LVL57
+ 3159 0468 04000000 		.4byte	.LVL58
+ 3160 046c 0100     		.2byte	0x1
+ 3161 046e 50       		.byte	0x50
+ 3162 046f 04000000 		.4byte	.LVL58
+ 3163 0473 0B000000 		.4byte	.LVL59-1
+ 3164 0477 0300     		.2byte	0x3
+ 3165 0479 70       		.byte	0x70
+ 3166 047a 7D       		.sleb128 -3
+ 3167 047b 9F       		.byte	0x9f
+ 3168 047c 0B000000 		.4byte	.LVL59-1
+ 3169 0480 0E000000 		.4byte	.LFE10
+ 3170 0484 0400     		.2byte	0x4
+ 3171 0486 F3       		.byte	0xf3
+ 3172 0487 01       		.uleb128 0x1
+ 3173 0488 50       		.byte	0x50
+ 3174 0489 9F       		.byte	0x9f
+ 3175 048a 00000000 		.4byte	0
+ 3176 048e 00000000 		.4byte	0
+ 3177              	.LLST30:
+ 3178 0492 00000000 		.4byte	.LVL60
+ 3179 0496 08000000 		.4byte	.LVL61
+ 3180 049a 0100     		.2byte	0x1
+ 3181 049c 50       		.byte	0x50
+ 3182 049d 08000000 		.4byte	.LVL61
+ 3183 04a1 14000000 		.4byte	.LVL63
+ 3184 04a5 0100     		.2byte	0x1
+ 3185 04a7 54       		.byte	0x54
+ 3186 04a8 14000000 		.4byte	.LVL63
+ 3187 04ac 26000000 		.4byte	.LVL68
+ 3188 04b0 0300     		.2byte	0x3
+ 3189 04b2 74       		.byte	0x74
+ 3190 04b3 7D       		.sleb128 -3
+ 3191 04b4 9F       		.byte	0x9f
+ 3192 04b5 26000000 		.4byte	.LVL68
+ 3193 04b9 28000000 		.4byte	.LFE11
+ 3194 04bd 0400     		.2byte	0x4
+ 3195 04bf F3       		.byte	0xf3
+ 3196 04c0 01       		.uleb128 0x1
+ 3197 04c1 50       		.byte	0x50
+ 3198 04c2 9F       		.byte	0x9f
+ 3199 04c3 00000000 		.4byte	0
+ 3200 04c7 00000000 		.4byte	0
+ 3201              	.LLST31:
+ 3202 04cb 00000000 		.4byte	.LVL60
+ 3203 04cf 0B000000 		.4byte	.LVL62-1
+ 3204 04d3 0100     		.2byte	0x1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 61
+
+
+ 3205 04d5 51       		.byte	0x51
+ 3206 04d6 0B000000 		.4byte	.LVL62-1
+ 3207 04da 28000000 		.4byte	.LFE11
+ 3208 04de 0400     		.2byte	0x4
+ 3209 04e0 F3       		.byte	0xf3
+ 3210 04e1 01       		.uleb128 0x1
+ 3211 04e2 51       		.byte	0x51
+ 3212 04e3 9F       		.byte	0x9f
+ 3213 04e4 00000000 		.4byte	0
+ 3214 04e8 00000000 		.4byte	0
+ 3215              	.LLST32:
+ 3216 04ec 00000000 		.4byte	.LVL60
+ 3217 04f0 0B000000 		.4byte	.LVL62-1
+ 3218 04f4 0100     		.2byte	0x1
+ 3219 04f6 52       		.byte	0x52
+ 3220 04f7 0B000000 		.4byte	.LVL62-1
+ 3221 04fb 28000000 		.4byte	.LFE11
+ 3222 04ff 0400     		.2byte	0x4
+ 3223 0501 F3       		.byte	0xf3
+ 3224 0502 01       		.uleb128 0x1
+ 3225 0503 52       		.byte	0x52
+ 3226 0504 9F       		.byte	0x9f
+ 3227 0505 00000000 		.4byte	0
+ 3228 0509 00000000 		.4byte	0
+ 3229              	.LLST33:
+ 3230 050d 00000000 		.4byte	.LVL60
+ 3231 0511 0B000000 		.4byte	.LVL62-1
+ 3232 0515 0100     		.2byte	0x1
+ 3233 0517 53       		.byte	0x53
+ 3234 0518 0B000000 		.4byte	.LVL62-1
+ 3235 051c 26000000 		.4byte	.LVL69
+ 3236 0520 0100     		.2byte	0x1
+ 3237 0522 55       		.byte	0x55
+ 3238 0523 26000000 		.4byte	.LVL69
+ 3239 0527 28000000 		.4byte	.LFE11
+ 3240 052b 0400     		.2byte	0x4
+ 3241 052d F3       		.byte	0xf3
+ 3242 052e 01       		.uleb128 0x1
+ 3243 052f 53       		.byte	0x53
+ 3244 0530 9F       		.byte	0x9f
+ 3245 0531 00000000 		.4byte	0
+ 3246 0535 00000000 		.4byte	0
+ 3247              	.LLST34:
+ 3248 0539 1E000000 		.4byte	.LVL65
+ 3249 053d 22000000 		.4byte	.LVL66
+ 3250 0541 0100     		.2byte	0x1
+ 3251 0543 50       		.byte	0x50
+ 3252 0544 22000000 		.4byte	.LVL66
+ 3253 0548 25000000 		.4byte	.LVL67-1
+ 3254 054c 0100     		.2byte	0x1
+ 3255 054e 52       		.byte	0x52
+ 3256 054f 00000000 		.4byte	0
+ 3257 0553 00000000 		.4byte	0
+ 3258              	.LLST35:
+ 3259 0557 00000000 		.4byte	.LVL70
+ 3260 055b 04000000 		.4byte	.LVL71
+ 3261 055f 0100     		.2byte	0x1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 62
+
+
+ 3262 0561 50       		.byte	0x50
+ 3263 0562 04000000 		.4byte	.LVL71
+ 3264 0566 0B000000 		.4byte	.LVL72-1
+ 3265 056a 0300     		.2byte	0x3
+ 3266 056c 70       		.byte	0x70
+ 3267 056d 7D       		.sleb128 -3
+ 3268 056e 9F       		.byte	0x9f
+ 3269 056f 0B000000 		.4byte	.LVL72-1
+ 3270 0573 0E000000 		.4byte	.LFE12
+ 3271 0577 0400     		.2byte	0x4
+ 3272 0579 F3       		.byte	0xf3
+ 3273 057a 01       		.uleb128 0x1
+ 3274 057b 50       		.byte	0x50
+ 3275 057c 9F       		.byte	0x9f
+ 3276 057d 00000000 		.4byte	0
+ 3277 0581 00000000 		.4byte	0
+ 3278              	.LLST36:
+ 3279 0585 00000000 		.4byte	.LVL73
+ 3280 0589 08000000 		.4byte	.LVL74
+ 3281 058d 0100     		.2byte	0x1
+ 3282 058f 50       		.byte	0x50
+ 3283 0590 08000000 		.4byte	.LVL74
+ 3284 0594 1C000000 		.4byte	.LVL77
+ 3285 0598 0100     		.2byte	0x1
+ 3286 059a 54       		.byte	0x54
+ 3287 059b 1C000000 		.4byte	.LVL77
+ 3288 059f 20000000 		.4byte	.LFE13
+ 3289 05a3 0400     		.2byte	0x4
+ 3290 05a5 F3       		.byte	0xf3
+ 3291 05a6 01       		.uleb128 0x1
+ 3292 05a7 50       		.byte	0x50
+ 3293 05a8 9F       		.byte	0x9f
+ 3294 05a9 00000000 		.4byte	0
+ 3295 05ad 00000000 		.4byte	0
+ 3296              	.LLST37:
+ 3297 05b1 00000000 		.4byte	.LVL73
+ 3298 05b5 0B000000 		.4byte	.LVL75-1
+ 3299 05b9 0100     		.2byte	0x1
+ 3300 05bb 51       		.byte	0x51
+ 3301 05bc 0B000000 		.4byte	.LVL75-1
+ 3302 05c0 20000000 		.4byte	.LFE13
+ 3303 05c4 0400     		.2byte	0x4
+ 3304 05c6 F3       		.byte	0xf3
+ 3305 05c7 01       		.uleb128 0x1
+ 3306 05c8 51       		.byte	0x51
+ 3307 05c9 9F       		.byte	0x9f
+ 3308 05ca 00000000 		.4byte	0
+ 3309 05ce 00000000 		.4byte	0
+ 3310              	.LLST38:
+ 3311 05d2 00000000 		.4byte	.LVL73
+ 3312 05d6 0B000000 		.4byte	.LVL75-1
+ 3313 05da 0100     		.2byte	0x1
+ 3314 05dc 52       		.byte	0x52
+ 3315 05dd 0B000000 		.4byte	.LVL75-1
+ 3316 05e1 20000000 		.4byte	.LFE13
+ 3317 05e5 0400     		.2byte	0x4
+ 3318 05e7 F3       		.byte	0xf3
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 63
+
+
+ 3319 05e8 01       		.uleb128 0x1
+ 3320 05e9 52       		.byte	0x52
+ 3321 05ea 9F       		.byte	0x9f
+ 3322 05eb 00000000 		.4byte	0
+ 3323 05ef 00000000 		.4byte	0
+ 3324              	.LLST39:
+ 3325 05f3 00000000 		.4byte	.LVL73
+ 3326 05f7 0B000000 		.4byte	.LVL75-1
+ 3327 05fb 0100     		.2byte	0x1
+ 3328 05fd 53       		.byte	0x53
+ 3329 05fe 0B000000 		.4byte	.LVL75-1
+ 3330 0602 20000000 		.4byte	.LFE13
+ 3331 0606 0400     		.2byte	0x4
+ 3332 0608 F3       		.byte	0xf3
+ 3333 0609 01       		.uleb128 0x1
+ 3334 060a 53       		.byte	0x53
+ 3335 060b 9F       		.byte	0x9f
+ 3336 060c 00000000 		.4byte	0
+ 3337 0610 00000000 		.4byte	0
+ 3338              	.LLST40:
+ 3339 0614 00000000 		.4byte	.LVL78
+ 3340 0618 02000000 		.4byte	.LVL79
+ 3341 061c 0100     		.2byte	0x1
+ 3342 061e 50       		.byte	0x50
+ 3343 061f 02000000 		.4byte	.LVL79
+ 3344 0623 04000000 		.4byte	.LFE14
+ 3345 0627 0400     		.2byte	0x4
+ 3346 0629 F3       		.byte	0xf3
+ 3347 062a 01       		.uleb128 0x1
+ 3348 062b 50       		.byte	0x50
+ 3349 062c 9F       		.byte	0x9f
+ 3350 062d 00000000 		.4byte	0
+ 3351 0631 00000000 		.4byte	0
+ 3352              	.LLST41:
+ 3353 0635 00000000 		.4byte	.LVL80
+ 3354 0639 08000000 		.4byte	.LVL81
+ 3355 063d 0100     		.2byte	0x1
+ 3356 063f 50       		.byte	0x50
+ 3357 0640 08000000 		.4byte	.LVL81
+ 3358 0644 1C000000 		.4byte	.LVL84
+ 3359 0648 0100     		.2byte	0x1
+ 3360 064a 54       		.byte	0x54
+ 3361 064b 1C000000 		.4byte	.LVL84
+ 3362 064f 20000000 		.4byte	.LFE15
+ 3363 0653 0400     		.2byte	0x4
+ 3364 0655 F3       		.byte	0xf3
+ 3365 0656 01       		.uleb128 0x1
+ 3366 0657 50       		.byte	0x50
+ 3367 0658 9F       		.byte	0x9f
+ 3368 0659 00000000 		.4byte	0
+ 3369 065d 00000000 		.4byte	0
+ 3370              	.LLST42:
+ 3371 0661 00000000 		.4byte	.LVL80
+ 3372 0665 0B000000 		.4byte	.LVL82-1
+ 3373 0669 0100     		.2byte	0x1
+ 3374 066b 51       		.byte	0x51
+ 3375 066c 0B000000 		.4byte	.LVL82-1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 64
+
+
+ 3376 0670 20000000 		.4byte	.LFE15
+ 3377 0674 0400     		.2byte	0x4
+ 3378 0676 F3       		.byte	0xf3
+ 3379 0677 01       		.uleb128 0x1
+ 3380 0678 51       		.byte	0x51
+ 3381 0679 9F       		.byte	0x9f
+ 3382 067a 00000000 		.4byte	0
+ 3383 067e 00000000 		.4byte	0
+ 3384              	.LLST43:
+ 3385 0682 00000000 		.4byte	.LVL80
+ 3386 0686 0B000000 		.4byte	.LVL82-1
+ 3387 068a 0100     		.2byte	0x1
+ 3388 068c 52       		.byte	0x52
+ 3389 068d 0B000000 		.4byte	.LVL82-1
+ 3390 0691 20000000 		.4byte	.LFE15
+ 3391 0695 0400     		.2byte	0x4
+ 3392 0697 F3       		.byte	0xf3
+ 3393 0698 01       		.uleb128 0x1
+ 3394 0699 52       		.byte	0x52
+ 3395 069a 9F       		.byte	0x9f
+ 3396 069b 00000000 		.4byte	0
+ 3397 069f 00000000 		.4byte	0
+ 3398              	.LLST44:
+ 3399 06a3 00000000 		.4byte	.LVL80
+ 3400 06a7 0B000000 		.4byte	.LVL82-1
+ 3401 06ab 0100     		.2byte	0x1
+ 3402 06ad 53       		.byte	0x53
+ 3403 06ae 0B000000 		.4byte	.LVL82-1
+ 3404 06b2 20000000 		.4byte	.LFE15
+ 3405 06b6 0400     		.2byte	0x4
+ 3406 06b8 F3       		.byte	0xf3
+ 3407 06b9 01       		.uleb128 0x1
+ 3408 06ba 53       		.byte	0x53
+ 3409 06bb 9F       		.byte	0x9f
+ 3410 06bc 00000000 		.4byte	0
+ 3411 06c0 00000000 		.4byte	0
+ 3412              	.LLST45:
+ 3413 06c4 00000000 		.4byte	.LVL85
+ 3414 06c8 02000000 		.4byte	.LVL86
+ 3415 06cc 0100     		.2byte	0x1
+ 3416 06ce 50       		.byte	0x50
+ 3417 06cf 02000000 		.4byte	.LVL86
+ 3418 06d3 04000000 		.4byte	.LFE16
+ 3419 06d7 0400     		.2byte	0x4
+ 3420 06d9 F3       		.byte	0xf3
+ 3421 06da 01       		.uleb128 0x1
+ 3422 06db 50       		.byte	0x50
+ 3423 06dc 9F       		.byte	0x9f
+ 3424 06dd 00000000 		.4byte	0
+ 3425 06e1 00000000 		.4byte	0
+ 3426              	.LLST46:
+ 3427 06e5 00000000 		.4byte	.LVL87
+ 3428 06e9 08000000 		.4byte	.LVL88
+ 3429 06ed 0100     		.2byte	0x1
+ 3430 06ef 50       		.byte	0x50
+ 3431 06f0 08000000 		.4byte	.LVL88
+ 3432 06f4 14000000 		.4byte	.LVL90
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 65
+
+
+ 3433 06f8 0100     		.2byte	0x1
+ 3434 06fa 54       		.byte	0x54
+ 3435 06fb 14000000 		.4byte	.LVL90
+ 3436 06ff 26000000 		.4byte	.LVL95
+ 3437 0703 0300     		.2byte	0x3
+ 3438 0705 74       		.byte	0x74
+ 3439 0706 7D       		.sleb128 -3
+ 3440 0707 9F       		.byte	0x9f
+ 3441 0708 26000000 		.4byte	.LVL95
+ 3442 070c 28000000 		.4byte	.LFE17
+ 3443 0710 0400     		.2byte	0x4
+ 3444 0712 F3       		.byte	0xf3
+ 3445 0713 01       		.uleb128 0x1
+ 3446 0714 50       		.byte	0x50
+ 3447 0715 9F       		.byte	0x9f
+ 3448 0716 00000000 		.4byte	0
+ 3449 071a 00000000 		.4byte	0
+ 3450              	.LLST47:
+ 3451 071e 00000000 		.4byte	.LVL87
+ 3452 0722 0B000000 		.4byte	.LVL89-1
+ 3453 0726 0100     		.2byte	0x1
+ 3454 0728 51       		.byte	0x51
+ 3455 0729 0B000000 		.4byte	.LVL89-1
+ 3456 072d 28000000 		.4byte	.LFE17
+ 3457 0731 0400     		.2byte	0x4
+ 3458 0733 F3       		.byte	0xf3
+ 3459 0734 01       		.uleb128 0x1
+ 3460 0735 51       		.byte	0x51
+ 3461 0736 9F       		.byte	0x9f
+ 3462 0737 00000000 		.4byte	0
+ 3463 073b 00000000 		.4byte	0
+ 3464              	.LLST48:
+ 3465 073f 00000000 		.4byte	.LVL87
+ 3466 0743 0B000000 		.4byte	.LVL89-1
+ 3467 0747 0100     		.2byte	0x1
+ 3468 0749 52       		.byte	0x52
+ 3469 074a 0B000000 		.4byte	.LVL89-1
+ 3470 074e 28000000 		.4byte	.LFE17
+ 3471 0752 0400     		.2byte	0x4
+ 3472 0754 F3       		.byte	0xf3
+ 3473 0755 01       		.uleb128 0x1
+ 3474 0756 52       		.byte	0x52
+ 3475 0757 9F       		.byte	0x9f
+ 3476 0758 00000000 		.4byte	0
+ 3477 075c 00000000 		.4byte	0
+ 3478              	.LLST49:
+ 3479 0760 00000000 		.4byte	.LVL87
+ 3480 0764 0B000000 		.4byte	.LVL89-1
+ 3481 0768 0100     		.2byte	0x1
+ 3482 076a 53       		.byte	0x53
+ 3483 076b 0B000000 		.4byte	.LVL89-1
+ 3484 076f 26000000 		.4byte	.LVL96
+ 3485 0773 0100     		.2byte	0x1
+ 3486 0775 55       		.byte	0x55
+ 3487 0776 26000000 		.4byte	.LVL96
+ 3488 077a 28000000 		.4byte	.LFE17
+ 3489 077e 0400     		.2byte	0x4
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 66
+
+
+ 3490 0780 F3       		.byte	0xf3
+ 3491 0781 01       		.uleb128 0x1
+ 3492 0782 53       		.byte	0x53
+ 3493 0783 9F       		.byte	0x9f
+ 3494 0784 00000000 		.4byte	0
+ 3495 0788 00000000 		.4byte	0
+ 3496              	.LLST50:
+ 3497 078c 1E000000 		.4byte	.LVL92
+ 3498 0790 22000000 		.4byte	.LVL93
+ 3499 0794 0100     		.2byte	0x1
+ 3500 0796 50       		.byte	0x50
+ 3501 0797 22000000 		.4byte	.LVL93
+ 3502 079b 25000000 		.4byte	.LVL94-1
+ 3503 079f 0100     		.2byte	0x1
+ 3504 07a1 52       		.byte	0x52
+ 3505 07a2 00000000 		.4byte	0
+ 3506 07a6 00000000 		.4byte	0
+ 3507              	.LLST51:
+ 3508 07aa 00000000 		.4byte	.LVL97
+ 3509 07ae 04000000 		.4byte	.LVL98
+ 3510 07b2 0100     		.2byte	0x1
+ 3511 07b4 50       		.byte	0x50
+ 3512 07b5 04000000 		.4byte	.LVL98
+ 3513 07b9 0B000000 		.4byte	.LVL99-1
+ 3514 07bd 0300     		.2byte	0x3
+ 3515 07bf 70       		.byte	0x70
+ 3516 07c0 7D       		.sleb128 -3
+ 3517 07c1 9F       		.byte	0x9f
+ 3518 07c2 0B000000 		.4byte	.LVL99-1
+ 3519 07c6 0E000000 		.4byte	.LFE18
+ 3520 07ca 0400     		.2byte	0x4
+ 3521 07cc F3       		.byte	0xf3
+ 3522 07cd 01       		.uleb128 0x1
+ 3523 07ce 50       		.byte	0x50
+ 3524 07cf 9F       		.byte	0x9f
+ 3525 07d0 00000000 		.4byte	0
+ 3526 07d4 00000000 		.4byte	0
+ 3527              	.LLST52:
+ 3528 07d8 00000000 		.4byte	.LVL100
+ 3529 07dc 08000000 		.4byte	.LVL101
+ 3530 07e0 0100     		.2byte	0x1
+ 3531 07e2 50       		.byte	0x50
+ 3532 07e3 08000000 		.4byte	.LVL101
+ 3533 07e7 14000000 		.4byte	.LVL103
+ 3534 07eb 0100     		.2byte	0x1
+ 3535 07ed 54       		.byte	0x54
+ 3536 07ee 14000000 		.4byte	.LVL103
+ 3537 07f2 26000000 		.4byte	.LVL108
+ 3538 07f6 0300     		.2byte	0x3
+ 3539 07f8 74       		.byte	0x74
+ 3540 07f9 7D       		.sleb128 -3
+ 3541 07fa 9F       		.byte	0x9f
+ 3542 07fb 26000000 		.4byte	.LVL108
+ 3543 07ff 28000000 		.4byte	.LFE19
+ 3544 0803 0400     		.2byte	0x4
+ 3545 0805 F3       		.byte	0xf3
+ 3546 0806 01       		.uleb128 0x1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 67
+
+
+ 3547 0807 50       		.byte	0x50
+ 3548 0808 9F       		.byte	0x9f
+ 3549 0809 00000000 		.4byte	0
+ 3550 080d 00000000 		.4byte	0
+ 3551              	.LLST53:
+ 3552 0811 00000000 		.4byte	.LVL100
+ 3553 0815 0B000000 		.4byte	.LVL102-1
+ 3554 0819 0100     		.2byte	0x1
+ 3555 081b 51       		.byte	0x51
+ 3556 081c 0B000000 		.4byte	.LVL102-1
+ 3557 0820 28000000 		.4byte	.LFE19
+ 3558 0824 0400     		.2byte	0x4
+ 3559 0826 F3       		.byte	0xf3
+ 3560 0827 01       		.uleb128 0x1
+ 3561 0828 51       		.byte	0x51
+ 3562 0829 9F       		.byte	0x9f
+ 3563 082a 00000000 		.4byte	0
+ 3564 082e 00000000 		.4byte	0
+ 3565              	.LLST54:
+ 3566 0832 00000000 		.4byte	.LVL100
+ 3567 0836 0B000000 		.4byte	.LVL102-1
+ 3568 083a 0100     		.2byte	0x1
+ 3569 083c 52       		.byte	0x52
+ 3570 083d 0B000000 		.4byte	.LVL102-1
+ 3571 0841 28000000 		.4byte	.LFE19
+ 3572 0845 0400     		.2byte	0x4
+ 3573 0847 F3       		.byte	0xf3
+ 3574 0848 01       		.uleb128 0x1
+ 3575 0849 52       		.byte	0x52
+ 3576 084a 9F       		.byte	0x9f
+ 3577 084b 00000000 		.4byte	0
+ 3578 084f 00000000 		.4byte	0
+ 3579              	.LLST55:
+ 3580 0853 00000000 		.4byte	.LVL100
+ 3581 0857 0B000000 		.4byte	.LVL102-1
+ 3582 085b 0100     		.2byte	0x1
+ 3583 085d 53       		.byte	0x53
+ 3584 085e 0B000000 		.4byte	.LVL102-1
+ 3585 0862 26000000 		.4byte	.LVL109
+ 3586 0866 0100     		.2byte	0x1
+ 3587 0868 55       		.byte	0x55
+ 3588 0869 26000000 		.4byte	.LVL109
+ 3589 086d 28000000 		.4byte	.LFE19
+ 3590 0871 0400     		.2byte	0x4
+ 3591 0873 F3       		.byte	0xf3
+ 3592 0874 01       		.uleb128 0x1
+ 3593 0875 53       		.byte	0x53
+ 3594 0876 9F       		.byte	0x9f
+ 3595 0877 00000000 		.4byte	0
+ 3596 087b 00000000 		.4byte	0
+ 3597              	.LLST56:
+ 3598 087f 1E000000 		.4byte	.LVL105
+ 3599 0883 22000000 		.4byte	.LVL106
+ 3600 0887 0100     		.2byte	0x1
+ 3601 0889 50       		.byte	0x50
+ 3602 088a 22000000 		.4byte	.LVL106
+ 3603 088e 25000000 		.4byte	.LVL107-1
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 68
+
+
+ 3604 0892 0100     		.2byte	0x1
+ 3605 0894 52       		.byte	0x52
+ 3606 0895 00000000 		.4byte	0
+ 3607 0899 00000000 		.4byte	0
+ 3608              	.LLST57:
+ 3609 089d 00000000 		.4byte	.LVL110
+ 3610 08a1 04000000 		.4byte	.LVL111
+ 3611 08a5 0100     		.2byte	0x1
+ 3612 08a7 50       		.byte	0x50
+ 3613 08a8 04000000 		.4byte	.LVL111
+ 3614 08ac 0B000000 		.4byte	.LVL112-1
+ 3615 08b0 0300     		.2byte	0x3
+ 3616 08b2 70       		.byte	0x70
+ 3617 08b3 7D       		.sleb128 -3
+ 3618 08b4 9F       		.byte	0x9f
+ 3619 08b5 0B000000 		.4byte	.LVL112-1
+ 3620 08b9 0E000000 		.4byte	.LFE20
+ 3621 08bd 0400     		.2byte	0x4
+ 3622 08bf F3       		.byte	0xf3
+ 3623 08c0 01       		.uleb128 0x1
+ 3624 08c1 50       		.byte	0x50
+ 3625 08c2 9F       		.byte	0x9f
+ 3626 08c3 00000000 		.4byte	0
+ 3627 08c7 00000000 		.4byte	0
+ 3628              	.LLST58:
+ 3629 08cb 00000000 		.4byte	.LVL113
+ 3630 08cf 10000000 		.4byte	.LVL116
+ 3631 08d3 0100     		.2byte	0x1
+ 3632 08d5 50       		.byte	0x50
+ 3633 08d6 10000000 		.4byte	.LVL116
+ 3634 08da 4C000000 		.4byte	.LVL120
+ 3635 08de 0100     		.2byte	0x1
+ 3636 08e0 54       		.byte	0x54
+ 3637 08e1 4C000000 		.4byte	.LVL120
+ 3638 08e5 4E000000 		.4byte	.LFE21
+ 3639 08e9 0400     		.2byte	0x4
+ 3640 08eb F3       		.byte	0xf3
+ 3641 08ec 01       		.uleb128 0x1
+ 3642 08ed 50       		.byte	0x50
+ 3643 08ee 9F       		.byte	0x9f
+ 3644 08ef 00000000 		.4byte	0
+ 3645 08f3 00000000 		.4byte	0
+ 3646              	.LLST59:
+ 3647 08f7 00000000 		.4byte	.LVL113
+ 3648 08fb 13000000 		.4byte	.LVL117-1
+ 3649 08ff 0100     		.2byte	0x1
+ 3650 0901 51       		.byte	0x51
+ 3651 0902 13000000 		.4byte	.LVL117-1
+ 3652 0906 4E000000 		.4byte	.LFE21
+ 3653 090a 0400     		.2byte	0x4
+ 3654 090c F3       		.byte	0xf3
+ 3655 090d 01       		.uleb128 0x1
+ 3656 090e 51       		.byte	0x51
+ 3657 090f 9F       		.byte	0x9f
+ 3658 0910 00000000 		.4byte	0
+ 3659 0914 00000000 		.4byte	0
+ 3660              	.LLST60:
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 69
+
+
+ 3661 0918 00000000 		.4byte	.LVL113
+ 3662 091c 13000000 		.4byte	.LVL117-1
+ 3663 0920 0100     		.2byte	0x1
+ 3664 0922 52       		.byte	0x52
+ 3665 0923 13000000 		.4byte	.LVL117-1
+ 3666 0927 4E000000 		.4byte	.LFE21
+ 3667 092b 0400     		.2byte	0x4
+ 3668 092d F3       		.byte	0xf3
+ 3669 092e 01       		.uleb128 0x1
+ 3670 092f 52       		.byte	0x52
+ 3671 0930 9F       		.byte	0x9f
+ 3672 0931 00000000 		.4byte	0
+ 3673 0935 00000000 		.4byte	0
+ 3674              	.LLST61:
+ 3675 0939 00000000 		.4byte	.LVL113
+ 3676 093d 08000000 		.4byte	.LVL114
+ 3677 0941 0100     		.2byte	0x1
+ 3678 0943 53       		.byte	0x53
+ 3679 0944 08000000 		.4byte	.LVL114
+ 3680 0948 4E000000 		.4byte	.LFE21
+ 3681 094c 0400     		.2byte	0x4
+ 3682 094e F3       		.byte	0xf3
+ 3683 094f 01       		.uleb128 0x1
+ 3684 0950 53       		.byte	0x53
+ 3685 0951 9F       		.byte	0x9f
+ 3686 0952 00000000 		.4byte	0
+ 3687 0956 00000000 		.4byte	0
+ 3688              	.LLST62:
+ 3689 095a 00000000 		.4byte	.LVL113
+ 3690 095e 08000000 		.4byte	.LVL114
+ 3691 0962 0200     		.2byte	0x2
+ 3692 0964 91       		.byte	0x91
+ 3693 0965 00       		.sleb128 0
+ 3694 0966 08000000 		.4byte	.LVL114
+ 3695 096a 0C000000 		.4byte	.LVL115
+ 3696 096e 0200     		.2byte	0x2
+ 3697 0970 73       		.byte	0x73
+ 3698 0971 00       		.sleb128 0
+ 3699 0972 0C000000 		.4byte	.LVL115
+ 3700 0976 4E000000 		.4byte	.LFE21
+ 3701 097a 0200     		.2byte	0x2
+ 3702 097c 91       		.byte	0x91
+ 3703 097d 00       		.sleb128 0
+ 3704 097e 00000000 		.4byte	0
+ 3705 0982 00000000 		.4byte	0
+ 3706              	.LLST63:
+ 3707 0986 00000000 		.4byte	.LVL113
+ 3708 098a 08000000 		.4byte	.LVL114
+ 3709 098e 0200     		.2byte	0x2
+ 3710 0990 91       		.byte	0x91
+ 3711 0991 04       		.sleb128 4
+ 3712 0992 08000000 		.4byte	.LVL114
+ 3713 0996 0C000000 		.4byte	.LVL115
+ 3714 099a 0200     		.2byte	0x2
+ 3715 099c 73       		.byte	0x73
+ 3716 099d 04       		.sleb128 4
+ 3717 099e 0C000000 		.4byte	.LVL115
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 70
+
+
+ 3718 09a2 13000000 		.4byte	.LVL117-1
+ 3719 09a6 0200     		.2byte	0x2
+ 3720 09a8 73       		.byte	0x73
+ 3721 09a9 00       		.sleb128 0
+ 3722 09aa 13000000 		.4byte	.LVL117-1
+ 3723 09ae 4E000000 		.4byte	.LFE21
+ 3724 09b2 0200     		.2byte	0x2
+ 3725 09b4 91       		.byte	0x91
+ 3726 09b5 04       		.sleb128 4
+ 3727 09b6 00000000 		.4byte	0
+ 3728 09ba 00000000 		.4byte	0
+ 3729              	.LLST64:
+ 3730 09be 22000000 		.4byte	.LVL118
+ 3731 09c2 44000000 		.4byte	.LVL119
+ 3732 09c6 0100     		.2byte	0x1
+ 3733 09c8 50       		.byte	0x50
+ 3734 09c9 00000000 		.4byte	0
+ 3735 09cd 00000000 		.4byte	0
+ 3736              	.LLST65:
+ 3737 09d1 00000000 		.4byte	.LVL121
+ 3738 09d5 04000000 		.4byte	.LVL122
+ 3739 09d9 0100     		.2byte	0x1
+ 3740 09db 50       		.byte	0x50
+ 3741 09dc 04000000 		.4byte	.LVL122
+ 3742 09e0 08000000 		.4byte	.LFE22
+ 3743 09e4 0400     		.2byte	0x4
+ 3744 09e6 F3       		.byte	0xf3
+ 3745 09e7 01       		.uleb128 0x1
+ 3746 09e8 50       		.byte	0x50
+ 3747 09e9 9F       		.byte	0x9f
+ 3748 09ea 00000000 		.4byte	0
+ 3749 09ee 00000000 		.4byte	0
+ 3750              	.LLST66:
+ 3751 09f2 00000000 		.4byte	.LVL123
+ 3752 09f6 04000000 		.4byte	.LVL124
+ 3753 09fa 0100     		.2byte	0x1
+ 3754 09fc 50       		.byte	0x50
+ 3755 09fd 04000000 		.4byte	.LVL124
+ 3756 0a01 08000000 		.4byte	.LFE23
+ 3757 0a05 0400     		.2byte	0x4
+ 3758 0a07 F3       		.byte	0xf3
+ 3759 0a08 01       		.uleb128 0x1
+ 3760 0a09 50       		.byte	0x50
+ 3761 0a0a 9F       		.byte	0x9f
+ 3762 0a0b 00000000 		.4byte	0
+ 3763 0a0f 00000000 		.4byte	0
+ 3764              	.LLST67:
+ 3765 0a13 00000000 		.4byte	.LVL125
+ 3766 0a17 04000000 		.4byte	.LVL126
+ 3767 0a1b 0100     		.2byte	0x1
+ 3768 0a1d 50       		.byte	0x50
+ 3769 0a1e 04000000 		.4byte	.LVL126
+ 3770 0a22 08000000 		.4byte	.LFE24
+ 3771 0a26 0400     		.2byte	0x4
+ 3772 0a28 F3       		.byte	0xf3
+ 3773 0a29 01       		.uleb128 0x1
+ 3774 0a2a 50       		.byte	0x50
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 71
+
+
+ 3775 0a2b 9F       		.byte	0x9f
+ 3776 0a2c 00000000 		.4byte	0
+ 3777 0a30 00000000 		.4byte	0
+ 3778              		.section	.debug_aranges,"",%progbits
+ 3779 0000 DC000000 		.4byte	0xdc
+ 3780 0004 0200     		.2byte	0x2
+ 3781 0006 00000000 		.4byte	.Ldebug_info0
+ 3782 000a 04       		.byte	0x4
+ 3783 000b 00       		.byte	0
+ 3784 000c 0000     		.2byte	0
+ 3785 000e 0000     		.2byte	0
+ 3786 0010 00000000 		.4byte	.LFB0
+ 3787 0014 20000000 		.4byte	.LFE0-.LFB0
+ 3788 0018 00000000 		.4byte	.LFB1
+ 3789 001c 04000000 		.4byte	.LFE1-.LFB1
+ 3790 0020 00000000 		.4byte	.LFB2
+ 3791 0024 28000000 		.4byte	.LFE2-.LFB2
+ 3792 0028 00000000 		.4byte	.LFB3
+ 3793 002c 0E000000 		.4byte	.LFE3-.LFB3
+ 3794 0030 00000000 		.4byte	.LFB4
+ 3795 0034 06000000 		.4byte	.LFE4-.LFB4
+ 3796 0038 00000000 		.4byte	.LFB5
+ 3797 003c 28000000 		.4byte	.LFE5-.LFB5
+ 3798 0040 00000000 		.4byte	.LFB6
+ 3799 0044 10000000 		.4byte	.LFE6-.LFB6
+ 3800 0048 00000000 		.4byte	.LFB7
+ 3801 004c 28000000 		.4byte	.LFE7-.LFB7
+ 3802 0050 00000000 		.4byte	.LFB8
+ 3803 0054 0E000000 		.4byte	.LFE8-.LFB8
+ 3804 0058 00000000 		.4byte	.LFB9
+ 3805 005c 28000000 		.4byte	.LFE9-.LFB9
+ 3806 0060 00000000 		.4byte	.LFB10
+ 3807 0064 0E000000 		.4byte	.LFE10-.LFB10
+ 3808 0068 00000000 		.4byte	.LFB11
+ 3809 006c 28000000 		.4byte	.LFE11-.LFB11
+ 3810 0070 00000000 		.4byte	.LFB12
+ 3811 0074 0E000000 		.4byte	.LFE12-.LFB12
+ 3812 0078 00000000 		.4byte	.LFB13
+ 3813 007c 20000000 		.4byte	.LFE13-.LFB13
+ 3814 0080 00000000 		.4byte	.LFB14
+ 3815 0084 04000000 		.4byte	.LFE14-.LFB14
+ 3816 0088 00000000 		.4byte	.LFB15
+ 3817 008c 20000000 		.4byte	.LFE15-.LFB15
+ 3818 0090 00000000 		.4byte	.LFB16
+ 3819 0094 04000000 		.4byte	.LFE16-.LFB16
+ 3820 0098 00000000 		.4byte	.LFB17
+ 3821 009c 28000000 		.4byte	.LFE17-.LFB17
+ 3822 00a0 00000000 		.4byte	.LFB18
+ 3823 00a4 0E000000 		.4byte	.LFE18-.LFB18
+ 3824 00a8 00000000 		.4byte	.LFB19
+ 3825 00ac 28000000 		.4byte	.LFE19-.LFB19
+ 3826 00b0 00000000 		.4byte	.LFB20
+ 3827 00b4 0E000000 		.4byte	.LFE20-.LFB20
+ 3828 00b8 00000000 		.4byte	.LFB21
+ 3829 00bc 4E000000 		.4byte	.LFE21-.LFB21
+ 3830 00c0 00000000 		.4byte	.LFB22
+ 3831 00c4 08000000 		.4byte	.LFE22-.LFB22
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 72
+
+
+ 3832 00c8 00000000 		.4byte	.LFB23
+ 3833 00cc 08000000 		.4byte	.LFE23-.LFB23
+ 3834 00d0 00000000 		.4byte	.LFB24
+ 3835 00d4 08000000 		.4byte	.LFE24-.LFB24
+ 3836 00d8 00000000 		.4byte	0
+ 3837 00dc 00000000 		.4byte	0
+ 3838              		.section	.debug_ranges,"",%progbits
+ 3839              	.Ldebug_ranges0:
+ 3840 0000 00000000 		.4byte	.LFB0
+ 3841 0004 20000000 		.4byte	.LFE0
+ 3842 0008 00000000 		.4byte	.LFB1
+ 3843 000c 04000000 		.4byte	.LFE1
+ 3844 0010 00000000 		.4byte	.LFB2
+ 3845 0014 28000000 		.4byte	.LFE2
+ 3846 0018 00000000 		.4byte	.LFB3
+ 3847 001c 0E000000 		.4byte	.LFE3
+ 3848 0020 00000000 		.4byte	.LFB4
+ 3849 0024 06000000 		.4byte	.LFE4
+ 3850 0028 00000000 		.4byte	.LFB5
+ 3851 002c 28000000 		.4byte	.LFE5
+ 3852 0030 00000000 		.4byte	.LFB6
+ 3853 0034 10000000 		.4byte	.LFE6
+ 3854 0038 00000000 		.4byte	.LFB7
+ 3855 003c 28000000 		.4byte	.LFE7
+ 3856 0040 00000000 		.4byte	.LFB8
+ 3857 0044 0E000000 		.4byte	.LFE8
+ 3858 0048 00000000 		.4byte	.LFB9
+ 3859 004c 28000000 		.4byte	.LFE9
+ 3860 0050 00000000 		.4byte	.LFB10
+ 3861 0054 0E000000 		.4byte	.LFE10
+ 3862 0058 00000000 		.4byte	.LFB11
+ 3863 005c 28000000 		.4byte	.LFE11
+ 3864 0060 00000000 		.4byte	.LFB12
+ 3865 0064 0E000000 		.4byte	.LFE12
+ 3866 0068 00000000 		.4byte	.LFB13
+ 3867 006c 20000000 		.4byte	.LFE13
+ 3868 0070 00000000 		.4byte	.LFB14
+ 3869 0074 04000000 		.4byte	.LFE14
+ 3870 0078 00000000 		.4byte	.LFB15
+ 3871 007c 20000000 		.4byte	.LFE15
+ 3872 0080 00000000 		.4byte	.LFB16
+ 3873 0084 04000000 		.4byte	.LFE16
+ 3874 0088 00000000 		.4byte	.LFB17
+ 3875 008c 28000000 		.4byte	.LFE17
+ 3876 0090 00000000 		.4byte	.LFB18
+ 3877 0094 0E000000 		.4byte	.LFE18
+ 3878 0098 00000000 		.4byte	.LFB19
+ 3879 009c 28000000 		.4byte	.LFE19
+ 3880 00a0 00000000 		.4byte	.LFB20
+ 3881 00a4 0E000000 		.4byte	.LFE20
+ 3882 00a8 00000000 		.4byte	.LFB21
+ 3883 00ac 4E000000 		.4byte	.LFE21
+ 3884 00b0 00000000 		.4byte	.LFB22
+ 3885 00b4 08000000 		.4byte	.LFE22
+ 3886 00b8 00000000 		.4byte	.LFB23
+ 3887 00bc 08000000 		.4byte	.LFE23
+ 3888 00c0 00000000 		.4byte	.LFB24
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 73
+
+
+ 3889 00c4 08000000 		.4byte	.LFE24
+ 3890 00c8 00000000 		.4byte	0
+ 3891 00cc 00000000 		.4byte	0
+ 3892              		.section	.debug_line,"",%progbits
+ 3893              	.Ldebug_line0:
+ 3894 0000 11030000 		.section	.debug_str,"MS",%progbits,1
+ 3894      02002801 
+ 3894      00000201 
+ 3894      FB0E0D00 
+ 3894      01010101 
+ 3895              	.LASF44:
+ 3896 0000 64436F65 		.ascii	"dCoef\000"
+ 3896      6600
+ 3897              	.LASF22:
+ 3898 0006 7061636B 		.ascii	"packetToAssemble\000"
+ 3898      6574546F 
+ 3898      41737365 
+ 3898      6D626C65 
+ 3898      00
+ 3899              	.LASF72:
+ 3900 0017 48696E64 		.ascii	"HindsightCAN\\CANMotorUnit.c\000"
+ 3900      73696768 
+ 3900      7443414E 
+ 3900      5C43414E 
+ 3900      4D6F746F 
+ 3901              	.LASF29:
+ 3902 0033 50574D53 		.ascii	"PWMSet\000"
+ 3902      657400
+ 3903              	.LASF62:
+ 3904 003a 47657445 		.ascii	"GetEncoderTypeFromPacket\000"
+ 3904      6E636F64 
+ 3904      65725479 
+ 3904      70654672 
+ 3904      6F6D5061 
+ 3905              	.LASF35:
+ 3906 0053 74617267 		.ascii	"target\000"
+ 3906      657400
+ 3907              	.LASF68:
+ 3908 005a 4465636F 		.ascii	"DecodeBytesToIntMSBFirst\000"
+ 3908      64654279 
+ 3908      74657354 
+ 3908      6F496E74 
+ 3908      4D534246 
+ 3909              	.LASF4:
+ 3910 0073 73686F72 		.ascii	"short int\000"
+ 3910      7420696E 
+ 3910      7400
+ 3911              	.LASF39:
+ 3912 007d 47657450 		.ascii	"GetPFromPacket\000"
+ 3912      46726F6D 
+ 3912      5061636B 
+ 3912      657400
+ 3913              	.LASF20:
+ 3914 008c 73697A65 		.ascii	"sizetype\000"
+ 3914      74797065 
+ 3914      00
+ 3915              	.LASF47:
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 74
+
+
+ 3916 0095 696E6974 		.ascii	"initMode\000"
+ 3916      4D6F6465 
+ 3916      00
+ 3917              	.LASF30:
+ 3918 009e 6E657874 		.ascii	"nextByte\000"
+ 3918      42797465 
+ 3918      00
+ 3919              	.LASF64:
+ 3920 00a7 47657445 		.ascii	"GetEncoderZeroFromPacket\000"
+ 3920      6E636F64 
+ 3920      65725A65 
+ 3920      726F4672 
+ 3920      6F6D5061 
+ 3921              	.LASF9:
+ 3922 00c0 5F5F7569 		.ascii	"__uint32_t\000"
+ 3922      6E743332 
+ 3922      5F7400
+ 3923              	.LASF25:
+ 3924 00cb 6D6F6465 		.ascii	"mode\000"
+ 3924      00
+ 3925              	.LASF5:
+ 3926 00d0 5F5F7569 		.ascii	"__uint16_t\000"
+ 3926      6E743136 
+ 3926      5F7400
+ 3927              	.LASF42:
+ 3928 00db 47657449 		.ascii	"GetIFromPacket\000"
+ 3928      46726F6D 
+ 3928      5061636B 
+ 3928      657400
+ 3929              	.LASF33:
+ 3930 00ea 47657444 		.ascii	"GetDirectionFromPacket\000"
+ 3930      69726563 
+ 3930      74696F6E 
+ 3930      46726F6D 
+ 3930      5061636B 
+ 3931              	.LASF38:
+ 3932 0101 70436F65 		.ascii	"pCoef\000"
+ 3932      6600
+ 3933              	.LASF71:
+ 3934 0107 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3934      43313120 
+ 3934      352E342E 
+ 3934      31203230 
+ 3934      31363036 
+ 3935 013a 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 3935      20726576 
+ 3935      6973696F 
+ 3935      6E203233 
+ 3935      37373135 
+ 3936 016d 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 3936      66756E63 
+ 3936      74696F6E 
+ 3936      2D736563 
+ 3936      74696F6E 
+ 3937              	.LASF28:
+ 3938 0195 41737365 		.ascii	"AssemblePWMDirSetPacket\000"
+ 3938      6D626C65 
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 75
+
+
+ 3938      50574D44 
+ 3938      69725365 
+ 3938      74506163 
+ 3939              	.LASF14:
+ 3940 01ad 75696E74 		.ascii	"uint8_t\000"
+ 3940      385F7400 
+ 3941              	.LASF45:
+ 3942 01b5 47657444 		.ascii	"GetDFromPacket\000"
+ 3942      46726F6D 
+ 3942      5061636B 
+ 3942      657400
+ 3943              	.LASF26:
+ 3944 01c4 7061636B 		.ascii	"packet\000"
+ 3944      657400
+ 3945              	.LASF52:
+ 3946 01cb 41737365 		.ascii	"AssembleEncoderPPJRSetPacket\000"
+ 3946      6D626C65 
+ 3946      456E636F 
+ 3946      64657250 
+ 3946      504A5253 
+ 3947              	.LASF11:
+ 3948 01e8 6C6F6E67 		.ascii	"long long int\000"
+ 3948      206C6F6E 
+ 3948      6720696E 
+ 3948      7400
+ 3949              	.LASF57:
+ 3950 01f6 4765744D 		.ascii	"GetMaxJointRevolutionsFromPacket\000"
+ 3950      61784A6F 
+ 3950      696E7452 
+ 3950      65766F6C 
+ 3950      7574696F 
+ 3951              	.LASF21:
+ 3952 0217 43414E50 		.ascii	"CANPacket\000"
+ 3952      61636B65 
+ 3952      7400
+ 3953              	.LASF8:
+ 3954 0221 6C6F6E67 		.ascii	"long int\000"
+ 3954      20696E74 
+ 3954      00
+ 3955              	.LASF37:
+ 3956 022a 41737365 		.ascii	"AssemblePSetPacket\000"
+ 3956      6D626C65 
+ 3956      50536574 
+ 3956      5061636B 
+ 3956      657400
+ 3957              	.LASF50:
+ 3958 023d 73776974 		.ascii	"switches\000"
+ 3958      63686573 
+ 3958      00
+ 3959              	.LASF27:
+ 3960 0246 41737365 		.ascii	"AssembleModeSetPacket\000"
+ 3960      6D626C65 
+ 3960      4D6F6465 
+ 3960      53657450 
+ 3960      61636B65 
+ 3961              	.LASF2:
+ 3962 025c 5F5F7569 		.ascii	"__uint8_t\000"
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 76
+
+
+ 3962      6E74385F 
+ 3962      7400
+ 3963              	.LASF61:
+ 3964 0266 7A65726F 		.ascii	"zeroAngle\000"
+ 3964      416E676C 
+ 3964      6500
+ 3965              	.LASF32:
+ 3966 0270 47657450 		.ascii	"GetPWMFromPacket\000"
+ 3966      574D4672 
+ 3966      6F6D5061 
+ 3966      636B6574 
+ 3966      00
+ 3967              	.LASF63:
+ 3968 0281 47657445 		.ascii	"GetEncoderDirectionFromPacket\000"
+ 3968      6E636F64 
+ 3968      65724469 
+ 3968      72656374 
+ 3968      696F6E46 
+ 3969              	.LASF54:
+ 3970 029f 47657445 		.ascii	"GetEncoderPPJRFromPacket\000"
+ 3970      6E636F64 
+ 3970      65725050 
+ 3970      4A524672 
+ 3970      6F6D5061 
+ 3971              	.LASF65:
+ 3972 02b8 436F6E73 		.ascii	"ConstructCANID\000"
+ 3972      74727563 
+ 3972      7443414E 
+ 3972      494400
+ 3973              	.LASF1:
+ 3974 02c7 756E7369 		.ascii	"unsigned char\000"
+ 3974      676E6564 
+ 3974      20636861 
+ 3974      7200
+ 3975              	.LASF70:
+ 3976 02d5 57726974 		.ascii	"WriteSenderSerialAndPacketID\000"
+ 3976      6553656E 
+ 3976      64657253 
+ 3976      65726961 
+ 3976      6C416E64 
+ 3977              	.LASF0:
+ 3978 02f2 7369676E 		.ascii	"signed char\000"
+ 3978      65642063 
+ 3978      68617200 
+ 3979              	.LASF12:
+ 3980 02fe 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3980      206C6F6E 
+ 3980      6720756E 
+ 3980      7369676E 
+ 3980      65642069 
+ 3981              	.LASF18:
+ 3982 0315 75696E74 		.ascii	"uint32_t\000"
+ 3982      33325F74 
+ 3982      00
+ 3983              	.LASF13:
+ 3984 031e 756E7369 		.ascii	"unsigned int\000"
+ 3984      676E6564 
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 77
+
+
+ 3984      20696E74 
+ 3984      00
+ 3985              	.LASF16:
+ 3986 032b 75696E74 		.ascii	"uint16_t\000"
+ 3986      31365F74 
+ 3986      00
+ 3987              	.LASF23:
+ 3988 0334 74617267 		.ascii	"targetDeviceGroup\000"
+ 3988      65744465 
+ 3988      76696365 
+ 3988      47726F75 
+ 3988      7000
+ 3989              	.LASF6:
+ 3990 0346 73686F72 		.ascii	"short unsigned int\000"
+ 3990      7420756E 
+ 3990      7369676E 
+ 3990      65642069 
+ 3990      6E7400
+ 3991              	.LASF24:
+ 3992 0359 74617267 		.ascii	"targetDeviceSerial\000"
+ 3992      65744465 
+ 3992      76696365 
+ 3992      53657269 
+ 3992      616C00
+ 3993              	.LASF31:
+ 3994 036c 4765744D 		.ascii	"GetModeFromPacket\000"
+ 3994      6F646546 
+ 3994      726F6D50 
+ 3994      61636B65 
+ 3994      7400
+ 3995              	.LASF17:
+ 3996 037e 696E7433 		.ascii	"int32_t\000"
+ 3996      325F7400 
+ 3997              	.LASF15:
+ 3998 0386 696E7431 		.ascii	"int16_t\000"
+ 3998      365F7400 
+ 3999              	.LASF53:
+ 4000 038e 70756C73 		.ascii	"pulses\000"
+ 4000      657300
+ 4001              	.LASF19:
+ 4002 0395 64617461 		.ascii	"data\000"
+ 4002      00
+ 4003              	.LASF34:
+ 4004 039a 41737365 		.ascii	"AssemblePIDTargetSetPacket\000"
+ 4004      6D626C65 
+ 4004      50494454 
+ 4004      61726765 
+ 4004      74536574 
+ 4005              	.LASF58:
+ 4006 03b5 41737365 		.ascii	"AssembleEncoderInitializePacket\000"
+ 4006      6D626C65 
+ 4006      456E636F 
+ 4006      64657249 
+ 4006      6E697469 
+ 4007              	.LASF10:
+ 4008 03d5 6C6F6E67 		.ascii	"long unsigned int\000"
+ 4008      20756E73 
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 78
+
+
+ 4008      69676E65 
+ 4008      6420696E 
+ 4008      7400
+ 4009              	.LASF41:
+ 4010 03e7 69436F65 		.ascii	"iCoef\000"
+ 4010      6600
+ 4011              	.LASF73:
+ 4012 03ed 433A5C55 		.ascii	"C:\\Users\\Davis Sauer\\Documents\\PSoC Creator\\Hu"
+ 4012      73657273 
+ 4012      5C446176 
+ 4012      69732053 
+ 4012      61756572 
+ 4013 041b 736B7920 		.ascii	"sky Robotics\\CAN Tester.cydsn\000"
+ 4013      526F626F 
+ 4013      74696373 
+ 4013      5C43414E 
+ 4013      20546573 
+ 4014              	.LASF49:
+ 4015 0439 41737365 		.ascii	"AssembleLimitSwitchAlertPacket\000"
+ 4015      6D626C65 
+ 4015      4C696D69 
+ 4015      74537769 
+ 4015      74636841 
+ 4016              	.LASF67:
+ 4017 0458 5061636B 		.ascii	"PackShortIntoDataMSBFirst\000"
+ 4017      53686F72 
+ 4017      74496E74 
+ 4017      6F446174 
+ 4017      614D5342 
+ 4018              	.LASF48:
+ 4019 0472 47657449 		.ascii	"GetInitModeFromPacket\000"
+ 4019      6E69744D 
+ 4019      6F646546 
+ 4019      726F6D50 
+ 4019      61636B65 
+ 4020              	.LASF7:
+ 4021 0488 5F5F696E 		.ascii	"__int32_t\000"
+ 4021      7433325F 
+ 4021      7400
+ 4022              	.LASF3:
+ 4023 0492 5F5F696E 		.ascii	"__int16_t\000"
+ 4023      7431365F 
+ 4023      7400
+ 4024              	.LASF60:
+ 4025 049c 616E676C 		.ascii	"angleDirection\000"
+ 4025      65446972 
+ 4025      65637469 
+ 4025      6F6E00
+ 4026              	.LASF59:
+ 4027 04ab 656E636F 		.ascii	"encoderType\000"
+ 4027      64657254 
+ 4027      79706500 
+ 4028              	.LASF46:
+ 4029 04b7 41737365 		.ascii	"AssembleInitializePacket\000"
+ 4029      6D626C65 
+ 4029      496E6974 
+ 4029      69616C69 
+ARM GAS  C:\Users\DAVISS~1\AppData\Local\Temp\ccGIcvZV.s 			page 79
+
+
+ 4029      7A655061 
+ 4030              	.LASF55:
+ 4031 04d0 41737365 		.ascii	"AssembleMaxJointRevolutionPacket\000"
+ 4031      6D626C65 
+ 4031      4D61784A 
+ 4031      6F696E74 
+ 4031      5265766F 
+ 4032              	.LASF66:
+ 4033 04f1 57726974 		.ascii	"WritePacketIDOnly\000"
+ 4033      65506163 
+ 4033      6B657449 
+ 4033      444F6E6C 
+ 4033      7900
+ 4034              	.LASF36:
+ 4035 0503 47657450 		.ascii	"GetPIDTargetFromPacket\000"
+ 4035      49445461 
+ 4035      72676574 
+ 4035      46726F6D 
+ 4035      5061636B 
+ 4036              	.LASF69:
+ 4037 051a 5061636B 		.ascii	"PackIntIntoDataMSBFirst\000"
+ 4037      496E7449 
+ 4037      6E746F44 
+ 4037      6174614D 
+ 4037      53424669 
+ 4038              	.LASF40:
+ 4039 0532 41737365 		.ascii	"AssembleISetPacket\000"
+ 4039      6D626C65 
+ 4039      49536574 
+ 4039      5061636B 
+ 4039      657400
+ 4040              	.LASF43:
+ 4041 0545 41737365 		.ascii	"AssembleDSetPacket\000"
+ 4041      6D626C65 
+ 4041      44536574 
+ 4041      5061636B 
+ 4041      657400
+ 4042              	.LASF56:
+ 4043 0558 7265766F 		.ascii	"revolutions\000"
+ 4043      6C757469 
+ 4043      6F6E7300 
+ 4044              	.LASF51:
+ 4045 0564 4765744C 		.ascii	"GetLimStatusFromPacket\000"
+ 4045      696D5374 
+ 4045      61747573 
+ 4045      46726F6D 
+ 4045      5061636B 
+ 4046              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
